@@ -420,8 +420,13 @@ public class OLS_Example extends javax.swing.JFrame implements OLSInputable {
     */
     public static void main(String args[]) {
 
+        // Use this if the look and feel is not already set for your project.
+        // Note that the OLS Dialog has been created to look good using the look and
+        // feel used in this method. If you use a different look and feel, you might
+        // have to tweak the GUI for it to get the best appearence.
         setLookAndFeel();
 
+        // open the OLS Dialog usage example frame
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
                 new OLS_Example().setVisible(true);

@@ -100,7 +100,7 @@
                 <configuration>
                     <archive>
                         <manifest>
-                            <mainClass>no.uib.olsdialog.OLSDialog</mainClass>
+                            <mainClass>no.uib.olsdialog.example.OLS_Example</mainClass>
                             <addClasspath>true</addClasspath>
                             <classpathPrefix>lib</classpathPrefix>
                         </manifest>
@@ -191,7 +191,6 @@
             <artifactId>commons-discovery</artifactId>
             <version>0.2</version>
         </dependency>
-        
     </dependencies>
  
 </project>

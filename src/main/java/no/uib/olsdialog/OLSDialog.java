@@ -1159,23 +1159,6 @@ public class OLSDialog extends javax.swing.JDialog {
         olsResultsMassSearchJTableMouseClicked(null);
 }//GEN-LAST:event_olsResultsMassSearchJTableKeyReleased
 
-    /**
-     * Dummy main method to show the usage of the OLS Dialog.
-     * 
-     * @param args
-     */
-    public static void main(String[] args) {
-        
-        // Use this if the look and feel is not already set for your project.
-        // Note that the OLS Dialog has been created to look good using the look and 
-        // feel used in this method. If you use a different look and feel, you might 
-        // have to tweak the GUI for it to get the best appearence.
-        setLookAndFeel();
-
-        // Dummy constructor
-        new OLSDialog(new JFrame(), null, true, "non_selected", "Mass Spectroscopy CV (PSI-MS) [PSI]", "maldi");
-    }
-
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton aboutJButton;
     private javax.swing.JButton cancelJButton;
