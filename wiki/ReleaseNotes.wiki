@@ -3,4 +3,7 @@
 
 ----
 
-(in development)
+*Changes in OLS Dialog v1.0 - (July. 23. 2009):*
+ * (initial version)
+
+----
