@@ -1,0 +1,185 @@
+
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+    <groupId>no.uib</groupId>
+    <artifactId>ols-dialog</artifactId>
+    <packaging>jar</packaging>
+    <version>1.0</version>
+    <name>ols-dialog</name>
+    <url>http://code.google.com/p/ols-dialog/</url>
+    <description>OLS Dialog is a Java front end to the Ontology Lookup Service (OLS) (http://www.ebi.ac.uk/ontology-lookup).</description>
+
+    <!-- License -->
+    <licenses>
+        <license>
+            <name>The Apache Software License, Version 2.0</name>
+            <url>LICENSE-2.0.txt</url>
+        </license>
+    </licenses>
+
+
+    <!-- Developers -->
+    <developers>
+        <developer>
+            <name>Harald Barsnes</name>
+            <id>harald</id>
+            <email>harald.barsnes@ii.uib.no</email>
+            <organization>Department of Informatics, University of Bergen, Norway</organization>
+        </developer>
+        <developer>
+            <name>Lennart Martens</name>
+            <id>lennart</id>
+            <email>lennart.martens@ebi.ac.uk</email>
+            <organization>Proteomics Services Team, PANDA Group, EMBL-European Bioinformatics Institute</organization>
+        </developer>
+    </developers>
+
+     <!-- Build -->
+    <build>
+
+        <!-- Resources -->
+        <resources>
+            <resource>
+                <directory>src/main/resources</directory>
+            </resource>
+        </resources>
+
+        <!-- Plugins -->
+        <plugins>
+
+            <!-- Compiler plugin -->
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-compiler-plugin</artifactId>
+                <configuration>
+                    <source>1.5</source>
+                    <target>1.5</target>
+                </configuration>
+            </plugin>
+
+            <!-- Javadoc plugin -->
+            <!--<plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-javadoc-plugin</artifactId>
+                <executions>
+                    <execution>
+                        <phase>process-resources</phase>
+                        <goals>
+                            <goal>jar</goal>
+                        </goals>
+                    </execution>
+                </executions>
+            </plugin>-->
+
+            <!-- Dependency plugin -->
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-dependency-plugin</artifactId>
+                <executions>
+                    <execution>
+                        <id>copy-dependencies</id>
+                        <phase>package</phase>
+                        <goals>
+                            <goal>copy-dependencies</goal>
+                        </goals>
+                        <configuration>
+                            <outputDirectory>${project.build.directory}/lib</outputDirectory>
+                            <overWriteReleases>true</overWriteReleases>
+                            <overWriteSnapshots>true</overWriteSnapshots>
+                            <overWriteIfNewer>true</overWriteIfNewer>
+                        </configuration>
+                    </execution>
+                </executions>
+            </plugin>
+
+            <!-- Jar plugin -->
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-jar-plugin</artifactId>
+                <configuration>
+                    <archive>
+                        <manifest>
+                            <mainClass>no.uib.olsdialog.OLSDialog</mainClass>
+                            <addClasspath>true</addClasspath>
+                            <classpathPrefix>lib</classpathPrefix>
+                        </manifest>
+                    </archive>
+                </configuration>
+            </plugin>
+        </plugins>
+    </build>
+
+
+    <!-- Repositores -->
+    <repositories>
+        <!-- UGent Genesis Maven 1 repository -->
+        <repository>
+            <id>genesis-maven-repository</id>
+            <name>Genesis repository</name>
+            <url>http://genesis.UGent.be/maven</url>
+            <layout>legacy</layout>
+            <releases>
+            </releases>
+            <snapshots>
+            </snapshots>
+        </repository>
+    </repositories>
+
+
+    <!-- Distribution Management -->
+    <distributionManagement>
+        <repository>
+            <id>ebi-repo</id>
+            <name>EBI Repository</name>
+            <url>scp://lobster.ebi.ac.uk/homes/maven/public_html/m2repo</url>
+        </repository>
+        <snapshotRepository>
+            <uniqueVersion>false</uniqueVersion>
+            <id>ebi-repo-snapshots</id>
+            <name>EBI Snapshots Repository</name>
+            <url>scp://lobster.ebi.ac.uk/homes/maven/public_html/m2repo_snapshots</url>
+        </snapshotRepository>
+    </distributionManagement>
+
+
+    <!-- Dependencies -->
+    <dependencies>
+        <dependency>
+            <groupId>com.jgoodies</groupId>
+            <artifactId>looks</artifactId>
+            <version>2.2.0</version>
+        </dependency>
+        <dependency>
+            <groupId>org.swinglabs</groupId>
+            <artifactId>swing-layout</artifactId>
+            <version>1.0.3</version>
+            <scope>compile</scope>
+        </dependency>
+        <dependency>
+            <groupId>org.swinglabs</groupId>
+            <artifactId>swingx</artifactId>
+            <version>0.9.1</version>
+            <exclusions>
+                <exclusion>
+                    <artifactId>swing-worker</artifactId>
+                    <groupId>org.swinglabs</groupId>
+                </exclusion>
+                <exclusion>
+                    <artifactId>multiplegradientpaint</artifactId>
+                    <groupId>org.swinglabs</groupId>
+                </exclusion>
+                <exclusion>
+                    <artifactId>filters</artifactId>
+                    <groupId>com.jhlabs</groupId>
+                </exclusion>
+            </exclusions>
+        </dependency>
+        <dependency>
+            <groupId>ols</groupId>
+            <artifactId>ols-client</artifactId>
+            <version>1.14</version>
+        </dependency>
+    </dependencies>
+ 
+</project>
