@@ -274,7 +274,8 @@ public class OLSDialog extends javax.swing.JDialog {
                     this,
                     "Not able to contact the OLS. Make sure that you are online and try again.\n" +
                     "You may also want to check your firewall (and proxy) settings.\n\n" +
-                    "See the Troubleshooting section at the OLS Dialog home page for details.",
+                    "See the Troubleshooting section at the OLS Dialog home page for details:\n" +
+                    "http://code.google.com/p/ols-dialog.",
                     "Failed To Contact OLS", JOptionPane.ERROR_MESSAGE);
             Util.writeToErrorLog("Error when trying to access OLS: ");
             ex.printStackTrace();
@@ -284,7 +285,8 @@ public class OLSDialog extends javax.swing.JDialog {
                     this,
                     "Not able to contact the OLS. Make sure that you are online and try again.\n" +
                     "You may also want to check your firewall (and proxy) settings.\n\n" +
-                    "See the Troubleshooting section at the OLS Dialog home page for details.",
+                    "See the Troubleshooting section at the OLS Dialog home page for details:\n" +
+                    "http://code.google.com/p/ols-dialog.",
                     "Failed To Contact OLS", JOptionPane.ERROR_MESSAGE);
             Util.writeToErrorLog("Error when trying to access OLS: ");
             ex.printStackTrace();
@@ -893,7 +895,8 @@ public class OLSDialog extends javax.swing.JDialog {
                     this,
                     "Not able to contact the OLS. Make sure that you are online and try again.\n" +
                     "You may also want to check your firewall (and proxy) settings.\n\n" +
-                    "See the Troubleshooting section at the OLS Dialog home page for details.",
+                    "See the Troubleshooting section at the OLS Dialog home page for details:\n" +
+                    "http://code.google.com/p/ols-dialog.",
                     "Failed To Contact OLS", JOptionPane.ERROR_MESSAGE);
             Util.writeToErrorLog("Error when trying to access OLS: ");
             ex.printStackTrace();
@@ -902,7 +905,8 @@ public class OLSDialog extends javax.swing.JDialog {
                     this,
                     "Not able to contact the OLS. Make sure that you are online and try again.\n" +
                     "You may also want to check your firewall (and proxy) settings.\n\n" +
-                    "See the Troubleshooting section at the OLS Dialog home page for details.",
+                    "See the Troubleshooting section at the OLS Dialog home page for details:\n" +
+                    "http://code.google.com/p/ols-dialog.",
                     "Failed To Contact OLS", JOptionPane.ERROR_MESSAGE);
             Util.writeToErrorLog("Error when trying to access OLS: ");
             ex.printStackTrace();
@@ -946,7 +950,8 @@ public class OLSDialog extends javax.swing.JDialog {
                     this,
                     "Not able to contact the OLS. Make sure that you are online and try again.\n" +
                     "You may also want to check your firewall (and proxy) settings.\n\n" +
-                    "See the Troubleshooting section at the OLS Dialog home page for details.",
+                    "See the Troubleshooting section at the OLS Dialog home page for details:\n" +
+                    "http://code.google.com/p/ols-dialog.",
                     "Failed To Contact OLS", JOptionPane.ERROR_MESSAGE);
             Util.writeToErrorLog("Error when trying to access OLS: ");
             ex.printStackTrace();
@@ -955,7 +960,8 @@ public class OLSDialog extends javax.swing.JDialog {
                     this,
                     "Not able to contact the OLS. Make sure that you are online and try again.\n" +
                     "You may also want to check your firewall (and proxy) settings.\n\n" +
-                    "See the Troubleshooting section at the OLS Dialog home page for details.",
+                    "See the Troubleshooting section at the OLS Dialog home page for details:\n" +
+                    "http://code.google.com/p/ols-dialog.",
                     "Failed To Contact OLS", JOptionPane.ERROR_MESSAGE);
             Util.writeToErrorLog("Error when trying to access OLS: ");
             ex.printStackTrace();
@@ -1054,7 +1060,8 @@ public class OLSDialog extends javax.swing.JDialog {
                             this,
                             "Not able to contact the OLS. Make sure that you are online and try again.\n" +
                             "You may also want to check your firewall (and proxy) settings.\n\n" +
-                            "See the Troubleshooting section at the OLS Dialog home page for details.",
+                            "See the Troubleshooting section at the OLS Dialog home page for details:\n" +
+                            "http://code.google.com/p/ols-dialog.",
                             "Failed To Contact OLS", JOptionPane.ERROR_MESSAGE);
                     Util.writeToErrorLog("Error when trying to access OLS: ");
                     ex.printStackTrace();
@@ -1063,7 +1070,8 @@ public class OLSDialog extends javax.swing.JDialog {
                             this,
                             "Not able to contact the OLS. Make sure that you are online and try again.\n" +
                             "You may also want to check your firewall (and proxy) settings.\n\n" +
-                            "See the Troubleshooting section at the OLS Dialog home page for details.",
+                            "See the Troubleshooting section at the OLS Dialog home page for details:\n" +
+                            "http://code.google.com/p/ols-dialog.",
                             "Failed To Contact OLS", JOptionPane.ERROR_MESSAGE);
                     Util.writeToErrorLog("Error when trying to access OLS: ");
                     ex.printStackTrace();
