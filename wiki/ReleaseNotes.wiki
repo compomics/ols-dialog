@@ -3,7 +3,7 @@
 
 ----
 
-*Changes in OLS Dialog v1.0 - (July. 23. 2009):*
+*Changes in OLS Dialog v1.0.1 - (July. 23. 2009):*
  * Added support for handling CV terms where the key is set to 'null'. 
  * Terms without a definition are now detected and an appropriate message is provided. (Previously 'null' was shown as the definition.)
  * Minor updates to the help files. 
