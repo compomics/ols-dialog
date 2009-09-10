@@ -3,11 +3,17 @@
 
 ----
 
+*Changes in OLS Dialog v1.0.2 - (Sep. 11. 2009):*
+ * Fixed some issues with the (Maven) dependencies not being set correctly.
+
+----
+
 *Changes in OLS Dialog v1.0.1 - (Aug. 19. 2009):*
  * Added support for handling CV terms where the key is set to 'null'. 
  * Terms without a definition are now detected and an appropriate message is provided. (Previously 'null' was shown as the definition.)
  * Minor updates to the help files. 
 
+Download Count: 3
 
 ----
 
