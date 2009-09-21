@@ -6,6 +6,7 @@
 *Changes in OLS Dialog v2.0 - (Sep. 21. 2009):*
  * Support for modification mass search has been added. 
  * Fixed a bug in the tool tips for the tables.
+ * The search result tables can now be sorted by clicking the table headers.
 
 ----
 
