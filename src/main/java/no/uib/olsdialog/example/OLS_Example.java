@@ -1,4 +1,3 @@
-
 package no.uib.olsdialog.example;
 
 import com.jgoodies.looks.plastic.PlasticLookAndFeel;
@@ -7,6 +6,7 @@ import com.jgoodies.looks.plastic.theme.SkyKrupp;
 import java.awt.Toolkit;
 import java.awt.Window;
 import java.awt.event.KeyEvent;
+import javax.swing.JOptionPane;
 import javax.swing.UIManager;
 import javax.swing.UnsupportedLookAndFeelException;
 import javax.swing.table.DefaultTableModel;
@@ -68,6 +68,16 @@ public class OLS_Example extends javax.swing.JFrame implements OLSInputable {
         processingMethodsJTable = new javax.swing.JTable();
         processingMethodsJButton = new javax.swing.JButton();
         closeJButton = new javax.swing.JButton();
+        jPanel3 = new javax.swing.JPanel();
+        jLabel1 = new javax.swing.JLabel();
+        modificationMassJTextField = new javax.swing.JTextField();
+        modificationMassJButton = new javax.swing.JButton();
+        jLabel3 = new javax.swing.JLabel();
+        modificationAccuracyJTextField = new javax.swing.JTextField();
+        jLabel4 = new javax.swing.JLabel();
+        modificationJTextField = new javax.swing.JTextField();
+        jLabel5 = new javax.swing.JLabel();
+        modificationNameJTextField = new javax.swing.JTextField();
 
         processingMethodsEditJMenuItem.setMnemonic('E');
         processingMethodsEditJMenuItem.setText("Edit");
@@ -242,18 +252,105 @@ public class OLS_Example extends javax.swing.JFrame implements OLSInputable {
         }
     });
 
+    jPanel3.setBorder(javax.swing.BorderFactory.createTitledBorder(null, "Example Using PSI-MOD", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Tahoma", 0, 11), new java.awt.Color(0, 0, 0))); // NOI18N
+
+    jLabel1.setText("Mass:");
+
+    modificationMassJTextField.setHorizontalAlignment(javax.swing.JTextField.CENTER);
+    modificationMassJTextField.setText("15.994915");
+
+    modificationMassJButton.setIcon(new javax.swing.ImageIcon(getClass().getResource("/no/uib/olsdialog/icons/ols_transparent.GIF"))); // NOI18N
+    modificationMassJButton.setToolTipText("Ontology Lookup Service");
+    modificationMassJButton.setPreferredSize(new java.awt.Dimension(61, 23));
+    modificationMassJButton.addActionListener(new java.awt.event.ActionListener() {
+        public void actionPerformed(java.awt.event.ActionEvent evt) {
+            modificationMassJButtonActionPerformed(evt);
+        }
+    });
+
+    jLabel3.setText("+-");
+
+    modificationAccuracyJTextField.setHorizontalAlignment(javax.swing.JTextField.CENTER);
+    modificationAccuracyJTextField.setText("1.0");
+
+    jLabel4.setText("PSI-MOD:");
+
+    modificationJTextField.setEditable(false);
+    modificationJTextField.setHorizontalAlignment(javax.swing.JTextField.CENTER);
+
+    jLabel5.setText("Name:");
+
+    modificationNameJTextField.setHorizontalAlignment(javax.swing.JTextField.CENTER);
+    modificationNameJTextField.setText("Oxidation");
+
+    org.jdesktop.layout.GroupLayout jPanel3Layout = new org.jdesktop.layout.GroupLayout(jPanel3);
+    jPanel3.setLayout(jPanel3Layout);
+    jPanel3Layout.setHorizontalGroup(
+        jPanel3Layout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
+        .add(jPanel3Layout.createSequentialGroup()
+            .addContainerGap()
+            .add(jPanel3Layout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
+                .add(jLabel4)
+                .add(jLabel1)
+                .add(jLabel5))
+            .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED)
+            .add(jPanel3Layout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
+                .add(jPanel3Layout.createSequentialGroup()
+                    .add(jPanel3Layout.createParallelGroup(org.jdesktop.layout.GroupLayout.TRAILING, false)
+                        .add(org.jdesktop.layout.GroupLayout.LEADING, modificationNameJTextField)
+                        .add(org.jdesktop.layout.GroupLayout.LEADING, jPanel3Layout.createSequentialGroup()
+                            .add(modificationMassJTextField, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, 84, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
+                            .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED)
+                            .add(jLabel3)
+                            .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED)
+                            .add(modificationAccuracyJTextField, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, 68, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)))
+                    .add(18, 18, 18)
+                    .add(modificationMassJButton, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, 36, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE))
+                .add(modificationJTextField, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, 415, Short.MAX_VALUE))
+            .addContainerGap())
+    );
+
+    jPanel3Layout.linkSize(new java.awt.Component[] {modificationAccuracyJTextField, modificationMassJTextField}, org.jdesktop.layout.GroupLayout.HORIZONTAL);
+
+    jPanel3Layout.setVerticalGroup(
+        jPanel3Layout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
+        .add(jPanel3Layout.createSequentialGroup()
+            .add(jPanel3Layout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
+                .add(jPanel3Layout.createSequentialGroup()
+                    .addContainerGap()
+                    .add(jPanel3Layout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
+                        .add(jLabel1)
+                        .add(jPanel3Layout.createSequentialGroup()
+                            .add(jPanel3Layout.createParallelGroup(org.jdesktop.layout.GroupLayout.BASELINE)
+                                .add(modificationMassJTextField, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
+                                .add(jLabel3)
+                                .add(modificationAccuracyJTextField, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE))
+                            .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED)
+                            .add(jPanel3Layout.createParallelGroup(org.jdesktop.layout.GroupLayout.BASELINE)
+                                .add(modificationNameJTextField, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
+                                .add(jLabel5)))))
+                .add(jPanel3Layout.createSequentialGroup()
+                    .add(21, 21, 21)
+                    .add(modificationMassJButton, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)))
+            .add(20, 20, 20)
+            .add(jPanel3Layout.createParallelGroup(org.jdesktop.layout.GroupLayout.BASELINE)
+                .add(jLabel4)
+                .add(modificationJTextField, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE))
+            .addContainerGap(12, Short.MAX_VALUE))
+    );
+
     org.jdesktop.layout.GroupLayout layout = new org.jdesktop.layout.GroupLayout(getContentPane());
     getContentPane().setLayout(layout);
     layout.setHorizontalGroup(
         layout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
         .add(layout.createSequentialGroup()
             .addContainerGap()
-            .add(layout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
+            .add(layout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING, false)
                 .add(org.jdesktop.layout.GroupLayout.TRAILING, closeJButton)
-                .add(layout.createParallelGroup(org.jdesktop.layout.GroupLayout.TRAILING, false)
-                    .add(org.jdesktop.layout.GroupLayout.LEADING, jPanel2, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .add(org.jdesktop.layout.GroupLayout.LEADING, jPanel1, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
-            .addContainerGap(10, Short.MAX_VALUE))
+                .add(jPanel3, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .add(jPanel2, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .add(jPanel1, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+            .addContainerGap())
     );
     layout.setVerticalGroup(
         layout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
@@ -263,6 +360,8 @@ public class OLS_Example extends javax.swing.JFrame implements OLSInputable {
             .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED)
             .add(jPanel2, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
             .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED)
+            .add(jPanel3, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
+            .add(18, 18, 18)
             .add(closeJButton)
             .addContainerGap(org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
     );
@@ -358,6 +457,11 @@ public class OLS_Example extends javax.swing.JFrame implements OLSInputable {
         }
 }//GEN-LAST:event_processingMethodsJTableKeyReleased
 
+    /**
+     * Opens the OLS dialog.
+     *
+     * @param evt
+     */
     private void processingMethodsJButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_processingMethodsJButtonActionPerformed
         this.setCursor(new java.awt.Cursor(java.awt.Cursor.WAIT_CURSOR));
         new OLSDialog(this, this, true, "processingMethods", "Mass Spectroscopy CV (PSI-MS) [PSI]", null);
@@ -416,8 +520,56 @@ public class OLS_Example extends javax.swing.JFrame implements OLSInputable {
 }//GEN-LAST:event_processingMethodsDeleteSelectedRowJMenuItemActionPerformed
 
     /**
-    * @param args the command line arguments
-    */
+     * Opens the OLS dialog.
+     *
+     * @param evt
+     */
+    private void modificationMassJButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_modificationMassJButtonActionPerformed
+        this.setCursor(new java.awt.Cursor(java.awt.Cursor.WAIT_CURSOR));
+
+        boolean error = false;
+        Double currentModificationMass = 0.0;
+        Double currentAccuracy = 1.0;
+
+        try {
+            currentModificationMass = new Double(modificationMassJTextField.getText());
+        } catch (NumberFormatException e) {
+            JOptionPane.showMessageDialog(null,
+                    "The mass is not a number!", "Modification Mass", JOptionPane.INFORMATION_MESSAGE);
+            modificationMassJTextField.requestFocus();
+            error = true;
+        }
+
+        if (!error) {
+            try {
+                currentAccuracy = new Double(modificationAccuracyJTextField.getText());
+
+                if (currentAccuracy < 0) {
+                    JOptionPane.showMessageDialog(null,
+                            "The accuracy has to be a positive value.", "Mass Accuracy", JOptionPane.INFORMATION_MESSAGE);
+                    modificationAccuracyJTextField.requestFocus();
+                    error = true;
+                }
+
+            } catch (NumberFormatException e) {
+                JOptionPane.showMessageDialog(null,
+                        "The accuracy is not a number!", "Mass Accuracy", JOptionPane.INFORMATION_MESSAGE);
+                modificationAccuracyJTextField.requestFocus();
+                error = true;
+            }
+        }
+
+        if (!error) {
+            new OLSDialog(this, this, true, "modificationMass", "Protein Modifications (PSI-MOD) [MOD]", -1,
+                    modificationNameJTextField.getText(), currentModificationMass, currentAccuracy, OLSDialog.OLS_DIALOG_MASS_SEARCH);
+        }
+
+        this.setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
+    }//GEN-LAST:event_modificationMassJButtonActionPerformed
+
+    /**
+     * @param args the command line arguments
+     */
     public static void main(String args[]) {
 
         // Use this if the look and feel is not already set for your project.
@@ -428,6 +580,7 @@ public class OLS_Example extends javax.swing.JFrame implements OLSInputable {
 
         // open the OLS Dialog usage example frame
         java.awt.EventQueue.invokeLater(new Runnable() {
+
             public void run() {
                 new OLS_Example().setVisible(true);
             }
@@ -442,6 +595,18 @@ public class OLS_Example extends javax.swing.JFrame implements OLSInputable {
         for (int row = 0; row < ((DefaultTableModel) processingMethodsJTable.getModel()).getRowCount(); row++) {
             ((DefaultTableModel) processingMethodsJTable.getModel()).setValueAt(new Integer(row + 1), row, 0);
         }
+    }
+
+    /**
+     * Insert a new modification.
+     *
+     * @param name
+     * @param accession
+     * @param ontology
+     */
+    public void setModification(String name, String accession, String ontology) {
+        modificationJTextField.setText(name + " [" + accession + "]");
+        modificationJTextField.setCaretPosition(0);
     }
 
     /**
@@ -512,20 +677,29 @@ public class OLS_Example extends javax.swing.JFrame implements OLSInputable {
             processingMethodsJTable.setValueAt(null, modifiedRow, 2);
         }
     }
-
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton closeJButton;
     private javax.swing.JButton instrumentDetectorJButton;
     private javax.swing.JTextField instrumentDetectorJTextField;
     private javax.swing.JButton instrumentSourceJButton;
     private javax.swing.JTextField instrumentSourceJTextField;
+    private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel12;
     private javax.swing.JLabel jLabel2;
+    private javax.swing.JLabel jLabel3;
+    private javax.swing.JLabel jLabel4;
+    private javax.swing.JLabel jLabel5;
     private javax.swing.JLabel jLabel9;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
+    private javax.swing.JPanel jPanel3;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JSeparator jSeparator4;
+    private javax.swing.JTextField modificationAccuracyJTextField;
+    private javax.swing.JTextField modificationJTextField;
+    private javax.swing.JButton modificationMassJButton;
+    private javax.swing.JTextField modificationMassJTextField;
+    private javax.swing.JTextField modificationNameJTextField;
     private javax.swing.JMenuItem processingMethodsDeleteSelectedRowJMenuItem;
     private javax.swing.JMenuItem processingMethodsEditJMenuItem;
     private javax.swing.JButton processingMethodsJButton;
@@ -547,6 +721,8 @@ public class OLS_Example extends javax.swing.JFrame implements OLSInputable {
             setInstrumentDetector(selectedValue, accession, ontologyShort);
         } else if (field.equalsIgnoreCase("processingMethods")) {
             addProcessingMethod(selectedValue, accession, ontologyShort, modifiedRow);
+        } else if (field.equalsIgnoreCase("modificationMass")) {
+            setModification(selectedValue, accession, ontologyShort);
         }
     }
 
