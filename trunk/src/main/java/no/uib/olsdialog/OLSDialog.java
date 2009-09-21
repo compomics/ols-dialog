@@ -27,6 +27,7 @@ import javax.swing.UnsupportedLookAndFeelException;
 import javax.swing.table.DefaultTableModel;
 import org.jdesktop.swingx.JXTable;
 import org.jdesktop.swingx.renderer.DefaultTableRenderer;
+import uk.ac.ebi.ook.web.model.DataHolder;
 
 /**
  * A dialog for interacting with the Ontology Lookup Service OLS 
@@ -44,12 +45,17 @@ public class OLSDialog extends javax.swing.JDialog {
     private int modifiedRow = -1;
     private OLSInputable olsInputable;
     private String mappedTerm;
-
     private String defaultOlsConnectionFailureErrorMessage =
             "Unable to contact the OLS. Make sure that you are online.\n" +
             "Also check your firewall (and proxy) settings.\n\n" +
             "See the Troubleshooting section at the OLS Dialog home page\n" +
             "for details: http://ols-dialog.googlecode.com.";
+    private Double modificationMass;
+    private Double modificationAccuracy;
+    private Integer searchType;
+    public static final Integer OLS_DIALOG_TEXT_SEARCH = 0;
+    public static final Integer OLS_DIALOG_GRAPH_SEARCH = 1;
+    public static final Integer OLS_DIALOG_MASS_SEARCH = 2;
 
     /**
      * Opens a dialog that lets you search for terms using the OLS.
@@ -63,7 +69,7 @@ public class OLSDialog extends javax.swing.JDialog {
      */
     public OLSDialog(JFrame parent, OLSInputable olsInputable, boolean modal, String field,
             String selectedOntology, String term) {
-        this(parent, olsInputable, modal, field, selectedOntology, -1, term);
+        this(parent, olsInputable, modal, field, selectedOntology, -1, term, 0.0, 1.0, 0);
     }
 
     /**
@@ -78,7 +84,39 @@ public class OLSDialog extends javax.swing.JDialog {
      */
     public OLSDialog(JDialog parent, OLSInputable olsInputable, boolean modal, String field,
             String selectedOntology, String term) {
-        this(parent, olsInputable, modal, field, selectedOntology, -1, term);
+        this(parent, olsInputable, modal, field, selectedOntology, -1, term, 0.0, 1.0, 0);
+    }
+
+    /**
+     * Opens a dialog that lets you search for terms using the OLS.
+     *
+     * @param parent - the parent JFrame
+     * @param olsInputable - a reference to the frame using the OLS Dialog
+     * @param modal
+     * @param field - the name of the field to insert the results into
+     * @param selectedOntology - the name of the ontology to search in
+     * @param modifiedRow - the row to modify, use -1 if adding a new row
+     * @param term - the term to search for
+     */
+    public OLSDialog(JFrame parent, OLSInputable olsInputable, boolean modal, String field,
+            String selectedOntology, int modifiedRow, String term) {
+        this(parent, olsInputable, modal, field, selectedOntology, modifiedRow, term, 0.0, 1.0, 0);
+    }
+
+    /**
+     * Opens a dialog that lets you search for terms using the OLS.
+     *
+     * @param parent - the parent JDialog
+     * @param olsInputable - a reference to the frame using the OLS Dialog
+     * @param modal
+     * @param field - the name of the field to insert the results into
+     * @param selectedOntology - the name of the ontology to search in
+     * @param modifiedRow - the row to modify, use -1 if adding a new row
+     * @param term - the term to search for
+     */
+    public OLSDialog(JDialog parent, OLSInputable olsInputable, boolean modal, String field,
+            String selectedOntology, int modifiedRow, String term) {
+        this(parent, olsInputable, modal, field, selectedOntology, modifiedRow, term, 0.0, 1.0, 0);
     }
 
     /**
@@ -91,9 +129,13 @@ public class OLSDialog extends javax.swing.JDialog {
      * @param selectedOntology - the name of the ontology to search in
      * @param modifiedRow - the row to modify, use -1 if adding a new row
      * @param term - the term to search for
+     * @param modificationMass - the mass of the modification
+     * @param modificationAccuracy - the mass accuracy
+     * @param searchType - one of the following: OLS_DIALOG_TEXT_SEARCH, OLS_DIALOG_GRAPH_SEARCH or OLS_DIALOG_MASS_SEARCH
      */
     public OLSDialog(JFrame parent, OLSInputable olsInputable, boolean modal, String field,
-            String selectedOntology, int modifiedRow, String term) {
+            String selectedOntology, int modifiedRow, String term,
+            Double modificationMass, Double modificationAccuracy, Integer searchType) {
         super(parent, modal);
 
         this.olsInputable = olsInputable;
@@ -101,6 +143,9 @@ public class OLSDialog extends javax.swing.JDialog {
         this.selectedOntology = selectedOntology;
         this.modifiedRow = modifiedRow;
         this.mappedTerm = term;
+        this.modificationMass = modificationMass;
+        this.modificationAccuracy = modificationAccuracy;
+        this.searchType = searchType;
 
         setUpFrame();
 
@@ -109,13 +154,7 @@ public class OLSDialog extends javax.swing.JDialog {
         if (error) {
             this.dispose();
         } else {
-            olsSearchTextField.requestFocus();
-
-            if (mappedTerm != null) {
-                olsSearchTextField.setText(mappedTerm);
-                olsSearchTextFieldKeyReleased(null);
-            }
-
+            insertValues();
             this.setLocationRelativeTo(parent);
             this.setVisible(true);
         }
@@ -131,9 +170,13 @@ public class OLSDialog extends javax.swing.JDialog {
      * @param selectedOntology - the name of the ontology to search in
      * @param modifiedRow - the row to modify, use -1 if adding a new row
      * @param term - the term to search for
+     * @param modificationMass - the mass of the modification
+     * @param modificationAccuracy - the mass accuracy
+     * @param searchType - one of the following: OLS_DIALOG_TEXT_SEARCH, OLS_DIALOG_GRAPH_SEARCH or OLS_DIALOG_MASS_SEARCH
      */
     public OLSDialog(JDialog parent, OLSInputable olsInputable, boolean modal, String field,
-            String selectedOntology, int modifiedRow, String term) {
+            String selectedOntology, int modifiedRow, String term,
+            Double modificationMass, Double modificationAccuracy, Integer searchType) {
         super(parent, modal);
 
         this.olsInputable = olsInputable;
@@ -141,6 +184,9 @@ public class OLSDialog extends javax.swing.JDialog {
         this.selectedOntology = selectedOntology;
         this.modifiedRow = modifiedRow;
         this.mappedTerm = term;
+        this.modificationMass = modificationMass;
+        this.modificationAccuracy = modificationAccuracy;
+        this.searchType = searchType;
 
         setUpFrame();
 
@@ -149,15 +195,36 @@ public class OLSDialog extends javax.swing.JDialog {
         if (error) {
             this.dispose();
         } else {
-            olsSearchTextField.requestFocus();
-
-            if (mappedTerm != null) {
-                olsSearchTextField.setText(mappedTerm);
-                olsSearchTextFieldKeyReleased(null);
-            }
+            insertValues();
 
             this.setLocationRelativeTo(parent);
             this.setVisible(true);
+        }
+    }
+
+    private void insertValues() {
+
+        if (mappedTerm != null) {
+            olsSearchTextField.setText(mappedTerm);
+        }
+
+        if (modificationMass != null) {
+            modificationMassJTextField.setText(modificationMass.toString());
+        }
+
+        if (modificationAccuracy != null) {
+            precisionJTextField.setText(modificationAccuracy.toString());
+        }
+
+        olsSearchTextFieldKeyReleased(null);
+
+        if (searchType == OLS_DIALOG_TEXT_SEARCH) {
+            olsSearchTextField.requestFocus();
+        } else if(searchType == OLS_DIALOG_GRAPH_SEARCH){
+            // not yet implemented
+        } else if(searchType == OLS_DIALOG_MASS_SEARCH){
+            modificationMassSearchJButtonActionPerformed(null);
+            modificationMassJTextField.requestFocus();
         }
     }
 
@@ -168,12 +235,15 @@ public class OLSDialog extends javax.swing.JDialog {
 
         initComponents();
 
-        // disables the tabs for the not yet implemented search options
+        // open the requested search type pane
+        searchTypeJTabbedPane.setSelectedIndex(searchType);
+
+        // disable the graph search as this is not yet completed
         searchTypeJTabbedPane.setEnabledAt(1, false);
-        searchTypeJTabbedPane.setEnabledAt(2, false);
 
         // use combobox renderer that centers the text
         ontologyJComboBox.setRenderer(new MyComboBoxRenderer(null, SwingConstants.CENTER));
+        massTypeJComboBox.setRenderer(new MyComboBoxRenderer(null, SwingConstants.CENTER));
 
         // disable reordring of the columns
         olsResultsTextSearchJTable.getTableHeader().setReorderingAllowed(false);
@@ -187,13 +257,7 @@ public class OLSDialog extends javax.swing.JDialog {
 
             @Override
             public Component getTableCellRendererComponent(JTable table, Object value, boolean isSelected, boolean hasFocus, int row, int column) {
-
-                if (column == 1 && table.getValueAt(row, column).toString().length() > 50) {
-                    table.setToolTipText("" + table.getValueAt(row, column));
-                } else {
-                    table.setToolTipText(null);
-                }
-
+                setTableToolTip(table, value, row, column);
                 return super.getTableCellRendererComponent(table, value, isSelected, hasFocus, row, column);
             }
         });
@@ -202,13 +266,7 @@ public class OLSDialog extends javax.swing.JDialog {
 
             @Override
             public Component getTableCellRendererComponent(JTable table, Object value, boolean isSelected, boolean hasFocus, int row, int column) {
-
-                if (column == 1 && table.getValueAt(row, column).toString().length() > 50) {
-                    table.setToolTipText("" + table.getValueAt(row, column));
-                } else {
-                    table.setToolTipText(null);
-                }
-
+                setTableToolTip(table, value, row, column);
                 return super.getTableCellRendererComponent(table, value, isSelected, hasFocus, row, column);
             }
         });
@@ -217,21 +275,40 @@ public class OLSDialog extends javax.swing.JDialog {
 
             @Override
             public Component getTableCellRendererComponent(JTable table, Object value, boolean isSelected, boolean hasFocus, int row, int column) {
-
-                if (column == 1 && table.getValueAt(row, column).toString().length() > 50) {
-                    table.setToolTipText("" + table.getValueAt(row, column));
-                } else {
-                    table.setToolTipText(null);
-                }
-
+                setTableToolTip(table, value, row, column);
                 return super.getTableCellRendererComponent(table, value, isSelected, hasFocus, row, column);
             }
         });
 
-    // only works for Java 1.6 and newer
+        // only works for Java 1.6 and newer
 //        setIconImage(Toolkit.getDefaultToolkit().getImage(getClass().
 //                getResource("/no/uib/olsdialog/icons/ols_transparent_small.GIF")));
 
+    }
+
+    /**
+     * A helper method for setting the cell tool tips. Included in order to not have to
+     * duplicate the code for each table.
+     *
+     * @param table
+     * @param value
+     * @param row
+     * @param column
+     */
+    private void setTableToolTip(JTable table, Object value, int row, int column) {
+        if (table != null) {
+            if (table.getValueAt(row, column) != null) {
+                if (column == 1 && table.getValueAt(row, column).toString().length() > 50) {
+                    table.setToolTipText("" + value.toString());
+                } else {
+                    table.setToolTipText(null);
+                }
+            } else {
+                table.setToolTipText(null);
+            }
+        } else {
+            table.setToolTipText(null);
+        }
     }
 
     /**
@@ -317,7 +394,7 @@ public class OLSDialog extends javax.swing.JDialog {
         jPanel5 = new javax.swing.JPanel();
         jLabel3 = new javax.swing.JLabel();
         olsSearchTextField = new javax.swing.JTextField();
-        numberOfTermsJTextField = new javax.swing.JTextField();
+        numberOfTermsTextSearchJTextField = new javax.swing.JTextField();
         jScrollPane = new javax.swing.JScrollPane();
         olsResultsTextSearchJTable = new javax.swing.JTable();
         jScrollPane4 = new javax.swing.JScrollPane();
@@ -338,7 +415,7 @@ public class OLSDialog extends javax.swing.JDialog {
         jLabel4 = new javax.swing.JLabel();
         modificationMassJTextField = new javax.swing.JTextField();
         jLabel5 = new javax.swing.JLabel();
-        massAccuracyJTextField = new javax.swing.JTextField();
+        precisionJTextField = new javax.swing.JTextField();
         jLabel6 = new javax.swing.JLabel();
         jScrollPane1 = new javax.swing.JScrollPane();
         olsResultsMassSearchJTable = new javax.swing.JTable();
@@ -347,6 +424,9 @@ public class OLSDialog extends javax.swing.JDialog {
         definitionMassSearchJTextPane = new javax.swing.JTextPane();
         jScrollPane6 = new javax.swing.JScrollPane();
         termDetailsMassSearchJXTable = new org.jdesktop.swingx.JXTable();
+        modificationMassSearchJButton = new javax.swing.JButton();
+        massTypeJComboBox = new javax.swing.JComboBox();
+        jLabel12 = new javax.swing.JLabel();
         jLabel9 = new javax.swing.JLabel();
         ontologyJComboBox = new javax.swing.JComboBox();
 
@@ -395,6 +475,12 @@ public class OLSDialog extends javax.swing.JDialog {
 
         jPanel4.setBorder(javax.swing.BorderFactory.createTitledBorder(null, "Search Parameters", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Tahoma", 0, 11), new java.awt.Color(0, 0, 0))); // NOI18N
 
+        searchTypeJTabbedPane.addChangeListener(new javax.swing.event.ChangeListener() {
+            public void stateChanged(javax.swing.event.ChangeEvent evt) {
+                searchTypeJTabbedPaneStateChanged(evt);
+            }
+        });
+
         jLabel3.setText("Term:");
 
         olsSearchTextField.setHorizontalAlignment(javax.swing.JTextField.CENTER);
@@ -404,9 +490,9 @@ public class OLSDialog extends javax.swing.JDialog {
             }
         });
 
-        numberOfTermsJTextField.setEditable(false);
-        numberOfTermsJTextField.setHorizontalAlignment(javax.swing.JTextField.CENTER);
-        numberOfTermsJTextField.setToolTipText("Number of Matching Terms");
+        numberOfTermsTextSearchJTextField.setEditable(false);
+        numberOfTermsTextSearchJTextField.setHorizontalAlignment(javax.swing.JTextField.CENTER);
+        numberOfTermsTextSearchJTextField.setToolTipText("Number of Matching Terms");
 
         olsResultsTextSearchJTable.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
@@ -483,28 +569,28 @@ public class OLSDialog extends javax.swing.JDialog {
             .add(jPanel5Layout.createSequentialGroup()
                 .addContainerGap()
                 .add(jPanel5Layout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
-                    .add(jScrollPane, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, 453, Short.MAX_VALUE)
+                    .add(jScrollPane, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, 462, Short.MAX_VALUE)
                     .add(jLabel1)
                     .add(jLabel2)
-                    .add(org.jdesktop.layout.GroupLayout.TRAILING, jScrollPane4, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, 453, Short.MAX_VALUE)
-                    .add(jScrollPane3, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, 453, Short.MAX_VALUE)
+                    .add(org.jdesktop.layout.GroupLayout.TRAILING, jScrollPane4, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, 462, Short.MAX_VALUE)
+                    .add(jScrollPane3, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, 462, Short.MAX_VALUE)
                     .add(jPanel5Layout.createSequentialGroup()
                         .add(jLabel3)
                         .add(12, 12, 12)
-                        .add(olsSearchTextField, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, 336, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(org.jdesktop.layout.LayoutStyle.UNRELATED)
-                        .add(numberOfTermsJTextField, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, 67, Short.MAX_VALUE)))
+                        .add(olsSearchTextField, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, 329, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
+                        .add(17, 17, 17)
+                        .add(numberOfTermsTextSearchJTextField, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, 76, Short.MAX_VALUE)))
                 .addContainerGap())
         );
         jPanel5Layout.setVerticalGroup(
             jPanel5Layout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
-            .add(jPanel5Layout.createSequentialGroup()
-                .add(28, 28, 28)
+            .add(org.jdesktop.layout.GroupLayout.TRAILING, jPanel5Layout.createSequentialGroup()
+                .addContainerGap(29, Short.MAX_VALUE)
                 .add(jPanel5Layout.createParallelGroup(org.jdesktop.layout.GroupLayout.BASELINE)
                     .add(olsSearchTextField, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
                     .add(jLabel3)
-                    .add(numberOfTermsJTextField, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE))
-                .add(32, 32, 32)
+                    .add(numberOfTermsTextSearchJTextField, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE))
+                .add(18, 18, 18)
                 .add(jLabel1)
                 .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED)
                 .add(jScrollPane, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, 91, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
@@ -592,17 +678,17 @@ public class OLSDialog extends javax.swing.JDialog {
             .add(jPanel6Layout.createSequentialGroup()
                 .addContainerGap()
                 .add(jPanel6Layout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
-                    .add(org.jdesktop.layout.GroupLayout.TRAILING, jScrollPane2, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, 453, Short.MAX_VALUE)
+                    .add(org.jdesktop.layout.GroupLayout.TRAILING, jScrollPane2, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, 462, Short.MAX_VALUE)
                     .add(jLabel8)
-                    .add(org.jdesktop.layout.GroupLayout.TRAILING, jScrollPane7, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, 453, Short.MAX_VALUE)
-                    .add(org.jdesktop.layout.GroupLayout.TRAILING, jScrollPane8, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, 453, Short.MAX_VALUE))
+                    .add(org.jdesktop.layout.GroupLayout.TRAILING, jScrollPane7, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, 462, Short.MAX_VALUE)
+                    .add(org.jdesktop.layout.GroupLayout.TRAILING, jScrollPane8, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, 462, Short.MAX_VALUE))
                 .addContainerGap())
         );
         jPanel6Layout.setVerticalGroup(
             jPanel6Layout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
             .add(org.jdesktop.layout.GroupLayout.TRAILING, jPanel6Layout.createSequentialGroup()
                 .addContainerGap()
-                .add(jScrollPane2, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, 179, Short.MAX_VALUE)
+                .add(jScrollPane2, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, 167, Short.MAX_VALUE)
                 .add(18, 18, 18)
                 .add(jLabel8)
                 .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED)
@@ -614,13 +700,17 @@ public class OLSDialog extends javax.swing.JDialog {
 
         searchTypeJTabbedPane.addTab("Graph", jPanel6);
 
-        jLabel4.setText("Modification Mass:");
+        jLabel4.setText("Mass:");
 
         modificationMassJTextField.setHorizontalAlignment(javax.swing.JTextField.CENTER);
+        modificationMassJTextField.setText("0.0");
 
-        jLabel5.setText("Accuracy:");
+        jLabel5.setText("+-");
+        jLabel5.setToolTipText("Mass Accuracy");
 
-        massAccuracyJTextField.setHorizontalAlignment(javax.swing.JTextField.CENTER);
+        precisionJTextField.setHorizontalAlignment(javax.swing.JTextField.CENTER);
+        precisionJTextField.setText("1.0");
+        precisionJTextField.setToolTipText("Mass Accuracy");
 
         jLabel6.setText("Search Results:");
 
@@ -647,14 +737,14 @@ public class OLSDialog extends javax.swing.JDialog {
                 return canEdit [columnIndex];
             }
         });
-        olsResultsMassSearchJTable.addKeyListener(new java.awt.event.KeyAdapter() {
-            public void keyReleased(java.awt.event.KeyEvent evt) {
-                olsResultsMassSearchJTableKeyReleased(evt);
-            }
-        });
         olsResultsMassSearchJTable.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
                 olsResultsMassSearchJTableMouseClicked(evt);
+            }
+        });
+        olsResultsMassSearchJTable.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyReleased(java.awt.event.KeyEvent evt) {
+                olsResultsMassSearchJTableKeyReleased(evt);
             }
         });
         jScrollPane1.setViewportView(olsResultsMassSearchJTable);
@@ -690,6 +780,23 @@ public class OLSDialog extends javax.swing.JDialog {
         termDetailsMassSearchJXTable.setOpaque(false);
         jScrollPane6.setViewportView(termDetailsMassSearchJXTable);
 
+        modificationMassSearchJButton.setText("Search");
+        modificationMassSearchJButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                modificationMassSearchJButtonActionPerformed(evt);
+            }
+        });
+
+        massTypeJComboBox.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "- Select -", "DiffAvg", "DiffMono", "MassAvg", "MassMono" }));
+        massTypeJComboBox.setSelectedIndex(2);
+        massTypeJComboBox.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                massTypeJComboBoxActionPerformed(evt);
+            }
+        });
+
+        jLabel12.setText("Type:");
+
         org.jdesktop.layout.GroupLayout jPanel7Layout = new org.jdesktop.layout.GroupLayout(jPanel7);
         jPanel7.setLayout(jPanel7Layout);
         jPanel7Layout.setHorizontalGroup(
@@ -697,34 +804,43 @@ public class OLSDialog extends javax.swing.JDialog {
             .add(jPanel7Layout.createSequentialGroup()
                 .addContainerGap()
                 .add(jPanel7Layout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
-                    .add(jScrollPane1, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, 453, Short.MAX_VALUE)
-                    .add(jLabel6)
+                    .add(jScrollPane6, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, 462, Short.MAX_VALUE)
+                    .add(jScrollPane1, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, 462, Short.MAX_VALUE)
                     .add(jLabel7)
-                    .add(jScrollPane5, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, 453, Short.MAX_VALUE)
-                    .add(org.jdesktop.layout.GroupLayout.TRAILING, jScrollPane6, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, 453, Short.MAX_VALUE)
+                    .add(jScrollPane5, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, 462, Short.MAX_VALUE)
+                    .add(jLabel6)
                     .add(jPanel7Layout.createSequentialGroup()
                         .add(jLabel4)
+                        .addPreferredGap(org.jdesktop.layout.LayoutStyle.UNRELATED)
+                        .add(modificationMassJTextField, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, 76, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
                         .add(18, 18, 18)
-                        .add(modificationMassJTextField, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, 110, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED, 49, Short.MAX_VALUE)
                         .add(jLabel5)
+                        .addPreferredGap(org.jdesktop.layout.LayoutStyle.UNRELATED)
+                        .add(precisionJTextField, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, 76, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
                         .add(18, 18, 18)
-                        .add(massAccuracyJTextField, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, 116, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)))
+                        .add(jLabel12)
+                        .addPreferredGap(org.jdesktop.layout.LayoutStyle.UNRELATED)
+                        .add(massTypeJComboBox, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, 76, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED, 24, Short.MAX_VALUE)
+                        .add(modificationMassSearchJButton)))
                 .addContainerGap())
         );
 
-        jPanel7Layout.linkSize(new java.awt.Component[] {massAccuracyJTextField, modificationMassJTextField}, org.jdesktop.layout.GroupLayout.HORIZONTAL);
+        jPanel7Layout.linkSize(new java.awt.Component[] {massTypeJComboBox, modificationMassJTextField, modificationMassSearchJButton, precisionJTextField}, org.jdesktop.layout.GroupLayout.HORIZONTAL);
 
         jPanel7Layout.setVerticalGroup(
             jPanel7Layout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
-            .add(jPanel7Layout.createSequentialGroup()
-                .add(28, 28, 28)
+            .add(org.jdesktop.layout.GroupLayout.TRAILING, jPanel7Layout.createSequentialGroup()
+                .addContainerGap(26, Short.MAX_VALUE)
                 .add(jPanel7Layout.createParallelGroup(org.jdesktop.layout.GroupLayout.BASELINE)
                     .add(jLabel4)
-                    .add(massAccuracyJTextField, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
                     .add(modificationMassJTextField, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
-                    .add(jLabel5))
-                .add(32, 32, 32)
+                    .add(modificationMassSearchJButton)
+                    .add(jLabel5)
+                    .add(precisionJTextField, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
+                    .add(jLabel12)
+                    .add(massTypeJComboBox, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE))
+                .add(18, 18, 18)
                 .add(jLabel6)
                 .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED)
                 .add(jScrollPane1, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, 91, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
@@ -732,7 +848,7 @@ public class OLSDialog extends javax.swing.JDialog {
                 .add(jLabel7)
                 .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED)
                 .add(jScrollPane5, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, 50, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED)
                 .add(jScrollPane6, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, 77, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap())
         );
@@ -751,25 +867,24 @@ public class OLSDialog extends javax.swing.JDialog {
         jPanel4.setLayout(jPanel4Layout);
         jPanel4Layout.setHorizontalGroup(
             jPanel4Layout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
-            .add(jPanel4Layout.createSequentialGroup()
+            .add(org.jdesktop.layout.GroupLayout.TRAILING, jPanel4Layout.createSequentialGroup()
                 .addContainerGap()
-                .add(jPanel4Layout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
-                    .add(searchTypeJTabbedPane, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, 478, Short.MAX_VALUE)
+                .add(jPanel4Layout.createParallelGroup(org.jdesktop.layout.GroupLayout.TRAILING)
+                    .add(org.jdesktop.layout.GroupLayout.LEADING, searchTypeJTabbedPane, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, 487, Short.MAX_VALUE)
                     .add(jPanel4Layout.createSequentialGroup()
                         .add(jLabel9)
                         .add(18, 18, 18)
-                        .add(ontologyJComboBox, 0, 412, Short.MAX_VALUE)))
+                        .add(ontologyJComboBox, 0, 421, Short.MAX_VALUE)))
                 .addContainerGap())
         );
         jPanel4Layout.setVerticalGroup(
             jPanel4Layout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
             .add(jPanel4Layout.createSequentialGroup()
-                .add(11, 11, 11)
                 .add(jPanel4Layout.createParallelGroup(org.jdesktop.layout.GroupLayout.BASELINE)
                     .add(ontologyJComboBox, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
                     .add(jLabel9))
-                .addPreferredGap(org.jdesktop.layout.LayoutStyle.UNRELATED)
-                .add(searchTypeJTabbedPane)
+                .add(18, 18, 18)
+                .add(searchTypeJTabbedPane, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, 388, Short.MAX_VALUE)
                 .addContainerGap())
         );
 
@@ -777,19 +892,19 @@ public class OLSDialog extends javax.swing.JDialog {
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
-            .add(layout.createSequentialGroup()
+            .add(org.jdesktop.layout.GroupLayout.TRAILING, layout.createSequentialGroup()
                 .addContainerGap()
-                .add(layout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
-                    .add(jPanel4, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .add(org.jdesktop.layout.GroupLayout.TRAILING, layout.createSequentialGroup()
+                .add(layout.createParallelGroup(org.jdesktop.layout.GroupLayout.TRAILING)
+                    .add(org.jdesktop.layout.GroupLayout.LEADING, jPanel4, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .add(layout.createSequentialGroup()
                         .add(helpJButton, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, 23, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED)
                         .add(aboutJButton, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, 25, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED, 203, Short.MAX_VALUE)
+                        .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED, 212, Short.MAX_VALUE)
                         .add(insertSelectedJButton, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, 130, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED)
                         .add(cancelJButton, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE))
-                    .add(jSeparator1, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, 514, Short.MAX_VALUE))
+                    .add(org.jdesktop.layout.GroupLayout.LEADING, jSeparator1, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, 523, Short.MAX_VALUE))
                 .addContainerGap())
         );
         layout.setVerticalGroup(
@@ -823,13 +938,13 @@ public class OLSDialog extends javax.swing.JDialog {
      */
     private void ontologyJComboBoxItemStateChanged(java.awt.event.ItemEvent evt) {//GEN-FIRST:event_ontologyJComboBoxItemStateChanged
 
-        if (searchTypeJTabbedPane.getSelectedIndex() == 0) {
+        if (searchTypeJTabbedPane.getSelectedIndex() == OLS_DIALOG_TEXT_SEARCH) {
             olsSearchTextFieldKeyReleased(null);
-        } else if (searchTypeJTabbedPane.getSelectedIndex() == 1) {
+        } else if (searchTypeJTabbedPane.getSelectedIndex() == OLS_DIALOG_GRAPH_SEARCH) {
             // update the graph view
-        } else if (searchTypeJTabbedPane.getSelectedIndex() == 2) {
+        } else if (searchTypeJTabbedPane.getSelectedIndex() == OLS_DIALOG_MASS_SEARCH) {
             // update the mass search
-            // note that all ontologies except PSI-MOD will disable this search option!
+            // note: nothing to update, only PSI-MOD is possible
         }
 
     }//GEN-LAST:event_ontologyJComboBoxItemStateChanged
@@ -881,7 +996,7 @@ public class OLSDialog extends javax.swing.JDialog {
 
             this.setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
             olsSearchTextField.setCursor(new java.awt.Cursor(java.awt.Cursor.TEXT_CURSOR));
-            numberOfTermsJTextField.setText("" + map.size());
+            numberOfTermsTextSearchJTextField.setText("" + map.size());
 
             // make the first row visible
             if (olsResultsTextSearchJTable.getRowCount() > 0) {
@@ -927,7 +1042,15 @@ public class OLSDialog extends javax.swing.JDialog {
         String ontologyLong = ((String) ontologyJComboBox.getSelectedItem());
         String ontologyShort = ontologyLong.substring(ontologyLong.lastIndexOf("[") + 1, ontologyLong.length() - 1);
         String selectedValue = "";
-        String accession = "" + olsResultsTextSearchJTable.getValueAt(olsResultsTextSearchJTable.getSelectedRow(), 0);
+        String accession = null;
+
+        if (searchTypeJTabbedPane.getSelectedIndex() == OLS_DIALOG_TEXT_SEARCH) {
+            accession = "" + olsResultsTextSearchJTable.getValueAt(olsResultsTextSearchJTable.getSelectedRow(), 0);
+        } else if (searchTypeJTabbedPane.getSelectedIndex() == OLS_DIALOG_GRAPH_SEARCH) {
+            //accession = "" + olsResultsTextSearchJTable.getValueAt(olsResultsTextSearchJTable.getSelectedRow(), 0);
+        } else if (searchTypeJTabbedPane.getSelectedIndex() == OLS_DIALOG_MASS_SEARCH) {
+            accession = "" + olsResultsMassSearchJTable.getValueAt(olsResultsMassSearchJTable.getSelectedRow(), 0);
+        }
 
         try {
             QueryService locator = new QueryServiceLocator();
@@ -937,11 +1060,9 @@ public class OLSDialog extends javax.swing.JDialog {
             //insert the value into the correct text field or table
             if (olsInputable != null) {
                 olsInputable.insertOLSResult(field, selectedValue, accession, ontologyShort, ontologyLong, modifiedRow, mappedTerm);
-
                 this.setVisible(false);
                 this.dispose();
             }
-
         } catch (RemoteException ex) {
             JOptionPane.showMessageDialog(
                     this,
@@ -1036,7 +1157,7 @@ public class OLSDialog extends javax.swing.JDialog {
                             }
                         }
 
-                        if(definitionTextPane.getText().equalsIgnoreCase("null")){
+                        if (definitionTextPane.getText().equalsIgnoreCase("null")) {
                             definitionTextPane.setText("(no definition provided in CV term)");
                         }
 
@@ -1157,6 +1278,154 @@ public class OLSDialog extends javax.swing.JDialog {
         olsResultsMassSearchJTableMouseClicked(null);
 }//GEN-LAST:event_olsResultsMassSearchJTableKeyReleased
 
+    /**
+     * returns an array of DataHolder objects that contain data on MOD entries (termId, termName, massDelta)
+     * given a massDeltaType and a range of masses.
+     *
+     * @param massDeltaType - the type of massDelta to query (can be null)
+     * @param fromMass      - the lower mass limit (inclusive, mandatory)
+     * @param toMass        - the higher mass limit (inclusive, mandatory)
+     */
+    public DataHolder[] getModificationsByMassDelta(String massDeltaType, double fromMass, double toMass) {
+
+        DataHolder[] retval = null;
+
+        try {
+            QueryService locator = new QueryServiceLocator();
+            Query service = locator.getOntologyQuery();
+
+            retval = service.getTermsByAnnotationData("MOD", massDeltaType, null, fromMass, toMass);
+
+        } catch (ServiceException ex) {
+            JOptionPane.showMessageDialog(
+                    this,
+                    defaultOlsConnectionFailureErrorMessage,
+                    "Failed To Contact OLS", JOptionPane.ERROR_MESSAGE);
+            Util.writeToErrorLog("Error when trying to access OLS: ");
+            ex.printStackTrace();
+        } catch (RemoteException ex) {
+            JOptionPane.showMessageDialog(
+                    this,
+                    defaultOlsConnectionFailureErrorMessage,
+                    "Failed To Contact OLS", JOptionPane.ERROR_MESSAGE);
+            Util.writeToErrorLog("Error when trying to access OLS: ");
+            ex.printStackTrace();
+        }
+
+        return retval;
+    }
+
+    /**
+     * Tries to find all terms in the selected ontology that include the
+     * selected mass term and has a value within the selected boundaries.
+     *
+     * NB: this code seems to work, but is very slow... And therefore cannot be used.
+     * There has to be a faster/better way of doing this.
+     *
+     * @param evt
+     */
+    private void modificationMassSearchJButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_modificationMassSearchJButtonActionPerformed
+        this.setCursor(new java.awt.Cursor(java.awt.Cursor.WAIT_CURSOR));
+        olsSearchTextField.setCursor(new java.awt.Cursor(java.awt.Cursor.WAIT_CURSOR));
+
+        insertSelectedJButton.setEnabled(false);
+
+        // clear the two result tables
+        while (olsResultsMassSearchJTable.getRowCount() > 0) {
+            ((DefaultTableModel) olsResultsMassSearchJTable.getModel()).removeRow(0);
+        }
+
+        while (termDetailsMassSearchJXTable.getRowCount() > 0) {
+            ((DefaultTableModel) termDetailsMassSearchJXTable.getModel()).removeRow(0);
+        }
+
+        boolean error = false;
+        double currentModificationMass = 0.0;
+        double currentAccuracy = 1.0;
+
+        try {
+            currentModificationMass = new Double(modificationMassJTextField.getText()).doubleValue();
+        } catch (NumberFormatException e) {
+            JOptionPane.showMessageDialog(null,
+                    "The mass is not a number!", "Modification Mass", JOptionPane.INFORMATION_MESSAGE);
+            modificationMassJTextField.requestFocus();
+            error = true;
+        }
+
+        if (!error) {
+            try {
+                currentAccuracy = new Double(precisionJTextField.getText()).doubleValue();
+
+                if (currentAccuracy < 0) {
+                    JOptionPane.showMessageDialog(null,
+                            "The precision has to be a positive value.", "Mass Accuracy", JOptionPane.INFORMATION_MESSAGE);
+                    precisionJTextField.requestFocus();
+                    error = true;
+                }
+
+            } catch (NumberFormatException e) {
+                JOptionPane.showMessageDialog(null,
+                        "The precision is not a number!", "Mass Accuracy", JOptionPane.INFORMATION_MESSAGE);
+                precisionJTextField.requestFocus();
+                error = true;
+            }
+        }
+
+        if (!error) {
+
+            String massType = massTypeJComboBox.getSelectedItem().toString();
+
+            // clear the definition
+            definitionMassSearchJTextPane.setText("");
+
+            DataHolder[] results = getModificationsByMassDelta(massType,
+                    currentModificationMass - currentAccuracy,
+                    currentModificationMass + currentAccuracy);
+
+            if (results != null) {
+                for (int i = 0; i < results.length; i++) {
+                    ((DefaultTableModel) olsResultsMassSearchJTable.getModel()).addRow(
+                            new Object[]{results[i].getTermId(),
+                                results[i].getTermName()});
+                }
+            }
+
+            this.setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
+
+            // make the first row visible
+            if (olsResultsMassSearchJTable.getRowCount() > 0) {
+                olsResultsMassSearchJTable.scrollRectToVisible(olsResultsTextSearchJTable.getCellRect(0, 0, false));
+            }
+        }
+
+        this.setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
+        modificationMassJTextField.setCursor(new java.awt.Cursor(java.awt.Cursor.TEXT_CURSOR));
+    }//GEN-LAST:event_modificationMassSearchJButtonActionPerformed
+
+    /**
+     * Enables or disables the search button based on the selection in the combo box.
+     *
+     * @param evt
+     */
+    private void massTypeJComboBoxActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_massTypeJComboBoxActionPerformed
+        modificationMassSearchJButton.setEnabled(massTypeJComboBox.getSelectedIndex() != 0);
+    }//GEN-LAST:event_massTypeJComboBoxActionPerformed
+
+    /**
+     * Makes sure that the PSI-MOD ontology is selected when the modification mass
+     * search tab is selected.
+     *
+     * @param evt
+     */
+    private void searchTypeJTabbedPaneStateChanged(javax.swing.event.ChangeEvent evt) {//GEN-FIRST:event_searchTypeJTabbedPaneStateChanged
+        if (searchTypeJTabbedPane.getSelectedIndex() == 2) {
+            ontologyJComboBox.setSelectedItem("Protein Modifications (PSI-MOD) [MOD]");
+            ontologyJComboBox.setEnabled(false);
+        } else{
+            ontologyJComboBox.setEnabled(true);
+        }
+    }//GEN-LAST:event_searchTypeJTabbedPaneStateChanged
+
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton aboutJButton;
     private javax.swing.JButton cancelJButton;
@@ -1166,6 +1435,7 @@ public class OLSDialog extends javax.swing.JDialog {
     private javax.swing.JButton helpJButton;
     private javax.swing.JButton insertSelectedJButton;
     private javax.swing.JLabel jLabel1;
+    private javax.swing.JLabel jLabel12;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
@@ -1188,14 +1458,16 @@ public class OLSDialog extends javax.swing.JDialog {
     private javax.swing.JScrollPane jScrollPane7;
     private javax.swing.JScrollPane jScrollPane8;
     private javax.swing.JSeparator jSeparator1;
-    private javax.swing.JTextField massAccuracyJTextField;
+    private javax.swing.JComboBox massTypeJComboBox;
     private javax.swing.JTextField modificationMassJTextField;
-    private javax.swing.JTextField numberOfTermsJTextField;
+    private javax.swing.JButton modificationMassSearchJButton;
+    private javax.swing.JTextField numberOfTermsTextSearchJTextField;
     private javax.swing.JTable olsResultsMassSearchJTable;
     private javax.swing.JTable olsResultsTextSearchJTable;
     private javax.swing.JTextField olsSearchTextField;
     private javax.swing.JComboBox ontologyJComboBox;
     private javax.swing.JTree ontologyJTree;
+    private javax.swing.JTextField precisionJTextField;
     private javax.swing.JTabbedPane searchTypeJTabbedPane;
     private org.jdesktop.swingx.JXTable termDetailsGraphSearchJXTable;
     private org.jdesktop.swingx.JXTable termDetailsMassSearchJXTable;
