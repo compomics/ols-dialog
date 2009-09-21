@@ -3,8 +3,16 @@
 
 ----
 
+*Changes in OLS Dialog v2.0 - (Sep. 21. 2009):*
+ * Support for modification mass search has been added. 
+ * Fixed a bug in the tool tips for the tables.
+
+----
+
 *Changes in OLS Dialog v1.0.2 - (Sep. 11. 2009):*
  * Fixed some issues with the (Maven) dependencies not being set correctly.
+
+Download Count: 1
 
 ----
 
