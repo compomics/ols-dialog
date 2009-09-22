@@ -1,0 +1,7 @@
+#summary Short summary of changes for the current build of OLS Dialog. (Note that this may not be the same as the released version.)
+
+----
+
+ * Changed the default mass search accuracy to 0.1. 
+ * Clicking 'Enter' in the modification mass and mass error fields now starts the search (if the search button is enabled). 
+ * Text and mass search is now performed by default if valid search values are provided.
