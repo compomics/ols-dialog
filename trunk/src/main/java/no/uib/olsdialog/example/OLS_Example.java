@@ -20,7 +20,9 @@ import no.uib.olsdialog.OLSInputable;
  */
 public class OLS_Example extends javax.swing.JFrame implements OLSInputable {
 
-    /** Creates new form OLS_Example */
+    /** 
+     * Creates a new OLS_Example frame and makes it visible.
+     */
     public OLS_Example() {
         initComponents();
         processingMethodsJTable.getColumn(" ").setMaxWidth(40);
@@ -271,7 +273,7 @@ public class OLS_Example extends javax.swing.JFrame implements OLSInputable {
     jLabel3.setText("+-");
 
     modificationAccuracyJTextField.setHorizontalAlignment(javax.swing.JTextField.CENTER);
-    modificationAccuracyJTextField.setText("1.0");
+    modificationAccuracyJTextField.setText("0.1");
 
     jLabel4.setText("PSI-MOD:");
 
@@ -437,9 +439,7 @@ public class OLS_Example extends javax.swing.JFrame implements OLSInputable {
             int column = processingMethodsJTable.columnAtPoint(evt.getPoint());
 
             processingMethodsJTable.changeSelection(row, column, false, false);
-
-            processingMethodsPopupJMenu.show(evt.getComponent(), evt.getX(),
-                    evt.getY());
+            processingMethodsPopupJMenu.show(evt.getComponent(), evt.getX(), evt.getY());
         } else if (evt.getButton() == 1 && evt.getClickCount() == 2) {
             processingMethodsEditJMenuItemActionPerformed(null);
         }
@@ -529,7 +529,7 @@ public class OLS_Example extends javax.swing.JFrame implements OLSInputable {
 
         boolean error = false;
         Double currentModificationMass = 0.0;
-        Double currentAccuracy = 1.0;
+        Double currentAccuracy = 0.1;
 
         try {
             currentModificationMass = new Double(modificationMassJTextField.getText());
@@ -561,7 +561,8 @@ public class OLS_Example extends javax.swing.JFrame implements OLSInputable {
 
         if (!error) {
             new OLSDialog(this, this, true, "modificationMass", "Protein Modifications (PSI-MOD) [MOD]", -1,
-                    modificationNameJTextField.getText(), currentModificationMass, currentAccuracy, OLSDialog.OLS_DIALOG_MASS_SEARCH);
+                    modificationNameJTextField.getText(), currentModificationMass, currentAccuracy,
+                    OLSDialog.OLS_DIALOG_MASS_SEARCH);
         }
 
         this.setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));

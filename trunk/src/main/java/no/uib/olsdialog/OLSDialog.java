@@ -7,6 +7,7 @@ import no.uib.olsdialog.util.Util;
 import com.jgoodies.looks.plastic.PlasticLookAndFeel;
 import com.jgoodies.looks.plastic.PlasticXPLookAndFeel;
 import com.jgoodies.looks.plastic.theme.SkyKrupp;
+import java.awt.event.KeyEvent;
 import java.rmi.RemoteException;
 import javax.xml.rpc.ServiceException;
 import uk.ac.ebi.ook.web.services.Query;
@@ -50,9 +51,6 @@ public class OLSDialog extends javax.swing.JDialog {
             "Also check your firewall (and proxy) settings.\n\n" +
             "See the Troubleshooting section at the OLS Dialog home page\n" +
             "for details: http://ols-dialog.googlecode.com.";
-    private Double modificationMass;
-    private Double modificationAccuracy;
-    private Integer searchType;
     public static final Integer OLS_DIALOG_TEXT_SEARCH = 0;
     public static final Integer OLS_DIALOG_GRAPH_SEARCH = 1;
     public static final Integer OLS_DIALOG_MASS_SEARCH = 2;
@@ -69,7 +67,7 @@ public class OLSDialog extends javax.swing.JDialog {
      */
     public OLSDialog(JFrame parent, OLSInputable olsInputable, boolean modal, String field,
             String selectedOntology, String term) {
-        this(parent, olsInputable, modal, field, selectedOntology, -1, term, 0.0, 1.0, 0);
+        this(parent, olsInputable, modal, field, selectedOntology, -1, term, null, null, 0);
     }
 
     /**
@@ -84,7 +82,7 @@ public class OLSDialog extends javax.swing.JDialog {
      */
     public OLSDialog(JDialog parent, OLSInputable olsInputable, boolean modal, String field,
             String selectedOntology, String term) {
-        this(parent, olsInputable, modal, field, selectedOntology, -1, term, 0.0, 1.0, 0);
+        this(parent, olsInputable, modal, field, selectedOntology, -1, term, null, null, 0);
     }
 
     /**
@@ -100,7 +98,7 @@ public class OLSDialog extends javax.swing.JDialog {
      */
     public OLSDialog(JFrame parent, OLSInputable olsInputable, boolean modal, String field,
             String selectedOntology, int modifiedRow, String term) {
-        this(parent, olsInputable, modal, field, selectedOntology, modifiedRow, term, 0.0, 1.0, 0);
+        this(parent, olsInputable, modal, field, selectedOntology, modifiedRow, term, null, null, 0);
     }
 
     /**
@@ -116,7 +114,7 @@ public class OLSDialog extends javax.swing.JDialog {
      */
     public OLSDialog(JDialog parent, OLSInputable olsInputable, boolean modal, String field,
             String selectedOntology, int modifiedRow, String term) {
-        this(parent, olsInputable, modal, field, selectedOntology, modifiedRow, term, 0.0, 1.0, 0);
+        this(parent, olsInputable, modal, field, selectedOntology, modifiedRow, term, null, null, 0);
     }
 
     /**
@@ -143,18 +141,15 @@ public class OLSDialog extends javax.swing.JDialog {
         this.selectedOntology = selectedOntology;
         this.modifiedRow = modifiedRow;
         this.mappedTerm = term;
-        this.modificationMass = modificationMass;
-        this.modificationAccuracy = modificationAccuracy;
-        this.searchType = searchType;
 
-        setUpFrame();
+        setUpFrame(searchType);
 
         boolean error = insertOntologyNames();
 
         if (error) {
             this.dispose();
         } else {
-            insertValues();
+            insertValues(modificationMass, modificationAccuracy, searchType);
             this.setLocationRelativeTo(parent);
             this.setVisible(true);
         }
@@ -184,46 +179,44 @@ public class OLSDialog extends javax.swing.JDialog {
         this.selectedOntology = selectedOntology;
         this.modifiedRow = modifiedRow;
         this.mappedTerm = term;
-        this.modificationMass = modificationMass;
-        this.modificationAccuracy = modificationAccuracy;
-        this.searchType = searchType;
 
-        setUpFrame();
+        setUpFrame(searchType);
 
         boolean error = insertOntologyNames();
 
         if (error) {
             this.dispose();
         } else {
-            insertValues();
-
+            insertValues(modificationMass, modificationAccuracy, searchType);
             this.setLocationRelativeTo(parent);
             this.setVisible(true);
         }
     }
 
-    private void insertValues() {
+    /**
+     * Inserts the provided values into the corresponding fields.
+     */
+    private void insertValues(Double modificationMass, Double modificationAccuracy, Integer searchType) {
 
         if (mappedTerm != null) {
             olsSearchTextField.setText(mappedTerm);
-        }
-
-        if (modificationMass != null) {
-            modificationMassJTextField.setText(modificationMass.toString());
+            olsSearchTextFieldKeyReleased(null);
         }
 
         if (modificationAccuracy != null) {
             precisionJTextField.setText(modificationAccuracy.toString());
         }
 
-        olsSearchTextFieldKeyReleased(null);
-
+        if (modificationMass != null) {
+            modificationMassJTextField.setText(modificationMass.toString());
+            modificationMassSearchJButtonActionPerformed(null);
+        }
+  
         if (searchType == OLS_DIALOG_TEXT_SEARCH) {
             olsSearchTextField.requestFocus();
-        } else if(searchType == OLS_DIALOG_GRAPH_SEARCH){
+        } else if (searchType == OLS_DIALOG_GRAPH_SEARCH) {
             // not yet implemented
-        } else if(searchType == OLS_DIALOG_MASS_SEARCH){
-            modificationMassSearchJButtonActionPerformed(null);
+        } else if (searchType == OLS_DIALOG_MASS_SEARCH) {
             modificationMassJTextField.requestFocus();
         }
     }
@@ -231,7 +224,7 @@ public class OLSDialog extends javax.swing.JDialog {
     /**
      * Includes code used by all constructors to set up the frame, e.g., handling column tooltips etc.
      */
-    private void setUpFrame() {
+    private void setUpFrame(Integer searchType) {
 
         initComponents();
 
@@ -705,13 +698,23 @@ public class OLSDialog extends javax.swing.JDialog {
 
         modificationMassJTextField.setHorizontalAlignment(javax.swing.JTextField.CENTER);
         modificationMassJTextField.setText("0.0");
+        modificationMassJTextField.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyReleased(java.awt.event.KeyEvent evt) {
+                modificationMassJTextFieldKeyReleased(evt);
+            }
+        });
 
         jLabel5.setText("+-");
         jLabel5.setToolTipText("Mass Accuracy");
 
         precisionJTextField.setHorizontalAlignment(javax.swing.JTextField.CENTER);
-        precisionJTextField.setText("1.0");
+        precisionJTextField.setText("0.1");
         precisionJTextField.setToolTipText("Mass Accuracy");
+        precisionJTextField.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyReleased(java.awt.event.KeyEvent evt) {
+                precisionJTextFieldKeyReleased(evt);
+            }
+        });
 
         jLabel6.setText("Search Results:");
 
@@ -1300,7 +1303,7 @@ public class OLSDialog extends javax.swing.JDialog {
 
         boolean error = false;
         double currentModificationMass = 0.0;
-        double currentAccuracy = 1.0;
+        double currentAccuracy = 0.1;
 
         try {
             currentModificationMass = new Double(modificationMassJTextField.getText()).doubleValue();
@@ -1379,7 +1382,7 @@ public class OLSDialog extends javax.swing.JDialog {
         if (searchTypeJTabbedPane.getSelectedIndex() == 2) {
             ontologyJComboBox.setSelectedItem("Protein Modifications (PSI-MOD) [MOD]");
             ontologyJComboBox.setEnabled(false);
-        } else{
+        } else {
             ontologyJComboBox.setEnabled(true);
         }
     }//GEN-LAST:event_searchTypeJTabbedPaneStateChanged
@@ -1425,6 +1428,26 @@ public class OLSDialog extends javax.swing.JDialog {
     private void olsResultsMassSearchJXTableMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_olsResultsMassSearchJXTableMouseClicked
         insertTermDetails(evt, olsResultsMassSearchJXTable, termDetailsMassSearchJXTable, definitionMassSearchJTextPane);
     }//GEN-LAST:event_olsResultsMassSearchJXTableMouseClicked
+
+    /**
+     * If Enter is pressed and the Next button is enabled, the Next button is clicked.
+     * 
+     * @param evt
+     */
+    private void modificationMassJTextFieldKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_modificationMassJTextFieldKeyReleased
+        if (evt.getKeyCode() == KeyEvent.VK_ENTER) {
+            if(modificationMassSearchJButton.isEnabled()){
+                modificationMassSearchJButtonActionPerformed(null);
+            }
+        }
+    }//GEN-LAST:event_modificationMassJTextFieldKeyReleased
+
+    /**
+     * See modificationMassJTextFieldKeyReleased
+     */
+    private void precisionJTextFieldKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_precisionJTextFieldKeyReleased
+        modificationMassJTextFieldKeyReleased(evt);
+    }//GEN-LAST:event_precisionJTextFieldKeyReleased
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton aboutJButton;
