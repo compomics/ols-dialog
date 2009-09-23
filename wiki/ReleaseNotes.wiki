@@ -3,15 +3,25 @@
 
 ----
 
+*Changes in OLS Dialog v2.0.1 - (Sep. 23. 2009):*
+ * FEATURE IMPROVEMENT: Clicking 'Enter' in the modification mass and mass error fields now starts the search (if the search button is enabled). 
+ * FEATURE IMPROVEMENT: Text and mass search is now performed by default if valid search values are provided.
+ * FEATURE IMPROVEMENT: Changed the default mass search accuracy to 0.1. 
+ * BUG FIX: Added a dependency to be fully Java 1.5 compatible.
+
+----
+
 *Changes in OLS Dialog v2.0 - (Sep. 21. 2009):*
- * Support for modification mass search has been added. 
- * Fixed a bug in the tool tips for the tables.
- * The search result tables can now be sorted by clicking the table headers.
+ * NEW FEATURE: Support for modification mass search has been added. 
+ * FEATURE IMPROVEMENT: The search result tables can now be sorted by clicking the table headers.
+ * BUG FIX: Fixed a bug in the tool tips for the tables.
+
+Download Count: 0
 
 ----
 
 *Changes in OLS Dialog v1.0.2 - (Sep. 11. 2009):*
- * Fixed some issues with the (Maven) dependencies not being set correctly.
+ * BUG FIX: Fixed some issues with the (Maven) dependencies not being set correctly.
 
 Download Count: 1
 
