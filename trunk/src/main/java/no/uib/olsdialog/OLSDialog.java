@@ -46,6 +46,7 @@ import uk.ac.ebi.ook.web.model.DataHolder;
 public class OLSDialog extends javax.swing.JDialog {
 
     public static final boolean debug = false;
+    private final String olsDialogVersionNumber = "3.0";
     private String field;
     private String selectedOntology;
     private int modifiedRow = -1;
@@ -241,6 +242,8 @@ public class OLSDialog extends javax.swing.JDialog {
     private void setUpFrame(Integer searchType) {
 
         initComponents();
+
+        setTitle("Ontology Lookup Service - (ols-dialog v" + olsDialogVersionNumber + ")");
 
         treeBrowser = new TreeBrowser(this);
         browseJPanel.add(treeBrowser);
@@ -744,7 +747,7 @@ public class OLSDialog extends javax.swing.JDialog {
         ontologyJComboBox = new javax.swing.JComboBox();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
-        setTitle(" Ontology Lookup Service (OLS)");
+        setTitle(" Ontology Lookup Service - (ols-dialog v3.0)");
         setResizable(false);
         addWindowListener(new java.awt.event.WindowAdapter() {
             public void windowClosing(java.awt.event.WindowEvent evt) {
