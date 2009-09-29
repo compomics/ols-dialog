@@ -2,4 +2,7 @@
 
 ----
 
+ * NEW FEATURE: Browse ontology feature added.
+ * FEATURE IMPROVEMENT: Multiple line tool tips added to the meta data tables, which are shown if the text is too long to display.
+ * FEATURE IMPROVEMENT: Help texts extended.
  * BUG FIX: Fixed an incorrect default subject in the mailto links.
