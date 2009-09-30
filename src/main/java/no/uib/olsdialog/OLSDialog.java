@@ -385,13 +385,9 @@ public class OLSDialog extends javax.swing.JDialog {
 
         if (!error && !childTerms.isEmpty()) {
 
+            // add the nodes to the tree
             for (String tId : childTerms.keySet()) {
-
-                // add the node to the tree
-                DefaultMutableTreeNode currentNode = treeBrowser.addNode(tId, childTerms.get(tId));
-
-                // add one more level of nodes
-                addSecondLevelOfNodes(tId, ontology, currentNode);
+                treeBrowser.addNode(tId, childTerms.get(tId));
             }
 
             return true;
@@ -404,6 +400,50 @@ public class OLSDialog extends javax.swing.JDialog {
 
             return false;
         }
+    }
+
+    /**
+     * Updates the term's relation(s) to its parent term label.
+     *
+     * @param parentTermId the parent term of the term to find the relations for
+     * @param selectedTermId the term to find the relations for
+     * @param ontology the ontology to search in
+     */
+    public void updateTermRelations(String parentTermId, String selectedTermId, String ontology){
+
+        String relation = "Relation to Parent Term: -";
+
+        try {
+            if(debug){
+                System.out.println("getTermRelations: " + parentTermId + " " + selectedTermId);
+            }
+            
+            HashMap allRelations = olsConnection.getTermRelations(parentTermId, ontology);
+
+            if(debug){
+                System.out.println("relations.get(parentTermId): " + allRelations.get(parentTermId));
+                System.out.println("relations.get(selectedTermId): " + allRelations.get(selectedTermId));
+            }
+
+            if(allRelations != null){
+
+                Object currentRelation = allRelations.get(selectedTermId);
+
+                if(currentRelation != null){
+                    relation = "Relation to Parent Term: " + currentRelation.toString();
+                }
+            }
+
+        } catch (RemoteException ex) {
+            JOptionPane.showMessageDialog(
+                    this,
+                    defaultOlsConnectionFailureErrorMessage,
+                    "OLS Connection Error", JOptionPane.ERROR_MESSAGE);
+            Util.writeToErrorLog("Error when trying to access OLS: ");
+            ex.printStackTrace();
+        }
+
+        relationToParentJLabel.setText(relation);
     }
 
     /**
@@ -435,6 +475,7 @@ public class OLSDialog extends javax.swing.JDialog {
 
         //clear meta data
         clearMetaData(searchType, currentDefinitionsJTextPane, currentTermDetailsJXTable, currentTermDetailsJScrollPane);
+        relationToParentJLabel.setText("Relation to Parent Term: - ");
 
         if (termId == null) {
             return;
@@ -519,10 +560,13 @@ public class OLSDialog extends javax.swing.JDialog {
 
                 // set the horizontal scroll bar to the top
                 currentTermDetailsJScrollPane.getVerticalScrollBar().setValue(0);
-
             } else {
                 clearMetaData(searchType, currentDefinitionsJTextPane, currentTermDetailsJXTable, currentTermDetailsJScrollPane);
+                relationToParentJLabel.setText("Relation to Parent Term: - ");
             }
+        } else{
+            clearMetaData(searchType, currentDefinitionsJTextPane, currentTermDetailsJXTable, currentTermDetailsJScrollPane);
+            relationToParentJLabel.setText("Relation to Parent Term: - ");
         }
 
         if (searchType == OLS_DIALOG_TEXT_SEARCH) {
@@ -589,8 +633,9 @@ public class OLSDialog extends javax.swing.JDialog {
                     currentToolTipLine = "";
                 } else {
                     currentToolTip += aToolTip.substring(currentStartIndex, indexOfLastSpace) + "<br>";
-                    currentStartIndex = indexOfLastSpace + 1;
+                    currentStartIndex = indexOfLastSpace;
                     currentToolTipLine = "";
+                    i = currentStartIndex;
                 }
             }
         }
@@ -689,10 +734,11 @@ public class OLSDialog extends javax.swing.JDialog {
 
         // update the tree
         for (String termId : rootTerms.keySet()) {
-            DefaultMutableTreeNode currentNode = treeBrowser.addNode(termId, rootTerms.get(termId));
-
-            addSecondLevelOfNodes(termId, ontology, currentNode);
+            treeBrowser.addNode(termId, rootTerms.get(termId));
         }
+
+        // makes sure that all second level non visible nodes are added
+        treeBrowser.updateTree();
 
         // move the horizontal scroll bar value to the top
         treeBrowser.scrollToTop();
@@ -746,7 +792,7 @@ public class OLSDialog extends javax.swing.JDialog {
      *
      * @return the currently selected ontology label
      */
-    public String getCurrentOntologyLabel(){
+    public String getCurrentOntologyLabel() {
 
         String ontology = ((String) ontologyJComboBox.getSelectedItem());
         ontology = ontology.substring(ontology.lastIndexOf("[") + 1, ontology.length() - 1);
@@ -804,6 +850,7 @@ public class OLSDialog extends javax.swing.JDialog {
         termDetailsBrowseOntologyJScrollPane = new javax.swing.JScrollPane();
         termDetailsBrowseOntologyJXTable = new org.jdesktop.swingx.JXTable();
         browseJPanel = new javax.swing.JPanel();
+        relationToParentJLabel = new javax.swing.JLabel();
         jLabel9 = new javax.swing.JLabel();
         ontologyJComboBox = new javax.swing.JComboBox();
 
@@ -1182,6 +1229,10 @@ public class OLSDialog extends javax.swing.JDialog {
 
         browseJPanel.setLayout(new javax.swing.BoxLayout(browseJPanel, javax.swing.BoxLayout.LINE_AXIS));
 
+        relationToParentJLabel.setFont(relationToParentJLabel.getFont().deriveFont((relationToParentJLabel.getFont().getStyle() | java.awt.Font.ITALIC)));
+        relationToParentJLabel.setText("Relation to Parent Term:");
+        relationToParentJLabel.setToolTipText("The selected terms relation to its parent term");
+
         org.jdesktop.layout.GroupLayout jPanel6Layout = new org.jdesktop.layout.GroupLayout(jPanel6);
         jPanel6.setLayout(jPanel6Layout);
         jPanel6Layout.setHorizontalGroup(
@@ -1190,7 +1241,10 @@ public class OLSDialog extends javax.swing.JDialog {
                 .addContainerGap()
                 .add(jPanel6Layout.createParallelGroup(org.jdesktop.layout.GroupLayout.TRAILING)
                     .add(org.jdesktop.layout.GroupLayout.LEADING, browseJPanel, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, 469, Short.MAX_VALUE)
-                    .add(org.jdesktop.layout.GroupLayout.LEADING, jLabel8)
+                    .add(org.jdesktop.layout.GroupLayout.LEADING, jPanel6Layout.createSequentialGroup()
+                        .add(jLabel8)
+                        .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED, 279, Short.MAX_VALUE)
+                        .add(relationToParentJLabel))
                     .add(jScrollPane7, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, 469, Short.MAX_VALUE)
                     .add(termDetailsBrowseOntologyJScrollPane, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, 469, Short.MAX_VALUE))
                 .addContainerGap())
@@ -1201,7 +1255,9 @@ public class OLSDialog extends javax.swing.JDialog {
                 .addContainerGap()
                 .add(browseJPanel, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, 180, Short.MAX_VALUE)
                 .add(18, 18, 18)
-                .add(jLabel8)
+                .add(jPanel6Layout.createParallelGroup(org.jdesktop.layout.GroupLayout.BASELINE)
+                    .add(jLabel8)
+                    .add(relationToParentJLabel))
                 .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED)
                 .add(jScrollPane7, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, 50, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED)
@@ -1213,6 +1269,7 @@ public class OLSDialog extends javax.swing.JDialog {
 
         jLabel9.setText("Ontology:");
 
+        ontologyJComboBox.setMaximumRowCount(30);
         ontologyJComboBox.addItemListener(new java.awt.event.ItemListener() {
             public void itemStateChanged(java.awt.event.ItemEvent evt) {
                 ontologyJComboBoxItemStateChanged(evt);
@@ -1294,6 +1351,8 @@ public class OLSDialog extends javax.swing.JDialog {
      */
     private void ontologyJComboBoxItemStateChanged(java.awt.event.ItemEvent evt) {//GEN-FIRST:event_ontologyJComboBoxItemStateChanged
 
+        this.setCursor(new java.awt.Cursor(java.awt.Cursor.WAIT_CURSOR));
+
         if (searchTypeJTabbedPane.getSelectedIndex() != OLS_DIALOG_MASS_SEARCH) {
 
             String currentOntology = (String) ontologyJComboBox.getSelectedItem();
@@ -1310,6 +1369,8 @@ public class OLSDialog extends javax.swing.JDialog {
                 updateBrowseOntologyView();
             }
         }
+
+        this.setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
 
     }//GEN-LAST:event_ontologyJComboBoxItemStateChanged
 
@@ -1777,6 +1838,7 @@ public class OLSDialog extends javax.swing.JDialog {
     private javax.swing.JTextField olsSearchTextField;
     private javax.swing.JComboBox ontologyJComboBox;
     private javax.swing.JTextField precisionJTextField;
+    private javax.swing.JLabel relationToParentJLabel;
     private javax.swing.JTabbedPane searchTypeJTabbedPane;
     private javax.swing.JScrollPane termDetailsBrowseOntologyJScrollPane;
     private org.jdesktop.swingx.JXTable termDetailsBrowseOntologyJXTable;

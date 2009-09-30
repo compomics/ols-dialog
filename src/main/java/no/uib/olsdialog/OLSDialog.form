@@ -525,7 +525,11 @@
                           <EmptySpace max="-2" attributes="0"/>
                           <Group type="103" groupAlignment="1" attributes="0">
                               <Component id="browseJPanel" alignment="0" pref="469" max="32767" attributes="0"/>
-                              <Component id="jLabel8" alignment="0" min="-2" max="-2" attributes="0"/>
+                              <Group type="102" alignment="0" attributes="0">
+                                  <Component id="jLabel8" min="-2" max="-2" attributes="0"/>
+                                  <EmptySpace pref="279" max="32767" attributes="0"/>
+                                  <Component id="relationToParentJLabel" min="-2" max="-2" attributes="0"/>
+                              </Group>
                               <Component id="jScrollPane7" alignment="1" pref="469" max="32767" attributes="0"/>
                               <Component id="termDetailsBrowseOntologyJScrollPane" alignment="1" pref="469" max="32767" attributes="0"/>
                           </Group>
@@ -539,7 +543,10 @@
                           <EmptySpace max="-2" attributes="0"/>
                           <Component id="browseJPanel" pref="180" max="32767" attributes="0"/>
                           <EmptySpace type="separate" max="-2" attributes="0"/>
-                          <Component id="jLabel8" min="-2" max="-2" attributes="0"/>
+                          <Group type="103" groupAlignment="3" attributes="0">
+                              <Component id="jLabel8" alignment="3" min="-2" max="-2" attributes="0"/>
+                              <Component id="relationToParentJLabel" alignment="3" min="-2" max="-2" attributes="0"/>
+                          </Group>
                           <EmptySpace max="-2" attributes="0"/>
                           <Component id="jScrollPane7" min="-2" pref="50" max="-2" attributes="1"/>
                           <EmptySpace max="-2" attributes="0"/>
@@ -590,6 +597,17 @@
 
                   <Layout class="org.netbeans.modules.form.compat2.layouts.DesignBoxLayout"/>
                 </Container>
+                <Component class="javax.swing.JLabel" name="relationToParentJLabel">
+                  <Properties>
+                    <Property name="font" type="java.awt.Font" editor="org.netbeans.modules.form.editors2.FontEditor">
+                      <FontInfo relative="true">
+                        <Font component="relationToParentJLabel" italic="true" property="font" relativeSize="true" size="0"/>
+                      </FontInfo>
+                    </Property>
+                    <Property name="text" type="java.lang.String" value="Relation to Parent Term:"/>
+                    <Property name="toolTipText" type="java.lang.String" value="The selected terms relation to its parent term"/>
+                  </Properties>
+                </Component>
               </SubComponents>
             </Container>
           </SubComponents>
@@ -600,6 +618,9 @@
           </Properties>
         </Component>
         <Component class="javax.swing.JComboBox" name="ontologyJComboBox">
+          <Properties>
+            <Property name="maximumRowCount" type="int" value="30"/>
+          </Properties>
           <Events>
             <EventHandler event="itemStateChanged" listener="java.awt.event.ItemListener" parameters="java.awt.event.ItemEvent" handler="ontologyJComboBoxItemStateChanged"/>
           </Events>

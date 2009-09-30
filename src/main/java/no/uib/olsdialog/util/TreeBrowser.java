@@ -86,6 +86,17 @@ public class TreeBrowser extends JPanel implements TreeSelectionListener, TreeMo
     }
 
     /**
+     * Colapses and expands the root node to make sure that all second level
+     * non visible nodes are added.
+     */
+    public void updateTree(){
+        DefaultMutableTreeNode root = (DefaultMutableTreeNode) tree.getModel().getRoot();
+        TreePath path = new TreePath(root.getPath());
+        tree.collapsePath(path);
+        tree.expandPath(path);
+    }
+
+    /**
      * Add child to the currently selected node, or the root node if no selection.
      *
      * @param termId - the accession number of term to add
@@ -200,6 +211,12 @@ public class TreeBrowser extends JPanel implements TreeSelectionListener, TreeMo
 
         olsDialog.loadMetaData(nodeInfo.getTermId(), OLSDialog.OLS_DIALOG_BROWSE_ONTOLOGY);
 
+        // update the relationship to parent label
+        if(node.getParent() != null){
+            TermNode parentNode = (TermNode) ((DefaultMutableTreeNode) node.getParent()).getUserObject();
+            olsDialog.updateTermRelations(parentNode.getTermId(), nodeInfo.getTermId(), olsDialog.getCurrentOntologyLabel());
+        }
+        
         olsDialog.setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
     }
 
