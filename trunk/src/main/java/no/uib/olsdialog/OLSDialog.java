@@ -28,6 +28,7 @@ import javax.swing.SwingConstants;
 import javax.swing.UIManager;
 import javax.swing.UnsupportedLookAndFeelException;
 import javax.swing.table.DefaultTableModel;
+import javax.swing.tree.DefaultMutableTreeNode;
 import javax.swing.tree.TreeNode;
 import no.uib.olsdialog.util.TreeBrowser;
 import org.jdesktop.swingx.JXTable;
@@ -245,6 +246,7 @@ public class OLSDialog extends javax.swing.JDialog {
 
         setTitle("Ontology Lookup Service - (ols-dialog v" + olsDialogVersionNumber + ")");
 
+        // initialize the tree browser
         treeBrowser = new TreeBrowser(this);
         browseJPanel.add(treeBrowser);
 
@@ -303,20 +305,20 @@ public class OLSDialog extends javax.swing.JDialog {
      */
     public Map<String, String> getOntologyRoots(String ontology) {
 
-        Map retval = new HashMap<String, String>();
+        Map<String, String> retrievedValues = new HashMap<String, String>();
 
         try {
             HashMap roots = olsConnection.getRootTerms(ontology);
 
             if (roots != null) {
-                retval.putAll(roots);
+                retrievedValues.putAll(roots);
             }
 
         } catch (RemoteException e) {
             e.printStackTrace();
         }
 
-        return retval;
+        return retrievedValues;
     }
 
     /**
@@ -352,8 +354,8 @@ public class OLSDialog extends javax.swing.JDialog {
     /**
      * Tries to load the children of a given term.
      *
-     * @param parent - the tree node where to load the terms
-     * @param termId - the term id to query on
+     * @param parent the tree node where to load the terms
+     * @param termId the term id to query on
      * @return true if the terms was loaded sucessfully, false otherwise
      */
     public boolean loadChildren(TreeNode parent, String termId) {
@@ -364,12 +366,12 @@ public class OLSDialog extends javax.swing.JDialog {
 
         boolean error = false;
 
+        String ontology = getCurrentOntologyLabel();
+
         //get children from OLS
         Map<String, String> childTerms = null;
 
         try {
-            String ontology = ((String) ontologyJComboBox.getSelectedItem());
-            ontology = ontology.substring(ontology.lastIndexOf("[") + 1, ontology.length() - 1);
             childTerms = olsConnection.getTermChildren(termId, ontology, 1, null);
         } catch (RemoteException ex) {
             JOptionPane.showMessageDialog(
@@ -382,15 +384,24 @@ public class OLSDialog extends javax.swing.JDialog {
         }
 
         if (!error && !childTerms.isEmpty()) {
+
             for (String tId : childTerms.keySet()) {
-                //update tree
-                treeBrowser.addNode(tId, childTerms.get(tId));
+
+                // add the node to the tree
+                DefaultMutableTreeNode currentNode = treeBrowser.addNode(tId, childTerms.get(tId));
+
+                // add one more level of nodes
+                addSecondLevelOfNodes(tId, ontology, currentNode);
             }
+
             return true;
+
         } else {
+
             if (debug) {
                 System.out.println("no children returned for " + termId);
             }
+
             return false;
         }
     }
@@ -429,8 +440,7 @@ public class OLSDialog extends javax.swing.JDialog {
             return;
         }
 
-        String ontology = ((String) ontologyJComboBox.getSelectedItem());
-        ontology = ontology.substring(ontology.lastIndexOf("[") + 1, ontology.length() - 1);
+        String ontology = getCurrentOntologyLabel();
 
         boolean error = false;
 
@@ -563,21 +573,21 @@ public class OLSDialog extends javax.swing.JDialog {
         String currentToolTipLine = "";
         int currentStartIndex = 0;
 
-        for(int i=0; i<aToolTip.length(); i++){
+        for (int i = 0; i < aToolTip.length(); i++) {
 
-            currentToolTipLine += aToolTip.substring(i, i+1);
+            currentToolTipLine += aToolTip.substring(i, i + 1);
 
-            if(aToolTip.substring(i, i+1).equalsIgnoreCase(" ")){
+            if (aToolTip.substring(i, i + 1).equalsIgnoreCase(" ")) {
                 indexOfLastSpace = i;
             }
 
-            if(currentToolTipLine.length() > maxToolTipLength){
-                if(indexOfLastSpace == currentStartIndex){
-                    currentToolTip += aToolTip.substring(currentStartIndex, i+1) + "-<br>";
+            if (currentToolTipLine.length() > maxToolTipLength) {
+                if (indexOfLastSpace == currentStartIndex) {
+                    currentToolTip += aToolTip.substring(currentStartIndex, i + 1) + "-<br>";
                     currentStartIndex = i + 1;
                     indexOfLastSpace = i + 1;
                     currentToolTipLine = "";
-                } else{
+                } else {
                     currentToolTip += aToolTip.substring(currentStartIndex, indexOfLastSpace) + "<br>";
                     currentStartIndex = indexOfLastSpace + 1;
                     currentToolTipLine = "";
@@ -585,10 +595,10 @@ public class OLSDialog extends javax.swing.JDialog {
             }
         }
 
-        if(currentToolTipLine.length() > 0 ){
+        if (currentToolTipLine.length() > 0) {
             currentToolTip += aToolTip.substring(currentStartIndex);
         }
-        
+
         currentToolTip += "</html>";
 
         return currentToolTip;
@@ -669,16 +679,19 @@ public class OLSDialog extends javax.swing.JDialog {
         this.setCursor(new java.awt.Cursor(java.awt.Cursor.WAIT_CURSOR));
 
         // get selected ontology
-        String ontology = ((String) ontologyJComboBox.getSelectedItem());
-        ontology = ontology.substring(ontology.lastIndexOf("[") + 1, ontology.length() - 1);
+        String ontology = getCurrentOntologyLabel();
+
+        // set the root to the ontology label
         treeBrowser.initialize(ontology);
 
         // load root terms
         Map<String, String> rootTerms = getOntologyRoots(ontology);
 
+        // update the tree
         for (String termId : rootTerms.keySet()) {
-            //update tree
-            treeBrowser.addNode(termId, rootTerms.get(termId));
+            DefaultMutableTreeNode currentNode = treeBrowser.addNode(termId, rootTerms.get(termId));
+
+            addSecondLevelOfNodes(termId, ontology, currentNode);
         }
 
         // move the horizontal scroll bar value to the top
@@ -691,6 +704,54 @@ public class OLSDialog extends javax.swing.JDialog {
         }
 
         this.setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
+    }
+
+    /**
+     * Adds a second level of non visible nodes. Needed to be able to show folder
+     * icons for the current level of nodes.
+     *
+     * @param termId the term id for the term to add the second level for
+     * @param ontology the ontology to get the terms from
+     * @param parentNode the node to add the new nodes to
+     * @return true if an error occured, false otherwise
+     */
+    public boolean addSecondLevelOfNodes(String termId, String ontology, DefaultMutableTreeNode parentNode) {
+
+        boolean error = false;
+
+        try {
+            // get the next level of nodes
+            Map<String, String> secondLevelChildTerms = olsConnection.getTermChildren(termId, ontology, 1, null);
+
+            // add the level of non visible nodes
+            for (String tId2 : secondLevelChildTerms.keySet()) {
+                treeBrowser.addNode(parentNode, tId2, secondLevelChildTerms.get(tId2), false);
+            }
+
+        } catch (RemoteException ex) {
+            JOptionPane.showMessageDialog(
+                    this,
+                    defaultOlsConnectionFailureErrorMessage,
+                    "OLS Connection Error", JOptionPane.ERROR_MESSAGE);
+            Util.writeToErrorLog("Error when trying to access OLS: ");
+            ex.printStackTrace();
+            error = true;
+        }
+
+        return error;
+    }
+
+    /**
+     * Returns the currently selected ontology label.
+     *
+     * @return the currently selected ontology label
+     */
+    public String getCurrentOntologyLabel(){
+
+        String ontology = ((String) ontologyJComboBox.getSelectedItem());
+        ontology = ontology.substring(ontology.lastIndexOf("[") + 1, ontology.length() - 1);
+
+        return ontology;
     }
 
     /** This method is called from within the constructor to
@@ -1283,8 +1344,7 @@ public class OLSDialog extends javax.swing.JDialog {
             definitionTextSearchJTextPane.setText("");
 
             // search the selected ontology and find all matching terms
-            String ontology = ((String) ontologyJComboBox.getSelectedItem());
-            ontology = ontology.substring(ontology.lastIndexOf("[") + 1, ontology.length() - 1);
+            String ontology = getCurrentOntologyLabel();
 
             Map map = olsConnection.getTermsByName(olsSearchTextField.getText(), ontology + "", false);
 
