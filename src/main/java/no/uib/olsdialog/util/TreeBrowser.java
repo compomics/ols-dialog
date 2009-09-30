@@ -1,6 +1,7 @@
 package no.uib.olsdialog.util;
 
 import javax.swing.*;
+import javax.swing.event.TreeExpansionEvent;
 import javax.swing.event.TreeModelEvent;
 import javax.swing.event.TreeModelListener;
 import javax.swing.event.TreeSelectionEvent;
@@ -10,6 +11,8 @@ import javax.swing.tree.DefaultTreeModel;
 import javax.swing.tree.TreePath;
 import javax.swing.tree.TreeSelectionModel;
 import java.awt.*;
+import java.util.Enumeration;
+import javax.swing.event.TreeExpansionListener;
 import no.uib.olsdialog.OLSDialog;
 
 /**
@@ -20,7 +23,7 @@ import no.uib.olsdialog.OLSDialog;
  * @author  Richard Cote
  * @author  Harald Barsnes
  */
-public class TreeBrowser extends JPanel implements TreeSelectionListener, TreeModelListener {
+public class TreeBrowser extends JPanel implements TreeSelectionListener, TreeModelListener, TreeExpansionListener {
 
     protected DefaultMutableTreeNode rootNode;
     protected DefaultTreeModel treeModel;
@@ -47,6 +50,7 @@ public class TreeBrowser extends JPanel implements TreeSelectionListener, TreeMo
         tree.setShowsRootHandles(true);
         tree.addTreeSelectionListener(this);
 
+        // add the tree to a scroll pane
         scrollPane = new JScrollPane(tree);
         add(scrollPane);
     }
@@ -63,12 +67,13 @@ public class TreeBrowser extends JPanel implements TreeSelectionListener, TreeMo
     /**
      * Set the root node to the ontology label.
      * 
-     * @param ontologyName
+     * @param ontologyName the ontology label
      */
     public void initialize(String ontologyName) {
         rootNode = new DefaultMutableTreeNode(new TermNode(ontologyName, null));
         treeModel = new DefaultTreeModel(rootNode);
         treeModel.addTreeModelListener(this);
+        tree.addTreeExpansionListener(this);
         tree.setModel(treeModel);
     }
 
@@ -109,8 +114,8 @@ public class TreeBrowser extends JPanel implements TreeSelectionListener, TreeMo
      * @param shouldBeVisible
      * @return
      */
-    public DefaultMutableTreeNode addNode(DefaultMutableTreeNode parent, Object termId, Object termName,
-            boolean shouldBeVisible) {
+    public DefaultMutableTreeNode addNode(
+            DefaultMutableTreeNode parent, Object termId, Object termName, boolean shouldBeVisible) {
 
         DefaultMutableTreeNode childNode =
                 new DefaultMutableTreeNode(new TermNode(termName.toString(), termId.toString()));
@@ -147,9 +152,9 @@ public class TreeBrowser extends JPanel implements TreeSelectionListener, TreeMo
 
     /**
      * This method will be called when a user selects a node in the tree.
-     * Selecting a node will active two behaviours:
-     * 1: it will load the children of that term
-     * 2: it will load the metadata for that term
+     * Selecting a node will:<br>
+     * 1: load the children of that term<br>
+     * 2: load the metadata for that term
      */
     public void valueChanged(TreeSelectionEvent e) {
 
@@ -162,6 +167,9 @@ public class TreeBrowser extends JPanel implements TreeSelectionListener, TreeMo
             return;
         }
 
+        // store the current scroll bar values, used to keep the scroll bars
+        // from moving ones the new list of nodes is opened in order to make
+        // sure that the opened node remains visible
         int verticalScrollBarValue = scrollPane.getVerticalScrollBar().getValue();
         int horizontalScrollBarValue = scrollPane.getHorizontalScrollBar().getValue();
 
@@ -181,6 +189,7 @@ public class TreeBrowser extends JPanel implements TreeSelectionListener, TreeMo
             }
         }
 
+        // reset the scroll bars, to make sure the node clicked in the first place is still visible
         scrollPane.getVerticalScrollBar().setValue(verticalScrollBarValue);
         scrollPane.getHorizontalScrollBar().setValue(horizontalScrollBarValue);
 
@@ -195,6 +204,53 @@ public class TreeBrowser extends JPanel implements TreeSelectionListener, TreeMo
     }
 
     /**
+     * Detects when a part of the tree has been expanded and if required load a
+     * second level of non visible nodes to make it possible to show folder icons
+     * for nodes containing children.
+     *
+     * @param event
+     */
+    public void treeExpanded(TreeExpansionEvent event) {
+
+        olsDialog.setCursor(new java.awt.Cursor(java.awt.Cursor.WAIT_CURSOR));
+
+        // get selected node
+        DefaultMutableTreeNode node = (DefaultMutableTreeNode) event.getPath().getLastPathComponent();
+
+        if (node == null) {
+            return;
+        }
+
+        // add second level of nodes if not already added
+        Enumeration<DefaultMutableTreeNode> enumeration = node.children();
+
+        while (enumeration.hasMoreElements()) {
+
+            DefaultMutableTreeNode currentNode = enumeration.nextElement();
+
+            if (currentNode.getChildCount() == 0) {
+
+                // get node data object
+                TermNode nodeInfo = (TermNode) currentNode.getUserObject();
+
+                // add the layer of non visible nodes
+                olsDialog.addSecondLevelOfNodes(nodeInfo.getTermId(), olsDialog.getCurrentOntologyLabel(), currentNode);
+            }
+        }
+
+        olsDialog.setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
+    }
+
+    /**
+     * Detects when a part of the tree has been collapsed.
+     *
+     * @param event
+     */
+    public void treeCollapsed(TreeExpansionEvent event) {
+        // required by TreeExpansionListener interface
+    }
+
+    /**
      * Inner class that represents a node in the tree. It contains
      * a term name and term id as fields.
      */
@@ -203,23 +259,49 @@ public class TreeBrowser extends JPanel implements TreeSelectionListener, TreeMo
         private String termName;
         private String termId;
 
+        /**
+         * Creates a TermNode object with the provided details.
+         *
+         * @param termName - the name of the term to represent
+         * @param termId - the accession number of the term to represent
+         */
         public TermNode(String termName, String termId) {
             this.termName = termName;
             this.termId = termId;
         }
 
+        /**
+         * Returns the term name.
+         *
+         * @return the term name
+         */
         public String getTermName() {
             return termName;
         }
 
+        /**
+         * Set the term name
+         *
+         * @param termName
+         */
         public void setTermName(String termName) {
             this.termName = termName;
         }
 
+        /**
+         * Returns the term accession number.
+         *
+         * @return the term accession number
+         */
         public String getTermId() {
             return termId;
         }
 
+        /**
+         * Set the term accession number.
+         *
+         * @param termId the term accession number
+         */
         public void setTermId(String termId) {
             this.termId = termId;
         }
