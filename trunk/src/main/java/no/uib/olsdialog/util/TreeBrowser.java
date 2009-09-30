@@ -210,12 +210,6 @@ public class TreeBrowser extends JPanel implements TreeSelectionListener, TreeMo
         }
 
         olsDialog.loadMetaData(nodeInfo.getTermId(), OLSDialog.OLS_DIALOG_BROWSE_ONTOLOGY);
-
-        // update the relationship to parent label
-        if(node.getParent() != null){
-            TermNode parentNode = (TermNode) ((DefaultMutableTreeNode) node.getParent()).getUserObject();
-            olsDialog.updateTermRelations(parentNode.getTermId(), nodeInfo.getTermId(), olsDialog.getCurrentOntologyLabel());
-        }
         
         olsDialog.setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
     }
