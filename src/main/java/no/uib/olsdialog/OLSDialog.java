@@ -75,12 +75,12 @@ public class OLSDialog extends javax.swing.JDialog {
     /**
      * Opens a dialog that lets you search for terms using the OLS.
      * 
-     * @param parent - the parent JFrame
-     * @param olsInputable - a reference to the frame using the OLS Dialog
+     * @param parent the parent JFrame
+     * @param olsInputable a reference to the frame using the OLS Dialog
      * @param modal
-     * @param field - the name of the field to insert the results into
-     * @param selectedOntology - the name of the ontology to search in
-     * @param term - the term to search for
+     * @param field the name of the field to insert the results into
+     * @param selectedOntology the name of the ontology to search in
+     * @param term the term to search for
      */
     public OLSDialog(JFrame parent, OLSInputable olsInputable, boolean modal, String field,
             String selectedOntology, String term) {
@@ -90,12 +90,12 @@ public class OLSDialog extends javax.swing.JDialog {
     /**
      * Opens a dialog that lets you search for terms using the OLS.
      *
-     * @param parent - the parent JDialog
-     * @param olsInputable - a reference to the frame using the OLS Dialog
+     * @param parent the parent JDialog
+     * @param olsInputable a reference to the frame using the OLS Dialog
      * @param modal
-     * @param field - the name of the field to insert the results into
-     * @param selectedOntology - the name of the ontology to search in
-     * @param term - the term to search for
+     * @param field the name of the field to insert the results into
+     * @param selectedOntology the name of the ontology to search in
+     * @param term the term to search for
      */
     public OLSDialog(JDialog parent, OLSInputable olsInputable, boolean modal, String field,
             String selectedOntology, String term) {
@@ -105,13 +105,13 @@ public class OLSDialog extends javax.swing.JDialog {
     /**
      * Opens a dialog that lets you search for terms using the OLS.
      *
-     * @param parent - the parent JFrame
-     * @param olsInputable - a reference to the frame using the OLS Dialog
+     * @param parent the parent JFrame
+     * @param olsInputable a reference to the frame using the OLS Dialog
      * @param modal
-     * @param field - the name of the field to insert the results into
-     * @param selectedOntology - the name of the ontology to search in
-     * @param modifiedRow - the row to modify, use -1 if adding a new row
-     * @param term - the term to search for
+     * @param field the name of the field to insert the results into
+     * @param selectedOntology the name of the ontology to search in
+     * @param modifiedRow the row to modify, use -1 if adding a new row
+     * @param term the term to search for
      */
     public OLSDialog(JFrame parent, OLSInputable olsInputable, boolean modal, String field,
             String selectedOntology, int modifiedRow, String term) {
@@ -121,13 +121,13 @@ public class OLSDialog extends javax.swing.JDialog {
     /**
      * Opens a dialog that lets you search for terms using the OLS.
      *
-     * @param parent - the parent JDialog
-     * @param olsInputable - a reference to the frame using the OLS Dialog
+     * @param parent the parent JDialog
+     * @param olsInputable a reference to the frame using the OLS Dialog
      * @param modal
-     * @param field - the name of the field to insert the results into
-     * @param selectedOntology - the name of the ontology to search in
-     * @param modifiedRow - the row to modify, use -1 if adding a new row
-     * @param term - the term to search for
+     * @param field the name of the field to insert the results into
+     * @param selectedOntology the name of the ontology to search in
+     * @param modifiedRow the row to modify, use -1 if adding a new row
+     * @param term the term to search for
      */
     public OLSDialog(JDialog parent, OLSInputable olsInputable, boolean modal, String field,
             String selectedOntology, int modifiedRow, String term) {
@@ -635,7 +635,7 @@ public class OLSDialog extends javax.swing.JDialog {
     /**
      * Creates a multiple lines tooltip based on the provided text.
      *
-     * @param toolTip - the orginal one line tool tip
+     * @param toolTip the orginal one line tool tip
      * @return the multiple line tooltip as html
      */
     private String buildToolTipText(String aToolTip, int maxToolTipLength) {
@@ -1836,9 +1836,9 @@ public class OLSDialog extends javax.swing.JDialog {
      * returns an array of DataHolder objects that contain data on MOD entries (termId, termName, massDelta)
      * given a massDeltaType and a range of masses.
      *
-     * @param massDeltaType - the type of massDelta to query (can be null)
-     * @param fromMass      - the lower mass limit (inclusive, mandatory)
-     * @param toMass        - the higher mass limit (inclusive, mandatory)
+     * @param massDeltaType the type of massDelta to query (can be null)
+     * @param fromMass the lower mass limit (inclusive, mandatory)
+     * @param toMass the higher mass limit (inclusive, mandatory)
      */
     public DataHolder[] getModificationsByMassDelta(String massDeltaType, double fromMass, double toMass) {
 

@@ -17,13 +17,14 @@ public interface OLSInputable {
      * can be used to seperate between the two. Modified row is used if 
      * the cv terms are in a table and one of them are altered.
      * 
-     * @param field
-     * @param selectedValue
-     * @param accession
-     * @param ontologyShort
-     * @param ontologyLong
-     * @param modifiedRow
-     * @param mappedTerm 
+     * @param field the name of the field where the CV term will be inserted
+     * @param selectedValue the value to search for
+     * @param accession the accession number to search for
+     * @param ontologyShort short name of the ontology to search in, e.g., GO or MOD
+     * @param ontologyLong long ontology name, e.g., Gene Ontology [GO]
+     * @param modifiedRow if the CV terms is going to be inserted into a table, the row number can
+     *                    be provided here, use -1 if inserting a new row
+     * @param mappedTerm the name of the previously mapped term, can be null
      */
     public void insertOLSResult(String field, String selectedValue, String accession,
             String ontologyShort, String ontologyLong, int modifiedRow, String mappedTerm);
