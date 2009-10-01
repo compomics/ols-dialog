@@ -14,27 +14,29 @@
             More details about the OLS Dialog can be found at the project web page:
             <a href="http://ols-dialog.googlecode.com">http://ols-dialog.googlecode.com</a>.
             <br><br>
-            There are three ways of searching using the OLS Dialog:
+            There are five ways of searching the OLS using the OLS Dialog:
         </p>
 
         <ul>
-            <li><a href='#textSearch'>Text Search</a></li>
-            <li><a href='#massSearch'>Mass Search</a></li>
+            <li><a href='#termNameSearch'>Term Name Search</a></li>
+            <li><a href='#termIdSearch'>Term ID Search</a></li>
+            <li><a href='#massSearch'>PSI-MOD Mass Search</a></li>
             <li><a href='#browseOntology'>Browse Ontology</a></li>
+            <li><a href='#termHierarcy'>Term Hierarcy Graph</a></li>
         </ul>
 
         <p align="justify">
             For all search types the ontology to search in is selected at the top.
-            However, for Mass Search the ontology is always set to PSI-MOD has the
-            Mass Search is created with this specific ontology in mind.
+            However, for PSI-MOD Mass Search the ontology is always set to PSI-MOD
+            has the PSI-MOD Mass Search is created with this specific ontology in mind.
         </p>
         <br>
         <a href="#top">Go to top of page</a><br><br>
 
-        <a name='#textSearch'></a>
-        <H3>Text Search</H3>
+        <a name='#termNameSearch'></a>
+        <H3>Term Name Search</H3>
         <p align="justify">
-            Text Search simply finds all terms (partially) matching the insert
+            Term Name Search simply finds all term names that (partially) match the insert
             search term. Insert the first letters of the term to locate
             in the search field. Note that the search is in "real time". Meaning that a new
             search is started (and the result list updated) for every character
@@ -56,10 +58,22 @@
         <br>
         <a href="#top">Go to top of page</a><br><br>
 
-        <a name='#massSearch'></a>
-        <H3>Mass Search</H3>
+        <a name='#termIdSearch'></a>
+        <H3>Term ID Search</H3>
         <p align="justify">
-            Mass Search allows you to search the PSI-MOD ontology for specific
+            Term ID Search allows you the locate a given term and its details by 
+            inserting the term id, e.g., MOD:00425 or GO:0000269.
+            <br><br>
+            The results are displayed and selected in the same way as for results 
+            from a <a href='#termNameSearch'>Term Name Search</a>.
+        </p>
+        <br>
+        <a href="#top">Go to top of page</a><br><br>
+
+        <a name='#massSearch'></a>
+        <H3>PSI-MOD Mass Search</H3>
+        <p align="justify">
+            PSI-MOD Mass Search allows you to search the PSI-MOD ontology for specific
             modifications using the mass of the modification. There are four
             different mass types: DiffAvg and DiffMono corresponding to the
             average and mono mass of the mass change the modifications results
@@ -68,7 +82,7 @@
             <br><br>
             Insert the mass, the mass accuracy and the mass type and click on
             "Search" to perform the search. The results are displayed and selected
-            in the same way as for results from a <a href='#textSearch'>Text Search</a>.
+            in the same way as for results from a <a href='#termNameSearch'>Term Name Search</a>.
         </p>
         <br>
         <a href="#top">Go to top of page</a><br><br>
@@ -83,7 +97,19 @@
             the selected term is displayed in the "Term Details" section.
             <br><br>
             The results are selected and used in the same way as for results 
-            from a <a href='#textSearch'>Text Search</a>.
+            from a <a href='#termNameSearch'>Term Name Search</a>.
+        </p>
+        <BR>
+        <a href="#top">Go to top of page</a><br><br>
+
+        <a name='#termHierarcy'></a>
+        <H3>Term Hierarcy Graph</H3>
+        <p align="justify">
+            In addition to the four general search options, it is also possible
+            to view the term hierarcy of a selected term. When a term is selected
+            simply click the View Term Hierarcy link on top and to the right of
+            the selected terms definition text area. This will display the selected
+            terms term hierarcy as a directed acyclic graph.
         </p>
         <BR>
         <a href="#top">Go to top of page</a><br>
