@@ -3,12 +3,22 @@
 
 ----
 
+*Changes in OLS Dialog v3.1 - (Oct. 01. 2009):*
+ * NEW FEATURE: Added a term hierarchy graph viewer.
+ * NEW FEATURE: Added a simply term id search.
+ * NEW FEATURE: Nodes in the tree browser that have children are now represented using folder icons. Previously these icons where added only after such a node had been opened, and there was no way of separating the different types of nodes from each other.
+ * BUG FIX: Fixed a bug in the multiple line tool tips.
+
+----
+
 *Changes in OLS Dialog v3.0 - (Sep. 29. 2009):*
  * NEW FEATURE: Browse ontology feature added.
  * FEATURE IMPROVEMENT: Multiple line tool tips added to the meta data tables.
  * FEATURE IMPROVEMENT: xrefs are now added to the meta data tables.
  * FEATURE IMPROVEMENT: Help texts extended.
  * BUG FIX: Fixed an incorrect default subject in the mailto links.
+
+Download Count: 0
 
 ----
 
