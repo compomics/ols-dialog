@@ -55,8 +55,8 @@ public class OLSDialog extends javax.swing.JDialog {
     private OLSInputable olsInputable;
     private String mappedTerm;
     private String defaultOlsConnectionFailureErrorMessage =
-            "Unable to contact the OLS. Make sure that you are online.\n" +
-            "Also check your firewall (and proxy) settings.\n\n" +
+            "An error occured when trying to contact the OLS. Make sure that\n" +
+            "you are online. Also check your firewall (and proxy) settings.\n\n" +
             "See the Troubleshooting section at the OLS Dialog home page\n" +
             "for details: http://ols-dialog.googlecode.com.";
     public static final Integer OLS_DIALOG_TERM_NAME_SEARCH = 0;
@@ -320,6 +320,11 @@ public class OLSDialog extends javax.swing.JDialog {
             }
 
         } catch (RemoteException e) {
+            JOptionPane.showMessageDialog(
+                    this,
+                    defaultOlsConnectionFailureErrorMessage,
+                    "OLS Connection Error", JOptionPane.ERROR_MESSAGE);
+            Util.writeToErrorLog("Error when trying to access OLS: ");
             e.printStackTrace();
         }
 
@@ -521,7 +526,7 @@ public class OLSDialog extends javax.swing.JDialog {
                 JOptionPane.showMessageDialog(
                         this,
                         defaultOlsConnectionFailureErrorMessage,
-                        "Failed To Contact OLS", JOptionPane.ERROR_MESSAGE);
+                        "OLS Connection Error", JOptionPane.ERROR_MESSAGE);
                 Util.writeToErrorLog("Error when trying to access OLS: ");
                 ex.printStackTrace();
 
@@ -1642,7 +1647,6 @@ public class OLSDialog extends javax.swing.JDialog {
         currentlySelectedTermNameSearchAccessionNumber = null;
 
         try {
-
             // clear the old meta data
             clearData(OLS_DIALOG_TERM_NAME_SEARCH, true, true);
 
@@ -1676,7 +1680,7 @@ public class OLSDialog extends javax.swing.JDialog {
             JOptionPane.showMessageDialog(
                     this,
                     defaultOlsConnectionFailureErrorMessage,
-                    "Failed To Contact OLS", JOptionPane.ERROR_MESSAGE);
+                    "OLS Connection Error", JOptionPane.ERROR_MESSAGE);
             Util.writeToErrorLog("Error when trying to access OLS: ");
             ex.printStackTrace();
         }
@@ -1724,7 +1728,7 @@ public class OLSDialog extends javax.swing.JDialog {
             JOptionPane.showMessageDialog(
                     this,
                     defaultOlsConnectionFailureErrorMessage,
-                    "Failed To Contact OLS", JOptionPane.ERROR_MESSAGE);
+                    "OLS Connection Error", JOptionPane.ERROR_MESSAGE);
             Util.writeToErrorLog("Error when trying to access OLS: ");
             ex.printStackTrace();
         }
@@ -1854,14 +1858,14 @@ public class OLSDialog extends javax.swing.JDialog {
             JOptionPane.showMessageDialog(
                     this,
                     defaultOlsConnectionFailureErrorMessage,
-                    "Failed To Contact OLS", JOptionPane.ERROR_MESSAGE);
+                    "OLS Connection Error", JOptionPane.ERROR_MESSAGE);
             Util.writeToErrorLog("Error when trying to access OLS: ");
             ex.printStackTrace();
         } catch (RemoteException ex) {
             JOptionPane.showMessageDialog(
                     this,
                     defaultOlsConnectionFailureErrorMessage,
-                    "Failed To Contact OLS", JOptionPane.ERROR_MESSAGE);
+                    "OLS Connection Error", JOptionPane.ERROR_MESSAGE);
             Util.writeToErrorLog("Error when trying to access OLS: ");
             ex.printStackTrace();
         }
@@ -2214,7 +2218,7 @@ public class OLSDialog extends javax.swing.JDialog {
             JOptionPane.showMessageDialog(
                     this,
                     defaultOlsConnectionFailureErrorMessage,
-                    "Failed To Contact OLS", JOptionPane.ERROR_MESSAGE);
+                    "OLS Connection Error", JOptionPane.ERROR_MESSAGE);
             Util.writeToErrorLog("Error when trying to access OLS: ");
             ex.printStackTrace();
         }
@@ -2268,7 +2272,7 @@ public class OLSDialog extends javax.swing.JDialog {
             JOptionPane.showMessageDialog(
                     this,
                     defaultOlsConnectionFailureErrorMessage,
-                    "Failed To Contact OLS", JOptionPane.ERROR_MESSAGE);
+                    "OLS Connection Error", JOptionPane.ERROR_MESSAGE);
             Util.writeToErrorLog("Error when trying to access OLS: ");
             ex.printStackTrace();
         }

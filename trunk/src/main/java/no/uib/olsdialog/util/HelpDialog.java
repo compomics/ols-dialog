@@ -51,7 +51,6 @@ public class HelpDialog extends javax.swing.JDialog {
 //                            getResource("/no/uib/olsdialog/icons/ols_transparent_small.GIF")));
             }
         } catch (Exception e) {
-
             try {
                 textJEditorPane.setPage(getClass().getResource(
                         "/no/uib/olsdialog/helpfiles/DefaultHelpFile.html"));
