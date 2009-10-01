@@ -32,6 +32,7 @@ public class OLS_Example extends javax.swing.JFrame implements OLSInputable {
 
     /**
      * Sets the look and feel of the OLS Dialog.
+     * 
      * Note that the OLS Dialog has been created with the following look and feel
      * in mind. If using a different look and feel you might need to tweak the GUI
      * to get the best appearance.
@@ -571,6 +572,7 @@ public class OLS_Example extends javax.swing.JFrame implements OLSInputable {
     public static void main(String args[]) {
 
         // Use this if the look and feel is not already set for your project.
+        //
         // Note that the OLS Dialog has been created to look good using the look and
         // feel used in this method. If you use a different look and feel, you might
         // have to tweak the GUI for it to get the best appearence.
