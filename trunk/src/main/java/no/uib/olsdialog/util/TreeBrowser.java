@@ -99,9 +99,9 @@ public class TreeBrowser extends JPanel implements TreeSelectionListener, TreeMo
     /**
      * Add child to the currently selected node, or the root node if no selection.
      *
-     * @param termId - the accession number of term to add
-     * @param termName - the name of the term to add
-     * @return 
+     * @param termId the accession number of term to add
+     * @param termName the name of the term to add
+     * @return the added node
      */
     public DefaultMutableTreeNode addNode(Object termId, Object termName) {
         DefaultMutableTreeNode parentNode = null;
@@ -123,7 +123,7 @@ public class TreeBrowser extends JPanel implements TreeSelectionListener, TreeMo
      * @param termId
      * @param termName
      * @param shouldBeVisible
-     * @return
+     * @return the added node
      */
     public DefaultMutableTreeNode addNode(
             DefaultMutableTreeNode parent, Object termId, Object termName, boolean shouldBeVisible) {
@@ -273,8 +273,8 @@ public class TreeBrowser extends JPanel implements TreeSelectionListener, TreeMo
         /**
          * Creates a TermNode object with the provided details.
          *
-         * @param termName - the name of the term to represent
-         * @param termId - the accession number of the term to represent
+         * @param termName the name of the term to represent
+         * @param termId the accession number of the term to represent
          */
         public TermNode(String termName, String termId) {
             this.termName = termName;
