@@ -345,10 +345,10 @@ public class OLS_Example extends javax.swing.JFrame implements OLSInputable {
         .add(layout.createSequentialGroup()
             .addContainerGap()
             .add(layout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING, false)
-                .add(org.jdesktop.layout.GroupLayout.TRAILING, closeJButton)
                 .add(jPanel3, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .add(jPanel2, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                .add(jPanel1, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .add(jPanel1, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .add(org.jdesktop.layout.GroupLayout.TRAILING, closeJButton, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, 87, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE))
             .addContainerGap())
     );
     layout.setVerticalGroup(
@@ -559,7 +559,7 @@ public class OLS_Example extends javax.swing.JFrame implements OLSInputable {
         if (!error) {
             new OLSDialog(this, this, true, "modificationMass", "Protein Modifications (PSI-MOD) [MOD]", -1,
                     modificationNameJTextField.getText(), currentModificationMass, currentAccuracy,
-                    OLSDialog.OLS_DIALOG_MASS_SEARCH);
+                    OLSDialog.OLS_DIALOG_PSI_MOD_MASS_SEARCH);
         }
 
         this.setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));

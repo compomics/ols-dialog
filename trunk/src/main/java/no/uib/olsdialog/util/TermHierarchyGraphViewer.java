@@ -9,6 +9,7 @@ import java.net.URL;
 import javax.swing.ImageIcon;
 import javax.swing.JLabel;
 import javax.swing.JScrollPane;
+import javax.swing.SwingUtilities;
 import no.uib.olsdialog.OLSDialog;
 
 /**
@@ -21,6 +22,7 @@ public class TermHierarchyGraphViewer extends javax.swing.JDialog {
     final int MAXIMUM_DIALOG_WIDTH = 600;
     final int MINIMUM_DIALOG_WIDTH = 250;
     final int MAXIMUM_DIALOG_HEIGHT = 600;
+    private JScrollPane jScrollPane;
 
     /**
      * Creates new TermHierarchyGraphViewer dialog and makes it visible.
@@ -75,9 +77,9 @@ public class TermHierarchyGraphViewer extends javax.swing.JDialog {
             JLabel label = new JLabel(ii);
             label.setBackground(Color.WHITE);
             label.setOpaque(true);
-            JScrollPane jsp = new JScrollPane(label);
-            jsp.setBackground(Color.WHITE);
-            jsp.setOpaque(true);
+            jScrollPane = new JScrollPane(label);
+            jScrollPane.setBackground(Color.WHITE);
+            jScrollPane.setOpaque(true);
 
             // set the size if the dialog
             int width = ii.getIconWidth() + 40;
@@ -86,7 +88,7 @@ public class TermHierarchyGraphViewer extends javax.swing.JDialog {
             // make sure the dialog does not become too big (or too small)
             if (width > MAXIMUM_DIALOG_WIDTH) {
                 width = MAXIMUM_DIALOG_WIDTH;
-            } else if(width < MINIMUM_DIALOG_WIDTH){
+            } else if (width < MINIMUM_DIALOG_WIDTH) {
                 width = MINIMUM_DIALOG_WIDTH;
             }
 
@@ -95,7 +97,18 @@ public class TermHierarchyGraphViewer extends javax.swing.JDialog {
             }
 
             this.setSize(width, height);
-            getContentPane().add(jsp);
+            getContentPane().add(jScrollPane);
+
+            // invoke later to give time for the scroll bar to update
+            SwingUtilities.invokeLater(new Runnable() {
+
+                public void run() {
+                    // move the vertical scroll bar to the bottom to make sure
+                    // the selected node is showing (the selected node is always
+                    // at the bottom of the graph)
+                    jScrollPane.getVerticalScrollBar().setValue(jScrollPane.getVerticalScrollBar().getMaximum());
+                }
+            });
 
         } catch (MalformedURLException e) {
             System.out.println("Error downloading term xml file!");
