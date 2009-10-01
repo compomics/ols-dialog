@@ -8,6 +8,7 @@ import java.net.MalformedURLException;
 import java.net.URL;
 import javax.swing.ImageIcon;
 import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JScrollPane;
 import javax.swing.SwingUtilities;
 import no.uib.olsdialog.OLSDialog;
@@ -111,10 +112,18 @@ public class TermHierarchyGraphViewer extends javax.swing.JDialog {
             });
 
         } catch (MalformedURLException e) {
-            System.out.println("Error downloading term xml file!");
+            JOptionPane.showMessageDialog(
+                    olsDialog,
+                    "An error occured when opening the term hierarcy.",
+                    "Error Opening Term Hierarcy", JOptionPane.ERROR_MESSAGE);
+            Util.writeToErrorLog("Error Opening Term Hierarcy: ");
             e.printStackTrace();
         } catch (IOException e) {
-            System.out.println("Error diaplaying term xml file!");
+            JOptionPane.showMessageDialog(
+                    olsDialog,
+                    "An error occured when opening the term hierarcy.",
+                    "Error Opening Term Hierarcy", JOptionPane.ERROR_MESSAGE);
+            Util.writeToErrorLog("Error Opening Term Hierarcy: ");
             e.printStackTrace();
         }
 
