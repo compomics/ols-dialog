@@ -48,7 +48,7 @@ import uk.ac.ebi.ook.web.model.DataHolder;
 public class OLSDialog extends javax.swing.JDialog {
 
     public static final boolean debug = false;
-    private final String olsDialogVersionNumber = "3.1";
+    private final String olsDialogVersionNumber = "3.1.1";
     private String field;
     private String selectedOntology;
     private int modifiedRow = -1;
