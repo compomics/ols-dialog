@@ -2,4 +2,5 @@
 
 ----
 
- (currently no changes)
+ * NEW FEATURE: Added a 'Search In All Ontologies' option.
+ * FEATURE IMPROVEMENT: Updated the help files.
