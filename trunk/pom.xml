@@ -4,7 +4,7 @@
     <groupId>no.uib</groupId>
     <artifactId>ols-dialog</artifactId>
     <packaging>jar</packaging>
-    <version>3.2</version>
+    <version>3.2.1</version>
     <name>ols-dialog</name>
     <url>http://ols-dialog.googlecode.com</url>
     <description>OLS Dialog is a Java front end to the Ontology Lookup Service (OLS) (http://www.ebi.ac.uk/ontology-lookup).</description>

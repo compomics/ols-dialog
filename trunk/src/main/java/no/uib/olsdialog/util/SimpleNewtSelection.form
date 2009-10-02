@@ -14,7 +14,7 @@
     <AuxValue name="FormSettings_generateFQN" type="java.lang.Boolean" value="true"/>
     <AuxValue name="FormSettings_generateMnemonicsCode" type="java.lang.Boolean" value="false"/>
     <AuxValue name="FormSettings_i18nAutoMode" type="java.lang.Boolean" value="false"/>
-    <AuxValue name="FormSettings_layoutCodeTarget" type="java.lang.Integer" value="1"/>
+    <AuxValue name="FormSettings_layoutCodeTarget" type="java.lang.Integer" value="2"/>
     <AuxValue name="FormSettings_listenerGenerationStyle" type="java.lang.Integer" value="0"/>
     <AuxValue name="FormSettings_variablesLocal" type="java.lang.Boolean" value="false"/>
     <AuxValue name="FormSettings_variablesModifier" type="java.lang.Integer" value="2"/>
@@ -105,7 +105,7 @@
                 <StringItem index="7" value="Canis familiaris (Dog) [9615]"/>
                 <StringItem index="8" value="Cavia porcellus (Guinea pig) [10141]"/>
                 <StringItem index="9" value="Ciona intestinalis (Transparent sea squirt) [7719]"/>
-                <StringItem index="10" value="Ciona savignyi (Pacific transparent sea squirt) 51511]"/>
+                <StringItem index="10" value="Ciona savignyi (Pacific transparent sea squirt) [51511]"/>
                 <StringItem index="11" value="Danio rerio (Zebrafish) [7955]"/>
                 <StringItem index="12" value="Dasypus novemcinctus (Nine-banded armadillo) [9361]"/>
                 <StringItem index="13" value="Dipodomys ordii (Ord&apos;s kangaroo rat) [10020]"/>
@@ -120,7 +120,7 @@
                 <StringItem index="22" value="Hepatitis C virus [11103]"/>
                 <StringItem index="23" value="Homo sapiens (Human) [9606]"/>
                 <StringItem index="24" value="Human immunodeficiency virus 1 [11676]"/>
-                <StringItem index="25" value="Lama guanicoe pacos (Alpaca) (Lama pacos) 30538]"/>
+                <StringItem index="25" value="Lama guanicoe pacos (Alpaca) (Lama pacos) [30538]"/>
                 <StringItem index="26" value="Loxodonta africana (African elephant) [9785]"/>
                 <StringItem index="27" value="Macaca mulatta (Rhesus macaque) [9544]"/>
                 <StringItem index="28" value="Microcebus murinus (Lesser mouse lemur) [30608]"/>
@@ -150,7 +150,6 @@
                 <StringItem index="52" value="Xenopus tropicalis (Western clawed frog) [8364]"/>
               </StringArray>
             </Property>
-            <Property name="selectedIndex" type="int" value="23"/>
           </Properties>
         </Component>
         <Component class="javax.swing.JLabel" name="jLabel1">

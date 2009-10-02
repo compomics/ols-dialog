@@ -478,7 +478,7 @@ public class OLSDialog extends javax.swing.JDialog {
             ontologyLabel = termId.substring(0, termId.lastIndexOf(":"));
         } else if (termId.lastIndexOf("_") != -1) { // needed for EFO
             ontologyLabel = termId.substring(0, termId.lastIndexOf("_"));
-        } else if(termId.equalsIgnoreCase("No Root Terms Defined!")){
+        } else if (termId.equalsIgnoreCase("No Root Terms Defined!")) {
             ontologyLabel = null;
         } else {
             ontologyLabel = "NEWT";
@@ -634,7 +634,7 @@ public class OLSDialog extends javax.swing.JDialog {
                 } else if (searchType == OLS_DIALOG_TERM_ID_SEARCH) {
                     viewTermHierarchyTermIdSearchJLabel.setEnabled(true);
                 }
-            } else{
+            } else {
                 if (searchType == OLS_DIALOG_TERM_NAME_SEARCH) {
                     viewTermHierarchyTermNameSearchJLabel.setEnabled(false);
                 } else if (searchType == OLS_DIALOG_PSI_MOD_MASS_SEARCH) {
@@ -779,6 +779,9 @@ public class OLSDialog extends javax.swing.JDialog {
 
             ontologyJComboBox.setModel(new DefaultComboBoxModel(ontologyNamesAndKeys));
             ontologyJComboBox.setSelectedItem(selectedOntology);
+
+            hideOrShowNewtLinks();
+
             lastSelectedOntology = (String) ontologyJComboBox.getSelectedItem();
         } catch (RemoteException ex) {
             JOptionPane.showMessageDialog(
@@ -799,6 +802,22 @@ public class OLSDialog extends javax.swing.JDialog {
         }
 
         return error;
+    }
+
+    /**
+     * Makes the 'newt species tip' links visible or not visible.
+     */
+    private void hideOrShowNewtLinks() {
+
+        // note: has to be done like this and not simply by disabling or
+        // making invisible, as both of those options have unwanted side effects
+        if (getCurrentOntologyLabel().equalsIgnoreCase("NEWT")) {
+            newtSpeciesTipsTermNameSearchJLabel.setForeground(Color.BLUE);
+            newtSpeciesTipsTermIdSearchJLabel.setForeground(Color.BLUE);
+        } else {
+            newtSpeciesTipsTermNameSearchJLabel.setForeground(termNameSearchJPanel.getBackground());
+            newtSpeciesTipsTermIdSearchJLabel.setForeground(termNameSearchJPanel.getBackground());
+        }
     }
 
     /**
@@ -823,7 +842,7 @@ public class OLSDialog extends javax.swing.JDialog {
         }
 
         // not root terms found
-        if(rootTerms.size() == 0){
+        if (rootTerms.size() == 0) {
             treeBrowser.addNode("No Root Terms Defined!", "");
         }
 
@@ -1754,16 +1773,8 @@ public class OLSDialog extends javax.swing.JDialog {
                 }
 
                 // make the 'newt species tip' link visible or not visible
-                // note: has to be done like this and not simply by disabling or
-                // making invisible, as both of those options have unwanted side effects
-                if(getCurrentOntologyLabel().equalsIgnoreCase("NEWT")){
-                    newtSpeciesTipsTermNameSearchJLabel.setForeground(Color.BLUE);
-                    newtSpeciesTipsTermIdSearchJLabel.setForeground(Color.BLUE);
-                } else {
-                    newtSpeciesTipsTermNameSearchJLabel.setForeground(termNameSearchJPanel.getBackground());
-                    newtSpeciesTipsTermIdSearchJLabel.setForeground(termNameSearchJPanel.getBackground());
-                }
-                
+                hideOrShowNewtLinks();
+
                 // update the searches
                 termNameSearchJTextFieldKeyReleased(null);
                 updateBrowseOntologyView();
@@ -2435,7 +2446,7 @@ public class OLSDialog extends javax.swing.JDialog {
      * @param evt
      */
     private void newtSpeciesTipsTermNameSearchJLabelMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_newtSpeciesTipsTermNameSearchJLabelMouseClicked
-        if(newtSpeciesTipsTermNameSearchJLabel.getForeground() == Color.BLUE){
+        if (newtSpeciesTipsTermNameSearchJLabel.getForeground() == Color.BLUE) {
             new SimpleNewtSelection(this, true);
         }
     }//GEN-LAST:event_newtSpeciesTipsTermNameSearchJLabelMouseClicked
@@ -2446,7 +2457,7 @@ public class OLSDialog extends javax.swing.JDialog {
      * @param evt
      */
     private void newtSpeciesTipsTermNameSearchJLabelMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_newtSpeciesTipsTermNameSearchJLabelMouseEntered
-        if(newtSpeciesTipsTermNameSearchJLabel.getForeground() == Color.BLUE){
+        if (newtSpeciesTipsTermNameSearchJLabel.getForeground() == Color.BLUE) {
             this.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
         }
     }//GEN-LAST:event_newtSpeciesTipsTermNameSearchJLabelMouseEntered
@@ -2457,7 +2468,7 @@ public class OLSDialog extends javax.swing.JDialog {
      * @param evt
      */
     private void newtSpeciesTipsTermNameSearchJLabelMouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_newtSpeciesTipsTermNameSearchJLabelMouseExited
-        if(newtSpeciesTipsTermNameSearchJLabel.getForeground() == Color.BLUE){
+        if (newtSpeciesTipsTermNameSearchJLabel.getForeground() == Color.BLUE) {
             this.setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
         }
     }//GEN-LAST:event_newtSpeciesTipsTermNameSearchJLabelMouseExited
@@ -2468,7 +2479,7 @@ public class OLSDialog extends javax.swing.JDialog {
      * @param evt
      */
     private void newtSpeciesTipsTermIdSearchJLabelMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_newtSpeciesTipsTermIdSearchJLabelMouseClicked
-        if(newtSpeciesTipsTermIdSearchJLabel.getForeground() == Color.BLUE){
+        if (newtSpeciesTipsTermIdSearchJLabel.getForeground() == Color.BLUE) {
             new SimpleNewtSelection(this, true);
         }
     }//GEN-LAST:event_newtSpeciesTipsTermIdSearchJLabelMouseClicked
@@ -2479,7 +2490,7 @@ public class OLSDialog extends javax.swing.JDialog {
      * @param evt
      */
     private void newtSpeciesTipsTermIdSearchJLabelMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_newtSpeciesTipsTermIdSearchJLabelMouseEntered
-        if(newtSpeciesTipsTermIdSearchJLabel.getForeground() == Color.BLUE){
+        if (newtSpeciesTipsTermIdSearchJLabel.getForeground() == Color.BLUE) {
             this.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
         }
     }//GEN-LAST:event_newtSpeciesTipsTermIdSearchJLabelMouseEntered
@@ -2490,7 +2501,7 @@ public class OLSDialog extends javax.swing.JDialog {
      * @param evt
      */
     private void newtSpeciesTipsTermIdSearchJLabelMouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_newtSpeciesTipsTermIdSearchJLabelMouseExited
-        if(newtSpeciesTipsTermIdSearchJLabel.getForeground() == Color.BLUE){
+        if (newtSpeciesTipsTermIdSearchJLabel.getForeground() == Color.BLUE) {
             this.setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
         }
     }//GEN-LAST:event_newtSpeciesTipsTermIdSearchJLabelMouseExited
@@ -2539,7 +2550,7 @@ public class OLSDialog extends javax.swing.JDialog {
      * @param termName the term name
      * @param termId the terms id
      */
-    public void insertNewtSelection(String termName, String termId){
+    public void insertNewtSelection(String termName, String termId) {
 
         if (searchTypeJTabbedPane.getSelectedIndex() == OLS_DIALOG_TERM_NAME_SEARCH) {
             termNameSearchJTextField.setText(termName);
@@ -2549,7 +2560,6 @@ public class OLSDialog extends javax.swing.JDialog {
             termIdSearchJButtonActionPerformed(null);
         }
     }
-
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton aboutJButton;
     private javax.swing.JPanel browseJPanel;
