@@ -87,7 +87,7 @@ public class OLSDialog extends javax.swing.JDialog {
      */
     public OLSDialog(JFrame parent, OLSInputable olsInputable, boolean modal, String field,
             String selectedOntology, String term) {
-        this(parent, olsInputable, modal, field, selectedOntology, -1, term, null, null, 0);
+        this(parent, olsInputable, modal, field, selectedOntology, -1, term, null, null, OLS_DIALOG_TERM_NAME_SEARCH);
     }
 
     /**
@@ -102,7 +102,7 @@ public class OLSDialog extends javax.swing.JDialog {
      */
     public OLSDialog(JDialog parent, OLSInputable olsInputable, boolean modal, String field,
             String selectedOntology, String term) {
-        this(parent, olsInputable, modal, field, selectedOntology, -1, term, null, null, 0);
+        this(parent, olsInputable, modal, field, selectedOntology, -1, term, null, null, OLS_DIALOG_TERM_NAME_SEARCH);
     }
 
     /**
@@ -118,7 +118,7 @@ public class OLSDialog extends javax.swing.JDialog {
      */
     public OLSDialog(JFrame parent, OLSInputable olsInputable, boolean modal, String field,
             String selectedOntology, int modifiedRow, String term) {
-        this(parent, olsInputable, modal, field, selectedOntology, modifiedRow, term, null, null, 0);
+        this(parent, olsInputable, modal, field, selectedOntology, modifiedRow, term, null, null, OLS_DIALOG_TERM_NAME_SEARCH);
     }
 
     /**
@@ -134,7 +134,7 @@ public class OLSDialog extends javax.swing.JDialog {
      */
     public OLSDialog(JDialog parent, OLSInputable olsInputable, boolean modal, String field,
             String selectedOntology, int modifiedRow, String term) {
-        this(parent, olsInputable, modal, field, selectedOntology, modifiedRow, term, null, null, 0);
+        this(parent, olsInputable, modal, field, selectedOntology, modifiedRow, term, null, null, OLS_DIALOG_TERM_NAME_SEARCH);
     }
 
     /**
