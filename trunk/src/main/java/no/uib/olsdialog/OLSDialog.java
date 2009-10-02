@@ -341,7 +341,7 @@ public class OLSDialog extends javax.swing.JDialog {
      * @param clearSearchResults if true the search results table is cleared
      * @param clearMetaData if true the meta data is cleared
      */
-    private void clearData(Integer searchType, boolean clearSearchResults, boolean clearMetaData) {
+    public void clearData(Integer searchType, boolean clearSearchResults, boolean clearMetaData) {
 
         JTextPane currentDefinitionsJTextPane = null;
         JXTable currentTermDetailsJXTable = null;
@@ -378,6 +378,7 @@ public class OLSDialog extends javax.swing.JDialog {
         }
 
         if (clearMetaData) {
+            
             currentDefinitionsJTextPane.setText("");
 
             while (currentTermDetailsJXTable.getRowCount() > 0) {
@@ -464,8 +465,10 @@ public class OLSDialog extends javax.swing.JDialog {
             ontologyLabel = termId.substring(0, termId.lastIndexOf(":"));
         } else if (termId.lastIndexOf("_") != -1) { // needed for EFO
             ontologyLabel = termId.substring(0, termId.lastIndexOf("_"));
-        } else{
-            ontologyLabel = "NEWT"; // TODO: verify that this is correct
+        } else if(termId.equalsIgnoreCase("No Root Terms Defined!")){
+            ontologyLabel = null;
+        }else {
+            ontologyLabel = "NEWT";
         }
 
         return ontologyLabel;
@@ -510,6 +513,20 @@ public class OLSDialog extends javax.swing.JDialog {
 
         String ontology = getOntologyLabelFromTermId(termId);
 
+        if (searchType == OLS_DIALOG_TERM_NAME_SEARCH) {
+            currentlySelectedTermNameSearchAccessionNumber = termId;
+            viewTermHierarchyTermNameSearchJLabel.setEnabled(true);
+        } else if (searchType == OLS_DIALOG_PSI_MOD_MASS_SEARCH) {
+            currentlySelectedMassSearchAccessionNumber = termId;
+            viewTermHierarchyMassSearchJLabel.setEnabled(true);
+        } else if (searchType == OLS_DIALOG_BROWSE_ONTOLOGY) {
+            currentlySelectedBrowseOntologyAccessionNumber = termId;
+            viewTermHierarchyBrowseOntologyJLabel.setEnabled(true);
+        } else if (searchType == OLS_DIALOG_TERM_ID_SEARCH) {
+            currentlySelectedTermIdSearchAccessionNumber = termId;
+            viewTermHierarchyTermIdSearchJLabel.setEnabled(true);
+        }
+
         boolean error = false;
 
         if (ontology != null && ontology.equalsIgnoreCase("NEWT")) {
@@ -530,20 +547,6 @@ public class OLSDialog extends javax.swing.JDialog {
             try {
                 metadata = olsConnection.getTermMetadata(termId, ontology);
                 xRefs = olsConnection.getTermXrefs(termId, ontology);
-
-                if (searchType == OLS_DIALOG_TERM_NAME_SEARCH) {
-                    currentlySelectedTermNameSearchAccessionNumber = termId;
-                    viewTermHierachyTermNameSearchJLabel.setEnabled(true);
-                } else if (searchType == OLS_DIALOG_PSI_MOD_MASS_SEARCH) {
-                    currentlySelectedMassSearchAccessionNumber = termId;
-                    viewTermHierachyMassSearchJLabel.setEnabled(true);
-                } else if (searchType == OLS_DIALOG_BROWSE_ONTOLOGY) {
-                    currentlySelectedBrowseOntologyAccessionNumber = termId;
-                    viewTermHierachyBrowseOntologyJLabel.setEnabled(true);
-                } else if (searchType == OLS_DIALOG_TERM_ID_SEARCH) {
-                    currentlySelectedTermIdSearchAccessionNumber = termId;
-                    viewTermHierachyTermIdSearchJLabel.setEnabled(true);
-                }
             } catch (RemoteException ex) {
                 JOptionPane.showMessageDialog(
                         this,
@@ -598,24 +601,36 @@ public class OLSDialog extends javax.swing.JDialog {
                 currentTermDetailsJScrollPane.getVerticalScrollBar().setValue(0);
             } else {
                 if (searchType == OLS_DIALOG_TERM_NAME_SEARCH) {
-                    viewTermHierachyTermNameSearchJLabel.setEnabled(false);
+                    viewTermHierarchyTermNameSearchJLabel.setEnabled(false);
                 } else if (searchType == OLS_DIALOG_PSI_MOD_MASS_SEARCH) {
-                    viewTermHierachyMassSearchJLabel.setEnabled(false);
+                    viewTermHierarchyMassSearchJLabel.setEnabled(false);
                 } else if (searchType == OLS_DIALOG_BROWSE_ONTOLOGY) {
-                    viewTermHierachyBrowseOntologyJLabel.setEnabled(false);
+                    viewTermHierarchyBrowseOntologyJLabel.setEnabled(false);
                 } else if (searchType == OLS_DIALOG_TERM_ID_SEARCH) {
-                    viewTermHierachyTermIdSearchJLabel.setEnabled(false);
+                    viewTermHierarchyTermIdSearchJLabel.setEnabled(false);
                 }
             }
         } else {
-            if (searchType == OLS_DIALOG_TERM_NAME_SEARCH) {
-                viewTermHierachyTermNameSearchJLabel.setEnabled(false);
-            } else if (searchType == OLS_DIALOG_PSI_MOD_MASS_SEARCH) {
-                viewTermHierachyMassSearchJLabel.setEnabled(false);
-            } else if (searchType == OLS_DIALOG_BROWSE_ONTOLOGY) {
-                viewTermHierachyBrowseOntologyJLabel.setEnabled(false);
-            } else if (searchType == OLS_DIALOG_TERM_ID_SEARCH) {
-                viewTermHierachyTermIdSearchJLabel.setEnabled(false);
+            if (ontology != null && ontology.equalsIgnoreCase("NEWT")) {
+                if (searchType == OLS_DIALOG_TERM_NAME_SEARCH) {
+                    viewTermHierarchyTermNameSearchJLabel.setEnabled(true);
+                } else if (searchType == OLS_DIALOG_PSI_MOD_MASS_SEARCH) {
+                    viewTermHierarchyMassSearchJLabel.setEnabled(true);
+                } else if (searchType == OLS_DIALOG_BROWSE_ONTOLOGY) {
+                    viewTermHierarchyBrowseOntologyJLabel.setEnabled(true);
+                } else if (searchType == OLS_DIALOG_TERM_ID_SEARCH) {
+                    viewTermHierarchyTermIdSearchJLabel.setEnabled(true);
+                }
+            } else{
+                if (searchType == OLS_DIALOG_TERM_NAME_SEARCH) {
+                    viewTermHierarchyTermNameSearchJLabel.setEnabled(false);
+                } else if (searchType == OLS_DIALOG_PSI_MOD_MASS_SEARCH) {
+                    viewTermHierarchyMassSearchJLabel.setEnabled(false);
+                } else if (searchType == OLS_DIALOG_BROWSE_ONTOLOGY) {
+                    viewTermHierarchyBrowseOntologyJLabel.setEnabled(false);
+                } else if (searchType == OLS_DIALOG_TERM_ID_SEARCH) {
+                    viewTermHierarchyTermIdSearchJLabel.setEnabled(false);
+                }
             }
         }
 
@@ -756,7 +771,7 @@ public class OLSDialog extends javax.swing.JDialog {
             JOptionPane.showMessageDialog(
                     this,
                     defaultOlsConnectionFailureErrorMessage,
-                    "Failed To Contact OLS", JOptionPane.ERROR_MESSAGE);
+                    "Failed to Contact the OLS", JOptionPane.ERROR_MESSAGE);
             Util.writeToErrorLog("Error when trying to access OLS: ");
             ex.printStackTrace();
             error = true;
@@ -764,7 +779,7 @@ public class OLSDialog extends javax.swing.JDialog {
             JOptionPane.showMessageDialog(
                     this,
                     defaultOlsConnectionFailureErrorMessage,
-                    "Failed To Contact OLS", JOptionPane.ERROR_MESSAGE);
+                    "Failed to Contact the OLS", JOptionPane.ERROR_MESSAGE);
             Util.writeToErrorLog("Error when trying to access OLS: ");
             ex.printStackTrace();
             error = true;
@@ -794,6 +809,11 @@ public class OLSDialog extends javax.swing.JDialog {
             treeBrowser.addNode(termId, rootTerms.get(termId));
         }
 
+        // not root terms found
+        if(rootTerms.size() == 0){
+            treeBrowser.addNode("No Root Terms Defined!", "");
+        }
+
         // makes sure that all second level non visible nodes are added
         treeBrowser.updateTree();
 
@@ -801,6 +821,8 @@ public class OLSDialog extends javax.swing.JDialog {
         treeBrowser.scrollToTop();
 
         currentlySelectedBrowseOntologyAccessionNumber = null;
+
+        clearData(OLS_DIALOG_BROWSE_ONTOLOGY, true, true);
 
         if (debug) {
             System.out.println("updated roots");
@@ -884,7 +906,7 @@ public class OLSDialog extends javax.swing.JDialog {
         jLabel2 = new javax.swing.JLabel();
         olsResultsTermNameSearchJScrollPane = new javax.swing.JScrollPane();
         olsResultsTermNameSearchJXTable = new org.jdesktop.swingx.JXTable();
-        viewTermHierachyTermNameSearchJLabel = new javax.swing.JLabel();
+        viewTermHierarchyTermNameSearchJLabel = new javax.swing.JLabel();
         termIdSearchJPanel = new javax.swing.JPanel();
         jLabel10 = new javax.swing.JLabel();
         termIdSearchJTextField = new javax.swing.JTextField();
@@ -896,7 +918,7 @@ public class OLSDialog extends javax.swing.JDialog {
         jLabel13 = new javax.swing.JLabel();
         olsResultsTermIdSearchJScrollPane = new javax.swing.JScrollPane();
         olsResultsTermIdSearchJXTable = new org.jdesktop.swingx.JXTable();
-        viewTermHierachyTermIdSearchJLabel = new javax.swing.JLabel();
+        viewTermHierarchyTermIdSearchJLabel = new javax.swing.JLabel();
         termIdSearchJButton = new javax.swing.JButton();
         massSearchJPanel = new javax.swing.JPanel();
         jLabel4 = new javax.swing.JLabel();
@@ -914,7 +936,7 @@ public class OLSDialog extends javax.swing.JDialog {
         jLabel12 = new javax.swing.JLabel();
         olsResultsMassSearchJScrollPane = new javax.swing.JScrollPane();
         olsResultsMassSearchJXTable = new org.jdesktop.swingx.JXTable();
-        viewTermHierachyMassSearchJLabel = new javax.swing.JLabel();
+        viewTermHierarchyMassSearchJLabel = new javax.swing.JLabel();
         browseOntologyJPanel = new javax.swing.JPanel();
         jLabel8 = new javax.swing.JLabel();
         jScrollPane7 = new javax.swing.JScrollPane();
@@ -922,7 +944,7 @@ public class OLSDialog extends javax.swing.JDialog {
         termDetailsBrowseOntologyJScrollPane = new javax.swing.JScrollPane();
         termDetailsBrowseOntologyJXTable = new org.jdesktop.swingx.JXTable();
         browseJPanel = new javax.swing.JPanel();
-        viewTermHierachyBrowseOntologyJLabel = new javax.swing.JLabel();
+        viewTermHierarchyBrowseOntologyJLabel = new javax.swing.JLabel();
         jLabel9 = new javax.swing.JLabel();
         ontologyJComboBox = new javax.swing.JComboBox();
 
@@ -1059,18 +1081,18 @@ public class OLSDialog extends javax.swing.JDialog {
         });
         olsResultsTermNameSearchJScrollPane.setViewportView(olsResultsTermNameSearchJXTable);
 
-        viewTermHierachyTermNameSearchJLabel.setForeground(new java.awt.Color(0, 0, 255));
-        viewTermHierachyTermNameSearchJLabel.setText("View Term Hierarchy");
-        viewTermHierachyTermNameSearchJLabel.setEnabled(false);
-        viewTermHierachyTermNameSearchJLabel.addMouseListener(new java.awt.event.MouseAdapter() {
+        viewTermHierarchyTermNameSearchJLabel.setForeground(new java.awt.Color(0, 0, 255));
+        viewTermHierarchyTermNameSearchJLabel.setText("View Term Hierarchy");
+        viewTermHierarchyTermNameSearchJLabel.setEnabled(false);
+        viewTermHierarchyTermNameSearchJLabel.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
-                viewTermHierachyTermNameSearchJLabelMouseClicked(evt);
+                viewTermHierarchyTermNameSearchJLabelMouseClicked(evt);
             }
             public void mouseEntered(java.awt.event.MouseEvent evt) {
-                viewTermHierachyTermNameSearchJLabelMouseEntered(evt);
+                viewTermHierarchyTermNameSearchJLabelMouseEntered(evt);
             }
             public void mouseExited(java.awt.event.MouseEvent evt) {
-                viewTermHierachyTermNameSearchJLabelMouseExited(evt);
+                viewTermHierarchyTermNameSearchJLabelMouseExited(evt);
             }
         });
 
@@ -1087,7 +1109,7 @@ public class OLSDialog extends javax.swing.JDialog {
                     .add(termNameSearchJPanelLayout.createSequentialGroup()
                         .add(jLabel2)
                         .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED, 299, Short.MAX_VALUE)
-                        .add(viewTermHierachyTermNameSearchJLabel))
+                        .add(viewTermHierarchyTermNameSearchJLabel))
                     .add(org.jdesktop.layout.GroupLayout.TRAILING, jScrollPane4, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, 469, Short.MAX_VALUE)
                     .add(termNameSearchJPanelLayout.createSequentialGroup()
                         .add(jLabel3)
@@ -1112,7 +1134,7 @@ public class OLSDialog extends javax.swing.JDialog {
                 .add(18, 18, 18)
                 .add(termNameSearchJPanelLayout.createParallelGroup(org.jdesktop.layout.GroupLayout.BASELINE)
                     .add(jLabel2)
-                    .add(viewTermHierachyTermNameSearchJLabel))
+                    .add(viewTermHierarchyTermNameSearchJLabel))
                 .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED)
                 .add(jScrollPane4, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, 50, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED)
@@ -1200,18 +1222,18 @@ public class OLSDialog extends javax.swing.JDialog {
         });
         olsResultsTermIdSearchJScrollPane.setViewportView(olsResultsTermIdSearchJXTable);
 
-        viewTermHierachyTermIdSearchJLabel.setForeground(new java.awt.Color(0, 0, 255));
-        viewTermHierachyTermIdSearchJLabel.setText("View Term Hierarchy");
-        viewTermHierachyTermIdSearchJLabel.setEnabled(false);
-        viewTermHierachyTermIdSearchJLabel.addMouseListener(new java.awt.event.MouseAdapter() {
+        viewTermHierarchyTermIdSearchJLabel.setForeground(new java.awt.Color(0, 0, 255));
+        viewTermHierarchyTermIdSearchJLabel.setText("View Term Hierarchy");
+        viewTermHierarchyTermIdSearchJLabel.setEnabled(false);
+        viewTermHierarchyTermIdSearchJLabel.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
-                viewTermHierachyTermIdSearchJLabelMouseClicked(evt);
+                viewTermHierarchyTermIdSearchJLabelMouseClicked(evt);
             }
             public void mouseEntered(java.awt.event.MouseEvent evt) {
-                viewTermHierachyTermIdSearchJLabelMouseEntered(evt);
+                viewTermHierarchyTermIdSearchJLabelMouseEntered(evt);
             }
             public void mouseExited(java.awt.event.MouseEvent evt) {
-                viewTermHierachyTermIdSearchJLabelMouseExited(evt);
+                viewTermHierarchyTermIdSearchJLabelMouseExited(evt);
             }
         });
 
@@ -1235,7 +1257,7 @@ public class OLSDialog extends javax.swing.JDialog {
                     .add(termIdSearchJPanelLayout.createSequentialGroup()
                         .add(jLabel13)
                         .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED, 299, Short.MAX_VALUE)
-                        .add(viewTermHierachyTermIdSearchJLabel))
+                        .add(viewTermHierarchyTermIdSearchJLabel))
                     .add(org.jdesktop.layout.GroupLayout.TRAILING, jScrollPane6, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, 469, Short.MAX_VALUE)
                     .add(termIdSearchJPanelLayout.createSequentialGroup()
                         .add(jLabel10)
@@ -1260,7 +1282,7 @@ public class OLSDialog extends javax.swing.JDialog {
                 .add(18, 18, 18)
                 .add(termIdSearchJPanelLayout.createParallelGroup(org.jdesktop.layout.GroupLayout.BASELINE)
                     .add(jLabel13)
-                    .add(viewTermHierachyTermIdSearchJLabel))
+                    .add(viewTermHierarchyTermIdSearchJLabel))
                 .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED)
                 .add(jScrollPane6, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, 50, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED)
@@ -1378,18 +1400,18 @@ public class OLSDialog extends javax.swing.JDialog {
         });
         olsResultsMassSearchJScrollPane.setViewportView(olsResultsMassSearchJXTable);
 
-        viewTermHierachyMassSearchJLabel.setForeground(new java.awt.Color(0, 0, 255));
-        viewTermHierachyMassSearchJLabel.setText("View Term Hierarchy");
-        viewTermHierachyMassSearchJLabel.setEnabled(false);
-        viewTermHierachyMassSearchJLabel.addMouseListener(new java.awt.event.MouseAdapter() {
+        viewTermHierarchyMassSearchJLabel.setForeground(new java.awt.Color(0, 0, 255));
+        viewTermHierarchyMassSearchJLabel.setText("View Term Hierarchy");
+        viewTermHierarchyMassSearchJLabel.setEnabled(false);
+        viewTermHierarchyMassSearchJLabel.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
-                viewTermHierachyMassSearchJLabelMouseClicked(evt);
+                viewTermHierarchyMassSearchJLabelMouseClicked(evt);
             }
             public void mouseEntered(java.awt.event.MouseEvent evt) {
-                viewTermHierachyMassSearchJLabelMouseEntered(evt);
+                viewTermHierarchyMassSearchJLabelMouseEntered(evt);
             }
             public void mouseExited(java.awt.event.MouseEvent evt) {
-                viewTermHierachyMassSearchJLabelMouseExited(evt);
+                viewTermHierarchyMassSearchJLabelMouseExited(evt);
             }
         });
 
@@ -1406,7 +1428,7 @@ public class OLSDialog extends javax.swing.JDialog {
                     .add(massSearchJPanelLayout.createSequentialGroup()
                         .add(jLabel7)
                         .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED, 299, Short.MAX_VALUE)
-                        .add(viewTermHierachyMassSearchJLabel))
+                        .add(viewTermHierarchyMassSearchJLabel))
                     .add(jScrollPane5, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, 469, Short.MAX_VALUE)
                     .add(massSearchJPanelLayout.createSequentialGroup()
                         .add(jLabel4)
@@ -1446,7 +1468,7 @@ public class OLSDialog extends javax.swing.JDialog {
                 .add(18, 18, 18)
                 .add(massSearchJPanelLayout.createParallelGroup(org.jdesktop.layout.GroupLayout.BASELINE)
                     .add(jLabel7)
-                    .add(viewTermHierachyMassSearchJLabel))
+                    .add(viewTermHierarchyMassSearchJLabel))
                 .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED)
                 .add(jScrollPane5, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, 50, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED)
@@ -1489,12 +1511,12 @@ public class OLSDialog extends javax.swing.JDialog {
 
         browseJPanel.setLayout(new javax.swing.BoxLayout(browseJPanel, javax.swing.BoxLayout.LINE_AXIS));
 
-        viewTermHierachyBrowseOntologyJLabel.setForeground(new java.awt.Color(0, 0, 255));
-        viewTermHierachyBrowseOntologyJLabel.setText("View Term Hierarchy");
-        viewTermHierachyBrowseOntologyJLabel.setEnabled(false);
-        viewTermHierachyBrowseOntologyJLabel.addMouseListener(new java.awt.event.MouseAdapter() {
+        viewTermHierarchyBrowseOntologyJLabel.setForeground(new java.awt.Color(0, 0, 255));
+        viewTermHierarchyBrowseOntologyJLabel.setText("View Term Hierarchy");
+        viewTermHierarchyBrowseOntologyJLabel.setEnabled(false);
+        viewTermHierarchyBrowseOntologyJLabel.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
-                viewTermHierachyBrowseOntologyJLabelMouseClicked(evt);
+                viewTermHierarchyBrowseOntologyJLabelMouseClicked(evt);
             }
             public void mouseEntered(java.awt.event.MouseEvent evt) {
                 viewTermHierachyJLabelMouseEntered(evt);
@@ -1515,7 +1537,7 @@ public class OLSDialog extends javax.swing.JDialog {
                     .add(org.jdesktop.layout.GroupLayout.LEADING, browseOntologyJPanelLayout.createSequentialGroup()
                         .add(jLabel8)
                         .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED, 299, Short.MAX_VALUE)
-                        .add(viewTermHierachyBrowseOntologyJLabel))
+                        .add(viewTermHierarchyBrowseOntologyJLabel))
                     .add(jScrollPane7, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, 469, Short.MAX_VALUE)
                     .add(termDetailsBrowseOntologyJScrollPane, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, 469, Short.MAX_VALUE))
                 .addContainerGap())
@@ -1528,7 +1550,7 @@ public class OLSDialog extends javax.swing.JDialog {
                 .add(15, 15, 15)
                 .add(browseOntologyJPanelLayout.createParallelGroup(org.jdesktop.layout.GroupLayout.BASELINE)
                     .add(jLabel8)
-                    .add(viewTermHierachyBrowseOntologyJLabel))
+                    .add(viewTermHierarchyBrowseOntologyJLabel))
                 .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED)
                 .add(jScrollPane7, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, 50, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED)
@@ -1626,12 +1648,14 @@ public class OLSDialog extends javax.swing.JDialog {
 
         // insert the ontology label into the term id search field
         if (ontologyJComboBox.getSelectedIndex() != 0) {
-            if(getCurrentOntologyLabel().equalsIgnoreCase("EFO")){
+            if (getCurrentOntologyLabel().equalsIgnoreCase("EFO")) {
                 termIdSearchJTextField.setText(getCurrentOntologyLabel() + "_");
-            } else{
+            } else if (getCurrentOntologyLabel().equalsIgnoreCase("NEWT")) {
+                termIdSearchJTextField.setText("");
+            } else {
                 termIdSearchJTextField.setText(getCurrentOntologyLabel() + ":");
             }
-        } else{
+        } else {
             termIdSearchJTextField.setText("");
         }
 
@@ -1649,21 +1673,39 @@ public class OLSDialog extends javax.swing.JDialog {
 
                 insertSelectedJButton.setEnabled(false);
 
-                // disable the 'browse ontology' tab when 'search in all ontologies' is selected
-                searchTypeJTabbedPane.setEnabledAt(OLS_DIALOG_BROWSE_ONTOLOGY, ontologyJComboBox.getSelectedIndex() != 0);
+                // disable the 'browse ontology' tab when 'search in all ontologies' or 'NEWT' is selected
+                if (ontologyJComboBox.getSelectedIndex() == 0 || getCurrentOntologyLabel().equalsIgnoreCase("NEWT")) {
+                    searchTypeJTabbedPane.setEnabledAt(OLS_DIALOG_BROWSE_ONTOLOGY, false);
 
-                if (ontologyJComboBox.getSelectedIndex() == 0
-                        && searchTypeJTabbedPane.getSelectedIndex() == OLS_DIALOG_BROWSE_ONTOLOGY) {
-                    searchTypeJTabbedPane.setSelectedIndex(OLS_DIALOG_TERM_NAME_SEARCH);
+                    // move away from the 'browse ontology' tab if it is disabled and selected
+                    if (searchTypeJTabbedPane.getSelectedIndex() == OLS_DIALOG_BROWSE_ONTOLOGY) {
+                        searchTypeJTabbedPane.setSelectedIndex(OLS_DIALOG_TERM_NAME_SEARCH);
+
+                        this.setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
+
+                        if (getCurrentOntologyLabel().equalsIgnoreCase("NEWT")) {
+                            JOptionPane.showMessageDialog(this, "Browse Ontology is not available for NEWT.",
+                                    "Browse Ontology Disabled", JOptionPane.INFORMATION_MESSAGE);
+                        } else if (ontologyJComboBox.getSelectedIndex() == 0) {
+                            JOptionPane.showMessageDialog(this, "Browse Ontology is not available when searching all ontologies.",
+                                    "Browse Ontology Disabled", JOptionPane.INFORMATION_MESSAGE);
+                        }
+
+                        this.setCursor(new java.awt.Cursor(java.awt.Cursor.WAIT_CURSOR));
+                    }
+
+                } else {
+                    searchTypeJTabbedPane.setEnabledAt(OLS_DIALOG_BROWSE_ONTOLOGY, true);
                 }
 
+                // update the searches
                 termNameSearchJTextFieldKeyReleased(null);
                 updateBrowseOntologyView();
                 clearData(OLS_DIALOG_TERM_ID_SEARCH, true, true);
 
-                viewTermHierachyTermNameSearchJLabel.setEnabled(false);
-                viewTermHierachyTermIdSearchJLabel.setEnabled(false);
-                viewTermHierachyBrowseOntologyJLabel.setEnabled(false);
+                viewTermHierarchyTermNameSearchJLabel.setEnabled(false);
+                viewTermHierarchyTermIdSearchJLabel.setEnabled(false);
+                viewTermHierarchyBrowseOntologyJLabel.setEnabled(false);
             }
         }
 
@@ -1766,8 +1808,8 @@ public class OLSDialog extends javax.swing.JDialog {
             ontologyShort = getOntologyLabelFromTermId(termId);
 
             if (ontologyShort == null) {
-                ontologyShort = "NEWT"; // TODO: verify that this is correct
-                ontologyLong = "NEWT UniProt Taxonomy Database [NEWT]";  // TODO: verify that this is correct
+                ontologyShort = "NEWT";
+                ontologyLong = "NEWT UniProt Taxonomy Database [NEWT]";
             } else {
 
                 try {
@@ -1956,7 +1998,7 @@ public class OLSDialog extends javax.swing.JDialog {
         this.setCursor(new java.awt.Cursor(java.awt.Cursor.WAIT_CURSOR));
 
         insertSelectedJButton.setEnabled(false);
-        viewTermHierachyMassSearchJLabel.setEnabled(false);
+        viewTermHierarchyMassSearchJLabel.setEnabled(false);
 
         // clear the old data
         clearData(OLS_DIALOG_PSI_MOD_MASS_SEARCH, true, true);
@@ -2115,7 +2157,7 @@ public class OLSDialog extends javax.swing.JDialog {
     }//GEN-LAST:event_precisionJTextFieldKeyReleased
 
     /**
-     * Changes the cursor to the hand cursor when over the term hierachy link.
+     * Changes the cursor to the hand cursor when over the term hierarchy link.
      *
      * @param evt
      */
@@ -2124,7 +2166,7 @@ public class OLSDialog extends javax.swing.JDialog {
     }//GEN-LAST:event_viewTermHierachyJLabelMouseEntered
 
     /**
-     * Changes the cursor back to the default cursor when leaving the term hierachy link.
+     * Changes the cursor back to the default cursor when leaving the term hierarchy link.
      *
      * @param evt
      */
@@ -2137,63 +2179,63 @@ public class OLSDialog extends javax.swing.JDialog {
      *
      * @param evt
      */
-    private void viewTermHierachyBrowseOntologyJLabelMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_viewTermHierachyBrowseOntologyJLabelMouseClicked
-        viewTermHierachy();
-    }//GEN-LAST:event_viewTermHierachyBrowseOntologyJLabelMouseClicked
+    private void viewTermHierarchyBrowseOntologyJLabelMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_viewTermHierarchyBrowseOntologyJLabelMouseClicked
+        viewTermHierarchy();
+    }//GEN-LAST:event_viewTermHierarchyBrowseOntologyJLabelMouseClicked
 
     /**
      * Opens a new dialog showing the term hierarchy as a graph.
      *
      * @param evt
      */
-    private void viewTermHierachyMassSearchJLabelMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_viewTermHierachyMassSearchJLabelMouseClicked
-        viewTermHierachy();
-    }//GEN-LAST:event_viewTermHierachyMassSearchJLabelMouseClicked
+    private void viewTermHierarchyMassSearchJLabelMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_viewTermHierarchyMassSearchJLabelMouseClicked
+        viewTermHierarchy();
+    }//GEN-LAST:event_viewTermHierarchyMassSearchJLabelMouseClicked
 
     /**
-     * Changes the cursor to the hand cursor when over the term hierachy link.
+     * Changes the cursor to the hand cursor when over the term hierarchy link.
      *
      * @param evt
      */
-    private void viewTermHierachyMassSearchJLabelMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_viewTermHierachyMassSearchJLabelMouseEntered
+    private void viewTermHierarchyMassSearchJLabelMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_viewTermHierarchyMassSearchJLabelMouseEntered
         this.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
-    }//GEN-LAST:event_viewTermHierachyMassSearchJLabelMouseEntered
+    }//GEN-LAST:event_viewTermHierarchyMassSearchJLabelMouseEntered
 
     /**
-     * Changes the cursor back to the default cursor when leaving the term hierachy link.
+     * Changes the cursor back to the default cursor when leaving the term hierarchy link.
      *
      * @param evt
      */
-    private void viewTermHierachyMassSearchJLabelMouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_viewTermHierachyMassSearchJLabelMouseExited
+    private void viewTermHierarchyMassSearchJLabelMouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_viewTermHierarchyMassSearchJLabelMouseExited
         this.setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
-    }//GEN-LAST:event_viewTermHierachyMassSearchJLabelMouseExited
+    }//GEN-LAST:event_viewTermHierarchyMassSearchJLabelMouseExited
 
     /**
      * Opens a new dialog showing the term hierarchy as a graph.
      *
      * @param evt
      */
-    private void viewTermHierachyTermNameSearchJLabelMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_viewTermHierachyTermNameSearchJLabelMouseClicked
-        viewTermHierachy();
-    }//GEN-LAST:event_viewTermHierachyTermNameSearchJLabelMouseClicked
+    private void viewTermHierarchyTermNameSearchJLabelMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_viewTermHierarchyTermNameSearchJLabelMouseClicked
+        viewTermHierarchy();
+    }//GEN-LAST:event_viewTermHierarchyTermNameSearchJLabelMouseClicked
 
     /**
-     * Changes the cursor to the hand cursor when over the term hierachy link.
+     * Changes the cursor to the hand cursor when over the term hierarchy link.
      *
      * @param evt
      */
-    private void viewTermHierachyTermNameSearchJLabelMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_viewTermHierachyTermNameSearchJLabelMouseEntered
+    private void viewTermHierarchyTermNameSearchJLabelMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_viewTermHierarchyTermNameSearchJLabelMouseEntered
         this.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
-    }//GEN-LAST:event_viewTermHierachyTermNameSearchJLabelMouseEntered
+    }//GEN-LAST:event_viewTermHierarchyTermNameSearchJLabelMouseEntered
 
     /**
-     * Changes the cursor back to the default cursor when leaving the term hierachy link.
+     * Changes the cursor back to the default cursor when leaving the term hierarchy link.
      *
      * @param evt
      */
-    private void viewTermHierachyTermNameSearchJLabelMouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_viewTermHierachyTermNameSearchJLabelMouseExited
+    private void viewTermHierarchyTermNameSearchJLabelMouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_viewTermHierarchyTermNameSearchJLabelMouseExited
         this.setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
-    }//GEN-LAST:event_viewTermHierachyTermNameSearchJLabelMouseExited
+    }//GEN-LAST:event_viewTermHierarchyTermNameSearchJLabelMouseExited
 
     /**
      * If the user double clicks the selected row is inserted into the parent
@@ -2219,27 +2261,27 @@ public class OLSDialog extends javax.swing.JDialog {
      *
      * @param evt
      */
-    private void viewTermHierachyTermIdSearchJLabelMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_viewTermHierachyTermIdSearchJLabelMouseClicked
-        viewTermHierachy();
-    }//GEN-LAST:event_viewTermHierachyTermIdSearchJLabelMouseClicked
+    private void viewTermHierarchyTermIdSearchJLabelMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_viewTermHierarchyTermIdSearchJLabelMouseClicked
+        viewTermHierarchy();
+    }//GEN-LAST:event_viewTermHierarchyTermIdSearchJLabelMouseClicked
 
     /**
-     * Changes the cursor to the hand cursor when over the term hierachy link.
+     * Changes the cursor to the hand cursor when over the term hierarchy link.
      *
      * @param evt
      */
-    private void viewTermHierachyTermIdSearchJLabelMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_viewTermHierachyTermIdSearchJLabelMouseEntered
+    private void viewTermHierarchyTermIdSearchJLabelMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_viewTermHierarchyTermIdSearchJLabelMouseEntered
         this.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
-    }//GEN-LAST:event_viewTermHierachyTermIdSearchJLabelMouseEntered
+    }//GEN-LAST:event_viewTermHierarchyTermIdSearchJLabelMouseEntered
 
     /**
-     * Changes the cursor back to the default cursor when leaving the term hierachy link.
+     * Changes the cursor back to the default cursor when leaving the term hierarchy link.
      *
      * @param evt
      */
-    private void viewTermHierachyTermIdSearchJLabelMouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_viewTermHierachyTermIdSearchJLabelMouseExited
+    private void viewTermHierarchyTermIdSearchJLabelMouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_viewTermHierarchyTermIdSearchJLabelMouseExited
         this.setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
-    }//GEN-LAST:event_viewTermHierachyTermIdSearchJLabelMouseExited
+    }//GEN-LAST:event_viewTermHierarchyTermIdSearchJLabelMouseExited
 
     /**
      * Searches for the term matching the inserted accession number and
@@ -2324,7 +2366,7 @@ public class OLSDialog extends javax.swing.JDialog {
     /**
      * Opens a new dialog showing the term hierarchy as a graph.
      */
-    private void viewTermHierachy() {
+    private void viewTermHierarchy() {
 
         this.setCursor(new java.awt.Cursor(java.awt.Cursor.WAIT_CURSOR));
 
@@ -2415,9 +2457,9 @@ public class OLSDialog extends javax.swing.JDialog {
     private javax.swing.JTextField termIdSearchJTextField;
     private javax.swing.JPanel termNameSearchJPanel;
     private javax.swing.JTextField termNameSearchJTextField;
-    private javax.swing.JLabel viewTermHierachyBrowseOntologyJLabel;
-    private javax.swing.JLabel viewTermHierachyMassSearchJLabel;
-    private javax.swing.JLabel viewTermHierachyTermIdSearchJLabel;
-    private javax.swing.JLabel viewTermHierachyTermNameSearchJLabel;
+    private javax.swing.JLabel viewTermHierarchyBrowseOntologyJLabel;
+    private javax.swing.JLabel viewTermHierarchyMassSearchJLabel;
+    private javax.swing.JLabel viewTermHierarchyTermIdSearchJLabel;
+    private javax.swing.JLabel viewTermHierarchyTermNameSearchJLabel;
     // End of variables declaration//GEN-END:variables
 }

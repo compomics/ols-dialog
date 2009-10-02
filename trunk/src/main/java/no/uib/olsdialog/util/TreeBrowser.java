@@ -89,7 +89,7 @@ public class TreeBrowser extends JPanel implements TreeSelectionListener, TreeMo
      * Colapses and expands the root node to make sure that all second level
      * non visible nodes are added.
      */
-    public void updateTree(){
+    public void updateTree() {
         DefaultMutableTreeNode root = (DefaultMutableTreeNode) tree.getModel().getRoot();
         TreePath path = new TreePath(root.getPath());
         tree.collapsePath(path);
@@ -187,30 +187,36 @@ public class TreeBrowser extends JPanel implements TreeSelectionListener, TreeMo
         // get node data object
         TermNode nodeInfo = (TermNode) node.getUserObject();
 
-        // load children only for leaf nodes and those that have not been marked as processed
-        if (node.isLeaf() && node.getAllowsChildren()) {
+        // load the children and the meta data, unless the term is the 'no roots defined' dummy term
+        if (nodeInfo.getTermId() != null && !nodeInfo.getTermId().equalsIgnoreCase("No Root Terms Defined!")) {
 
+            // load children only for leaf nodes and those that have not been marked as processed
+            if (node.isLeaf() && node.getAllowsChildren()) {
+
+                if (OLSDialog.debug) {
+                    System.out.println("will load children for: " + nodeInfo);
+                }
+
+                // load children. if no children, set allowsChildren to false
+                if (!olsDialog.loadChildren(node, nodeInfo.getTermId())) {
+                    node.setAllowsChildren(false);
+                }
+            }
+
+            // reset the scroll bars, to make sure the node clicked in the first place is still visible
+            scrollPane.getVerticalScrollBar().setValue(verticalScrollBarValue);
+            scrollPane.getHorizontalScrollBar().setValue(horizontalScrollBarValue);
+
+            // load metadata
             if (OLSDialog.debug) {
-                System.out.println("will load children for: " + nodeInfo);
+                System.out.println("will load metadata for: " + nodeInfo.getTermId());
             }
 
-            // load children. if no children, set allowsChildren to false
-            if (!olsDialog.loadChildren(node, nodeInfo.getTermId())) {
-                node.setAllowsChildren(false);
-            }
+            olsDialog.loadMetaData(nodeInfo.getTermId(), OLSDialog.OLS_DIALOG_BROWSE_ONTOLOGY);
+        } else{
+            olsDialog.clearData(OLSDialog.OLS_DIALOG_BROWSE_ONTOLOGY, true, true);
         }
 
-        // reset the scroll bars, to make sure the node clicked in the first place is still visible
-        scrollPane.getVerticalScrollBar().setValue(verticalScrollBarValue);
-        scrollPane.getHorizontalScrollBar().setValue(horizontalScrollBarValue);
-
-        // load metadata
-        if (OLSDialog.debug) {
-            System.out.println("will load metadata for: " + nodeInfo.getTermId());
-        }
-
-        olsDialog.loadMetaData(nodeInfo.getTermId(), OLSDialog.OLS_DIALOG_BROWSE_ONTOLOGY);
-        
         olsDialog.setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
     }
 
