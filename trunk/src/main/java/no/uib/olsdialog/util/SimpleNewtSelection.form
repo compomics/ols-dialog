@@ -1,0 +1,185 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+
+<Form version="1.5" maxVersion="1.7" type="org.netbeans.modules.form.forminfo.JDialogFormInfo">
+  <Properties>
+    <Property name="defaultCloseOperation" type="int" value="2"/>
+    <Property name="title" type="java.lang.String" value="NEWT Species Selection"/>
+  </Properties>
+  <SyntheticProperties>
+    <SyntheticProperty name="formSizePolicy" type="int" value="1"/>
+  </SyntheticProperties>
+  <AuxValues>
+    <AuxValue name="FormSettings_autoResourcing" type="java.lang.Integer" value="0"/>
+    <AuxValue name="FormSettings_autoSetComponentName" type="java.lang.Boolean" value="false"/>
+    <AuxValue name="FormSettings_generateFQN" type="java.lang.Boolean" value="true"/>
+    <AuxValue name="FormSettings_generateMnemonicsCode" type="java.lang.Boolean" value="false"/>
+    <AuxValue name="FormSettings_i18nAutoMode" type="java.lang.Boolean" value="false"/>
+    <AuxValue name="FormSettings_layoutCodeTarget" type="java.lang.Integer" value="1"/>
+    <AuxValue name="FormSettings_listenerGenerationStyle" type="java.lang.Integer" value="0"/>
+    <AuxValue name="FormSettings_variablesLocal" type="java.lang.Boolean" value="false"/>
+    <AuxValue name="FormSettings_variablesModifier" type="java.lang.Integer" value="2"/>
+  </AuxValues>
+
+  <Layout>
+    <DimensionLayout dim="0">
+      <Group type="103" groupAlignment="0" attributes="0">
+          <Group type="102" alignment="0" attributes="0">
+              <EmptySpace max="-2" attributes="0"/>
+              <Component id="jPanel1" min="-2" max="-2" attributes="0"/>
+              <EmptySpace max="32767" attributes="0"/>
+          </Group>
+          <Group type="102" alignment="1" attributes="0">
+              <EmptySpace pref="386" max="32767" attributes="0"/>
+              <Component id="okJButton" linkSize="1" min="-2" max="-2" attributes="0"/>
+              <EmptySpace max="-2" attributes="0"/>
+              <Component id="cancelJButton" linkSize="1" min="-2" max="-2" attributes="0"/>
+              <EmptySpace max="-2" attributes="0"/>
+          </Group>
+      </Group>
+    </DimensionLayout>
+    <DimensionLayout dim="1">
+      <Group type="103" groupAlignment="0" attributes="0">
+          <Group type="102" alignment="0" attributes="0">
+              <EmptySpace max="-2" attributes="0"/>
+              <Component id="jPanel1" min="-2" max="-2" attributes="0"/>
+              <EmptySpace type="unrelated" max="-2" attributes="0"/>
+              <Group type="103" groupAlignment="3" attributes="0">
+                  <Component id="cancelJButton" alignment="3" min="-2" max="-2" attributes="0"/>
+                  <Component id="okJButton" alignment="3" min="-2" max="-2" attributes="0"/>
+              </Group>
+              <EmptySpace max="32767" attributes="0"/>
+          </Group>
+      </Group>
+    </DimensionLayout>
+  </Layout>
+  <SubComponents>
+    <Container class="javax.swing.JPanel" name="jPanel1">
+      <Properties>
+        <Property name="border" type="javax.swing.border.Border" editor="org.netbeans.modules.form.editors2.BorderEditor">
+          <Border info="org.netbeans.modules.form.compat2.border.TitledBorderInfo">
+            <TitledBorder title="Most Common Species">
+              <Color PropertyName="color" blue="0" green="0" red="0" type="rgb"/>
+            </TitledBorder>
+          </Border>
+        </Property>
+      </Properties>
+
+      <Layout>
+        <DimensionLayout dim="0">
+          <Group type="103" groupAlignment="0" attributes="0">
+              <Group type="102" attributes="0">
+                  <EmptySpace max="-2" attributes="0"/>
+                  <Group type="103" groupAlignment="0" attributes="0">
+                      <Component id="mostCommonSpeciesJComboBox" pref="476" max="32767" attributes="0"/>
+                      <Component id="jLabel1" alignment="0" min="-2" max="-2" attributes="0"/>
+                  </Group>
+                  <EmptySpace max="-2" attributes="0"/>
+              </Group>
+          </Group>
+        </DimensionLayout>
+        <DimensionLayout dim="1">
+          <Group type="103" groupAlignment="0" attributes="0">
+              <Group type="102" alignment="0" attributes="0">
+                  <EmptySpace max="-2" attributes="0"/>
+                  <Component id="mostCommonSpeciesJComboBox" min="-2" max="-2" attributes="0"/>
+                  <EmptySpace type="separate" max="-2" attributes="0"/>
+                  <Component id="jLabel1" min="-2" max="-2" attributes="0"/>
+                  <EmptySpace max="32767" attributes="0"/>
+              </Group>
+          </Group>
+        </DimensionLayout>
+      </Layout>
+      <SubComponents>
+        <Component class="javax.swing.JComboBox" name="mostCommonSpeciesJComboBox">
+          <Properties>
+            <Property name="maximumRowCount" type="int" value="20"/>
+            <Property name="model" type="javax.swing.ComboBoxModel" editor="org.netbeans.modules.form.editors2.ComboBoxModelEditor">
+              <StringArray count="53">
+                <StringItem index="0" value="Aedes aegypti (Yellowfever mosquito) [7159]"/>
+                <StringItem index="1" value="Anopheles gambiae (African malaria mosquito) [7165]"/>
+                <StringItem index="2" value="Apis mellifera (Honeybee) [7460]"/>
+                <StringItem index="3" value="Arabidopsis thaliana (Mouse-ear cress) [3702]"/>
+                <StringItem index="4" value="Bos taurus (Cow) [9913]"/>
+                <StringItem index="5" value="Caenorhabditis briggsae [6238]"/>
+                <StringItem index="6" value="Caenorhabditis elegans (Nematode) [6239]"/>
+                <StringItem index="7" value="Canis familiaris (Dog) [9615]"/>
+                <StringItem index="8" value="Cavia porcellus (Guinea pig) [10141]"/>
+                <StringItem index="9" value="Ciona intestinalis (Transparent sea squirt) [7719]"/>
+                <StringItem index="10" value="Ciona savignyi (Pacific transparent sea squirt) 51511]"/>
+                <StringItem index="11" value="Danio rerio (Zebrafish) [7955]"/>
+                <StringItem index="12" value="Dasypus novemcinctus (Nine-banded armadillo) [9361]"/>
+                <StringItem index="13" value="Dipodomys ordii (Ord&apos;s kangaroo rat) [10020]"/>
+                <StringItem index="14" value="Drosophila melanogaster (Fruit Fly) [7227]"/>
+                <StringItem index="15" value="Echinops telfairi (Lesser hedgehog) [9371]"/>
+                <StringItem index="16" value="Erinaceus europaeus (Western European hedgehog) [9365]"/>
+                <StringItem index="17" value="Escherichia coli [562]"/>
+                <StringItem index="18" value="Felis silvestris catus (Cat) [9685]"/>
+                <StringItem index="19" value="Fugu rubripes (Japanese pufferfish) [31033]"/>
+                <StringItem index="20" value="Gallus gallus (Chicken) [9031]"/>
+                <StringItem index="21" value="Gasterosteus aculeatus (Stickleback) [69293]"/>
+                <StringItem index="22" value="Hepatitis C virus [11103]"/>
+                <StringItem index="23" value="Homo sapiens (Human) [9606]"/>
+                <StringItem index="24" value="Human immunodeficiency virus 1 [11676]"/>
+                <StringItem index="25" value="Lama guanicoe pacos (Alpaca) (Lama pacos) 30538]"/>
+                <StringItem index="26" value="Loxodonta africana (African elephant) [9785]"/>
+                <StringItem index="27" value="Macaca mulatta (Rhesus macaque) [9544]"/>
+                <StringItem index="28" value="Microcebus murinus (Lesser mouse lemur) [30608]"/>
+                <StringItem index="29" value="Monodelphis domestica (Opossum) [13616]"/>
+                <StringItem index="30" value="Mus musculus (Mouse) [10090]"/>
+                <StringItem index="31" value="Myotis lucifugus (Little brown bat) [59463]"/>
+                <StringItem index="32" value="Ochotona princeps (Southern American pika) [9978]"/>
+                <StringItem index="33" value="Ornithorhynchus anatinus (Duckbill platypus) [9258]"/>
+                <StringItem index="34" value="Oryctolagus cuniculus (Rabbit) [9986]"/>
+                <StringItem index="35" value="Oryza sativa (Rice) [39947]"/>
+                <StringItem index="36" value="Oryzias latipes (Medaka fish) [8090]"/>
+                <StringItem index="37" value="Otolemur garnettii (Bushbaby) [30611]"/>
+                <StringItem index="38" value="Pan troglodytes (Chimp) [9598]"/>
+                <StringItem index="39" value="Paramecium tetraurelia [5888]"/>
+                <StringItem index="40" value="Procavia capensis (Cape hyrax) (Rock dassie) [9813]"/>
+                <StringItem index="41" value="Pteropus vampyrus (Large flying fox) [132908]"/>
+                <StringItem index="42" value="Rattus norvegicus (Rat) [10116]"/>
+                <StringItem index="43" value="Saccharomyces cerevisiae (Baker&apos;s yeast) [4932]"/>
+                <StringItem index="44" value="Sorex araneus (Common Shrew) [42254]"/>
+                <StringItem index="45" value="Spermophilus tridecemlineatus (Squirrel) [43179]"/>
+                <StringItem index="46" value="Strongylocentrotus purpuratus (Purple sea urchin) [7668]"/>
+                <StringItem index="47" value="Tarsius syrichta (Philippine tarsier) [9478]"/>
+                <StringItem index="48" value="Tetraodon nigroviridis (Green puffer) [99883]"/>
+                <StringItem index="49" value="Trypanosoma cruzi [5693]"/>
+                <StringItem index="50" value="Tupaia glis belangeri (Common tree shrew) [37347]"/>
+                <StringItem index="51" value="Tursiops truncatus (Atlantic bottle-nosed dolphin) [9739]"/>
+                <StringItem index="52" value="Xenopus tropicalis (Western clawed frog) [8364]"/>
+              </StringArray>
+            </Property>
+            <Property name="selectedIndex" type="int" value="23"/>
+          </Properties>
+        </Component>
+        <Component class="javax.swing.JLabel" name="jLabel1">
+          <Properties>
+            <Property name="font" type="java.awt.Font" editor="org.netbeans.modules.form.editors2.FontEditor">
+              <FontInfo relative="true">
+                <Font component="jLabel1" italic="true" property="font" relativeSize="true" size="0"/>
+              </FontInfo>
+            </Property>
+            <Property name="text" type="java.lang.String" value="Wanted species not in the list? Close this dialog and use the Term Name or Term ID search options."/>
+          </Properties>
+        </Component>
+      </SubComponents>
+    </Container>
+    <Component class="javax.swing.JButton" name="okJButton">
+      <Properties>
+        <Property name="text" type="java.lang.String" value="OK"/>
+      </Properties>
+      <Events>
+        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="okJButtonActionPerformed"/>
+      </Events>
+    </Component>
+    <Component class="javax.swing.JButton" name="cancelJButton">
+      <Properties>
+        <Property name="text" type="java.lang.String" value="Cancel"/>
+      </Properties>
+      <Events>
+        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="closeDialog"/>
+      </Events>
+    </Component>
+  </SubComponents>
+</Form>
