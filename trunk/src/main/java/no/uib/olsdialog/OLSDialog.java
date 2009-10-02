@@ -356,6 +356,7 @@ public class OLSDialog extends javax.swing.JDialog {
             currentDefinitionsJTextPane = definitionTermNameSearchJTextPane;
             currentTermDetailsJXTable = termDetailsTermNameSearchJXTable;
             currentTermDetailsJScrollPane = termDetailsTermNameSearchJScrollPane;
+            viewTermHierarchyTermNameSearchJLabel.setEnabled(false);
         } else if (searchType == OLS_DIALOG_PSI_MOD_MASS_SEARCH) {
             currentlySelectedMassSearchAccessionNumber = null;
             currentSearchResultsJXTable = olsResultsMassSearchJXTable;
@@ -363,11 +364,13 @@ public class OLSDialog extends javax.swing.JDialog {
             currentDefinitionsJTextPane = definitionMassSearchJTextPane;
             currentTermDetailsJXTable = termDetailsMassSearchJXTable;
             currentTermDetailsJScrollPane = termDetailsMassSearchJScrollPane;
+            viewTermHierarchyMassSearchJLabel.setEnabled(false);
         } else if (searchType == OLS_DIALOG_BROWSE_ONTOLOGY) {
             currentlySelectedBrowseOntologyAccessionNumber = null;
             currentDefinitionsJTextPane = definitionBrowseOntologyJTextPane;
             currentTermDetailsJXTable = termDetailsBrowseOntologyJXTable;
             currentTermDetailsJScrollPane = termDetailsBrowseOntologyJScrollPane;
+            viewTermHierarchyBrowseOntologyJLabel.setEnabled(false);
         } else if (searchType == OLS_DIALOG_TERM_ID_SEARCH) {
             currentlySelectedTermIdSearchAccessionNumber = null;
             currentSearchResultsJXTable = olsResultsTermIdSearchJXTable;
@@ -375,10 +378,11 @@ public class OLSDialog extends javax.swing.JDialog {
             currentDefinitionsJTextPane = definitionTermIdSearchJTextPane;
             currentTermDetailsJXTable = termDetailsTermIdSearchJXTable;
             currentTermDetailsJScrollPane = termDetailsTermIdSearchJScrollPane;
+            viewTermHierarchyTermIdSearchJLabel.setEnabled(false);
         }
 
         if (clearMetaData) {
-            
+
             currentDefinitionsJTextPane.setText("");
 
             while (currentTermDetailsJXTable.getRowCount() > 0) {
@@ -1148,8 +1152,8 @@ public class OLSDialog extends javax.swing.JDialog {
 
         termIdSearchJTextField.setHorizontalAlignment(javax.swing.JTextField.CENTER);
         termIdSearchJTextField.addKeyListener(new java.awt.event.KeyAdapter() {
-            public void keyReleased(java.awt.event.KeyEvent evt) {
-                termIdSearchJTextFieldKeyReleased(evt);
+            public void keyPressed(java.awt.event.KeyEvent evt) {
+                termIdSearchJTextFieldKeyPressed(evt);
             }
         });
 
@@ -1297,8 +1301,8 @@ public class OLSDialog extends javax.swing.JDialog {
         modificationMassJTextField.setHorizontalAlignment(javax.swing.JTextField.CENTER);
         modificationMassJTextField.setText("0.0");
         modificationMassJTextField.addKeyListener(new java.awt.event.KeyAdapter() {
-            public void keyReleased(java.awt.event.KeyEvent evt) {
-                modificationMassJTextFieldKeyReleased(evt);
+            public void keyPressed(java.awt.event.KeyEvent evt) {
+                modificationMassJTextFieldKeyPressed(evt);
             }
         });
 
@@ -1309,8 +1313,8 @@ public class OLSDialog extends javax.swing.JDialog {
         precisionJTextField.setText("0.1");
         precisionJTextField.setToolTipText("Mass Accuracy");
         precisionJTextField.addKeyListener(new java.awt.event.KeyAdapter() {
-            public void keyReleased(java.awt.event.KeyEvent evt) {
-                precisionJTextFieldKeyReleased(evt);
+            public void keyPressed(java.awt.event.KeyEvent evt) {
+                precisionJTextFieldKeyPressed(evt);
             }
         });
 
@@ -2137,26 +2141,6 @@ public class OLSDialog extends javax.swing.JDialog {
     }//GEN-LAST:event_olsResultsMassSearchJXTableMouseClicked
 
     /**
-     * If 'Enter' is pressed and the 'Search' button is enabled, the search is performed.
-     * 
-     * @param evt
-     */
-    private void modificationMassJTextFieldKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_modificationMassJTextFieldKeyReleased
-        if (evt.getKeyCode() == KeyEvent.VK_ENTER) {
-            if (modificationMassSearchJButton.isEnabled()) {
-                modificationMassSearchJButtonActionPerformed(null);
-            }
-        }
-    }//GEN-LAST:event_modificationMassJTextFieldKeyReleased
-
-    /**
-     * See modificationMassJTextFieldKeyReleased
-     */
-    private void precisionJTextFieldKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_precisionJTextFieldKeyReleased
-        modificationMassJTextFieldKeyReleased(evt);
-    }//GEN-LAST:event_precisionJTextFieldKeyReleased
-
-    /**
      * Changes the cursor to the hand cursor when over the term hierarchy link.
      *
      * @param evt
@@ -2312,12 +2296,12 @@ public class OLSDialog extends javax.swing.JDialog {
             String currentTermName = olsConnection.getTermById(termIdSearchJTextField.getText().trim(), ontology);
 
             if (currentTermName == null) {
-                JOptionPane.showMessageDialog(this, "No matching terms found.", "No Match Terms", JOptionPane.INFORMATION_MESSAGE);
+                JOptionPane.showMessageDialog(this, "No matching terms found.", "No Matching Terms", JOptionPane.INFORMATION_MESSAGE);
                 termIdSearchJTextField.requestFocus();
             } else {
 
                 if (currentTermName.equalsIgnoreCase(termIdSearchJTextField.getText().trim())) {
-                    JOptionPane.showMessageDialog(this, "No matching terms found.", "No Match Terms", JOptionPane.INFORMATION_MESSAGE);
+                    JOptionPane.showMessageDialog(this, "No matching terms found.", "No Matching Terms", JOptionPane.INFORMATION_MESSAGE);
                     termIdSearchJTextField.requestFocus();
                 } else {
                     ((DefaultTableModel) olsResultsTermIdSearchJXTable.getModel()).addRow(new Object[]{
@@ -2348,12 +2332,32 @@ public class OLSDialog extends javax.swing.JDialog {
     }//GEN-LAST:event_termIdSearchJButtonActionPerformed
 
     /**
+     * If 'Enter' is pressed and the 'Search' button is enabled, the search is performed.
+     *
+     * @param evt
+     */
+    private void modificationMassJTextFieldKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_modificationMassJTextFieldKeyPressed
+        if (evt.getKeyCode() == KeyEvent.VK_ENTER) {
+            if (modificationMassSearchJButton.isEnabled()) {
+                modificationMassSearchJButtonActionPerformed(null);
+            }
+        }
+    }//GEN-LAST:event_modificationMassJTextFieldKeyPressed
+
+    /**
+     * See modificationMassJTextFieldKeyPressed
+     */
+    private void precisionJTextFieldKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_precisionJTextFieldKeyPressed
+        modificationMassJTextFieldKeyPressed(evt);
+    }//GEN-LAST:event_precisionJTextFieldKeyPressed
+
+    /**
      * If 'Enter' is pressed and the 'Search' button is enabled the search is performed. 
      * Also enables or disables the search button when the field contains text or not.
      * 
      * @param evt
      */
-    private void termIdSearchJTextFieldKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_termIdSearchJTextFieldKeyReleased
+    private void termIdSearchJTextFieldKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_termIdSearchJTextFieldKeyPressed
         if (evt.getKeyCode() == KeyEvent.VK_ENTER) {
             if (termIdSearchJButton.isEnabled()) {
                 termIdSearchJButtonActionPerformed(null);
@@ -2361,7 +2365,7 @@ public class OLSDialog extends javax.swing.JDialog {
         } else {
             termIdSearchJButton.setEnabled(termIdSearchJTextField.getText().length() > 0);
         }
-    }//GEN-LAST:event_termIdSearchJTextFieldKeyReleased
+    }//GEN-LAST:event_termIdSearchJTextFieldKeyPressed
 
     /**
      * Opens a new dialog showing the term hierarchy as a graph.
