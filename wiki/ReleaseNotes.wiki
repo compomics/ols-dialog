@@ -3,6 +3,13 @@
 
 ----
 
+*Changes in OLS Dialog v3.2.1 - (Oct. 02. 2009):*
+ * BUG FIX: Fixed a bug where the NEWT species tips link was shown when mass search was used to start the dialog. 
+ * BUG FIX: Fixed a Java 1.5 issue where the wrong GUI package was used. 
+ * BUG FIX: Fixed some errors in the Common NEWT Species list.
+
+----
+
 *Changes in OLS Dialog v3.2 - (Oct. 02. 2009):*
  * NEW FEATURE: Added a `Search In All Ontologies` option.
  * NEW FEATURE: Disabled the ontology browsing for NEWT (it did not work). Instead a NEWT Species Tip dialog has been added where the most common species can be easily selected.
@@ -12,6 +19,8 @@
  * BUG FIX: Fixed a bug where the term hierarchy link was not disabled when a new Term Name or Term ID search was performed.
  * BUG FIX: Disabled column reordering in Term ID search columns. 
  * BUG FIX: Made sure that only one row can be selected at once in the search result tables.
+
+Download Count: 0
 
 ----
 
