@@ -196,7 +196,7 @@
                               <Group type="102" alignment="0" attributes="0">
                                   <Component id="jLabel2" min="-2" max="-2" attributes="0"/>
                                   <EmptySpace pref="299" max="32767" attributes="0"/>
-                                  <Component id="viewTermHierachyTermNameSearchJLabel" min="-2" max="-2" attributes="0"/>
+                                  <Component id="viewTermHierarchyTermNameSearchJLabel" min="-2" max="-2" attributes="0"/>
                               </Group>
                               <Component id="jScrollPane4" alignment="1" pref="469" max="32767" attributes="0"/>
                               <Group type="102" alignment="0" attributes="0">
@@ -227,7 +227,7 @@
                           <EmptySpace type="separate" max="-2" attributes="0"/>
                           <Group type="103" groupAlignment="3" attributes="0">
                               <Component id="jLabel2" alignment="3" min="-2" max="-2" attributes="0"/>
-                              <Component id="viewTermHierachyTermNameSearchJLabel" alignment="3" min="-2" max="-2" attributes="0"/>
+                              <Component id="viewTermHierarchyTermNameSearchJLabel" alignment="3" min="-2" max="-2" attributes="0"/>
                           </Group>
                           <EmptySpace max="-2" attributes="0"/>
                           <Component id="jScrollPane4" min="-2" pref="50" max="-2" attributes="1"/>
@@ -321,7 +321,7 @@
                     </Component>
                   </SubComponents>
                 </Container>
-                <Component class="javax.swing.JLabel" name="viewTermHierachyTermNameSearchJLabel">
+                <Component class="javax.swing.JLabel" name="viewTermHierarchyTermNameSearchJLabel">
                   <Properties>
                     <Property name="foreground" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
                       <Color blue="ff" green="0" red="0" type="rgb"/>
@@ -330,9 +330,9 @@
                     <Property name="enabled" type="boolean" value="false"/>
                   </Properties>
                   <Events>
-                    <EventHandler event="mouseClicked" listener="java.awt.event.MouseListener" parameters="java.awt.event.MouseEvent" handler="viewTermHierachyTermNameSearchJLabelMouseClicked"/>
-                    <EventHandler event="mouseEntered" listener="java.awt.event.MouseListener" parameters="java.awt.event.MouseEvent" handler="viewTermHierachyTermNameSearchJLabelMouseEntered"/>
-                    <EventHandler event="mouseExited" listener="java.awt.event.MouseListener" parameters="java.awt.event.MouseEvent" handler="viewTermHierachyTermNameSearchJLabelMouseExited"/>
+                    <EventHandler event="mouseClicked" listener="java.awt.event.MouseListener" parameters="java.awt.event.MouseEvent" handler="viewTermHierarchyTermNameSearchJLabelMouseClicked"/>
+                    <EventHandler event="mouseEntered" listener="java.awt.event.MouseListener" parameters="java.awt.event.MouseEvent" handler="viewTermHierarchyTermNameSearchJLabelMouseEntered"/>
+                    <EventHandler event="mouseExited" listener="java.awt.event.MouseListener" parameters="java.awt.event.MouseEvent" handler="viewTermHierarchyTermNameSearchJLabelMouseExited"/>
                   </Events>
                 </Component>
               </SubComponents>
@@ -358,7 +358,7 @@
                               <Group type="102" alignment="0" attributes="0">
                                   <Component id="jLabel13" min="-2" max="-2" attributes="0"/>
                                   <EmptySpace pref="299" max="32767" attributes="0"/>
-                                  <Component id="viewTermHierachyTermIdSearchJLabel" min="-2" max="-2" attributes="0"/>
+                                  <Component id="viewTermHierarchyTermIdSearchJLabel" min="-2" max="-2" attributes="0"/>
                               </Group>
                               <Component id="jScrollPane6" alignment="1" pref="469" max="32767" attributes="0"/>
                               <Group type="102" alignment="0" attributes="0">
@@ -389,7 +389,7 @@
                           <EmptySpace type="separate" max="-2" attributes="0"/>
                           <Group type="103" groupAlignment="3" attributes="0">
                               <Component id="jLabel13" alignment="3" min="-2" max="-2" attributes="0"/>
-                              <Component id="viewTermHierachyTermIdSearchJLabel" alignment="3" min="-2" max="-2" attributes="0"/>
+                              <Component id="viewTermHierarchyTermIdSearchJLabel" alignment="3" min="-2" max="-2" attributes="0"/>
                           </Group>
                           <EmptySpace max="-2" attributes="0"/>
                           <Component id="jScrollPane6" min="-2" pref="50" max="-2" attributes="1"/>
@@ -476,7 +476,7 @@
                     </Component>
                   </SubComponents>
                 </Container>
-                <Component class="javax.swing.JLabel" name="viewTermHierachyTermIdSearchJLabel">
+                <Component class="javax.swing.JLabel" name="viewTermHierarchyTermIdSearchJLabel">
                   <Properties>
                     <Property name="foreground" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
                       <Color blue="ff" green="0" red="0" type="rgb"/>
@@ -485,9 +485,9 @@
                     <Property name="enabled" type="boolean" value="false"/>
                   </Properties>
                   <Events>
-                    <EventHandler event="mouseClicked" listener="java.awt.event.MouseListener" parameters="java.awt.event.MouseEvent" handler="viewTermHierachyTermIdSearchJLabelMouseClicked"/>
-                    <EventHandler event="mouseEntered" listener="java.awt.event.MouseListener" parameters="java.awt.event.MouseEvent" handler="viewTermHierachyTermIdSearchJLabelMouseEntered"/>
-                    <EventHandler event="mouseExited" listener="java.awt.event.MouseListener" parameters="java.awt.event.MouseEvent" handler="viewTermHierachyTermIdSearchJLabelMouseExited"/>
+                    <EventHandler event="mouseClicked" listener="java.awt.event.MouseListener" parameters="java.awt.event.MouseEvent" handler="viewTermHierarchyTermIdSearchJLabelMouseClicked"/>
+                    <EventHandler event="mouseEntered" listener="java.awt.event.MouseListener" parameters="java.awt.event.MouseEvent" handler="viewTermHierarchyTermIdSearchJLabelMouseEntered"/>
+                    <EventHandler event="mouseExited" listener="java.awt.event.MouseListener" parameters="java.awt.event.MouseEvent" handler="viewTermHierarchyTermIdSearchJLabelMouseExited"/>
                   </Events>
                 </Component>
                 <Component class="javax.swing.JButton" name="termIdSearchJButton">
@@ -521,7 +521,7 @@
                               <Group type="102" alignment="0" attributes="0">
                                   <Component id="jLabel7" min="-2" max="-2" attributes="0"/>
                                   <EmptySpace pref="299" max="32767" attributes="0"/>
-                                  <Component id="viewTermHierachyMassSearchJLabel" min="-2" max="-2" attributes="0"/>
+                                  <Component id="viewTermHierarchyMassSearchJLabel" min="-2" max="-2" attributes="0"/>
                               </Group>
                               <Component id="jScrollPane5" alignment="0" pref="469" max="32767" attributes="0"/>
                               <Group type="102" alignment="0" attributes="0">
@@ -564,7 +564,7 @@
                           <EmptySpace type="separate" max="-2" attributes="0"/>
                           <Group type="103" groupAlignment="3" attributes="0">
                               <Component id="jLabel7" alignment="3" min="-2" max="-2" attributes="0"/>
-                              <Component id="viewTermHierachyMassSearchJLabel" alignment="3" min="-2" max="-2" attributes="0"/>
+                              <Component id="viewTermHierarchyMassSearchJLabel" alignment="3" min="-2" max="-2" attributes="0"/>
                           </Group>
                           <EmptySpace max="-2" attributes="0"/>
                           <Component id="jScrollPane5" min="-2" pref="50" max="-2" attributes="1"/>
@@ -698,7 +698,7 @@
                     </Component>
                   </SubComponents>
                 </Container>
-                <Component class="javax.swing.JLabel" name="viewTermHierachyMassSearchJLabel">
+                <Component class="javax.swing.JLabel" name="viewTermHierarchyMassSearchJLabel">
                   <Properties>
                     <Property name="foreground" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
                       <Color blue="ff" green="0" red="0" type="rgb"/>
@@ -707,9 +707,9 @@
                     <Property name="enabled" type="boolean" value="false"/>
                   </Properties>
                   <Events>
-                    <EventHandler event="mouseClicked" listener="java.awt.event.MouseListener" parameters="java.awt.event.MouseEvent" handler="viewTermHierachyMassSearchJLabelMouseClicked"/>
-                    <EventHandler event="mouseEntered" listener="java.awt.event.MouseListener" parameters="java.awt.event.MouseEvent" handler="viewTermHierachyMassSearchJLabelMouseEntered"/>
-                    <EventHandler event="mouseExited" listener="java.awt.event.MouseListener" parameters="java.awt.event.MouseEvent" handler="viewTermHierachyMassSearchJLabelMouseExited"/>
+                    <EventHandler event="mouseClicked" listener="java.awt.event.MouseListener" parameters="java.awt.event.MouseEvent" handler="viewTermHierarchyMassSearchJLabelMouseClicked"/>
+                    <EventHandler event="mouseEntered" listener="java.awt.event.MouseListener" parameters="java.awt.event.MouseEvent" handler="viewTermHierarchyMassSearchJLabelMouseEntered"/>
+                    <EventHandler event="mouseExited" listener="java.awt.event.MouseListener" parameters="java.awt.event.MouseEvent" handler="viewTermHierarchyMassSearchJLabelMouseExited"/>
                   </Events>
                 </Component>
               </SubComponents>
@@ -733,7 +733,7 @@
                               <Group type="102" alignment="0" attributes="0">
                                   <Component id="jLabel8" min="-2" max="-2" attributes="0"/>
                                   <EmptySpace pref="299" max="32767" attributes="0"/>
-                                  <Component id="viewTermHierachyBrowseOntologyJLabel" min="-2" max="-2" attributes="0"/>
+                                  <Component id="viewTermHierarchyBrowseOntologyJLabel" min="-2" max="-2" attributes="0"/>
                               </Group>
                               <Component id="jScrollPane7" alignment="1" pref="469" max="32767" attributes="0"/>
                               <Component id="termDetailsBrowseOntologyJScrollPane" alignment="1" pref="469" max="32767" attributes="0"/>
@@ -750,7 +750,7 @@
                           <EmptySpace min="-2" pref="15" max="-2" attributes="0"/>
                           <Group type="103" groupAlignment="3" attributes="0">
                               <Component id="jLabel8" alignment="3" min="-2" max="-2" attributes="0"/>
-                              <Component id="viewTermHierachyBrowseOntologyJLabel" alignment="3" min="-2" max="-2" attributes="0"/>
+                              <Component id="viewTermHierarchyBrowseOntologyJLabel" alignment="3" min="-2" max="-2" attributes="0"/>
                           </Group>
                           <EmptySpace max="-2" attributes="0"/>
                           <Component id="jScrollPane7" min="-2" pref="50" max="-2" attributes="1"/>
@@ -802,7 +802,7 @@
 
                   <Layout class="org.netbeans.modules.form.compat2.layouts.DesignBoxLayout"/>
                 </Container>
-                <Component class="javax.swing.JLabel" name="viewTermHierachyBrowseOntologyJLabel">
+                <Component class="javax.swing.JLabel" name="viewTermHierarchyBrowseOntologyJLabel">
                   <Properties>
                     <Property name="foreground" type="java.awt.Color" editor="org.netbeans.beaninfo.editors.ColorEditor">
                       <Color blue="ff" green="0" red="0" type="rgb"/>
@@ -811,7 +811,7 @@
                     <Property name="enabled" type="boolean" value="false"/>
                   </Properties>
                   <Events>
-                    <EventHandler event="mouseClicked" listener="java.awt.event.MouseListener" parameters="java.awt.event.MouseEvent" handler="viewTermHierachyBrowseOntologyJLabelMouseClicked"/>
+                    <EventHandler event="mouseClicked" listener="java.awt.event.MouseListener" parameters="java.awt.event.MouseEvent" handler="viewTermHierarchyBrowseOntologyJLabelMouseClicked"/>
                     <EventHandler event="mouseEntered" listener="java.awt.event.MouseListener" parameters="java.awt.event.MouseEvent" handler="viewTermHierachyJLabelMouseEntered"/>
                     <EventHandler event="mouseExited" listener="java.awt.event.MouseListener" parameters="java.awt.event.MouseEvent" handler="viewTermHierachyJLabelMouseExited"/>
                   </Events>
