@@ -2,11 +2,4 @@
 
 ----
 
- * NEW FEATURE: Added a `Search In All Ontologies` option.
- * NEW FEATURE: Disabled the ontology browsing for NEWT (it did not work). Instead a NEWT Species Tip dialog has been added where the most common species can be easily selected.
- * FEATURE IMPROVEMENT: Updated the help files.
- * FEATURE IMPROVEMENT: Ontologies without root terms are now detected and a message is shown when trying to browse such an ontology.
- * BUG FIX: Fixed a problem with using the 'Enter' key to close some of the dialogs (the dialogs reappeared).
- * BUG FIX: Fixed a bug where the term hierarchy link was not disabled when a new Term Name or Term ID search was performed.
- * BUG FIX: Disabled column reordering in Term ID search columns. 
- * BUG FIX: Made sure that only one row can be selected at once in the search result tables.
+ (currently no changes)
