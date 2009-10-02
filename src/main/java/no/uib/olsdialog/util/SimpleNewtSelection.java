@@ -2,8 +2,6 @@ package no.uib.olsdialog.util;
 
 import javax.swing.SwingConstants;
 import no.uib.olsdialog.OLSDialog;
-import org.jdesktop.layout.GroupLayout;
-import org.jdesktop.layout.LayoutStyle;
 
 /**
  * A simple dialog displaying a list of the most common NEWT species.
@@ -53,31 +51,30 @@ public class SimpleNewtSelection extends javax.swing.JDialog {
         jPanel1.setBorder(javax.swing.BorderFactory.createTitledBorder(null, "Most Common Species", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Tahoma", 0, 11), new java.awt.Color(0, 0, 0))); // NOI18N
 
         mostCommonSpeciesJComboBox.setMaximumRowCount(20);
-        mostCommonSpeciesJComboBox.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "Aedes aegypti (Yellowfever mosquito) [7159]", "Anopheles gambiae (African malaria mosquito) [7165]", "Apis mellifera (Honeybee) [7460]", "Arabidopsis thaliana (Mouse-ear cress) [3702]", "Bos taurus (Cow) [9913]", "Caenorhabditis briggsae [6238]", "Caenorhabditis elegans (Nematode) [6239]", "Canis familiaris (Dog) [9615]", "Cavia porcellus (Guinea pig) [10141]", "Ciona intestinalis (Transparent sea squirt) [7719]", "Ciona savignyi (Pacific transparent sea squirt) 51511]", "Danio rerio (Zebrafish) [7955]", "Dasypus novemcinctus (Nine-banded armadillo) [9361]", "Dipodomys ordii (Ord's kangaroo rat) [10020]", "Drosophila melanogaster (Fruit Fly) [7227]", "Echinops telfairi (Lesser hedgehog) [9371]", "Erinaceus europaeus (Western European hedgehog) [9365]", "Escherichia coli [562]", "Felis silvestris catus (Cat) [9685]", "Fugu rubripes (Japanese pufferfish) [31033]", "Gallus gallus (Chicken) [9031]", "Gasterosteus aculeatus (Stickleback) [69293]", "Hepatitis C virus [11103]", "Homo sapiens (Human) [9606]", "Human immunodeficiency virus 1 [11676]", "Lama guanicoe pacos (Alpaca) (Lama pacos) 30538]", "Loxodonta africana (African elephant) [9785]", "Macaca mulatta (Rhesus macaque) [9544]", "Microcebus murinus (Lesser mouse lemur) [30608]", "Monodelphis domestica (Opossum) [13616]", "Mus musculus (Mouse) [10090]", "Myotis lucifugus (Little brown bat) [59463]", "Ochotona princeps (Southern American pika) [9978]", "Ornithorhynchus anatinus (Duckbill platypus) [9258]", "Oryctolagus cuniculus (Rabbit) [9986]", "Oryza sativa (Rice) [39947]", "Oryzias latipes (Medaka fish) [8090]", "Otolemur garnettii (Bushbaby) [30611]", "Pan troglodytes (Chimp) [9598]", "Paramecium tetraurelia [5888]", "Procavia capensis (Cape hyrax) (Rock dassie) [9813]", "Pteropus vampyrus (Large flying fox) [132908]", "Rattus norvegicus (Rat) [10116]", "Saccharomyces cerevisiae (Baker's yeast) [4932]", "Sorex araneus (Common Shrew) [42254]", "Spermophilus tridecemlineatus (Squirrel) [43179]", "Strongylocentrotus purpuratus (Purple sea urchin) [7668]", "Tarsius syrichta (Philippine tarsier) [9478]", "Tetraodon nigroviridis (Green puffer) [99883]", "Trypanosoma cruzi [5693]", "Tupaia glis belangeri (Common tree shrew) [37347]", "Tursiops truncatus (Atlantic bottle-nosed dolphin) [9739]", "Xenopus tropicalis (Western clawed frog) [8364]" }));
-        mostCommonSpeciesJComboBox.setSelectedIndex(23);
+        mostCommonSpeciesJComboBox.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "Aedes aegypti (Yellowfever mosquito) [7159]", "Anopheles gambiae (African malaria mosquito) [7165]", "Apis mellifera (Honeybee) [7460]", "Arabidopsis thaliana (Mouse-ear cress) [3702]", "Bos taurus (Cow) [9913]", "Caenorhabditis briggsae [6238]", "Caenorhabditis elegans (Nematode) [6239]", "Canis familiaris (Dog) [9615]", "Cavia porcellus (Guinea pig) [10141]", "Ciona intestinalis (Transparent sea squirt) [7719]", "Ciona savignyi (Pacific transparent sea squirt) [51511]", "Danio rerio (Zebrafish) [7955]", "Dasypus novemcinctus (Nine-banded armadillo) [9361]", "Dipodomys ordii (Ord's kangaroo rat) [10020]", "Drosophila melanogaster (Fruit Fly) [7227]", "Echinops telfairi (Lesser hedgehog) [9371]", "Erinaceus europaeus (Western European hedgehog) [9365]", "Escherichia coli [562]", "Felis silvestris catus (Cat) [9685]", "Fugu rubripes (Japanese pufferfish) [31033]", "Gallus gallus (Chicken) [9031]", "Gasterosteus aculeatus (Stickleback) [69293]", "Hepatitis C virus [11103]", "Homo sapiens (Human) [9606]", "Human immunodeficiency virus 1 [11676]", "Lama guanicoe pacos (Alpaca) (Lama pacos) [30538]", "Loxodonta africana (African elephant) [9785]", "Macaca mulatta (Rhesus macaque) [9544]", "Microcebus murinus (Lesser mouse lemur) [30608]", "Monodelphis domestica (Opossum) [13616]", "Mus musculus (Mouse) [10090]", "Myotis lucifugus (Little brown bat) [59463]", "Ochotona princeps (Southern American pika) [9978]", "Ornithorhynchus anatinus (Duckbill platypus) [9258]", "Oryctolagus cuniculus (Rabbit) [9986]", "Oryza sativa (Rice) [39947]", "Oryzias latipes (Medaka fish) [8090]", "Otolemur garnettii (Bushbaby) [30611]", "Pan troglodytes (Chimp) [9598]", "Paramecium tetraurelia [5888]", "Procavia capensis (Cape hyrax) (Rock dassie) [9813]", "Pteropus vampyrus (Large flying fox) [132908]", "Rattus norvegicus (Rat) [10116]", "Saccharomyces cerevisiae (Baker's yeast) [4932]", "Sorex araneus (Common Shrew) [42254]", "Spermophilus tridecemlineatus (Squirrel) [43179]", "Strongylocentrotus purpuratus (Purple sea urchin) [7668]", "Tarsius syrichta (Philippine tarsier) [9478]", "Tetraodon nigroviridis (Green puffer) [99883]", "Trypanosoma cruzi [5693]", "Tupaia glis belangeri (Common tree shrew) [37347]", "Tursiops truncatus (Atlantic bottle-nosed dolphin) [9739]", "Xenopus tropicalis (Western clawed frog) [8364]" }));
 
         jLabel1.setFont(jLabel1.getFont().deriveFont((jLabel1.getFont().getStyle() | java.awt.Font.ITALIC)));
         jLabel1.setText("Wanted species not in the list? Close this dialog and use the Term Name or Term ID search options.");
 
-        GroupLayout jPanel1Layout = new GroupLayout(jPanel1);
+        org.jdesktop.layout.GroupLayout jPanel1Layout = new org.jdesktop.layout.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
         jPanel1Layout.setHorizontalGroup(
-            jPanel1Layout.createParallelGroup(GroupLayout.LEADING)
+            jPanel1Layout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
             .add(jPanel1Layout.createSequentialGroup()
                 .addContainerGap()
-                .add(jPanel1Layout.createParallelGroup(GroupLayout.LEADING)
+                .add(jPanel1Layout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
                     .add(mostCommonSpeciesJComboBox, 0, 476, Short.MAX_VALUE)
                     .add(jLabel1))
                 .addContainerGap())
         );
         jPanel1Layout.setVerticalGroup(
-            jPanel1Layout.createParallelGroup(GroupLayout.LEADING)
+            jPanel1Layout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
             .add(jPanel1Layout.createSequentialGroup()
                 .addContainerGap()
-                .add(mostCommonSpeciesJComboBox, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
+                .add(mostCommonSpeciesJComboBox, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
                 .add(18, 18, 18)
                 .add(jLabel1)
-                .addContainerGap(GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addContainerGap(org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
         okJButton.setText("OK");
@@ -94,34 +91,34 @@ public class SimpleNewtSelection extends javax.swing.JDialog {
             }
         });
 
-        GroupLayout layout = new GroupLayout(getContentPane());
+        org.jdesktop.layout.GroupLayout layout = new org.jdesktop.layout.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
-            layout.createParallelGroup(GroupLayout.LEADING)
+            layout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
             .add(layout.createSequentialGroup()
                 .addContainerGap()
-                .add(jPanel1, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-            .add(GroupLayout.TRAILING, layout.createSequentialGroup()
+                .add(jPanel1, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap(org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+            .add(org.jdesktop.layout.GroupLayout.TRAILING, layout.createSequentialGroup()
                 .addContainerGap(386, Short.MAX_VALUE)
                 .add(okJButton)
-                .addPreferredGap(LayoutStyle.RELATED)
+                .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED)
                 .add(cancelJButton)
                 .addContainerGap())
         );
 
-        layout.linkSize(new java.awt.Component[] {cancelJButton, okJButton}, javax.swing.SwingConstants.HORIZONTAL);
+        layout.linkSize(new java.awt.Component[] {cancelJButton, okJButton}, org.jdesktop.layout.GroupLayout.HORIZONTAL);
 
         layout.setVerticalGroup(
-            layout.createParallelGroup(GroupLayout.LEADING)
+            layout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
             .add(layout.createSequentialGroup()
                 .addContainerGap()
-                .add(jPanel1, GroupLayout.PREFERRED_SIZE, GroupLayout.DEFAULT_SIZE, GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(LayoutStyle.UNRELATED)
-                .add(layout.createParallelGroup(GroupLayout.BASELINE)
+                .add(jPanel1, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(org.jdesktop.layout.LayoutStyle.UNRELATED)
+                .add(layout.createParallelGroup(org.jdesktop.layout.GroupLayout.BASELINE)
                     .add(cancelJButton)
                     .add(okJButton))
-                .addContainerGap(GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addContainerGap(org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
         pack();
