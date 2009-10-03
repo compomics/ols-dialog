@@ -1,6 +1,7 @@
 package no.uib.olsdialog.util;
 
 import java.awt.Color;
+import java.awt.Dimension;
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStreamReader;
@@ -23,6 +24,8 @@ public class TermHierarchyGraphViewer extends javax.swing.JDialog {
     final int MAXIMUM_DIALOG_WIDTH = 600;
     final int MINIMUM_DIALOG_WIDTH = 250;
     final int MAXIMUM_DIALOG_HEIGHT = 600;
+    final int VERTICAL_PADDING = 40;
+    final int HORIZONTAL_PADDING = 40;
     private JScrollPane jScrollPane;
 
     /**
@@ -78,13 +81,19 @@ public class TermHierarchyGraphViewer extends javax.swing.JDialog {
             JLabel label = new JLabel(ii);
             label.setBackground(Color.WHITE);
             label.setOpaque(true);
+
+            // add some padding to the size of the label
+            int width = ii.getIconWidth() + HORIZONTAL_PADDING;
+            int height = ii.getIconHeight() + VERTICAL_PADDING;
+
+            label.setPreferredSize(new Dimension(width, height));
+
+            // add the label to the scroll pane
             jScrollPane = new JScrollPane(label);
             jScrollPane.setBackground(Color.WHITE);
             jScrollPane.setOpaque(true);
 
-            // set the size if the dialog
-            int width = ii.getIconWidth() + 40;
-            int height = ii.getIconHeight() + 50;
+            getContentPane().add(jScrollPane);
 
             // make sure the dialog does not become too big (or too small)
             if (width > MAXIMUM_DIALOG_WIDTH) {
@@ -97,9 +106,8 @@ public class TermHierarchyGraphViewer extends javax.swing.JDialog {
                 height = MAXIMUM_DIALOG_HEIGHT;
             }
 
-            this.setSize(width, height);
-            getContentPane().add(jScrollPane);
-
+            this.setSize(width + 50, height + 50); // have to add additional size due to possible scroll bars
+            
             // invoke later to give time for the scroll bar to update
             SwingUtilities.invokeLater(new Runnable() {
 

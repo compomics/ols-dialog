@@ -250,11 +250,24 @@ public class OLSDialog extends javax.swing.JDialog {
      */
     private void setUpFrame(Integer searchType) {
 
+        // set up of the default font size and type
+//        java.util.Enumeration keys = UIManager.getDefaults().keys();
+//        while (keys.hasMoreElements()) {
+//            Object key = keys.nextElement();
+//            Object value = UIManager.get(key);
+//            if (value instanceof javax.swing.plaf.FontUIResource) {
+//                UIManager.put(key, new java.awt.Font("Tahoma", 0, 11));
+//            }
+//        }
+
         initComponents();
 
         setLookAndFeel();
 
         setTitle("Ontology Lookup Service - (ols-dialog v" + olsDialogVersionNumber + ")");
+
+        // hide the mass search dummy label
+        dummyLabelJLabel.setForeground(massSearchJPanel.getBackground());
 
         // initialize the tree browser
         treeBrowser = new TreeBrowser(this);
@@ -285,7 +298,11 @@ public class OLSDialog extends javax.swing.JDialog {
         termDetailsTermNameSearchJXTable.getColumn(1).setCellRenderer(new DefaultTableRenderer() {
 
             @Override
-            public Component getTableCellRendererComponent(JTable table, Object value, boolean isSelected, boolean hasFocus, int row, int column) {
+            public Component getTableCellRendererComponent(JTable table, Object value,
+                    boolean isSelected,
+                    boolean hasFocus,
+                    int row,
+                    int column) {
                 setTableToolTip(table, value, row, column);
                 return super.getTableCellRendererComponent(table, value, isSelected, hasFocus, row, column);
             }
@@ -294,7 +311,11 @@ public class OLSDialog extends javax.swing.JDialog {
         termDetailsMassSearchJXTable.getColumn(1).setCellRenderer(new DefaultTableRenderer() {
 
             @Override
-            public Component getTableCellRendererComponent(JTable table, Object value, boolean isSelected, boolean hasFocus, int row, int column) {
+            public Component getTableCellRendererComponent(JTable table, Object value,
+                    boolean isSelected,
+                    boolean hasFocus,
+                    int row,
+                    int column) {
                 setTableToolTip(table, value, row, column);
                 return super.getTableCellRendererComponent(table, value, isSelected, hasFocus, row, column);
             }
@@ -303,7 +324,11 @@ public class OLSDialog extends javax.swing.JDialog {
         termDetailsBrowseOntologyJXTable.getColumn(1).setCellRenderer(new DefaultTableRenderer() {
 
             @Override
-            public Component getTableCellRendererComponent(JTable table, Object value, boolean isSelected, boolean hasFocus, int row, int column) {
+            public Component getTableCellRendererComponent(JTable table, Object value,
+                    boolean isSelected,
+                    boolean hasFocus,
+                    int row,
+                    int column) {
                 setTableToolTip(table, value, row, column);
                 return super.getTableCellRendererComponent(table, value, isSelected, hasFocus, row, column);
             }
@@ -517,7 +542,7 @@ public class OLSDialog extends javax.swing.JDialog {
             currentTermDetailsJScrollPane = termDetailsTermIdSearchJScrollPane;
         }
 
-        //clear meta data
+//clear meta data
         clearData(searchType, false, true);
 
         if (termId == null) {
@@ -574,8 +599,7 @@ public class OLSDialog extends javax.swing.JDialog {
                     currentlySelectedMassSearchAccessionNumber = null;
                 } else if (searchType == OLS_DIALOG_BROWSE_ONTOLOGY) {
                     currentlySelectedBrowseOntologyAccessionNumber = null;
-                }
-                if (searchType == OLS_DIALOG_TERM_ID_SEARCH) {
+                } else if (searchType == OLS_DIALOG_TERM_ID_SEARCH) {
                     currentlySelectedTermIdSearchAccessionNumber = termId;
                 }
 
@@ -924,25 +948,24 @@ public class OLSDialog extends javax.swing.JDialog {
         helpJButton = new javax.swing.JButton();
         jSeparator1 = new javax.swing.JSeparator();
         aboutJButton = new javax.swing.JButton();
-        jPanel4 = new javax.swing.JPanel();
+        searchParametersJPanel = new javax.swing.JPanel();
         searchTypeJTabbedPane = new javax.swing.JTabbedPane();
         termNameSearchJPanel = new javax.swing.JPanel();
-        jLabel3 = new javax.swing.JLabel();
-        termNameSearchJTextField = new javax.swing.JTextField();
-        numberOfTermsTermNameSearchJTextField = new javax.swing.JTextField();
         jScrollPane4 = new javax.swing.JScrollPane();
         definitionTermNameSearchJTextPane = new javax.swing.JTextPane();
         termDetailsTermNameSearchJScrollPane = new javax.swing.JScrollPane();
         termDetailsTermNameSearchJXTable = new org.jdesktop.swingx.JXTable();
-        jLabel1 = new javax.swing.JLabel();
-        jLabel2 = new javax.swing.JLabel();
+        searchResultsTermNameJLabel = new javax.swing.JLabel();
+        selectedTermTermNameJLabel = new javax.swing.JLabel();
         olsResultsTermNameSearchJScrollPane = new javax.swing.JScrollPane();
         olsResultsTermNameSearchJXTable = new org.jdesktop.swingx.JXTable();
         viewTermHierarchyTermNameSearchJLabel = new javax.swing.JLabel();
+        jPanel3 = new javax.swing.JPanel();
+        termNameJLabel = new javax.swing.JLabel();
+        termNameSearchJTextField = new javax.swing.JTextField();
         newtSpeciesTipsTermNameSearchJLabel = new javax.swing.JLabel();
+        numberOfTermsTermNameSearchJTextField = new javax.swing.JTextField();
         termIdSearchJPanel = new javax.swing.JPanel();
-        jLabel10 = new javax.swing.JLabel();
-        termIdSearchJTextField = new javax.swing.JTextField();
         jScrollPane6 = new javax.swing.JScrollPane();
         definitionTermIdSearchJTextPane = new javax.swing.JTextPane();
         termDetailsTermIdSearchJScrollPane = new javax.swing.JScrollPane();
@@ -952,25 +975,30 @@ public class OLSDialog extends javax.swing.JDialog {
         olsResultsTermIdSearchJScrollPane = new javax.swing.JScrollPane();
         olsResultsTermIdSearchJXTable = new org.jdesktop.swingx.JXTable();
         viewTermHierarchyTermIdSearchJLabel = new javax.swing.JLabel();
-        termIdSearchJButton = new javax.swing.JButton();
+        jPanel2 = new javax.swing.JPanel();
+        jLabel10 = new javax.swing.JLabel();
+        termIdSearchJTextField = new javax.swing.JTextField();
         newtSpeciesTipsTermIdSearchJLabel = new javax.swing.JLabel();
+        termIdSearchJButton = new javax.swing.JButton();
         massSearchJPanel = new javax.swing.JPanel();
-        jLabel4 = new javax.swing.JLabel();
-        modificationMassJTextField = new javax.swing.JTextField();
-        jLabel5 = new javax.swing.JLabel();
-        precisionJTextField = new javax.swing.JTextField();
         jLabel6 = new javax.swing.JLabel();
         jLabel7 = new javax.swing.JLabel();
         jScrollPane5 = new javax.swing.JScrollPane();
         definitionMassSearchJTextPane = new javax.swing.JTextPane();
         termDetailsMassSearchJScrollPane = new javax.swing.JScrollPane();
         termDetailsMassSearchJXTable = new org.jdesktop.swingx.JXTable();
-        modificationMassSearchJButton = new javax.swing.JButton();
-        massTypeJComboBox = new javax.swing.JComboBox();
-        jLabel12 = new javax.swing.JLabel();
         olsResultsMassSearchJScrollPane = new javax.swing.JScrollPane();
         olsResultsMassSearchJXTable = new org.jdesktop.swingx.JXTable();
         viewTermHierarchyMassSearchJLabel = new javax.swing.JLabel();
+        jPanel1 = new javax.swing.JPanel();
+        jLabel4 = new javax.swing.JLabel();
+        modificationMassJTextField = new javax.swing.JTextField();
+        jLabel5 = new javax.swing.JLabel();
+        precisionJTextField = new javax.swing.JTextField();
+        jLabel12 = new javax.swing.JLabel();
+        massTypeJComboBox = new javax.swing.JComboBox();
+        dummyLabelJLabel = new javax.swing.JLabel();
+        modificationMassSearchJButton = new javax.swing.JButton();
         browseOntologyJPanel = new javax.swing.JPanel();
         jLabel8 = new javax.swing.JLabel();
         jScrollPane7 = new javax.swing.JScrollPane();
@@ -979,7 +1007,7 @@ public class OLSDialog extends javax.swing.JDialog {
         termDetailsBrowseOntologyJXTable = new org.jdesktop.swingx.JXTable();
         browseJPanel = new javax.swing.JPanel();
         viewTermHierarchyBrowseOntologyJLabel = new javax.swing.JLabel();
-        jLabel9 = new javax.swing.JLabel();
+        ontologyJLabel = new javax.swing.JLabel();
         ontologyJComboBox = new javax.swing.JComboBox();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
@@ -1025,26 +1053,13 @@ public class OLSDialog extends javax.swing.JDialog {
             }
         });
 
-        jPanel4.setBorder(javax.swing.BorderFactory.createTitledBorder(null, "Search Parameters", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Tahoma", 0, 11), new java.awt.Color(0, 0, 0))); // NOI18N
+        searchParametersJPanel.setBorder(javax.swing.BorderFactory.createTitledBorder(null, "Search Parameters", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Tahoma", 0, 11), new java.awt.Color(0, 0, 0))); // NOI18N
 
         searchTypeJTabbedPane.addChangeListener(new javax.swing.event.ChangeListener() {
             public void stateChanged(javax.swing.event.ChangeEvent evt) {
                 searchTypeJTabbedPaneStateChanged(evt);
             }
         });
-
-        jLabel3.setText("Term Name:");
-
-        termNameSearchJTextField.setHorizontalAlignment(javax.swing.JTextField.CENTER);
-        termNameSearchJTextField.addKeyListener(new java.awt.event.KeyAdapter() {
-            public void keyReleased(java.awt.event.KeyEvent evt) {
-                termNameSearchJTextFieldKeyReleased(evt);
-            }
-        });
-
-        numberOfTermsTermNameSearchJTextField.setEditable(false);
-        numberOfTermsTermNameSearchJTextField.setHorizontalAlignment(javax.swing.JTextField.CENTER);
-        numberOfTermsTermNameSearchJTextField.setToolTipText("Number of Matching Terms");
 
         definitionTermNameSearchJTextPane.setEditable(false);
         jScrollPane4.setViewportView(definitionTermNameSearchJTextPane);
@@ -1075,9 +1090,9 @@ public class OLSDialog extends javax.swing.JDialog {
         termDetailsTermNameSearchJXTable.setOpaque(false);
         termDetailsTermNameSearchJScrollPane.setViewportView(termDetailsTermNameSearchJXTable);
 
-        jLabel1.setText("Search Results:");
+        searchResultsTermNameJLabel.setText("Search Results:");
 
-        jLabel2.setText("Selected Term:");
+        selectedTermTermNameJLabel.setText("Selected Term:");
 
         olsResultsTermNameSearchJXTable.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
@@ -1130,6 +1145,15 @@ public class OLSDialog extends javax.swing.JDialog {
             }
         });
 
+        termNameJLabel.setText("Term Name:");
+
+        termNameSearchJTextField.setHorizontalAlignment(javax.swing.JTextField.CENTER);
+        termNameSearchJTextField.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyReleased(java.awt.event.KeyEvent evt) {
+                termNameSearchJTextFieldKeyReleased(evt);
+            }
+        });
+
         newtSpeciesTipsTermNameSearchJLabel.setFont(newtSpeciesTipsTermNameSearchJLabel.getFont().deriveFont(newtSpeciesTipsTermNameSearchJLabel.getFont().getSize()-1f));
         newtSpeciesTipsTermNameSearchJLabel.setForeground(new java.awt.Color(0, 0, 255));
         newtSpeciesTipsTermNameSearchJLabel.setText("NEWT Species Tips");
@@ -1145,49 +1169,71 @@ public class OLSDialog extends javax.swing.JDialog {
             }
         });
 
+        numberOfTermsTermNameSearchJTextField.setEditable(false);
+        numberOfTermsTermNameSearchJTextField.setHorizontalAlignment(javax.swing.JTextField.CENTER);
+        numberOfTermsTermNameSearchJTextField.setToolTipText("Number of Matching Terms");
+
+        org.jdesktop.layout.GroupLayout jPanel3Layout = new org.jdesktop.layout.GroupLayout(jPanel3);
+        jPanel3.setLayout(jPanel3Layout);
+        jPanel3Layout.setHorizontalGroup(
+            jPanel3Layout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
+            .add(jPanel3Layout.createSequentialGroup()
+                .addContainerGap()
+                .add(jPanel3Layout.createParallelGroup(org.jdesktop.layout.GroupLayout.TRAILING)
+                    .add(newtSpeciesTipsTermNameSearchJLabel)
+                    .add(org.jdesktop.layout.GroupLayout.LEADING, jPanel3Layout.createSequentialGroup()
+                        .add(termNameJLabel)
+                        .addPreferredGap(org.jdesktop.layout.LayoutStyle.UNRELATED)
+                        .add(termNameSearchJTextField, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, 321, Short.MAX_VALUE)))
+                .addPreferredGap(org.jdesktop.layout.LayoutStyle.UNRELATED)
+                .add(numberOfTermsTermNameSearchJTextField, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, 79, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap())
+        );
+        jPanel3Layout.setVerticalGroup(
+            jPanel3Layout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
+            .add(jPanel3Layout.createSequentialGroup()
+                .addContainerGap()
+                .add(jPanel3Layout.createParallelGroup(org.jdesktop.layout.GroupLayout.CENTER)
+                    .add(termNameJLabel)
+                    .add(numberOfTermsTermNameSearchJTextField, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, 20, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
+                    .add(termNameSearchJTextField, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED)
+                .add(newtSpeciesTipsTermNameSearchJLabel))
+        );
+
         org.jdesktop.layout.GroupLayout termNameSearchJPanelLayout = new org.jdesktop.layout.GroupLayout(termNameSearchJPanel);
         termNameSearchJPanel.setLayout(termNameSearchJPanelLayout);
         termNameSearchJPanelLayout.setHorizontalGroup(
             termNameSearchJPanelLayout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
+            .add(org.jdesktop.layout.GroupLayout.TRAILING, jPanel3, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+            .add(termNameSearchJPanelLayout.createSequentialGroup()
+                .addContainerGap()
+                .add(searchResultsTermNameJLabel)
+                .addContainerGap(413, Short.MAX_VALUE))
             .add(termNameSearchJPanelLayout.createSequentialGroup()
                 .addContainerGap()
                 .add(termNameSearchJPanelLayout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
-                    .add(org.jdesktop.layout.GroupLayout.TRAILING, olsResultsTermNameSearchJScrollPane, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, 469, Short.MAX_VALUE)
-                    .add(termDetailsTermNameSearchJScrollPane, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, 469, Short.MAX_VALUE)
-                    .add(jLabel1)
+                    .add(org.jdesktop.layout.GroupLayout.TRAILING, olsResultsTermNameSearchJScrollPane, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, 478, Short.MAX_VALUE)
+                    .add(termDetailsTermNameSearchJScrollPane, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, 478, Short.MAX_VALUE)
                     .add(termNameSearchJPanelLayout.createSequentialGroup()
-                        .add(jLabel2)
-                        .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED, 299, Short.MAX_VALUE)
+                        .add(selectedTermTermNameJLabel)
+                        .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED, 308, Short.MAX_VALUE)
                         .add(viewTermHierarchyTermNameSearchJLabel))
-                    .add(org.jdesktop.layout.GroupLayout.TRAILING, jScrollPane4, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, 469, Short.MAX_VALUE)
-                    .add(org.jdesktop.layout.GroupLayout.TRAILING, termNameSearchJPanelLayout.createSequentialGroup()
-                        .add(termNameSearchJPanelLayout.createParallelGroup(org.jdesktop.layout.GroupLayout.TRAILING)
-                            .add(newtSpeciesTipsTermNameSearchJLabel)
-                            .add(termNameSearchJPanelLayout.createSequentialGroup()
-                                .add(jLabel3)
-                                .addPreferredGap(org.jdesktop.layout.LayoutStyle.UNRELATED)
-                                .add(termNameSearchJTextField, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, 311, Short.MAX_VALUE)))
-                        .addPreferredGap(org.jdesktop.layout.LayoutStyle.UNRELATED)
-                        .add(numberOfTermsTermNameSearchJTextField, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, 80, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)))
+                    .add(org.jdesktop.layout.GroupLayout.TRAILING, jScrollPane4, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, 478, Short.MAX_VALUE))
                 .addContainerGap())
         );
         termNameSearchJPanelLayout.setVerticalGroup(
             termNameSearchJPanelLayout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
-            .add(termNameSearchJPanelLayout.createSequentialGroup()
-                .add(28, 28, 28)
-                .add(termNameSearchJPanelLayout.createParallelGroup(org.jdesktop.layout.GroupLayout.BASELINE)
-                    .add(jLabel3)
-                    .add(numberOfTermsTermNameSearchJTextField, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
-                    .add(termNameSearchJTextField, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE))
+            .add(org.jdesktop.layout.GroupLayout.TRAILING, termNameSearchJPanelLayout.createSequentialGroup()
+                .addContainerGap()
+                .add(jPanel3, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED)
-                .add(newtSpeciesTipsTermNameSearchJLabel)
-                .add(9, 9, 9)
-                .add(jLabel1)
+                .add(searchResultsTermNameJLabel)
                 .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED)
-                .add(olsResultsTermNameSearchJScrollPane, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, 111, Short.MAX_VALUE)
-                .add(18, 18, 18)
+                .add(olsResultsTermNameSearchJScrollPane, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, 127, Short.MAX_VALUE)
+                .addPreferredGap(org.jdesktop.layout.LayoutStyle.UNRELATED)
                 .add(termNameSearchJPanelLayout.createParallelGroup(org.jdesktop.layout.GroupLayout.BASELINE)
-                    .add(jLabel2)
+                    .add(selectedTermTermNameJLabel)
                     .add(viewTermHierarchyTermNameSearchJLabel))
                 .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED)
                 .add(jScrollPane4, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, 50, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
@@ -1197,15 +1243,6 @@ public class OLSDialog extends javax.swing.JDialog {
         );
 
         searchTypeJTabbedPane.addTab("Term Name Search", termNameSearchJPanel);
-
-        jLabel10.setText("Term ID:");
-
-        termIdSearchJTextField.setHorizontalAlignment(javax.swing.JTextField.CENTER);
-        termIdSearchJTextField.addKeyListener(new java.awt.event.KeyAdapter() {
-            public void keyPressed(java.awt.event.KeyEvent evt) {
-                termIdSearchJTextFieldKeyPressed(evt);
-            }
-        });
 
         definitionTermIdSearchJTextPane.setEditable(false);
         jScrollPane6.setViewportView(definitionTermIdSearchJTextPane);
@@ -1291,10 +1328,13 @@ public class OLSDialog extends javax.swing.JDialog {
             }
         });
 
-        termIdSearchJButton.setText("Search");
-        termIdSearchJButton.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                termIdSearchJButtonActionPerformed(evt);
+        jLabel10.setText("Term ID:");
+        jLabel10.setPreferredSize(new java.awt.Dimension(58, 14));
+
+        termIdSearchJTextField.setHorizontalAlignment(javax.swing.JTextField.CENTER);
+        termIdSearchJTextField.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyPressed(java.awt.event.KeyEvent evt) {
+                termIdSearchJTextFieldKeyPressed(evt);
             }
         });
 
@@ -1313,47 +1353,72 @@ public class OLSDialog extends javax.swing.JDialog {
             }
         });
 
+        termIdSearchJButton.setText("Search");
+        termIdSearchJButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                termIdSearchJButtonActionPerformed(evt);
+            }
+        });
+
+        org.jdesktop.layout.GroupLayout jPanel2Layout = new org.jdesktop.layout.GroupLayout(jPanel2);
+        jPanel2.setLayout(jPanel2Layout);
+        jPanel2Layout.setHorizontalGroup(
+            jPanel2Layout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
+            .add(org.jdesktop.layout.GroupLayout.TRAILING, jPanel2Layout.createSequentialGroup()
+                .addContainerGap()
+                .add(jPanel2Layout.createParallelGroup(org.jdesktop.layout.GroupLayout.TRAILING)
+                    .add(newtSpeciesTipsTermIdSearchJLabel)
+                    .add(org.jdesktop.layout.GroupLayout.LEADING, jPanel2Layout.createSequentialGroup()
+                        .add(jLabel10, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(org.jdesktop.layout.LayoutStyle.UNRELATED)
+                        .add(termIdSearchJTextField, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, 320, Short.MAX_VALUE)))
+                .addPreferredGap(org.jdesktop.layout.LayoutStyle.UNRELATED)
+                .add(termIdSearchJButton, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, 80, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap())
+        );
+        jPanel2Layout.setVerticalGroup(
+            jPanel2Layout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
+            .add(jPanel2Layout.createSequentialGroup()
+                .addContainerGap(org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .add(jPanel2Layout.createParallelGroup(org.jdesktop.layout.GroupLayout.CENTER)
+                    .add(termIdSearchJTextField, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
+                    .add(jLabel10, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
+                    .add(termIdSearchJButton))
+                .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED)
+                .add(newtSpeciesTipsTermIdSearchJLabel))
+        );
+
         org.jdesktop.layout.GroupLayout termIdSearchJPanelLayout = new org.jdesktop.layout.GroupLayout(termIdSearchJPanel);
         termIdSearchJPanel.setLayout(termIdSearchJPanelLayout);
         termIdSearchJPanelLayout.setHorizontalGroup(
             termIdSearchJPanelLayout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
+            .add(org.jdesktop.layout.GroupLayout.TRAILING, jPanel2, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+            .add(termIdSearchJPanelLayout.createSequentialGroup()
+                .addContainerGap()
+                .add(jLabel11)
+                .addContainerGap(413, Short.MAX_VALUE))
             .add(termIdSearchJPanelLayout.createSequentialGroup()
                 .addContainerGap()
                 .add(termIdSearchJPanelLayout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
-                    .add(org.jdesktop.layout.GroupLayout.TRAILING, olsResultsTermIdSearchJScrollPane, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, 469, Short.MAX_VALUE)
-                    .add(termDetailsTermIdSearchJScrollPane, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, 469, Short.MAX_VALUE)
-                    .add(jLabel11)
+                    .add(org.jdesktop.layout.GroupLayout.TRAILING, olsResultsTermIdSearchJScrollPane, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, 478, Short.MAX_VALUE)
+                    .add(termDetailsTermIdSearchJScrollPane, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, 478, Short.MAX_VALUE)
+                    .add(jScrollPane6, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, 478, Short.MAX_VALUE)
                     .add(termIdSearchJPanelLayout.createSequentialGroup()
                         .add(jLabel13)
-                        .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED, 299, Short.MAX_VALUE)
-                        .add(viewTermHierarchyTermIdSearchJLabel))
-                    .add(org.jdesktop.layout.GroupLayout.TRAILING, jScrollPane6, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, 469, Short.MAX_VALUE)
-                    .add(org.jdesktop.layout.GroupLayout.TRAILING, termIdSearchJPanelLayout.createSequentialGroup()
-                        .add(newtSpeciesTipsTermIdSearchJLabel)
-                        .add(90, 90, 90))
-                    .add(termIdSearchJPanelLayout.createSequentialGroup()
-                        .add(jLabel10)
-                        .addPreferredGap(org.jdesktop.layout.LayoutStyle.UNRELATED)
-                        .add(termIdSearchJTextField, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, 327, Short.MAX_VALUE)
-                        .addPreferredGap(org.jdesktop.layout.LayoutStyle.UNRELATED)
-                        .add(termIdSearchJButton, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, 80, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)))
+                        .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED, 308, Short.MAX_VALUE)
+                        .add(viewTermHierarchyTermIdSearchJLabel)))
                 .addContainerGap())
         );
         termIdSearchJPanelLayout.setVerticalGroup(
             termIdSearchJPanelLayout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
-            .add(termIdSearchJPanelLayout.createSequentialGroup()
-                .add(28, 28, 28)
-                .add(termIdSearchJPanelLayout.createParallelGroup(org.jdesktop.layout.GroupLayout.BASELINE)
-                    .add(jLabel10)
-                    .add(termIdSearchJTextField, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
-                    .add(termIdSearchJButton))
+            .add(org.jdesktop.layout.GroupLayout.TRAILING, termIdSearchJPanelLayout.createSequentialGroup()
+                .addContainerGap()
+                .add(jPanel2, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED)
-                .add(newtSpeciesTipsTermIdSearchJLabel)
-                .add(9, 9, 9)
                 .add(jLabel11)
                 .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED)
-                .add(olsResultsTermIdSearchJScrollPane, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, 108, Short.MAX_VALUE)
-                .add(18, 18, 18)
+                .add(olsResultsTermIdSearchJScrollPane, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, 124, Short.MAX_VALUE)
+                .addPreferredGap(org.jdesktop.layout.LayoutStyle.UNRELATED)
                 .add(termIdSearchJPanelLayout.createParallelGroup(org.jdesktop.layout.GroupLayout.BASELINE)
                     .add(jLabel13)
                     .add(viewTermHierarchyTermIdSearchJLabel))
@@ -1365,28 +1430,6 @@ public class OLSDialog extends javax.swing.JDialog {
         );
 
         searchTypeJTabbedPane.addTab("Term ID Search", termIdSearchJPanel);
-
-        jLabel4.setText("Mass:");
-
-        modificationMassJTextField.setHorizontalAlignment(javax.swing.JTextField.CENTER);
-        modificationMassJTextField.setText("0.0");
-        modificationMassJTextField.addKeyListener(new java.awt.event.KeyAdapter() {
-            public void keyPressed(java.awt.event.KeyEvent evt) {
-                modificationMassJTextFieldKeyPressed(evt);
-            }
-        });
-
-        jLabel5.setText("+-");
-        jLabel5.setToolTipText("Mass Accuracy");
-
-        precisionJTextField.setHorizontalAlignment(javax.swing.JTextField.CENTER);
-        precisionJTextField.setText("0.1");
-        precisionJTextField.setToolTipText("Mass Accuracy");
-        precisionJTextField.addKeyListener(new java.awt.event.KeyAdapter() {
-            public void keyPressed(java.awt.event.KeyEvent evt) {
-                precisionJTextFieldKeyPressed(evt);
-            }
-        });
 
         jLabel6.setText("Search Results:");
 
@@ -1420,23 +1463,6 @@ public class OLSDialog extends javax.swing.JDialog {
         });
         termDetailsMassSearchJXTable.setOpaque(false);
         termDetailsMassSearchJScrollPane.setViewportView(termDetailsMassSearchJXTable);
-
-        modificationMassSearchJButton.setText("Search");
-        modificationMassSearchJButton.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                modificationMassSearchJButtonActionPerformed(evt);
-            }
-        });
-
-        massTypeJComboBox.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "- Select -", "DiffAvg", "DiffMono", "MassAvg", "MassMono" }));
-        massTypeJComboBox.setSelectedIndex(2);
-        massTypeJComboBox.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                massTypeJComboBoxActionPerformed(evt);
-            }
-        });
-
-        jLabel12.setText("Type:");
 
         olsResultsMassSearchJXTable.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
@@ -1489,57 +1515,119 @@ public class OLSDialog extends javax.swing.JDialog {
             }
         });
 
+        jLabel4.setText("Mass:");
+
+        modificationMassJTextField.setHorizontalAlignment(javax.swing.JTextField.CENTER);
+        modificationMassJTextField.setText("0.0");
+        modificationMassJTextField.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyPressed(java.awt.event.KeyEvent evt) {
+                modificationMassJTextFieldKeyPressed(evt);
+            }
+        });
+
+        jLabel5.setText("+-");
+        jLabel5.setToolTipText("Mass Accuracy");
+
+        precisionJTextField.setHorizontalAlignment(javax.swing.JTextField.CENTER);
+        precisionJTextField.setText("0.1");
+        precisionJTextField.setToolTipText("Mass Accuracy");
+        precisionJTextField.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyPressed(java.awt.event.KeyEvent evt) {
+                precisionJTextFieldKeyPressed(evt);
+            }
+        });
+
+        jLabel12.setText("Type:");
+
+        massTypeJComboBox.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "- Select -", "DiffAvg", "DiffMono", "MassAvg", "MassMono" }));
+        massTypeJComboBox.setSelectedIndex(2);
+        massTypeJComboBox.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                massTypeJComboBoxActionPerformed(evt);
+            }
+        });
+
+        dummyLabelJLabel.setFont(dummyLabelJLabel.getFont().deriveFont(dummyLabelJLabel.getFont().getSize()-1f));
+        dummyLabelJLabel.setText("NEWT Species Tips");
+
+        modificationMassSearchJButton.setText("Search");
+        modificationMassSearchJButton.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                modificationMassSearchJButtonActionPerformed(evt);
+            }
+        });
+
+        org.jdesktop.layout.GroupLayout jPanel1Layout = new org.jdesktop.layout.GroupLayout(jPanel1);
+        jPanel1.setLayout(jPanel1Layout);
+        jPanel1Layout.setHorizontalGroup(
+            jPanel1Layout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
+            .add(org.jdesktop.layout.GroupLayout.TRAILING, jPanel1Layout.createSequentialGroup()
+                .addContainerGap()
+                .add(jPanel1Layout.createParallelGroup(org.jdesktop.layout.GroupLayout.TRAILING)
+                    .add(dummyLabelJLabel)
+                    .add(jPanel1Layout.createSequentialGroup()
+                        .add(jLabel4)
+                        .addPreferredGap(org.jdesktop.layout.LayoutStyle.UNRELATED)
+                        .add(modificationMassJTextField, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, 130, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED)
+                        .add(jLabel5)
+                        .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED)
+                        .add(precisionJTextField, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, 81, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(org.jdesktop.layout.LayoutStyle.UNRELATED)
+                        .add(jLabel12)
+                        .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED)
+                        .add(massTypeJComboBox, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)))
+                .addPreferredGap(org.jdesktop.layout.LayoutStyle.UNRELATED, 12, Short.MAX_VALUE)
+                .add(modificationMassSearchJButton, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, 80, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap())
+        );
+        jPanel1Layout.setVerticalGroup(
+            jPanel1Layout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
+            .add(org.jdesktop.layout.GroupLayout.TRAILING, jPanel1Layout.createSequentialGroup()
+                .addContainerGap(org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .add(jPanel1Layout.createParallelGroup(org.jdesktop.layout.GroupLayout.BASELINE)
+                    .add(modificationMassSearchJButton)
+                    .add(massTypeJComboBox, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
+                    .add(jLabel12)
+                    .add(precisionJTextField, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
+                    .add(jLabel5)
+                    .add(jLabel4)
+                    .add(modificationMassJTextField, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED)
+                .add(dummyLabelJLabel))
+        );
+
         org.jdesktop.layout.GroupLayout massSearchJPanelLayout = new org.jdesktop.layout.GroupLayout(massSearchJPanel);
         massSearchJPanel.setLayout(massSearchJPanelLayout);
         massSearchJPanelLayout.setHorizontalGroup(
             massSearchJPanelLayout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
+            .add(org.jdesktop.layout.GroupLayout.TRAILING, jPanel1, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+            .add(massSearchJPanelLayout.createSequentialGroup()
+                .addContainerGap()
+                .add(jLabel6)
+                .addContainerGap(413, Short.MAX_VALUE))
             .add(massSearchJPanelLayout.createSequentialGroup()
                 .addContainerGap()
                 .add(massSearchJPanelLayout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
-                    .add(olsResultsMassSearchJScrollPane, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, 469, Short.MAX_VALUE)
-                    .add(termDetailsMassSearchJScrollPane, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, 469, Short.MAX_VALUE)
-                    .add(jLabel6)
+                    .add(jScrollPane5, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, 478, Short.MAX_VALUE)
+                    .add(olsResultsMassSearchJScrollPane, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, 478, Short.MAX_VALUE)
                     .add(massSearchJPanelLayout.createSequentialGroup()
                         .add(jLabel7)
-                        .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED, 299, Short.MAX_VALUE)
+                        .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED, 308, Short.MAX_VALUE)
                         .add(viewTermHierarchyMassSearchJLabel))
-                    .add(jScrollPane5, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, 469, Short.MAX_VALUE)
-                    .add(massSearchJPanelLayout.createSequentialGroup()
-                        .add(jLabel4)
-                        .addPreferredGap(org.jdesktop.layout.LayoutStyle.UNRELATED)
-                        .add(modificationMassJTextField, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, 70, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED)
-                        .add(jLabel5)
-                        .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED)
-                        .add(precisionJTextField, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, 76, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
-                        .add(18, 18, 18)
-                        .add(jLabel12)
-                        .addPreferredGap(org.jdesktop.layout.LayoutStyle.UNRELATED)
-                        .add(massTypeJComboBox, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, 76, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED, 53, Short.MAX_VALUE)
-                        .add(modificationMassSearchJButton, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, 80, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)))
+                    .add(termDetailsMassSearchJScrollPane, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, 478, Short.MAX_VALUE))
                 .addContainerGap())
         );
-
-        massSearchJPanelLayout.linkSize(new java.awt.Component[] {massTypeJComboBox, precisionJTextField}, org.jdesktop.layout.GroupLayout.HORIZONTAL);
-
         massSearchJPanelLayout.setVerticalGroup(
             massSearchJPanelLayout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
             .add(org.jdesktop.layout.GroupLayout.TRAILING, massSearchJPanelLayout.createSequentialGroup()
-                .add(28, 28, 28)
-                .add(massSearchJPanelLayout.createParallelGroup(org.jdesktop.layout.GroupLayout.BASELINE)
-                    .add(jLabel4)
-                    .add(modificationMassSearchJButton)
-                    .add(modificationMassJTextField, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
-                    .add(jLabel5)
-                    .add(precisionJTextField, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
-                    .add(jLabel12)
-                    .add(massTypeJComboBox, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE))
-                .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED, 25, Short.MAX_VALUE)
+                .addContainerGap()
+                .add(jPanel1, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED)
                 .add(jLabel6)
                 .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED)
-                .add(olsResultsMassSearchJScrollPane, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, 111, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
-                .add(18, 18, 18)
+                .add(olsResultsMassSearchJScrollPane, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, 124, Short.MAX_VALUE)
+                .addPreferredGap(org.jdesktop.layout.LayoutStyle.UNRELATED)
                 .add(massSearchJPanelLayout.createParallelGroup(org.jdesktop.layout.GroupLayout.BASELINE)
                     .add(jLabel7)
                     .add(viewTermHierarchyMassSearchJLabel))
@@ -1607,21 +1695,21 @@ public class OLSDialog extends javax.swing.JDialog {
             .add(org.jdesktop.layout.GroupLayout.TRAILING, browseOntologyJPanelLayout.createSequentialGroup()
                 .addContainerGap()
                 .add(browseOntologyJPanelLayout.createParallelGroup(org.jdesktop.layout.GroupLayout.TRAILING)
-                    .add(org.jdesktop.layout.GroupLayout.LEADING, browseJPanel, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, 469, Short.MAX_VALUE)
+                    .add(org.jdesktop.layout.GroupLayout.LEADING, browseJPanel, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, 478, Short.MAX_VALUE)
                     .add(org.jdesktop.layout.GroupLayout.LEADING, browseOntologyJPanelLayout.createSequentialGroup()
                         .add(jLabel8)
-                        .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED, 299, Short.MAX_VALUE)
+                        .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED, 308, Short.MAX_VALUE)
                         .add(viewTermHierarchyBrowseOntologyJLabel))
-                    .add(jScrollPane7, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, 469, Short.MAX_VALUE)
-                    .add(termDetailsBrowseOntologyJScrollPane, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, 469, Short.MAX_VALUE))
+                    .add(jScrollPane7, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, 478, Short.MAX_VALUE)
+                    .add(termDetailsBrowseOntologyJScrollPane, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, 478, Short.MAX_VALUE))
                 .addContainerGap())
         );
         browseOntologyJPanelLayout.setVerticalGroup(
             browseOntologyJPanelLayout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
             .add(org.jdesktop.layout.GroupLayout.TRAILING, browseOntologyJPanelLayout.createSequentialGroup()
                 .addContainerGap()
-                .add(browseJPanel, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, 196, Short.MAX_VALUE)
-                .add(18, 18, 18)
+                .add(browseJPanel, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, 203, Short.MAX_VALUE)
+                .addPreferredGap(org.jdesktop.layout.LayoutStyle.UNRELATED)
                 .add(browseOntologyJPanelLayout.createParallelGroup(org.jdesktop.layout.GroupLayout.BASELINE)
                     .add(jLabel8)
                     .add(viewTermHierarchyBrowseOntologyJLabel))
@@ -1634,7 +1722,7 @@ public class OLSDialog extends javax.swing.JDialog {
 
         searchTypeJTabbedPane.addTab("Browse Ontology", browseOntologyJPanel);
 
-        jLabel9.setText("Ontology:");
+        ontologyJLabel.setText("Ontology:");
 
         ontologyJComboBox.setMaximumRowCount(30);
         ontologyJComboBox.addItemListener(new java.awt.event.ItemListener() {
@@ -1643,26 +1731,27 @@ public class OLSDialog extends javax.swing.JDialog {
             }
         });
 
-        org.jdesktop.layout.GroupLayout jPanel4Layout = new org.jdesktop.layout.GroupLayout(jPanel4);
-        jPanel4.setLayout(jPanel4Layout);
-        jPanel4Layout.setHorizontalGroup(
-            jPanel4Layout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
-            .add(jPanel4Layout.createSequentialGroup()
+        org.jdesktop.layout.GroupLayout searchParametersJPanelLayout = new org.jdesktop.layout.GroupLayout(searchParametersJPanel);
+        searchParametersJPanel.setLayout(searchParametersJPanelLayout);
+        searchParametersJPanelLayout.setHorizontalGroup(
+            searchParametersJPanelLayout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
+            .add(searchParametersJPanelLayout.createSequentialGroup()
                 .addContainerGap()
-                .add(jPanel4Layout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
-                    .add(org.jdesktop.layout.GroupLayout.TRAILING, searchTypeJTabbedPane, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, 494, Short.MAX_VALUE)
-                    .add(jPanel4Layout.createSequentialGroup()
-                        .add(jLabel9)
+                .add(searchParametersJPanelLayout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
+                    .add(searchTypeJTabbedPane)
+                    .add(searchParametersJPanelLayout.createSequentialGroup()
+                        .add(ontologyJLabel)
                         .add(18, 18, 18)
-                        .add(ontologyJComboBox, 0, 428, Short.MAX_VALUE)))
+                        .add(ontologyJComboBox, 0, 437, Short.MAX_VALUE)))
                 .addContainerGap())
         );
-        jPanel4Layout.setVerticalGroup(
-            jPanel4Layout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
-            .add(jPanel4Layout.createSequentialGroup()
-                .add(jPanel4Layout.createParallelGroup(org.jdesktop.layout.GroupLayout.BASELINE)
-                    .add(ontologyJComboBox, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
-                    .add(jLabel9))
+        searchParametersJPanelLayout.setVerticalGroup(
+            searchParametersJPanelLayout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
+            .add(searchParametersJPanelLayout.createSequentialGroup()
+                .add(11, 11, 11)
+                .add(searchParametersJPanelLayout.createParallelGroup(org.jdesktop.layout.GroupLayout.CENTER)
+                    .add(ontologyJLabel)
+                    .add(ontologyJComboBox, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE))
                 .add(18, 18, 18)
                 .add(searchTypeJTabbedPane, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, 417, Short.MAX_VALUE)
                 .addContainerGap())
@@ -1675,7 +1764,6 @@ public class OLSDialog extends javax.swing.JDialog {
             .add(layout.createSequentialGroup()
                 .addContainerGap()
                 .add(layout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
-                    .add(jPanel4, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .add(org.jdesktop.layout.GroupLayout.TRAILING, layout.createSequentialGroup()
                         .add(helpJButton, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, 23, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED)
@@ -1684,14 +1772,18 @@ public class OLSDialog extends javax.swing.JDialog {
                         .add(insertSelectedJButton, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, 130, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED)
                         .add(cancelJButton, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE))
-                    .add(jSeparator1, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, 530, Short.MAX_VALUE))
+                    .add(jSeparator1, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, 539, Short.MAX_VALUE)
+                    .add(searchParametersJPanel, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addContainerGap())
         );
+
+        layout.linkSize(new java.awt.Component[] {cancelJButton, insertSelectedJButton}, org.jdesktop.layout.GroupLayout.HORIZONTAL);
+
         layout.setVerticalGroup(
             layout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
             .add(layout.createSequentialGroup()
                 .addContainerGap()
-                .add(jPanel4, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
+                .add(searchParametersJPanel, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
                 .add(18, 18, 18)
                 .add(jSeparator1, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, 10, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
                 .add(layout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
@@ -1708,12 +1800,14 @@ public class OLSDialog extends javax.swing.JDialog {
                 .addContainerGap(org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
+        layout.linkSize(new java.awt.Component[] {cancelJButton, insertSelectedJButton}, org.jdesktop.layout.GroupLayout.VERTICAL);
+
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
     /**
      * Updates the search results if the ontology is changed.
-     * 
+     *
      * @param evt
      */
     private void ontologyJComboBoxItemStateChanged(java.awt.event.ItemEvent evt) {//GEN-FIRST:event_ontologyJComboBoxItemStateChanged
@@ -1791,11 +1885,11 @@ public class OLSDialog extends javax.swing.JDialog {
     }//GEN-LAST:event_ontologyJComboBoxItemStateChanged
 
     /**
-     * Searches the selected ontology for terms matching the inserted string. 
-     * The search finds all terms having the current string as a substring. 
-     * (But seems to be limited somehow, seeing as using two letters, can 
+     * Searches the selected ontology for terms matching the inserted string.
+     * The search finds all terms having the current string as a substring.
+     * (But seems to be limited somehow, seeing as using two letters, can
      * result in more hits, than using just one of the letters...)
-     * 
+     *
      * @param evt
      */
     private void termNameSearchJTextFieldKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_termNameSearchJTextFieldKeyReleased
@@ -1836,7 +1930,7 @@ public class OLSDialog extends javax.swing.JDialog {
                 olsResultsTermNameSearchJXTable.scrollRectToVisible(olsResultsTermNameSearchJXTable.getCellRect(0, 0, false));
             }
 
-            //No matching terms found
+//No matching terms found
             if (map.size() == 0) {
                 //JOptionPane.showMessageDialog(this, "No mathcing terms found.");
                 //this.olsSearchTextField.requestFocus();
@@ -1856,9 +1950,9 @@ public class OLSDialog extends javax.swing.JDialog {
     }//GEN-LAST:event_termNameSearchJTextFieldKeyReleased
 
     /**
-     * Inserts the selected ontology into the parents text field or table and 
+     * Inserts the selected ontology into the parents text field or table and
      * then closes the dialog.
-     * 
+     *
      * @param evt
      */
     private void insertSelectedJButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_insertSelectedJButtonActionPerformed
@@ -1902,7 +1996,6 @@ public class OLSDialog extends javax.swing.JDialog {
                     ontologyLong = "unknown";
                 }
             }
-
         } else {
             ontologyShort = ontologyLong.substring(ontologyLong.lastIndexOf("[") + 1, ontologyLong.length() - 1);
         }
@@ -1987,7 +2080,7 @@ public class OLSDialog extends javax.swing.JDialog {
 
     /**
      * Closes the dialog.
-     * 
+     *
      * @param evt
      */
     private void cancelJButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cancelJButtonActionPerformed
@@ -2012,7 +2105,7 @@ public class OLSDialog extends javax.swing.JDialog {
 
     /**
      * Opens an About frame.
-     * 
+     *
      * @param evt
      */
     private void aboutJButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_aboutJButtonActionPerformed
@@ -2425,9 +2518,9 @@ public class OLSDialog extends javax.swing.JDialog {
     }//GEN-LAST:event_precisionJTextFieldKeyPressed
 
     /**
-     * If 'Enter' is pressed and the 'Search' button is enabled the search is performed. 
+     * If 'Enter' is pressed and the 'Search' button is enabled the search is performed.
      * Also enables or disables the search button when the field contains text or not.
-     * 
+     *
      * @param evt
      */
     private void termIdSearchJTextFieldKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_termIdSearchJTextFieldKeyPressed
@@ -2569,22 +2662,21 @@ public class OLSDialog extends javax.swing.JDialog {
     private javax.swing.JTextPane definitionMassSearchJTextPane;
     private javax.swing.JTextPane definitionTermIdSearchJTextPane;
     private javax.swing.JTextPane definitionTermNameSearchJTextPane;
+    private javax.swing.JLabel dummyLabelJLabel;
     private javax.swing.JButton helpJButton;
     private javax.swing.JButton insertSelectedJButton;
-    private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel10;
     private javax.swing.JLabel jLabel11;
     private javax.swing.JLabel jLabel12;
     private javax.swing.JLabel jLabel13;
-    private javax.swing.JLabel jLabel2;
-    private javax.swing.JLabel jLabel3;
     private javax.swing.JLabel jLabel4;
     private javax.swing.JLabel jLabel5;
     private javax.swing.JLabel jLabel6;
     private javax.swing.JLabel jLabel7;
     private javax.swing.JLabel jLabel8;
-    private javax.swing.JLabel jLabel9;
-    private javax.swing.JPanel jPanel4;
+    private javax.swing.JPanel jPanel1;
+    private javax.swing.JPanel jPanel2;
+    private javax.swing.JPanel jPanel3;
     private javax.swing.JScrollPane jScrollPane4;
     private javax.swing.JScrollPane jScrollPane5;
     private javax.swing.JScrollPane jScrollPane6;
@@ -2604,8 +2696,12 @@ public class OLSDialog extends javax.swing.JDialog {
     private javax.swing.JScrollPane olsResultsTermNameSearchJScrollPane;
     private org.jdesktop.swingx.JXTable olsResultsTermNameSearchJXTable;
     private javax.swing.JComboBox ontologyJComboBox;
+    private javax.swing.JLabel ontologyJLabel;
     private javax.swing.JTextField precisionJTextField;
+    private javax.swing.JPanel searchParametersJPanel;
+    private javax.swing.JLabel searchResultsTermNameJLabel;
     private javax.swing.JTabbedPane searchTypeJTabbedPane;
+    private javax.swing.JLabel selectedTermTermNameJLabel;
     private javax.swing.JScrollPane termDetailsBrowseOntologyJScrollPane;
     private org.jdesktop.swingx.JXTable termDetailsBrowseOntologyJXTable;
     private javax.swing.JScrollPane termDetailsMassSearchJScrollPane;
@@ -2617,6 +2713,7 @@ public class OLSDialog extends javax.swing.JDialog {
     private javax.swing.JButton termIdSearchJButton;
     private javax.swing.JPanel termIdSearchJPanel;
     private javax.swing.JTextField termIdSearchJTextField;
+    private javax.swing.JLabel termNameJLabel;
     private javax.swing.JPanel termNameSearchJPanel;
     private javax.swing.JTextField termNameSearchJTextField;
     private javax.swing.JLabel viewTermHierarchyBrowseOntologyJLabel;
