@@ -18,7 +18,7 @@
 
 
    Double click the jar file (or from command line 'java -jar 
-   ols-dialog-3.1.1') to start a simple example showing how 
+   ols-dialog-X.Y.Z') to start a simple example showing how 
    the OLS Dialog can be used. For more details see:
    http://ols-dialog.googlecode.com
 
