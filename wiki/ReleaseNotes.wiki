@@ -3,10 +3,18 @@
 
 ----
 
+*Changes in OLS Dialog v3.2.2 - (Oct. 08. 2009):*
+ * FEATURE IMPROVEMENT: Minor updates to parts of the GUI.
+ * BUG FIX: Fixed a couple of minor GUI bugs.
+
+----
+
 *Changes in OLS Dialog v3.2.1 - (Oct. 02. 2009):*
  * BUG FIX: Fixed a bug where the NEWT species tips link was shown when mass search was used to start the dialog. 
  * BUG FIX: Fixed a Java 1.5 issue where the wrong GUI package was used. 
  * BUG FIX: Fixed some errors in the Common NEWT Species list.
+
+Download Count: 0
 
 ----
 
