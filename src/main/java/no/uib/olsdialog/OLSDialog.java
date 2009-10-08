@@ -82,7 +82,7 @@ public class OLSDialog extends javax.swing.JDialog {
      * @param olsInputable a reference to the frame using the OLS Dialog
      * @param modal
      * @param field the name of the field to insert the results into
-     * @param selectedOntology the name of the ontology to search in
+     * @param selectedOntology the name of the ontology to search in, e.g., GO or PSI-MOD
      * @param term the term to search for
      */
     public OLSDialog(JFrame parent, OLSInputable olsInputable, boolean modal, String field,
@@ -97,7 +97,7 @@ public class OLSDialog extends javax.swing.JDialog {
      * @param olsInputable a reference to the frame using the OLS Dialog
      * @param modal
      * @param field the name of the field to insert the results into
-     * @param selectedOntology the name of the ontology to search in
+     * @param selectedOntology the name of the ontology to search in, e.g., GO or PSI-MOD
      * @param term the term to search for
      */
     public OLSDialog(JDialog parent, OLSInputable olsInputable, boolean modal, String field,
@@ -112,7 +112,7 @@ public class OLSDialog extends javax.swing.JDialog {
      * @param olsInputable a reference to the frame using the OLS Dialog
      * @param modal
      * @param field the name of the field to insert the results into
-     * @param selectedOntology the name of the ontology to search in
+     * @param selectedOntology the name of the ontology to search in, e.g., GO or PSI-MOD
      * @param modifiedRow the row to modify, use -1 if adding a new row
      * @param term the term to search for
      */
@@ -128,7 +128,7 @@ public class OLSDialog extends javax.swing.JDialog {
      * @param olsInputable a reference to the frame using the OLS Dialog
      * @param modal
      * @param field the name of the field to insert the results into
-     * @param selectedOntology the name of the ontology to search in
+     * @param selectedOntology the name of the ontology to search in, e.g., GO or PSI-MOD
      * @param modifiedRow the row to modify, use -1 if adding a new row
      * @param term the term to search for
      */
@@ -144,7 +144,7 @@ public class OLSDialog extends javax.swing.JDialog {
      * @param olsInputable a reference to the frame using the OLS Dialog
      * @param modal
      * @param field the name of the field to insert the results into
-     * @param selectedOntology the name of the ontology to search in
+     * @param selectedOntology the name of the ontology to search in, e.g., GO or PSI-MOD
      * @param modifiedRow the row to modify, use -1 if adding a new row
      * @param term the term to search for
      * @param modificationMass the mass of the modification
@@ -183,7 +183,7 @@ public class OLSDialog extends javax.swing.JDialog {
      * @param olsInputable a reference to the frame using the OLS Dialog
      * @param modal
      * @param field the name of the field to insert the results into
-     * @param selectedOntology the name of the ontology to search in
+     * @param selectedOntology the name of the ontology to search in, e.g., GO or PSI-MOD
      * @param modifiedRow the row to modify, use -1 if adding a new row
      * @param term the term to search for
      * @param modificationMass the mass of the modification
