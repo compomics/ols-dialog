@@ -5,6 +5,7 @@
 
 *Changes in OLS Dialog v3.2.2 - (Oct. 08. 2009):*
  * FEATURE IMPROVEMENT: Minor updates to parts of the GUI.
+ * FEATURE IMPROVEMENT: Short ontology names, e.g., GO or PSI, are now supported when setting the initial ontology.
  * BUG FIX: Fixed a couple of minor GUI bugs.
 
 ----
