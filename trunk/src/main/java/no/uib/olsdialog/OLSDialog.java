@@ -789,11 +789,17 @@ public class OLSDialog extends javax.swing.JDialog {
 
             String temp = "";
 
+            String ontologyToSelect = "";
+
             for (Iterator i = map.keySet().iterator(); i.hasNext();) {
                 String key = (String) i.next();
 
                 temp = map.get(key) + " [" + key + "]";
                 ontologyNamesAndKeys.add(temp);
+
+                if (selectedOntology.equalsIgnoreCase(temp) || selectedOntology.equalsIgnoreCase(key)) {
+                    ontologyToSelect = temp;
+                }
             }
 
             // sort the ontologies into alphabetic ascending order
@@ -802,7 +808,7 @@ public class OLSDialog extends javax.swing.JDialog {
             ontologyNamesAndKeys.add(0, "-- Search In All Ontologies --");
 
             ontologyJComboBox.setModel(new DefaultComboBoxModel(ontologyNamesAndKeys));
-            ontologyJComboBox.setSelectedItem(selectedOntology);
+            ontologyJComboBox.setSelectedItem(ontologyToSelect);
 
             hideOrShowNewtLinks();
 
@@ -1866,6 +1872,13 @@ public class OLSDialog extends javax.swing.JDialog {
                     searchTypeJTabbedPane.setEnabledAt(OLS_DIALOG_BROWSE_ONTOLOGY, true);
                 }
 
+                // set the focus
+                if(searchTypeJTabbedPane.getSelectedIndex() == OLS_DIALOG_TERM_NAME_SEARCH){
+                    termNameSearchJTextField.requestFocus();
+                } else if(searchTypeJTabbedPane.getSelectedIndex() == OLS_DIALOG_TERM_ID_SEARCH){
+                    termIdSearchJTextField.requestFocus();
+                }
+
                 // make the 'newt species tip' link visible or not visible
                 hideOrShowNewtLinks();
 
@@ -1904,36 +1917,40 @@ public class OLSDialog extends javax.swing.JDialog {
             // clear the old meta data
             clearData(OLS_DIALOG_TERM_NAME_SEARCH, true, true);
 
-            // search the selected ontology and find all matching terms
-            String ontology = getCurrentOntologyLabel();
+            // there's no point performing the search if the field is empty
+            if (termNameSearchJTextField.getText().length() > 0) {
 
-            // if 'search in all ontologies' is selected, set the ontology to null
-            if (ontologyJComboBox.getSelectedIndex() == 0) {
-                ontology = null;
-            }
+                // search the selected ontology and find all matching terms
+                String ontology = getCurrentOntologyLabel();
 
-            Map map = olsConnection.getTermsByName(termNameSearchJTextField.getText(), ontology, false);
+                // if 'search in all ontologies' is selected, set the ontology to null
+                if (ontologyJComboBox.getSelectedIndex() == 0) {
+                    ontology = null;
+                }
 
-            for (Iterator i = map.keySet().iterator(); i.hasNext();) {
-                String key = (String) i.next();
-                ((DefaultTableModel) olsResultsTermNameSearchJXTable.getModel()).addRow(new Object[]{key, map.get(key)});
-            }
+                Map map = olsConnection.getTermsByName(termNameSearchJTextField.getText(), ontology, false);
 
-            termNameSearchJTextField.requestFocus();
+                for (Iterator i = map.keySet().iterator(); i.hasNext();) {
+                    String key = (String) i.next();
+                    ((DefaultTableModel) olsResultsTermNameSearchJXTable.getModel()).addRow(new Object[]{key, map.get(key)});
+                }
 
-            this.setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
-            termNameSearchJTextField.setCursor(new java.awt.Cursor(java.awt.Cursor.TEXT_CURSOR));
-            numberOfTermsTermNameSearchJTextField.setText("" + map.size());
+                termNameSearchJTextField.requestFocus();
 
-            // make the first row visible
-            if (olsResultsTermNameSearchJXTable.getRowCount() > 0) {
-                olsResultsTermNameSearchJXTable.scrollRectToVisible(olsResultsTermNameSearchJXTable.getCellRect(0, 0, false));
-            }
+                this.setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
+                termNameSearchJTextField.setCursor(new java.awt.Cursor(java.awt.Cursor.TEXT_CURSOR));
+                numberOfTermsTermNameSearchJTextField.setText("" + map.size());
 
-//No matching terms found
-            if (map.size() == 0) {
-                //JOptionPane.showMessageDialog(this, "No mathcing terms found.");
-                //this.olsSearchTextField.requestFocus();
+                // make the first row visible
+                if (olsResultsTermNameSearchJXTable.getRowCount() > 0) {
+                    olsResultsTermNameSearchJXTable.scrollRectToVisible(olsResultsTermNameSearchJXTable.getCellRect(0, 0, false));
+                }
+
+                //No matching terms found
+                if (map.size() == 0) {
+                    //JOptionPane.showMessageDialog(this, "No mathcing terms found.");
+                    //this.olsSearchTextField.requestFocus();
+                }
             }
         } catch (RemoteException ex) {
             JOptionPane.showMessageDialog(
