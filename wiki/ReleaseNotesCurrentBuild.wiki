@@ -2,5 +2,4 @@
 
 ----
  
- * FEATURE IMPROVEMENT: Minor updates to parts of the GUI.
- * BUG FIX: Fixed a couple of minor GUI bugs.
+(currently no changes)
