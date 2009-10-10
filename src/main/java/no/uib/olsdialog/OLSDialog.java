@@ -542,7 +542,7 @@ public class OLSDialog extends javax.swing.JDialog {
             currentTermDetailsJScrollPane = termDetailsTermIdSearchJScrollPane;
         }
 
-//clear meta data
+        //clear meta data
         clearData(searchType, false, true);
 
         if (termId == null) {
