@@ -2132,7 +2132,7 @@ public class OLSDialog extends javax.swing.JDialog {
     }//GEN-LAST:event_aboutJButtonActionPerformed
 
     /**
-     * See cancelJButtonActionPerformed
+     * @see #cancelJButtonActionPerformed(java.awt.event.ActionEvent)
      */
     private void formWindowClosing(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_formWindowClosing
         cancelJButtonActionPerformed(null);
@@ -2286,7 +2286,7 @@ public class OLSDialog extends javax.swing.JDialog {
     }//GEN-LAST:event_searchTypeJTabbedPaneStateChanged
 
     /**
-     * See olsResultsTextSearcJXTableMouseClicked
+     *@see #olsResultsTermNameSearchJXTableMouseClicked(java.awt.event.MouseEvent)
      */
     private void olsResultsTermNameSearchJXTableKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_olsResultsTermNameSearchJXTableKeyReleased
         olsResultsTermNameSearchJXTableMouseClicked(null);
@@ -2305,7 +2305,7 @@ public class OLSDialog extends javax.swing.JDialog {
     }//GEN-LAST:event_olsResultsTermNameSearchJXTableMouseClicked
 
     /**
-     * See olsResultsMassSearchJXTableMouseClicked
+     * @see #olsResultsMassSearchJXTableMouseClicked(java.awt.event.MouseEvent)
      */
     private void olsResultsMassSearchJXTableKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_olsResultsMassSearchJXTableKeyReleased
         olsResultsMassSearchJXTableMouseClicked(null);
@@ -2417,7 +2417,7 @@ public class OLSDialog extends javax.swing.JDialog {
     }//GEN-LAST:event_olsResultsTermIdSearchJXTableMouseClicked
 
     /**
-     * See olsResultsTermIdSearcJXTableMouseClicked.
+     * @see #olsResultsTermIdSearchJXTableMouseClicked(java.awt.event.MouseEvent)
      */
     private void olsResultsTermIdSearchJXTableKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_olsResultsTermIdSearchJXTableKeyReleased
         olsResultsTermIdSearchJXTableMouseClicked(null);
@@ -2528,7 +2528,7 @@ public class OLSDialog extends javax.swing.JDialog {
     }//GEN-LAST:event_modificationMassJTextFieldKeyPressed
 
     /**
-     * See modificationMassJTextFieldKeyPressed
+     * @see #modificationMassJTextFieldKeyPressed(java.awt.event.KeyEvent) 
      */
     private void precisionJTextFieldKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_precisionJTextFieldKeyPressed
         modificationMassJTextFieldKeyPressed(evt);

@@ -724,7 +724,7 @@ public class OLS_Example extends javax.swing.JFrame implements OLSInputable {
     // End of variables declaration//GEN-END:variables
 
     /**
-     * See OLSInputable
+     * @see OLSInputable
      */
     public void insertOLSResult(String field, String selectedValue,
             String accession,
@@ -743,7 +743,7 @@ public class OLS_Example extends javax.swing.JFrame implements OLSInputable {
     }
 
     /**
-     * See OLSInputable
+     * @see OLSInputable
      */
     public Window getWindow() {
         return (Window) this;
