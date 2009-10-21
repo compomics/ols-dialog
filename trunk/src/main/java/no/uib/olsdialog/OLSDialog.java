@@ -9,6 +9,8 @@ import com.jgoodies.looks.plastic.PlasticXPLookAndFeel;
 import com.jgoodies.looks.plastic.theme.SkyKrupp;
 import java.awt.Color;
 import java.awt.event.KeyEvent;
+import java.io.IOException;
+import java.io.InputStream;
 import java.rmi.RemoteException;
 import java.util.HashMap;
 import javax.xml.rpc.ServiceException;
@@ -51,7 +53,6 @@ import uk.ac.ebi.ook.web.model.DataHolder;
 public class OLSDialog extends javax.swing.JDialog {
 
     public static final boolean debug = false;
-    private final String olsDialogVersionNumber = "3.2.2";
     private String field;
     private String selectedOntology;
     private int modifiedRow = -1;
@@ -264,7 +265,7 @@ public class OLSDialog extends javax.swing.JDialog {
 
         setLookAndFeel();
 
-        setTitle("Ontology Lookup Service - (ols-dialog v" + olsDialogVersionNumber + ")");
+        setTitle("Ontology Lookup Service - (ols-dialog v" + getVersion() + ")");
 
         // hide the mass search dummy label
         dummyLabelJLabel.setForeground(massSearchJPanel.getBackground());
@@ -338,6 +339,25 @@ public class OLSDialog extends javax.swing.JDialog {
 //        setIconImage(Toolkit.getDefaultToolkit().getImage(getClass().
 //                getResource("/no/uib/olsdialog/icons/ols_transparent_small.GIF")));
 
+    }
+
+    /**
+     * Retrieves the version number set in the pom file.
+     *
+     * @return the version number of the ols-dialog
+     */
+    public String getVersion() {
+
+        java.util.Properties p = new java.util.Properties();
+
+        try {
+            InputStream is = this.getClass().getClassLoader().getResourceAsStream("ols-dialog.properties");
+            p.load( is );
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+        return p.getProperty("ols-dialog.version");
     }
 
     /**
