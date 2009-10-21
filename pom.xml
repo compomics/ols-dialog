@@ -4,10 +4,15 @@
     <groupId>no.uib</groupId>
     <artifactId>ols-dialog</artifactId>
     <packaging>jar</packaging>
-    <version>3.2.2</version>
+    <version>${version.number}</version> <!-- version number is set below -->
     <name>ols-dialog</name>
     <url>http://ols-dialog.googlecode.com</url>
     <description>OLS Dialog is a Java front end to the Ontology Lookup Service (OLS) (http://www.ebi.ac.uk/ontology-lookup).</description>
+
+    <!-- Set the version number for the whole project -->
+    <properties>
+        <version.number>3.2.2</version.number>
+    </properties>
 
     <!-- License -->
     <licenses>
@@ -41,6 +46,16 @@
         <resources>
             <resource>
                 <directory>src/main/resources</directory>
+            </resource>
+            <resource>
+                <directory>./</directory>
+                <includes>
+                    <include>ols-dialog.properties</include>
+                </includes>
+                <excludes>
+                    <exclude>README.txt</exclude>
+                </excludes>
+                <filtering>true</filtering>
             </resource>
         </resources>
 
@@ -106,6 +121,32 @@
                     </archive>
                     <outputDirectory>${project.build.directory}/${project.name}-${project.version}/</outputDirectory>
                 </configuration>
+            </plugin>
+
+            <!-- Resources plugin -->
+            <plugin>
+                <artifactId>maven-resources-plugin</artifactId>
+                <version>2.3</version>
+                <executions>
+                    <execution>
+                        <id>copy-resources</id>
+                        <phase>package</phase>
+                        <goals>
+                            <goal>copy-resources</goal>
+                        </goals>
+                        <configuration>
+                            <outputDirectory>${project.build.directory}/${project.name}-${project.version}</outputDirectory>
+                            <resources>
+                                <resource>
+                                    <directory>./</directory>
+                                    <includes>
+                                        <include>README.txt</include>
+                                    </includes>
+                                </resource>
+                            </resources>
+                        </configuration>
+                    </execution>
+                </executions>
             </plugin>
         </plugins>
     </build>
