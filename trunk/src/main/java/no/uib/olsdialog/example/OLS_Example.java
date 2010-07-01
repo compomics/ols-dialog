@@ -105,7 +105,7 @@ public class OLS_Example extends javax.swing.JFrame implements OLSInputable {
         setIconImage(Toolkit.getDefaultToolkit().getImage(getClass().
             getResource("/no/uib/olsdialog/icons/ols_transparent_small.GIF")));
 
-    jPanel1.setBorder(javax.swing.BorderFactory.createTitledBorder(null, "Example Using Text Fields", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Tahoma", 0, 11), new java.awt.Color(0, 0, 0))); // NOI18N
+    jPanel1.setBorder(javax.swing.BorderFactory.createTitledBorder("Example Using Text Fields"));
 
     jLabel9.setText("Source:");
 
@@ -147,11 +147,11 @@ public class OLS_Example extends javax.swing.JFrame implements OLSInputable {
             .add(9, 9, 9)
             .add(jPanel1Layout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
                 .add(org.jdesktop.layout.GroupLayout.TRAILING, jPanel1Layout.createSequentialGroup()
-                    .add(instrumentDetectorJTextField, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, 377, Short.MAX_VALUE)
+                    .add(instrumentDetectorJTextField, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, 421, Short.MAX_VALUE)
                     .addPreferredGap(org.jdesktop.layout.LayoutStyle.UNRELATED)
                     .add(instrumentDetectorJButton, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, 36, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE))
                 .add(org.jdesktop.layout.GroupLayout.TRAILING, jPanel1Layout.createSequentialGroup()
-                    .add(instrumentSourceJTextField, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, 377, Short.MAX_VALUE)
+                    .add(instrumentSourceJTextField, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, 421, Short.MAX_VALUE)
                     .addPreferredGap(org.jdesktop.layout.LayoutStyle.UNRELATED)
                     .add(instrumentSourceJButton, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, 36, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)))
             .addContainerGap())
@@ -176,7 +176,7 @@ public class OLS_Example extends javax.swing.JFrame implements OLSInputable {
             .addContainerGap(org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
     );
 
-    jPanel2.setBorder(javax.swing.BorderFactory.createTitledBorder(null, "Example Using Tables", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Tahoma", 0, 11), new java.awt.Color(0, 0, 0))); // NOI18N
+    jPanel2.setBorder(javax.swing.BorderFactory.createTitledBorder("Example Using Tables"));
 
     jLabel2.setText("Processing Methods:");
 
@@ -203,14 +203,14 @@ public class OLS_Example extends javax.swing.JFrame implements OLSInputable {
             return canEdit [columnIndex];
         }
     });
-    processingMethodsJTable.addKeyListener(new java.awt.event.KeyAdapter() {
-        public void keyReleased(java.awt.event.KeyEvent evt) {
-            processingMethodsJTableKeyReleased(evt);
-        }
-    });
     processingMethodsJTable.addMouseListener(new java.awt.event.MouseAdapter() {
         public void mouseClicked(java.awt.event.MouseEvent evt) {
             processingMethodsJTableMouseClicked(evt);
+        }
+    });
+    processingMethodsJTable.addKeyListener(new java.awt.event.KeyAdapter() {
+        public void keyReleased(java.awt.event.KeyEvent evt) {
+            processingMethodsJTableKeyReleased(evt);
         }
     });
     jScrollPane1.setViewportView(processingMethodsJTable);
@@ -232,9 +232,9 @@ public class OLS_Example extends javax.swing.JFrame implements OLSInputable {
         .add(jPanel2Layout.createSequentialGroup()
             .addContainerGap()
             .add(jPanel2Layout.createParallelGroup(org.jdesktop.layout.GroupLayout.TRAILING)
-                .add(org.jdesktop.layout.GroupLayout.LEADING, processingMethodsJButton, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, 478, Short.MAX_VALUE)
+                .add(org.jdesktop.layout.GroupLayout.LEADING, processingMethodsJButton, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, 531, Short.MAX_VALUE)
                 .add(org.jdesktop.layout.GroupLayout.LEADING, jLabel2)
-                .add(jScrollPane1, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, 478, Short.MAX_VALUE))
+                .add(jScrollPane1, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, 531, Short.MAX_VALUE))
             .addContainerGap())
     );
     jPanel2Layout.setVerticalGroup(
@@ -255,7 +255,7 @@ public class OLS_Example extends javax.swing.JFrame implements OLSInputable {
         }
     });
 
-    jPanel3.setBorder(javax.swing.BorderFactory.createTitledBorder(null, "Example Using PSI-MOD", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Tahoma", 0, 11), new java.awt.Color(0, 0, 0))); // NOI18N
+    jPanel3.setBorder(javax.swing.BorderFactory.createTitledBorder("Example Using PSI-MOD"));
 
     jLabel1.setText("Mass:");
 
@@ -301,15 +301,15 @@ public class OLS_Example extends javax.swing.JFrame implements OLSInputable {
                 .add(jPanel3Layout.createSequentialGroup()
                     .add(jPanel3Layout.createParallelGroup(org.jdesktop.layout.GroupLayout.LEADING)
                         .add(org.jdesktop.layout.GroupLayout.TRAILING, jPanel3Layout.createSequentialGroup()
-                            .add(modificationMassJTextField, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, 281, Short.MAX_VALUE)
+                            .add(modificationMassJTextField, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, 317, Short.MAX_VALUE)
                             .addPreferredGap(org.jdesktop.layout.LayoutStyle.UNRELATED)
                             .add(jLabel3)
                             .addPreferredGap(org.jdesktop.layout.LayoutStyle.UNRELATED)
                             .add(modificationAccuracyJTextField, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, 68, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE))
-                        .add(modificationNameJTextField, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, 381, Short.MAX_VALUE))
+                        .add(modificationNameJTextField, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, 422, Short.MAX_VALUE))
                     .addPreferredGap(org.jdesktop.layout.LayoutStyle.UNRELATED)
                     .add(modificationMassJButton, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, 36, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE))
-                .add(modificationJTextField, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, 427, Short.MAX_VALUE))
+                .add(modificationJTextField, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, 470, Short.MAX_VALUE))
             .addContainerGap())
     );
     jPanel3Layout.setVerticalGroup(
@@ -336,7 +336,7 @@ public class OLS_Example extends javax.swing.JFrame implements OLSInputable {
             .add(jPanel3Layout.createParallelGroup(org.jdesktop.layout.GroupLayout.BASELINE)
                 .add(jLabel4)
                 .add(modificationJTextField, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE))
-            .addContainerGap(12, Short.MAX_VALUE))
+            .addContainerGap(org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
     );
 
     org.jdesktop.layout.GroupLayout layout = new org.jdesktop.layout.GroupLayout(getContentPane());

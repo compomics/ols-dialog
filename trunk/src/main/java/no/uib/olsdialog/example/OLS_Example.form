@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="UTF-8" ?>
+<?xml version="1.1" encoding="UTF-8" ?>
 
 <Form version="1.3" maxVersion="1.7" type="org.netbeans.modules.form.forminfo.JFrameFormInfo">
   <NonVisualComponents>
@@ -88,9 +88,7 @@
       <Properties>
         <Property name="border" type="javax.swing.border.Border" editor="org.netbeans.modules.form.editors2.BorderEditor">
           <Border info="org.netbeans.modules.form.compat2.border.TitledBorderInfo">
-            <TitledBorder title="Example Using Text Fields">
-              <Color PropertyName="color" blue="0" green="0" red="0" type="rgb"/>
-            </TitledBorder>
+            <TitledBorder title="Example Using Text Fields"/>
           </Border>
         </Property>
       </Properties>
@@ -107,12 +105,12 @@
                   <EmptySpace min="-2" pref="9" max="-2" attributes="0"/>
                   <Group type="103" groupAlignment="0" attributes="0">
                       <Group type="102" alignment="1" attributes="0">
-                          <Component id="instrumentDetectorJTextField" pref="377" max="32767" attributes="1"/>
+                          <Component id="instrumentDetectorJTextField" pref="421" max="32767" attributes="1"/>
                           <EmptySpace type="unrelated" min="-2" max="-2" attributes="0"/>
                           <Component id="instrumentDetectorJButton" min="-2" pref="36" max="-2" attributes="0"/>
                       </Group>
                       <Group type="102" alignment="1" attributes="0">
-                          <Component id="instrumentSourceJTextField" pref="377" max="32767" attributes="1"/>
+                          <Component id="instrumentSourceJTextField" pref="421" max="32767" attributes="1"/>
                           <EmptySpace type="unrelated" min="-2" max="-2" attributes="0"/>
                           <Component id="instrumentSourceJButton" min="-2" pref="36" max="-2" attributes="0"/>
                       </Group>
@@ -205,9 +203,7 @@
       <Properties>
         <Property name="border" type="javax.swing.border.Border" editor="org.netbeans.modules.form.editors2.BorderEditor">
           <Border info="org.netbeans.modules.form.compat2.border.TitledBorderInfo">
-            <TitledBorder title="Example Using Tables">
-              <Color PropertyName="color" blue="0" green="0" red="0" type="rgb"/>
-            </TitledBorder>
+            <TitledBorder title="Example Using Tables"/>
           </Border>
         </Property>
       </Properties>
@@ -218,9 +214,9 @@
               <Group type="102" alignment="0" attributes="0">
                   <EmptySpace max="-2" attributes="0"/>
                   <Group type="103" groupAlignment="1" attributes="0">
-                      <Component id="processingMethodsJButton" alignment="0" pref="478" max="32767" attributes="0"/>
+                      <Component id="processingMethodsJButton" alignment="0" pref="531" max="32767" attributes="0"/>
                       <Component id="jLabel2" alignment="0" min="-2" max="-2" attributes="0"/>
-                      <Component id="jScrollPane1" alignment="1" pref="478" max="32767" attributes="1"/>
+                      <Component id="jScrollPane1" alignment="1" pref="531" max="32767" attributes="1"/>
                   </Group>
                   <EmptySpace max="-2" attributes="0"/>
               </Group>
@@ -295,9 +291,7 @@
       <Properties>
         <Property name="border" type="javax.swing.border.Border" editor="org.netbeans.modules.form.editors2.BorderEditor">
           <Border info="org.netbeans.modules.form.compat2.border.TitledBorderInfo">
-            <TitledBorder title="Example Using PSI-MOD">
-              <Color PropertyName="color" blue="0" green="0" red="0" type="rgb"/>
-            </TitledBorder>
+            <TitledBorder title="Example Using PSI-MOD"/>
           </Border>
         </Property>
       </Properties>
@@ -317,18 +311,18 @@
                       <Group type="102" attributes="0">
                           <Group type="103" groupAlignment="0" attributes="0">
                               <Group type="102" alignment="1" attributes="0">
-                                  <Component id="modificationMassJTextField" pref="281" max="32767" attributes="0"/>
+                                  <Component id="modificationMassJTextField" pref="317" max="32767" attributes="0"/>
                                   <EmptySpace type="unrelated" max="-2" attributes="0"/>
                                   <Component id="jLabel3" min="-2" max="-2" attributes="0"/>
                                   <EmptySpace type="unrelated" max="-2" attributes="0"/>
                                   <Component id="modificationAccuracyJTextField" min="-2" pref="68" max="-2" attributes="0"/>
                               </Group>
-                              <Component id="modificationNameJTextField" pref="381" max="32767" attributes="1"/>
+                              <Component id="modificationNameJTextField" pref="422" max="32767" attributes="1"/>
                           </Group>
                           <EmptySpace type="unrelated" min="-2" max="-2" attributes="0"/>
                           <Component id="modificationMassJButton" min="-2" pref="36" max="-2" attributes="0"/>
                       </Group>
-                      <Component id="modificationJTextField" pref="427" max="32767" attributes="0"/>
+                      <Component id="modificationJTextField" pref="470" max="32767" attributes="0"/>
                   </Group>
                   <EmptySpace max="-2" attributes="0"/>
               </Group>
@@ -366,7 +360,7 @@
                       <Component id="jLabel4" alignment="3" min="-2" max="-2" attributes="0"/>
                       <Component id="modificationJTextField" alignment="3" min="-2" max="-2" attributes="0"/>
                   </Group>
-                  <EmptySpace pref="12" max="32767" attributes="0"/>
+                  <EmptySpace max="32767" attributes="0"/>
               </Group>
           </Group>
         </DimensionLayout>
