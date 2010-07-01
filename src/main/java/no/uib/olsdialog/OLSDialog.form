@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="UTF-8" ?>
+<?xml version="1.1" encoding="UTF-8" ?>
 
 <Form version="1.7" maxVersion="1.7" type="org.netbeans.modules.form.forminfo.JDialogFormInfo">
   <Properties>
@@ -27,20 +27,20 @@
   <Layout>
     <DimensionLayout dim="0">
       <Group type="103" groupAlignment="0" attributes="0">
-          <Group type="102" attributes="0">
+          <Group type="102" alignment="1" attributes="0">
               <EmptySpace max="-2" attributes="0"/>
-              <Group type="103" groupAlignment="0" attributes="0">
+              <Group type="103" groupAlignment="1" attributes="0">
+                  <Component id="searchParametersJPanel" alignment="0" max="32767" attributes="0"/>
                   <Group type="102" alignment="1" attributes="0">
                       <Component id="helpJButton" min="-2" pref="23" max="-2" attributes="0"/>
                       <EmptySpace max="-2" attributes="0"/>
                       <Component id="aboutJButton" min="-2" pref="25" max="-2" attributes="0"/>
-                      <EmptySpace pref="219" max="32767" attributes="0"/>
-                      <Component id="insertSelectedJButton" linkSize="3" min="-2" pref="130" max="-2" attributes="0"/>
+                      <EmptySpace pref="264" max="32767" attributes="0"/>
+                      <Component id="insertSelectedJButton" linkSize="3" min="-2" max="-2" attributes="0"/>
                       <EmptySpace max="-2" attributes="0"/>
                       <Component id="cancelJButton" linkSize="3" min="-2" max="-2" attributes="0"/>
                   </Group>
-                  <Component id="jSeparator1" alignment="0" pref="539" max="32767" attributes="0"/>
-                  <Component id="searchParametersJPanel" alignment="0" max="32767" attributes="0"/>
+                  <Component id="jSeparator1" alignment="0" pref="608" max="32767" attributes="0"/>
               </Group>
               <EmptySpace max="-2" attributes="0"/>
           </Group>
@@ -48,9 +48,9 @@
     </DimensionLayout>
     <DimensionLayout dim="1">
       <Group type="103" groupAlignment="0" attributes="0">
-          <Group type="102" alignment="0" attributes="0">
+          <Group type="102" alignment="1" attributes="0">
               <EmptySpace max="-2" attributes="0"/>
-              <Component id="searchParametersJPanel" min="-2" max="-2" attributes="0"/>
+              <Component id="searchParametersJPanel" max="32767" attributes="0"/>
               <EmptySpace type="separate" max="-2" attributes="0"/>
               <Component id="jSeparator1" min="-2" pref="10" max="-2" attributes="0"/>
               <Group type="103" groupAlignment="0" attributes="0">
@@ -69,7 +69,7 @@
                       </Group>
                   </Group>
               </Group>
-              <EmptySpace max="32767" attributes="0"/>
+              <EmptySpace max="-2" attributes="0"/>
           </Group>
       </Group>
     </DimensionLayout>
@@ -129,9 +129,7 @@
       <Properties>
         <Property name="border" type="javax.swing.border.Border" editor="org.netbeans.modules.form.editors2.BorderEditor">
           <Border info="org.netbeans.modules.form.compat2.border.TitledBorderInfo">
-            <TitledBorder title="Search Parameters">
-              <Color PropertyName="color" blue="0" green="0" red="0" type="rgb"/>
-            </TitledBorder>
+            <TitledBorder title="Search Parameters"/>
           </Border>
         </Property>
       </Properties>
@@ -142,11 +140,11 @@
               <Group type="102" alignment="0" attributes="0">
                   <EmptySpace max="-2" attributes="0"/>
                   <Group type="103" groupAlignment="0" attributes="0">
-                      <Component id="searchTypeJTabbedPane" alignment="0" max="32767" attributes="0"/>
+                      <Component id="searchTypeJTabbedPane" alignment="0" pref="572" max="32767" attributes="0"/>
                       <Group type="102" alignment="0" attributes="0">
                           <Component id="ontologyJLabel" min="-2" max="-2" attributes="0"/>
                           <EmptySpace type="separate" min="-2" max="-2" attributes="0"/>
-                          <Component id="ontologyJComboBox" pref="437" max="32767" attributes="0"/>
+                          <Component id="ontologyJComboBox" pref="499" max="32767" attributes="0"/>
                       </Group>
                   </Group>
                   <EmptySpace max="-2" attributes="0"/>
@@ -156,7 +154,7 @@
         <DimensionLayout dim="1">
           <Group type="103" groupAlignment="0" attributes="0">
               <Group type="102" alignment="0" attributes="0">
-                  <EmptySpace min="-2" pref="11" max="-2" attributes="0"/>
+                  <EmptySpace min="-2" pref="27" max="-2" attributes="0"/>
                   <Group type="103" groupAlignment="2" attributes="0">
                       <Component id="ontologyJLabel" alignment="2" min="-2" max="-2" attributes="0"/>
                       <Component id="ontologyJComboBox" alignment="2" min="-2" max="-2" attributes="0"/>
@@ -192,19 +190,19 @@
                       <Group type="102" alignment="0" attributes="0">
                           <EmptySpace max="-2" attributes="0"/>
                           <Component id="searchResultsTermNameJLabel" min="-2" max="-2" attributes="0"/>
-                          <EmptySpace pref="413" max="32767" attributes="0"/>
+                          <EmptySpace pref="465" max="32767" attributes="0"/>
                       </Group>
                       <Group type="102" alignment="0" attributes="0">
                           <EmptySpace max="-2" attributes="0"/>
                           <Group type="103" groupAlignment="0" attributes="0">
-                              <Component id="olsResultsTermNameSearchJScrollPane" alignment="1" pref="478" max="32767" attributes="1"/>
-                              <Component id="termDetailsTermNameSearchJScrollPane" alignment="0" pref="478" max="32767" attributes="0"/>
+                              <Component id="olsResultsTermNameSearchJScrollPane" alignment="1" pref="543" max="32767" attributes="1"/>
+                              <Component id="termDetailsTermNameSearchJScrollPane" alignment="0" pref="543" max="32767" attributes="0"/>
                               <Group type="102" alignment="0" attributes="0">
                                   <Component id="selectedTermTermNameJLabel" min="-2" max="-2" attributes="0"/>
-                                  <EmptySpace pref="308" max="32767" attributes="0"/>
+                                  <EmptySpace pref="333" max="32767" attributes="0"/>
                                   <Component id="viewTermHierarchyTermNameSearchJLabel" min="-2" max="-2" attributes="0"/>
                               </Group>
-                              <Component id="jScrollPane4" alignment="1" pref="478" max="32767" attributes="0"/>
+                              <Component id="jScrollPane4" alignment="1" pref="543" max="32767" attributes="0"/>
                           </Group>
                           <EmptySpace max="-2" attributes="0"/>
                       </Group>
@@ -218,7 +216,7 @@
                           <EmptySpace max="-2" attributes="0"/>
                           <Component id="searchResultsTermNameJLabel" min="-2" max="-2" attributes="0"/>
                           <EmptySpace max="-2" attributes="0"/>
-                          <Component id="olsResultsTermNameSearchJScrollPane" pref="127" max="32767" attributes="0"/>
+                          <Component id="olsResultsTermNameSearchJScrollPane" pref="104" max="32767" attributes="0"/>
                           <EmptySpace type="unrelated" max="-2" attributes="0"/>
                           <Group type="103" groupAlignment="3" attributes="0">
                               <Component id="selectedTermTermNameJLabel" alignment="3" min="-2" max="-2" attributes="0"/>
@@ -322,7 +320,7 @@
                                   <Group type="102" alignment="0" attributes="0">
                                       <Component id="termNameJLabel" min="-2" max="-2" attributes="0"/>
                                       <EmptySpace type="unrelated" min="-2" max="-2" attributes="0"/>
-                                      <Component id="termNameSearchJTextField" pref="321" max="32767" attributes="0"/>
+                                      <Component id="termNameSearchJTextField" pref="367" max="32767" attributes="0"/>
                                   </Group>
                               </Group>
                               <EmptySpace type="unrelated" min="-2" max="-2" attributes="0"/>
@@ -405,17 +403,17 @@
                       <Group type="102" alignment="0" attributes="0">
                           <EmptySpace max="-2" attributes="0"/>
                           <Component id="jLabel11" min="-2" max="-2" attributes="0"/>
-                          <EmptySpace pref="413" max="32767" attributes="0"/>
+                          <EmptySpace pref="465" max="32767" attributes="0"/>
                       </Group>
                       <Group type="102" alignment="0" attributes="0">
                           <EmptySpace max="-2" attributes="0"/>
                           <Group type="103" groupAlignment="0" attributes="0">
-                              <Component id="olsResultsTermIdSearchJScrollPane" alignment="1" pref="478" max="32767" attributes="1"/>
-                              <Component id="termDetailsTermIdSearchJScrollPane" alignment="0" pref="478" max="32767" attributes="0"/>
-                              <Component id="jScrollPane6" alignment="0" pref="478" max="32767" attributes="0"/>
+                              <Component id="olsResultsTermIdSearchJScrollPane" alignment="1" pref="543" max="32767" attributes="1"/>
+                              <Component id="termDetailsTermIdSearchJScrollPane" alignment="0" pref="543" max="32767" attributes="0"/>
+                              <Component id="jScrollPane6" alignment="0" pref="543" max="32767" attributes="0"/>
                               <Group type="102" alignment="0" attributes="0">
                                   <Component id="jLabel13" min="-2" max="-2" attributes="0"/>
-                                  <EmptySpace pref="308" max="32767" attributes="0"/>
+                                  <EmptySpace pref="333" max="32767" attributes="0"/>
                                   <Component id="viewTermHierarchyTermIdSearchJLabel" min="-2" max="-2" attributes="0"/>
                               </Group>
                           </Group>
@@ -431,7 +429,7 @@
                           <EmptySpace max="-2" attributes="0"/>
                           <Component id="jLabel11" min="-2" max="-2" attributes="0"/>
                           <EmptySpace max="-2" attributes="0"/>
-                          <Component id="olsResultsTermIdSearchJScrollPane" pref="124" max="32767" attributes="0"/>
+                          <Component id="olsResultsTermIdSearchJScrollPane" pref="101" max="32767" attributes="0"/>
                           <EmptySpace type="unrelated" max="-2" attributes="0"/>
                           <Group type="103" groupAlignment="3" attributes="0">
                               <Component id="jLabel13" alignment="3" min="-2" max="-2" attributes="0"/>
@@ -535,7 +533,7 @@
                                   <Group type="102" alignment="0" attributes="0">
                                       <Component id="jLabel10" min="-2" max="-2" attributes="0"/>
                                       <EmptySpace type="unrelated" max="-2" attributes="0"/>
-                                      <Component id="termIdSearchJTextField" pref="320" max="32767" attributes="0"/>
+                                      <Component id="termIdSearchJTextField" pref="381" max="32767" attributes="0"/>
                                   </Group>
                               </Group>
                               <EmptySpace type="unrelated" min="-2" max="-2" attributes="0"/>
@@ -622,19 +620,19 @@
                       <Group type="102" alignment="0" attributes="0">
                           <EmptySpace max="-2" attributes="0"/>
                           <Component id="jLabel6" min="-2" max="-2" attributes="0"/>
-                          <EmptySpace pref="413" max="32767" attributes="0"/>
+                          <EmptySpace pref="465" max="32767" attributes="0"/>
                       </Group>
                       <Group type="102" alignment="0" attributes="0">
                           <EmptySpace max="-2" attributes="0"/>
                           <Group type="103" groupAlignment="0" attributes="0">
-                              <Component id="jScrollPane5" alignment="0" pref="478" max="32767" attributes="0"/>
-                              <Component id="olsResultsMassSearchJScrollPane" alignment="0" pref="478" max="32767" attributes="1"/>
+                              <Component id="jScrollPane5" alignment="0" pref="543" max="32767" attributes="0"/>
+                              <Component id="olsResultsMassSearchJScrollPane" alignment="0" pref="543" max="32767" attributes="1"/>
                               <Group type="102" alignment="0" attributes="0">
                                   <Component id="jLabel7" min="-2" max="-2" attributes="0"/>
-                                  <EmptySpace pref="308" max="32767" attributes="0"/>
+                                  <EmptySpace pref="333" max="32767" attributes="0"/>
                                   <Component id="viewTermHierarchyMassSearchJLabel" min="-2" max="-2" attributes="0"/>
                               </Group>
-                              <Component id="termDetailsMassSearchJScrollPane" alignment="0" pref="478" max="32767" attributes="0"/>
+                              <Component id="termDetailsMassSearchJScrollPane" alignment="0" pref="543" max="32767" attributes="0"/>
                           </Group>
                           <EmptySpace max="-2" attributes="0"/>
                       </Group>
@@ -648,7 +646,7 @@
                           <EmptySpace max="-2" attributes="0"/>
                           <Component id="jLabel6" min="-2" max="-2" attributes="0"/>
                           <EmptySpace max="-2" attributes="0"/>
-                          <Component id="olsResultsMassSearchJScrollPane" pref="124" max="32767" attributes="0"/>
+                          <Component id="olsResultsMassSearchJScrollPane" pref="101" max="32767" attributes="0"/>
                           <EmptySpace type="unrelated" max="-2" attributes="0"/>
                           <Group type="103" groupAlignment="3" attributes="0">
                               <Component id="jLabel7" alignment="3" min="-2" max="-2" attributes="0"/>
@@ -763,7 +761,7 @@
                                       <Component id="massTypeJComboBox" min="-2" max="-2" attributes="2"/>
                                   </Group>
                               </Group>
-                              <EmptySpace type="unrelated" pref="12" max="32767" attributes="0"/>
+                              <EmptySpace type="unrelated" pref="46" max="32767" attributes="0"/>
                               <Component id="modificationMassSearchJButton" min="-2" pref="80" max="-2" attributes="1"/>
                               <EmptySpace max="-2" attributes="0"/>
                           </Group>
@@ -878,14 +876,14 @@
                       <Group type="102" alignment="1" attributes="0">
                           <EmptySpace max="-2" attributes="0"/>
                           <Group type="103" groupAlignment="1" attributes="0">
-                              <Component id="browseJPanel" alignment="0" pref="478" max="32767" attributes="0"/>
+                              <Component id="browseJPanel" alignment="0" pref="543" max="32767" attributes="0"/>
                               <Group type="102" alignment="0" attributes="0">
                                   <Component id="jLabel8" min="-2" max="-2" attributes="0"/>
-                                  <EmptySpace pref="308" max="32767" attributes="0"/>
+                                  <EmptySpace pref="333" max="32767" attributes="0"/>
                                   <Component id="viewTermHierarchyBrowseOntologyJLabel" min="-2" max="-2" attributes="0"/>
                               </Group>
-                              <Component id="jScrollPane7" alignment="1" pref="478" max="32767" attributes="0"/>
-                              <Component id="termDetailsBrowseOntologyJScrollPane" alignment="1" pref="478" max="32767" attributes="0"/>
+                              <Component id="jScrollPane7" alignment="1" pref="543" max="32767" attributes="0"/>
+                              <Component id="termDetailsBrowseOntologyJScrollPane" alignment="1" pref="543" max="32767" attributes="0"/>
                           </Group>
                           <EmptySpace max="-2" attributes="0"/>
                       </Group>
@@ -895,7 +893,7 @@
                   <Group type="103" groupAlignment="0" attributes="0">
                       <Group type="102" alignment="1" attributes="0">
                           <EmptySpace max="-2" attributes="0"/>
-                          <Component id="browseJPanel" pref="203" max="32767" attributes="0"/>
+                          <Component id="browseJPanel" pref="191" max="32767" attributes="0"/>
                           <EmptySpace type="unrelated" max="-2" attributes="0"/>
                           <Group type="103" groupAlignment="3" attributes="0">
                               <Component id="jLabel8" alignment="3" min="-2" max="-2" attributes="0"/>
