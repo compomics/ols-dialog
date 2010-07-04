@@ -141,6 +141,7 @@
                                     <directory>./</directory>
                                     <includes>
                                         <include>README.txt</include>
+                                        <include>ols_dialog.ico</include>
                                     </includes>
                                 </resource>
                             </resources>
