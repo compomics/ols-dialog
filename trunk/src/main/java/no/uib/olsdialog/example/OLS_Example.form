@@ -105,12 +105,12 @@
                   <EmptySpace min="-2" pref="9" max="-2" attributes="0"/>
                   <Group type="103" groupAlignment="0" attributes="0">
                       <Group type="102" alignment="1" attributes="0">
-                          <Component id="instrumentDetectorJTextField" pref="421" max="32767" attributes="1"/>
+                          <Component id="instrumentDetectorJTextField" pref="430" max="32767" attributes="1"/>
                           <EmptySpace type="unrelated" min="-2" max="-2" attributes="0"/>
                           <Component id="instrumentDetectorJButton" min="-2" pref="36" max="-2" attributes="0"/>
                       </Group>
                       <Group type="102" alignment="1" attributes="0">
-                          <Component id="instrumentSourceJTextField" pref="421" max="32767" attributes="1"/>
+                          <Component id="instrumentSourceJTextField" pref="430" max="32767" attributes="1"/>
                           <EmptySpace type="unrelated" min="-2" max="-2" attributes="0"/>
                           <Component id="instrumentSourceJButton" min="-2" pref="36" max="-2" attributes="0"/>
                       </Group>
@@ -311,18 +311,18 @@
                       <Group type="102" attributes="0">
                           <Group type="103" groupAlignment="0" attributes="0">
                               <Group type="102" alignment="1" attributes="0">
-                                  <Component id="modificationMassJTextField" pref="317" max="32767" attributes="0"/>
+                                  <Component id="modificationMassJTextField" pref="334" max="32767" attributes="0"/>
                                   <EmptySpace type="unrelated" max="-2" attributes="0"/>
                                   <Component id="jLabel3" min="-2" max="-2" attributes="0"/>
                                   <EmptySpace type="unrelated" max="-2" attributes="0"/>
                                   <Component id="modificationAccuracyJTextField" min="-2" pref="68" max="-2" attributes="0"/>
                               </Group>
-                              <Component id="modificationNameJTextField" pref="422" max="32767" attributes="1"/>
+                              <Component id="modificationNameJTextField" pref="434" max="32767" attributes="1"/>
                           </Group>
                           <EmptySpace type="unrelated" min="-2" max="-2" attributes="0"/>
                           <Component id="modificationMassJButton" min="-2" pref="36" max="-2" attributes="0"/>
                       </Group>
-                      <Component id="modificationJTextField" pref="470" max="32767" attributes="0"/>
+                      <Component id="modificationJTextField" pref="480" max="32767" attributes="0"/>
                   </Group>
                   <EmptySpace max="-2" attributes="0"/>
               </Group>
