@@ -52,20 +52,38 @@ import uk.ac.ebi.ook.web.model.DataHolder;
  */
 public class OLSDialog extends javax.swing.JDialog {
 
+   /**
+    * Set to true of debug output is wanted.
+    */
     public static final boolean debug = false;
     private String field;
     private String selectedOntology;
     private int modifiedRow = -1;
     private OLSInputable olsInputable;
     private String mappedTerm;
+    /**
+     * The default error message used when connecting to OLS fails.
+     */
     private String defaultOlsConnectionFailureErrorMessage =
             "An error occured when trying to contact the OLS. Make sure that\n" +
             "you are online. Also check your firewall (and proxy) settings.\n\n" +
             "See the Troubleshooting section at the OLS Dialog home page\n" +
             "for details: http://ols-dialog.googlecode.com.";
+    /**
+     * Used for term name searches.
+     */
     public static final Integer OLS_DIALOG_TERM_NAME_SEARCH = 0;
+    /**
+     * Used for term id searches.
+     */
     public static final Integer OLS_DIALOG_TERM_ID_SEARCH = 1;
+    /**
+     * Used for PSI modification mass searches.
+     */
     public static final Integer OLS_DIALOG_PSI_MOD_MASS_SEARCH = 2;
+    /**
+     * Used for ontology browsing.
+     */
     public static final Integer OLS_DIALOG_BROWSE_ONTOLOGY = 3;
     private static Query olsConnection;
     private TreeBrowser treeBrowser;
@@ -1967,7 +1985,7 @@ public class OLSDialog extends javax.swing.JDialog {
                 }
 
                 //No matching terms found
-                if (map.size() == 0) {
+                if (map.isEmpty()) {
                     //JOptionPane.showMessageDialog(this, "No mathcing terms found.");
                     //this.olsSearchTextField.requestFocus();
                 }
