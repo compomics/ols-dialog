@@ -13,7 +13,7 @@
  * FEATURE IMPROVEMENT: Short ontology names, e.g., GO or PSI, are now supported when setting the initial ontology.
  * BUG FIX: Fixed a couple of minor GUI bugs.
 
-Download Count: 33
+Download Count: 34
 
 ----
 
