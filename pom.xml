@@ -1,17 +1,21 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<project xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+<project xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
     <modelVersion>4.0.0</modelVersion>
     <groupId>no.uib</groupId>
     <artifactId>ols-dialog</artifactId>
     <packaging>jar</packaging>
-    <version>${version.number}</version> <!-- version number is set below -->
+    <version>${version.number}</version>
+    <!-- version number is set below -->
     <name>ols-dialog</name>
     <url>http://ols-dialog.googlecode.com</url>
-    <description>OLS Dialog is a Java front end to the Ontology Lookup Service (OLS) (http://www.ebi.ac.uk/ontology-lookup).</description>
+    <description>OLS Dialog is a Java front end to the Ontology Lookup Service (OLS)
+        (http://www.ebi.ac.uk/ontology-lookup).
+    </description>
 
     <!-- Set the version number for the whole project -->
     <properties>
-        <version.number>3.2.4</version.number>
+        <version.number>3.3.0</version.number>
     </properties>
 
     <!-- License -->
@@ -37,9 +41,15 @@
             <email>lennart.martens@ebi.ac.uk</email>
             <organization>Proteomics Services Team, PANDA Group, EMBL-European Bioinformatics Institute</organization>
         </developer>
+        <developer>
+            <name>Richard Cote</name>
+            <id>RichardCote</id>
+            <email>rcote@ebi.ac.uk</email>
+            <organization>Proteomics Services Team, PANDA Group, EMBL-European Bioinformatics Institute</organization>
+        </developer>
     </developers>
 
-     <!-- Build -->
+    <!-- Build -->
     <build>
 
         <!-- Resources -->
@@ -98,7 +108,8 @@
                             <goal>copy-dependencies</goal>
                         </goals>
                         <configuration>
-                            <outputDirectory>${project.build.directory}/${project.name}-${project.version}/lib</outputDirectory>
+                            <outputDirectory>${project.build.directory}/${project.name}-${project.version}/lib
+                            </outputDirectory>
                             <overWriteReleases>true</overWriteReleases>
                             <overWriteSnapshots>true</overWriteSnapshots>
                             <overWriteIfNewer>true</overWriteIfNewer>
@@ -135,7 +146,8 @@
                             <goal>copy-resources</goal>
                         </goals>
                         <configuration>
-                            <outputDirectory>${project.build.directory}/${project.name}-${project.version}</outputDirectory>
+                            <outputDirectory>${project.build.directory}/${project.name}-${project.version}
+                            </outputDirectory>
                             <resources>
                                 <resource>
                                     <directory>./</directory>
@@ -242,5 +254,5 @@
             <version>1.4</version>
         </dependency>
     </dependencies>
- 
+
 </project>

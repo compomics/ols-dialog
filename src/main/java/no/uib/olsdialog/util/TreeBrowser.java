@@ -1,27 +1,23 @@
 package no.uib.olsdialog.util;
 
+import no.uib.olsdialog.OLSDialog;
+
 import javax.swing.*;
-import javax.swing.event.TreeExpansionEvent;
-import javax.swing.event.TreeModelEvent;
-import javax.swing.event.TreeModelListener;
-import javax.swing.event.TreeSelectionEvent;
-import javax.swing.event.TreeSelectionListener;
+import javax.swing.event.*;
 import javax.swing.tree.DefaultMutableTreeNode;
 import javax.swing.tree.DefaultTreeModel;
 import javax.swing.tree.TreePath;
 import javax.swing.tree.TreeSelectionModel;
 import java.awt.*;
 import java.util.Enumeration;
-import javax.swing.event.TreeExpansionListener;
-import no.uib.olsdialog.OLSDialog;
 
 /**
  * A simple tree browser for browsing a given ontology in the OLS.
  * <br><br>
  * The code is based on an example provided by Richard Stanford, a tutorial reader.
  *
- * @author  Richard Cote
- * @author  Harald Barsnes
+ * @author Richard Cote
+ * @author Harald Barsnes
  */
 public class TreeBrowser extends JPanel implements TreeSelectionListener, TreeModelListener, TreeExpansionListener {
 
@@ -33,7 +29,7 @@ public class TreeBrowser extends JPanel implements TreeSelectionListener, TreeMo
 
     /**
      * Creates a new TreeBrowser with an OLSDialog as the parent.
-     * 
+     * <p/>
      * The OLSDialog has methods that are required to update the interface
      * by communicating with the OLS webservice.
      *
@@ -66,7 +62,7 @@ public class TreeBrowser extends JPanel implements TreeSelectionListener, TreeMo
 
     /**
      * Set the root node to the ontology label.
-     * 
+     *
      * @param ontologyName the ontology label
      */
     public void initialize(String ontologyName) {
@@ -99,7 +95,7 @@ public class TreeBrowser extends JPanel implements TreeSelectionListener, TreeMo
     /**
      * Add child to the currently selected node, or the root node if no selection.
      *
-     * @param termId the accession number of term to add
+     * @param termId   the accession number of term to add
      * @param termName the name of the term to add
      * @return the added node
      */
@@ -213,7 +209,7 @@ public class TreeBrowser extends JPanel implements TreeSelectionListener, TreeMo
             }
 
             olsDialog.loadMetaData(nodeInfo.getTermId(), OLSDialog.OLS_DIALOG_BROWSE_ONTOLOGY);
-        } else{
+        } else {
             olsDialog.clearData(OLSDialog.OLS_DIALOG_BROWSE_ONTOLOGY, true, true);
         }
 
@@ -280,7 +276,7 @@ public class TreeBrowser extends JPanel implements TreeSelectionListener, TreeMo
          * Creates a TermNode object with the provided details.
          *
          * @param termName the name of the term to represent
-         * @param termId the accession number of the term to represent
+         * @param termId   the accession number of the term to represent
          */
         public TermNode(String termName, String termId) {
             this.termName = termName;
