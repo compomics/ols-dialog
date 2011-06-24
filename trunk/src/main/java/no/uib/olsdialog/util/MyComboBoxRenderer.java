@@ -1,20 +1,18 @@
 package no.uib.olsdialog.util;
 
-import java.awt.Component;
+import javax.swing.*;
+import javax.swing.plaf.basic.BasicComboBoxRenderer;
+import java.awt.*;
 import java.util.StringTokenizer;
 import java.util.Vector;
-import javax.swing.JLabel;
-import javax.swing.JList;
-import javax.swing.SwingConstants;
-import javax.swing.plaf.basic.BasicComboBoxRenderer;
 
 /**
- * A combo box renderer that allows tooltip for each element in the combo 
+ * A combo box renderer that allows tooltip for each element in the combo
  * box list.
  *
- * @author  Harald Barsnes
- * 
- * Created March 2008
+ * @author Harald Barsnes
+ *         <p/>
+ *         Created March 2008
  */
 public class MyComboBoxRenderer extends BasicComboBoxRenderer {
 
@@ -23,9 +21,9 @@ public class MyComboBoxRenderer extends BasicComboBoxRenderer {
 
     /**
      * Creates a new instance of the MyComboBoxRenderer.
-     * 
+     *
      * @param tooltips vector containg the tooltips
-     * @param align the horizontal alignment of the text
+     * @param align    the horizontal alignment of the text
      */
     public MyComboBoxRenderer(Vector tooltips, int align) {
         this.tooltips = tooltips;
@@ -34,7 +32,7 @@ public class MyComboBoxRenderer extends BasicComboBoxRenderer {
 
     /**
      * Set the tooltips.
-     * 
+     *
      * @param tooltips vector containg the tooltips
      */
     public void setToolTips(Vector tooltips) {
@@ -43,7 +41,7 @@ public class MyComboBoxRenderer extends BasicComboBoxRenderer {
 
     @Override
     public Component getListCellRendererComponent(JList list, Object value,
-            int index, boolean isSelected, boolean cellHasFocus) {
+                                                  int index, boolean isSelected, boolean cellHasFocus) {
 
         // DefaultListCellRenderer uses a JLabel as the rendering component:
         JLabel lbl = (JLabel) super.getListCellRendererComponent(
