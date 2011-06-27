@@ -15,7 +15,7 @@
 
     <!-- Set the version number for the whole project -->
     <properties>
-        <version.number>3.3.0</version.number>
+        <version.number>3.3.1-SNAPSHOT</version.number>
     </properties>
 
     <!-- License -->
@@ -47,9 +47,15 @@
             <email>rcote@ebi.ac.uk</email>
             <organization>Proteomics Services Team, PANDA Group, EMBL-European Bioinformatics Institute</organization>
         </developer>
+        <developer>
+            <name>Rafael C. Jimenez</name>
+            <id>rajido</id>
+            <email>rafael@ebi.ac.uk</email>
+            <organization>Proteomics Services Team, PANDA Group, EMBL-European Bioinformatics Institute</organization>
+        </developer>
     </developers>
 
-    <!-- Build -->
+     <!-- Build -->
     <build>
 
         <!-- Resources -->
@@ -108,8 +114,7 @@
                             <goal>copy-dependencies</goal>
                         </goals>
                         <configuration>
-                            <outputDirectory>${project.build.directory}/${project.name}-${project.version}/lib
-                            </outputDirectory>
+                            <outputDirectory>${project.build.directory}/${project.name}-${project.version}/lib</outputDirectory>
                             <overWriteReleases>true</overWriteReleases>
                             <overWriteSnapshots>true</overWriteSnapshots>
                             <overWriteIfNewer>true</overWriteIfNewer>
@@ -146,8 +151,7 @@
                             <goal>copy-resources</goal>
                         </goals>
                         <configuration>
-                            <outputDirectory>${project.build.directory}/${project.name}-${project.version}
-                            </outputDirectory>
+                            <outputDirectory>${project.build.directory}/${project.name}-${project.version}</outputDirectory>
                             <resources>
                                 <resource>
                                     <directory>./</directory>
@@ -254,5 +258,5 @@
             <version>1.4</version>
         </dependency>
     </dependencies>
-
+ 
 </project>
