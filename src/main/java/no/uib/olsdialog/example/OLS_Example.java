@@ -3,22 +3,26 @@ package no.uib.olsdialog.example;
 import com.jgoodies.looks.plastic.PlasticLookAndFeel;
 import com.jgoodies.looks.plastic.PlasticXPLookAndFeel;
 import com.jgoodies.looks.plastic.theme.SkyKrupp;
+import java.awt.Toolkit;
+import java.awt.Window;
+import java.awt.event.KeyEvent;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+import javax.swing.JOptionPane;
+import javax.swing.UIManager;
+import javax.swing.UnsupportedLookAndFeelException;
+import javax.swing.table.DefaultTableModel;
 import no.uib.olsdialog.OLSDialog;
 import no.uib.olsdialog.OLSInputable;
-
-import javax.swing.*;
-import javax.swing.table.DefaultTableModel;
-import java.awt.*;
-import java.awt.event.KeyEvent;
-import java.util.Map;
 
 /**
  * An example of how the OLS Dialog can be used.
  *
- * @author Harald Barsnes
+ * @author  Harald Barsnes
  */
 public class OLS_Example extends javax.swing.JFrame implements OLSInputable {
-
     /**
      * Creates a new OLS_Example frame and makes it visible.
      */
@@ -31,7 +35,7 @@ public class OLS_Example extends javax.swing.JFrame implements OLSInputable {
 
     /**
      * Sets the look and feel of the OLS Dialog.
-     * <p/>
+     *
      * Note that the OLS Dialog has been created with the following look and feel
      * in mind. If using a different look and feel you might need to tweak the GUI
      * to get the best appearance.
@@ -378,7 +382,7 @@ public class OLS_Example extends javax.swing.JFrame implements OLSInputable {
         this.setCursor(new java.awt.Cursor(java.awt.Cursor.WAIT_CURSOR));
 
         String searchTerm = null;
-        String ontology = "Mass Spectroscopy CV (PSI-MS) [PSI]";
+        String ontology = "PSI Mass Spectrometry Ontology [MS] / source";
 
         if (instrumentSourceJTextField.getText().length() > 0) {
 
@@ -398,9 +402,18 @@ public class OLS_Example extends javax.swing.JFrame implements OLSInputable {
             searchTerm = searchTerm.replaceAll("\\]", " ");
         }
 
-        new OLSDialog(this, this, true, "instrumentSource", ontology, searchTerm);
+
+        Map<String,List<String>> preselectedOntologies = new HashMap<String,List<String>>();
+        List msPreselectedParentTerms = new ArrayList<String>();
+        msPreselectedParentTerms.add("MS:1000458");  // Source Description
+        preselectedOntologies.put("PRIDE", null);
+        preselectedOntologies.put("PSI", null);
+        preselectedOntologies.put("MS", msPreselectedParentTerms);
+
+        new OLSDialog(this, this, true, "instrumentSource", ontology, searchTerm, preselectedOntologies);
+        //new OLSDialog(this, this, true, "instrumentSource", ontology, searchTerm);
         this.setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
-    }//GEN-LAST:event_instrumentSourceJButtonActionPerformed
+}//GEN-LAST:event_instrumentSourceJButtonActionPerformed
 
     /**
      * Opens the OLS dialog.
@@ -433,7 +446,7 @@ public class OLS_Example extends javax.swing.JFrame implements OLSInputable {
 
         new OLSDialog(this, this, true, "instrumentDetector", ontology, searchTerm);
         this.setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
-    }//GEN-LAST:event_instrumentDetectorJButtonActionPerformed
+}//GEN-LAST:event_instrumentDetectorJButtonActionPerformed
 
     /**
      * If the user double clicks on a row in the processing methods table the
@@ -454,7 +467,7 @@ public class OLS_Example extends javax.swing.JFrame implements OLSInputable {
         } else if (evt.getButton() == 1 && evt.getClickCount() == 2) {
             processingMethodsEditJMenuItemActionPerformed(null);
         }
-    }//GEN-LAST:event_processingMethodsJTableMouseClicked
+}//GEN-LAST:event_processingMethodsJTableMouseClicked
 
     /**
      * If the delete key is pressed the selected rows in the processing methods
@@ -466,7 +479,7 @@ public class OLS_Example extends javax.swing.JFrame implements OLSInputable {
         if (evt.getKeyCode() == KeyEvent.VK_DELETE) {
             processingMethodsDeleteSelectedRowJMenuItemActionPerformed(null);
         }
-    }//GEN-LAST:event_processingMethodsJTableKeyReleased
+}//GEN-LAST:event_processingMethodsJTableKeyReleased
 
     /**
      * Opens the OLS dialog.
@@ -477,7 +490,7 @@ public class OLS_Example extends javax.swing.JFrame implements OLSInputable {
         this.setCursor(new java.awt.Cursor(java.awt.Cursor.WAIT_CURSOR));
         new OLSDialog(this, this, true, "processingMethods", "Mass Spectroscopy CV (PSI-MS) [PSI]", null);
         this.setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
-    }//GEN-LAST:event_processingMethodsJButtonActionPerformed
+}//GEN-LAST:event_processingMethodsJButtonActionPerformed
 
     /**
      * Closes the example frame.
@@ -516,7 +529,7 @@ public class OLS_Example extends javax.swing.JFrame implements OLSInputable {
 
         new OLSDialog(this, this, true, "processingMethods", ontology, selectedRow, searchTerm);
         this.setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
-    }//GEN-LAST:event_processingMethodsEditJMenuItemActionPerformed
+}//GEN-LAST:event_processingMethodsEditJMenuItemActionPerformed
 
     /**
      * Deletes the selected row in the processing methods table.
@@ -531,7 +544,7 @@ public class OLS_Example extends javax.swing.JFrame implements OLSInputable {
             ((DefaultTableModel) processingMethodsJTable.getModel()).removeRow(selectedRow);
             fixProcessingMethodsIndices();
         }
-    }//GEN-LAST:event_processingMethodsDeleteSelectedRowJMenuItemActionPerformed
+}//GEN-LAST:event_processingMethodsDeleteSelectedRowJMenuItemActionPerformed
 
     /**
      * Opens the OLS dialog.
@@ -576,7 +589,7 @@ public class OLS_Example extends javax.swing.JFrame implements OLSInputable {
         if (!error) {
             new OLSDialog(this, this, true, "modificationMass", "Protein Modifications (PSI-MOD) [MOD]", -1,
                     modificationNameJTextField.getText(), currentModificationMass, currentAccuracy,
-                    OLSDialog.OLS_DIALOG_PSI_MOD_MASS_SEARCH);
+                    OLSDialog.OLS_DIALOG_PSI_MOD_MASS_SEARCH, null);
         }
 
         this.setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
@@ -658,7 +671,7 @@ public class OLS_Example extends javax.swing.JFrame implements OLSInputable {
      * @param modifiedRow The row to modify, use -1 if adding a new processing method
      */
     public void addProcessingMethod(String name, String accession,
-                                    String ontology, int modifiedRow) {
+            String ontology, int modifiedRow) {
         addProcessingMethod(name, accession, ontology, null, modifiedRow);
     }
 
@@ -672,7 +685,7 @@ public class OLS_Example extends javax.swing.JFrame implements OLSInputable {
      * @param modifiedRow The row to modify, use -1 if adding a new processing method
      */
     public void addProcessingMethod(String name, String accession,
-                                    String ontology, String value, int modifiedRow) {
+            String ontology, String value, int modifiedRow) {
 
         if (value != null) {
             if (value.equalsIgnoreCase("null")) {
@@ -684,8 +697,8 @@ public class OLS_Example extends javax.swing.JFrame implements OLSInputable {
 
             ((DefaultTableModel) this.processingMethodsJTable.getModel()).addRow(
                     new Object[]{
-                            new Integer(processingMethodsJTable.getRowCount() + 1),
-                            name + " [" + accession + "]", value
+                        new Integer(processingMethodsJTable.getRowCount() + 1),
+                        name + " [" + accession + "]", value
                     });
 
         } else {
@@ -693,7 +706,6 @@ public class OLS_Example extends javax.swing.JFrame implements OLSInputable {
             processingMethodsJTable.setValueAt(null, modifiedRow, 2);
         }
     }
-
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton closeJButton;
     private javax.swing.JButton instrumentDetectorJButton;
@@ -728,10 +740,11 @@ public class OLS_Example extends javax.swing.JFrame implements OLSInputable {
      * @see OLSInputable
      */
     public void insertOLSResult(String field, String selectedValue,
-                                String accession,
-                                String ontologyShort, String ontologyLong, int modifiedRow,
-                                String mappedTerm,
-                                Map<String, String> metadata) {
+            String accession,
+            String ontologyShort, String ontologyLong, int modifiedRow,
+            String mappedTerm,
+            Map<String, String> metadata
+            ) {
 
         if (field.equalsIgnoreCase("instrumentSource")) {
             setInstrumentSource(selectedValue, accession, ontologyShort);
@@ -758,15 +771,15 @@ public class OLS_Example extends javax.swing.JFrame implements OLSInputable {
      * @param cvTerm the cv term to extract the ontology from, e.g., BTO:0000763
      * @return the extracted ontology
      */
-    public static String getOntologyFromCvTerm(String cvTerm) {
+    public static String getOntologyFromCvTerm(String cvTerm){
 
         String ontology = "";
 
-        if (cvTerm.lastIndexOf(":") != -1) {
+        if(cvTerm.lastIndexOf(":") != -1){
             ontology = cvTerm.substring(0, cvTerm.lastIndexOf(":"));
-        } else if (cvTerm.lastIndexOf("_") != -1) {
+        } else if(cvTerm.lastIndexOf("_") != -1){
             ontology = cvTerm.substring(0, cvTerm.lastIndexOf("_"));
-        } else {
+        } else{
             ontology = "NEWT";
         }
 
