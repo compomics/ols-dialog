@@ -2261,7 +2261,14 @@ public class OLSDialog extends javax.swing.JDialog {
                 }
             }
         } else {
-            ontologyShort = ontologyLong.substring(ontologyLong.lastIndexOf("[") + 1, ontologyLong.length() - 1);
+//            ontologyShort = ontologyLong.substring(ontologyLong.lastIndexOf("[") + 1, ontologyLong.length() - 1);
+
+            if(ontologyLong.lastIndexOf("[") != -1){
+                ontologyShort = ontologyLong.substring(ontologyLong.lastIndexOf("[") + 1, ontologyLong.length());
+            }
+            if(ontologyShort.lastIndexOf("]") != -1){
+                ontologyShort = ontologyShort.substring(0, ontologyShort.lastIndexOf("]"));
+            }
         }
 
         try {
