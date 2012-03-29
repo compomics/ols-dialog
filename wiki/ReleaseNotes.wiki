@@ -3,8 +3,19 @@
 
 ----
 
+*Changes in OLS Dialog v3.3.2 - (March 30. 2012):*
+ * NEW FEATURE: New and optional functionality to filter the list of Ontologies from OLS. This functionality includes the option to browse ontology terms from a specific parent term.
+ * NEW FEATURE: The look and feel is no longer set inside the OLS Dialog, but rather the look and feel from the parent is used.
+ * FEATURE IMPROVEMENT: The Term Name Search is now only performed if at least three characters are inserted.
+ * FEATURE IMPROVEMENT: Updated ols-dialog interface to return metadata of selected term to calling object.
+ * FEATURE IMPROVEMENT: Minor GUI fixes related to using different look and feels.
+
+----
+
 *Changes in OLS Dialog v3.2.3 - (July 5. 2010):*
  * FEATURE IMPROVEMENT: Lots of minor updates to the GUI to make it look better on Windows 7.
+
+Download Count: 86 (50 + 36 of snapshot 3.3.1)
 
 ----
 
