@@ -15,7 +15,7 @@
 
     <!-- Set the version number for the whole project -->
     <properties>
-        <version.number>3.3.2</version.number>
+        <version.number>3.3.3</version.number>
     </properties>
 
     <!-- License -->

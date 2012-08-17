@@ -43,6 +43,15 @@ public class OLSDialog extends javax.swing.JDialog {
     private Map<String, List<String>> preselectedOntologies;
     private Map<String, String> preselectedNames2Ids;
     /**
+     * Counts the number of times the users has pressed a key on the keyboard in
+     * the search field.
+     */
+    private int keyPressedCounter = 0;
+    /**
+     * The time to wait between keys typed before updating the search.
+     */
+    private int waitingTime = 1000;
+    /**
      * The search is only performed if a certain amount of characters are
      * inserted.
      */
@@ -2146,72 +2155,96 @@ public class OLSDialog extends javax.swing.JDialog {
      */
     private void termNameSearchJTextFieldKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_termNameSearchJTextFieldKeyReleased
 
-        this.setCursor(new java.awt.Cursor(java.awt.Cursor.WAIT_CURSOR));
-        termNameSearchJTextField.setCursor(new java.awt.Cursor(java.awt.Cursor.WAIT_CURSOR));
 
-        insertSelectedJButton.setEnabled(false);
-        currentlySelectedTermNameSearchAccessionNumber = null;
+        keyPressedCounter++;
 
-        try {
-            // clear the old meta data
-            clearData(OLS_DIALOG_TERM_NAME_SEARCH, true, true);
+        new Thread("SearchThread") {
 
-            // the search is only performed if a certain amount of characters are inserted
-            if (termNameSearchJTextField.getText().length() >= MINIMUM_WORD_LENGTH) {
+            @Override
+            public synchronized void run() {
 
-                // search the selected ontology and find all matching terms
-                String ontology = getCurrentOntologyLabel();
-
-                // if 'search in all ontologies' is selected, set the ontology to null
-                if (ontologyJComboBox.getSelectedIndex() == 0) {
-                    ontology = null;
+                try {
+                    wait(waitingTime);
+                } catch (InterruptedException e) {
                 }
 
-                Map map = new HashMap();
-                if (isPreselectedOption() == true) {
-                    // Ontology terms for preselected Ontologies
-                    for (String preselectedOntology : preselectedOntologies.keySet()) {
-                        map.putAll(olsConnection.getTermsByName(termNameSearchJTextField.getText(), preselectedOntology.toUpperCase(), false));
+                // see if the gui is to be updated or not
+                if (keyPressedCounter == 1) {
+
+                    setCursor(new java.awt.Cursor(java.awt.Cursor.WAIT_CURSOR));
+                    termNameSearchJTextField.setCursor(new java.awt.Cursor(java.awt.Cursor.WAIT_CURSOR));
+
+                    insertSelectedJButton.setEnabled(false);
+                    currentlySelectedTermNameSearchAccessionNumber = null;
+
+                    try {
+                        // clear the old meta data
+                        clearData(OLS_DIALOG_TERM_NAME_SEARCH, true, true);
+
+                        // the search is only performed if a certain amount of characters are inserted
+                        if (termNameSearchJTextField.getText().length() >= MINIMUM_WORD_LENGTH) {
+
+                            // search the selected ontology and find all matching terms
+                            String ontology = getCurrentOntologyLabel();
+
+                            // if 'search in all ontologies' is selected, set the ontology to null
+                            if (ontologyJComboBox.getSelectedIndex() == 0) {
+                                ontology = null;
+                            }
+
+                            Map map = new HashMap();
+                            if (isPreselectedOption() == true) {
+                                // Ontology terms for preselected Ontologies
+                                for (String preselectedOntology : preselectedOntologies.keySet()) {
+                                    map.putAll(olsConnection.getTermsByName(termNameSearchJTextField.getText(), preselectedOntology.toUpperCase(), false));
+                                }
+                            } else {
+                                map = olsConnection.getTermsByName(termNameSearchJTextField.getText(), ontology, false);
+                            }
+
+                            for (Iterator i = map.keySet().iterator(); i.hasNext();) {
+                                String key = (String) i.next();
+                                ((DefaultTableModel) olsResultsTermNameSearchJXTable.getModel()).addRow(new Object[]{key, map.get(key)});
+                            }
+
+                            termNameSearchJTextField.requestFocus();
+
+                            setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
+                            termNameSearchJTextField.setCursor(new java.awt.Cursor(java.awt.Cursor.TEXT_CURSOR));
+                            numberOfTermsTermNameSearchJTextField.setText("" + map.size());
+
+                            // make the first row visible
+                            if (olsResultsTermNameSearchJXTable.getRowCount() > 0) {
+                                olsResultsTermNameSearchJXTable.scrollRectToVisible(olsResultsTermNameSearchJXTable.getCellRect(0, 0, false));
+                            }
+
+                            //No matching terms found
+                            if (map.isEmpty()) {
+                                //JOptionPane.showMessageDialog(this, "No mathcing terms found.");
+                            }
+                        } else {
+                            numberOfTermsTermNameSearchJTextField.setText("-");
+                        }
+                    } catch (RemoteException ex) {
+                        JOptionPane.showMessageDialog(
+                                null,
+                                defaultOlsConnectionFailureErrorMessage,
+                                "OLS Connection Error", JOptionPane.ERROR_MESSAGE);
+                        Util.writeToErrorLog("Error when trying to access OLS: ");
+                        ex.printStackTrace();
                     }
+
+                    setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
+                    termNameSearchJTextField.setCursor(new java.awt.Cursor(java.awt.Cursor.TEXT_CURSOR));
+
+                    // gui updated, reset the counter
+                    keyPressedCounter = 0;
                 } else {
-                    map = olsConnection.getTermsByName(termNameSearchJTextField.getText(), ontology, false);
+                    // gui not updated, decrease the counter
+                    keyPressedCounter--;
                 }
-
-                for (Iterator i = map.keySet().iterator(); i.hasNext();) {
-                    String key = (String) i.next();
-                    ((DefaultTableModel) olsResultsTermNameSearchJXTable.getModel()).addRow(new Object[]{key, map.get(key)});
-                }
-
-                termNameSearchJTextField.requestFocus();
-
-                this.setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
-                termNameSearchJTextField.setCursor(new java.awt.Cursor(java.awt.Cursor.TEXT_CURSOR));
-                numberOfTermsTermNameSearchJTextField.setText("" + map.size());
-
-                // make the first row visible
-                if (olsResultsTermNameSearchJXTable.getRowCount() > 0) {
-                    olsResultsTermNameSearchJXTable.scrollRectToVisible(olsResultsTermNameSearchJXTable.getCellRect(0, 0, false));
-                }
-
-                //No matching terms found
-                if (map.isEmpty()) {
-                    //JOptionPane.showMessageDialog(this, "No mathcing terms found.");
-                }
-            } else {
-                numberOfTermsTermNameSearchJTextField.setText("-");
             }
-        } catch (RemoteException ex) {
-            JOptionPane.showMessageDialog(
-                    this,
-                    defaultOlsConnectionFailureErrorMessage,
-                    "OLS Connection Error", JOptionPane.ERROR_MESSAGE);
-            Util.writeToErrorLog("Error when trying to access OLS: ");
-            ex.printStackTrace();
-        }
-
-        this.setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
-        termNameSearchJTextField.setCursor(new java.awt.Cursor(java.awt.Cursor.TEXT_CURSOR));
-
+        }.start();
     }//GEN-LAST:event_termNameSearchJTextFieldKeyReleased
 
     /**
