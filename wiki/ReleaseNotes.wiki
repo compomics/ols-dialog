@@ -3,12 +3,24 @@
 
 ----
 
+*Changes in OLS Dialog v3.4.0 - (September 17. 2012):*
+ * FEATURE IMPROVEMENT: Improved the way the auto search option in the term name search works. It now waits until the user finishes/pauses typing before starting the search. (Instead of simple starting the search whenever the user inputs a character.)
+ * FEATURE IMPROVEMENT: Lots of minor GUI improvements.
+ * FEATURE IMPROVEMENT: Made the code compatible with Maven 3.
+ * LIBRARY UPDATE: Added jsparklines as a dependency, to support html links in the tables.
+ * LIBRARY UPDATE: Removed swingx as a dependency.
+ * LIBRARY UPDATE: Updated the ols dependency (now renamed to ols-client) to version 1.18.
+
+----
+
 *Changes in OLS Dialog v3.3.2 - (March 30. 2012):*
  * NEW FEATURE: New and optional functionality to filter the list of Ontologies from OLS. This functionality includes the option to browse ontology terms from a specific parent term.
  * NEW FEATURE: The look and feel is no longer set inside the OLS Dialog, but rather the look and feel from the parent is used.
  * FEATURE IMPROVEMENT: The Term Name Search is now only performed if at least three characters are inserted.
  * FEATURE IMPROVEMENT: Updated ols-dialog interface to return metadata of selected term to calling object.
  * FEATURE IMPROVEMENT: Minor GUI fixes related to using different look and feels.
+
+Download Count: 23
 
 ----
 
