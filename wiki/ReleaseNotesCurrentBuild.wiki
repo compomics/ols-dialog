@@ -1,5 +1,0 @@
-#summary Short summary of changes for the current build of OLS Dialog. (Note that this may not be the same as the released version.)
-
-----
- 
-(currently no changes)
