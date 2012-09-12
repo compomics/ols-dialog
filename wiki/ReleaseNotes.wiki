@@ -3,7 +3,7 @@
 
 ----
 
-*Changes in OLS Dialog v3.4.0 - (September 17. 2012):*
+*Changes in OLS Dialog v3.4.0 - (September 12. 2012):*
  * FEATURE IMPROVEMENT: Improved the way the auto search option in the term name search works. It now waits until the user finishes/pauses typing before starting the search. (Instead of simple starting the search whenever the user inputs a character.)
  * FEATURE IMPROVEMENT: Lots of minor GUI improvements.
  * FEATURE IMPROVEMENT: Made the code compatible with Maven 3.
