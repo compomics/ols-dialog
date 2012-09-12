@@ -7,23 +7,29 @@ import java.util.StringTokenizer;
 import java.util.Vector;
 
 /**
- * A combo box renderer that allows tooltip for each element in the combo
- * box list.
+ * A combo box renderer that allows tooltip for each element in the combo box
+ * list.
  *
  * @author Harald Barsnes
- *         <p/>
- *         Created March 2008
+ * <p/>
+ * Created March 2008
  */
 public class MyComboBoxRenderer extends BasicComboBoxRenderer {
 
+    /**
+     * The list of tooltips.
+     */
     private Vector tooltips;
+    /**
+     * The horizontal alignment type.
+     */
     private int align;
 
     /**
      * Creates a new instance of the MyComboBoxRenderer.
      *
      * @param tooltips vector containg the tooltips
-     * @param align    the horizontal alignment of the text
+     * @param align the horizontal alignment of the text
      */
     public MyComboBoxRenderer(Vector tooltips, int align) {
         this.tooltips = tooltips;
@@ -41,7 +47,7 @@ public class MyComboBoxRenderer extends BasicComboBoxRenderer {
 
     @Override
     public Component getListCellRendererComponent(JList list, Object value,
-                                                  int index, boolean isSelected, boolean cellHasFocus) {
+            int index, boolean isSelected, boolean cellHasFocus) {
 
         // DefaultListCellRenderer uses a JLabel as the rendering component:
         JLabel lbl = (JLabel) super.getListCellRendererComponent(
@@ -83,8 +89,7 @@ public class MyComboBoxRenderer extends BasicComboBoxRenderer {
                 list.setToolTipText(null);
             }
         } else {
-            lbl.setBackground(list.getBackground());
-            lbl.setForeground(list.getForeground());
+            lbl.setBackground(Color.WHITE);
         }
 
         lbl.setFont(list.getFont());

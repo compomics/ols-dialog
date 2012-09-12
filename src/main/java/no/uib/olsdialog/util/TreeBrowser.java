@@ -12,26 +12,40 @@ import java.awt.*;
 import java.util.Enumeration;
 
 /**
- * A simple tree browser for browsing a given ontology in the OLS.
- * <br><br>
- * The code is based on an example provided by Richard Stanford, a tutorial reader.
+ * A simple tree browser for browsing a given ontology in the OLS. <br><br> The
+ * code is based on an example provided by Richard Stanford, a tutorial reader.
  *
  * @author Richard Cote
  * @author Harald Barsnes
  */
 public class TreeBrowser extends JPanel implements TreeSelectionListener, TreeModelListener, TreeExpansionListener {
 
+    /**
+     * The root node.
+     */
     protected DefaultMutableTreeNode rootNode;
+    /**
+     * The tree model.
+     */
     protected DefaultTreeModel treeModel;
+    /**
+     * The JTree.
+     */
     protected JTree tree;
+    /**
+     * The OLS dialog.
+     */
     private OLSDialog olsDialog;
+    /**
+     * The scroll pane to put the tree browser in.
+     */
     private static JScrollPane scrollPane;
 
     /**
      * Creates a new TreeBrowser with an OLSDialog as the parent.
      * <p/>
-     * The OLSDialog has methods that are required to update the interface
-     * by communicating with the OLS webservice.
+     * The OLSDialog has methods that are required to update the interface by
+     * communicating with the OLS webservice.
      *
      * @param parent a reference to the OLSDialog
      */
@@ -52,8 +66,8 @@ public class TreeBrowser extends JPanel implements TreeSelectionListener, TreeMo
     }
 
     /**
-     * Scroll both the vertical and the horizontal scroll panes to the minimum values,
-     * i.e., moves the view to the upper left corner.
+     * Scroll both the vertical and the horizontal scroll panes to the minimum
+     * values, i.e., moves the view to the upper left corner.
      */
     public void scrollToTop() {
         scrollPane.getVerticalScrollBar().setValue(0);
@@ -82,8 +96,8 @@ public class TreeBrowser extends JPanel implements TreeSelectionListener, TreeMo
     }
 
     /**
-     * Colapses and expands the root node to make sure that all second level
-     * non visible nodes are added.
+     * Colapses and expands the root node to make sure that all second level non
+     * visible nodes are added.
      */
     public void updateTree() {
         DefaultMutableTreeNode root = (DefaultMutableTreeNode) tree.getModel().getRoot();
@@ -93,14 +107,15 @@ public class TreeBrowser extends JPanel implements TreeSelectionListener, TreeMo
     }
 
     /**
-     * Add child to the currently selected node, or the root node if no selection.
+     * Add child to the currently selected node, or the root node if no
+     * selection.
      *
-     * @param termId   the accession number of term to add
+     * @param termId the accession number of term to add
      * @param termName the name of the term to add
      * @return the added node
      */
     public DefaultMutableTreeNode addNode(Object termId, Object termName) {
-        DefaultMutableTreeNode parentNode = null;
+        DefaultMutableTreeNode parentNode;
         TreePath parentPath = tree.getSelectionPath();
 
         if (parentPath == null) {
@@ -159,9 +174,8 @@ public class TreeBrowser extends JPanel implements TreeSelectionListener, TreeMo
 
     /**
      * This method will be called when a user selects a node in the tree.
-     * Selecting a node will:<br>
-     * 1: load the children of that term<br>
-     * 2: load the metadata for that term
+     * Selecting a node will:<br> 1: load the children of that term<br> 2: load
+     * the metadata for that term
      */
     public void valueChanged(TreeSelectionEvent e) {
 
@@ -218,8 +232,8 @@ public class TreeBrowser extends JPanel implements TreeSelectionListener, TreeMo
 
     /**
      * Detects when a part of the tree has been expanded and if required load a
-     * second level of non visible nodes to make it possible to show folder icons
-     * for nodes containing children.
+     * second level of non visible nodes to make it possible to show folder
+     * icons for nodes containing children.
      *
      * @param event
      */
@@ -264,8 +278,8 @@ public class TreeBrowser extends JPanel implements TreeSelectionListener, TreeMo
     }
 
     /**
-     * Inner class that represents a node in the tree. It contains
-     * a term name and term id as fields.
+     * Inner class that represents a node in the tree. It contains a term name
+     * and term id as fields.
      */
     private class TermNode {
 
@@ -276,7 +290,7 @@ public class TreeBrowser extends JPanel implements TreeSelectionListener, TreeMo
          * Creates a TermNode object with the provided details.
          *
          * @param termName the name of the term to represent
-         * @param termId   the accession number of the term to represent
+         * @param termId the accession number of the term to represent
          */
         public TermNode(String termName, String termId) {
             this.termName = termName;
