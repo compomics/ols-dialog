@@ -68,7 +68,17 @@
                 </excludes>
                 <filtering>true</filtering>
             </resource>
-        </resources>
+    	</resources>
+
+    	<!-- Extensions -->
+        <extensions>
+            <extension>
+                <groupId>org.apache.maven.wagon</groupId>
+            <artifactId>wagon-ssh</artifactId>
+                <version>1.0-beta-2</version>
+            </extension>
+        </extensions>
+
 
         <!-- Plugins -->
         <plugins>
