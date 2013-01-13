@@ -57,18 +57,24 @@
         <resources>
             <resource>
                 <directory>src/main/resources</directory>
-            </resource>
-            <resource>
-                <directory>./</directory>
+                <filtering>true</filtering>
                 <includes>
                     <include>ols-dialog.properties</include>
                 </includes>
                 <excludes>
                     <exclude>README.txt</exclude>
                 </excludes>
-                <filtering>true</filtering>
             </resource>
-    	</resources>
+            <resource>
+                <directory>src/main/resources</directory>
+                <filtering>false</filtering>
+                <excludes>
+                    <exclude>ols-dialog.properties</exclude>
+                    <exclude>README.txt</exclude>
+                </excludes>
+            </resource>
+        </resources>
+        
 
     	<!-- Extensions -->
         <extensions>
