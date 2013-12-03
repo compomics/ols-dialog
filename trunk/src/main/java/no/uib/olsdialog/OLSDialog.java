@@ -82,8 +82,8 @@ public class OLSDialog extends javax.swing.JDialog {
     /**
      * The default error message used when connecting to OLS fails.
      */
-    private String defaultOlsConnectionFailureErrorMessage =
-            "An error occured when trying to contact the OLS. Make sure that\n"
+    private String defaultOlsConnectionFailureErrorMessage
+            = "An error occured when trying to contact the OLS. Make sure that\n"
             + "you are online. Also check your firewall (and proxy) settings.\n\n"
             + "See the Troubleshooting section at the OLS Dialog home page\n"
             + "for details: http://ols-dialog.googlecode.com.";
@@ -447,7 +447,7 @@ public class OLSDialog extends javax.swing.JDialog {
     private void insertValues(Double modificationMass, Double modificationAccuracy, Integer searchType) {
 
         if (mappedTerm != null) {
-            termNameSearchJTextField.setText(mappedTerm); 
+            termNameSearchJTextField.setText(mappedTerm);
             termNameSearchJTextFieldKeyReleased(null);
         }
 
@@ -565,7 +565,8 @@ public class OLSDialog extends javax.swing.JDialog {
     }
 
     /**
-     * Calls OLS webserver and gets root terms of an ontology from a parent term.
+     * Calls OLS webserver and gets root terms of an ontology from a parent
+     * term.
      *
      * @param ontology
      * @param parentTerm
@@ -674,7 +675,7 @@ public class OLSDialog extends javax.swing.JDialog {
      *
      * @param parent the tree node where to load the terms
      * @param termId the term id to query on
-     * @return true if the terms was loaded sucessfully, false otherwise
+     * @return true if the terms was loaded successfully, false otherwise
      */
     public boolean loadChildren(TreeNode parent, String termId) {
 
@@ -701,21 +702,16 @@ public class OLSDialog extends javax.swing.JDialog {
             error = true;
         }
 
-        if (!error && !childTerms.isEmpty()) {
-
+        if (!error && childTerms != null && !childTerms.isEmpty()) {
             // add the nodes to the tree
             for (String tId : childTerms.keySet()) {
                 treeBrowser.addNode(tId, childTerms.get(tId));
             }
-
             return true;
-
         } else {
-
             if (debug) {
                 System.out.println("no children returned for " + termId);
             }
-
             return false;
         }
     }
@@ -745,7 +741,7 @@ public class OLSDialog extends javax.swing.JDialog {
     }
 
     /**
-     * Load metadata for a given termiId.
+     * Load metadata for a given termId.
      *
      * @param termId the term to load meta data for
      * @param searchType the search type where the meta data will be inserted
@@ -934,16 +930,14 @@ public class OLSDialog extends javax.swing.JDialog {
             } else {
                 table.setToolTipText(null);
             }
-        } else {
-            table.setToolTipText(null);
         }
     }
 
     /**
      * Creates a multiple lines tooltip based on the provided text.
      *
-     * @param aToolTip the orginal one line tool tip
-     * @return the multiple line tooltip as html
+     * @param aToolTip the original one line tool tip
+     * @return the multiple line tooltip as HTML
      */
     private String buildToolTipText(String aToolTip, int maxToolTipLength) {
 
@@ -989,7 +983,7 @@ public class OLSDialog extends javax.swing.JDialog {
      * Opens the OLS connection and retrieves and inserts the ontology names
      * into the ontology combo box.
      *
-     * @return false if an error occured, true otherwise
+     * @return false if an error occurred, true otherwise
      */
     private boolean openOlsConnectionAndInsertOntologyNames() {
 
@@ -1159,7 +1153,7 @@ public class OLSDialog extends javax.swing.JDialog {
      * @param termId the term id for the term to add the second level for
      * @param ontology the ontology to get the terms from
      * @param parentNode the node to add the new nodes to
-     * @return true if an error occured, false otherwise
+     * @return true if an error occurred, false otherwise
      */
     public boolean addSecondLevelOfNodes(String termId, String ontology, DefaultMutableTreeNode parentNode) {
 
@@ -2206,8 +2200,6 @@ public class OLSDialog extends javax.swing.JDialog {
                 insertSelectedJButton.setEnabled(false);
 
                 // disable the 'browse ontology' tab when 'search in all ontologies' or 'NEWT' is selected or 'search in preselected ontologies'
-
-
                 if (ontologyJComboBox.getSelectedIndex() == 0 || getCurrentOntologyLabel().equalsIgnoreCase("NEWT") || isPreselectedOption() == true) {
                     searchTypeJTabbedPane.setEnabledAt(OLS_DIALOG_BROWSE_ONTOLOGY, false);
 
@@ -2267,7 +2259,6 @@ public class OLSDialog extends javax.swing.JDialog {
      */
     private void termNameSearchJTextFieldKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_termNameSearchJTextFieldKeyReleased
 
-
         keyPressedCounter++;
 
         new Thread("SearchThread") {
@@ -2319,7 +2310,7 @@ public class OLSDialog extends javax.swing.JDialog {
                                 ((DefaultTableModel) olsResultsTermNameSearchJTable.getModel()).addRow(new Object[]{
                                     getOlsAccessionLink(key), map.get(key)});
                             }
-                            
+
                             // set the preferred size of the accession column
                             Integer width = getPreferredColumnWidth(olsResultsTermNameSearchJTable, olsResultsTermNameSearchJTable.getColumn("Accession").getModelIndex(), 6);
 
@@ -2392,56 +2383,61 @@ public class OLSDialog extends javax.swing.JDialog {
         } else if (searchTypeJTabbedPane.getSelectedIndex() == OLS_DIALOG_TERM_ID_SEARCH) {
             termId = "" + olsResultsTermIdSearchJTable.getValueAt(olsResultsTermIdSearchJTable.getSelectedRow(), 0);
         }
-        
-        // remove the link details
-        termId = termId.substring(termId.indexOf("termId=") + "termId=".length());
-        termId = termId.substring(0, termId.indexOf("\""));
 
-        String ontologyLong = ((String) ontologyJComboBox.getSelectedItem());
-        String ontologyShort;
+        if (termId != null) {
 
-        if (ontologyJComboBox.getSelectedIndex() == 0 || isPreselectedOption() == true) {
+            // remove the link details
+            if (searchTypeJTabbedPane.getSelectedIndex() != OLS_DIALOG_BROWSE_ONTOLOGY) {
+                termId = termId.substring(termId.indexOf("termId=") + "termId=".length());
+                termId = termId.substring(0, termId.indexOf("\""));
+            }
 
-            ontologyShort = getOntologyLabelFromTermId(termId);
+            String ontologyLong = ((String) ontologyJComboBox.getSelectedItem());
+            String ontologyShort;
 
-            if (ontologyShort == null) {
-                ontologyShort = "NEWT";
-                ontologyLong = "NEWT UniProt Taxonomy Database [NEWT]";
-            } else {
+            if (ontologyJComboBox.getSelectedIndex() == 0 || isPreselectedOption() == true) {
 
-                try {
-                    Map ontologies = olsConnection.getOntologyNames();
-                    ontologyLong = ontologies.get(ontologyShort).toString() + "[" + ontologyShort + "]";
-                } catch (RemoteException ex) {
-                    JOptionPane.showMessageDialog(
-                            this,
-                            defaultOlsConnectionFailureErrorMessage,
-                            "OLS Connection Error", JOptionPane.ERROR_MESSAGE);
-                    Util.writeToErrorLog("Error when trying to access OLS: ");
-                    ex.printStackTrace();
-                    ontologyLong = "unknown";
+                ontologyShort = getOntologyLabelFromTermId(termId);
+
+                if (ontologyShort == null) {
+                    ontologyShort = "NEWT";
+                    ontologyLong = "NEWT UniProt Taxonomy Database [NEWT]";
+                } else {
+
+                    try {
+                        Map ontologies = olsConnection.getOntologyNames();
+                        ontologyLong = ontologies.get(ontologyShort).toString() + "[" + ontologyShort + "]";
+                    } catch (RemoteException ex) {
+                        JOptionPane.showMessageDialog(
+                                this,
+                                defaultOlsConnectionFailureErrorMessage,
+                                "OLS Connection Error", JOptionPane.ERROR_MESSAGE);
+                        Util.writeToErrorLog("Error when trying to access OLS: ");
+                        ex.printStackTrace();
+                        ontologyLong = "unknown";
+                    }
                 }
+            } else {
+                ontologyShort = ontologyLong.substring(ontologyLong.lastIndexOf("[") + 1, ontologyLong.length() - 1);
             }
-        } else {
-            ontologyShort = ontologyLong.substring(ontologyLong.lastIndexOf("[") + 1, ontologyLong.length() - 1);
-        }
 
-        try {
-            String selectedValue = olsConnection.getTermById(termId, ontologyShort);
+            try {
+                String selectedValue = olsConnection.getTermById(termId, ontologyShort);
 
-            //insert the value into the correct text field or table
-            if (olsInputable != null) {
-                olsInputable.insertOLSResult(field, selectedValue, termId, ontologyShort, ontologyLong, modifiedRow, mappedTerm, metadata);
-                this.setVisible(false);
-                this.dispose();
+                //insert the value into the correct text field or table
+                if (olsInputable != null) {
+                    olsInputable.insertOLSResult(field, selectedValue, termId, ontologyShort, ontologyLong, modifiedRow, mappedTerm, metadata);
+                    this.setVisible(false);
+                    this.dispose();
+                }
+            } catch (RemoteException ex) {
+                JOptionPane.showMessageDialog(
+                        this,
+                        defaultOlsConnectionFailureErrorMessage,
+                        "OLS Connection Error", JOptionPane.ERROR_MESSAGE);
+                Util.writeToErrorLog("Error when trying to access OLS: ");
+                ex.printStackTrace();
             }
-        } catch (RemoteException ex) {
-            JOptionPane.showMessageDialog(
-                    this,
-                    defaultOlsConnectionFailureErrorMessage,
-                    "OLS Connection Error", JOptionPane.ERROR_MESSAGE);
-            Util.writeToErrorLog("Error when trying to access OLS: ");
-            ex.printStackTrace();
         }
 
         this.setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
@@ -2647,7 +2643,7 @@ public class OLSDialog extends javax.swing.JDialog {
                             new Object[]{getOlsAccessionLink(results[i].getTermId()),
                                 results[i].getTermName()});
                 }
-                
+
                 // set the preferred size of the accession column
                 Integer width = getPreferredColumnWidth(olsResultsMassSearchJTable, olsResultsMassSearchJTable.getColumn("Accession").getModelIndex(), 6);
 
@@ -2844,8 +2840,7 @@ public class OLSDialog extends javax.swing.JDialog {
     }//GEN-LAST:event_olsResultsTermIdSearchJTableMouseClicked
 
     /**
-     * @see
-     * #olsResultsTermIdSearchJTableMouseClicked(java.awt.event.MouseEvent)
+     * @see #olsResultsTermIdSearchJTableMouseClicked(java.awt.event.MouseEvent)
      */
     private void olsResultsTermIdSearchJTableKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_olsResultsTermIdSearchJTableKeyReleased
         olsResultsTermIdSearchJTableMouseClicked(null);
@@ -2930,8 +2925,8 @@ public class OLSDialog extends javax.swing.JDialog {
                     termIdSearchJTextField.requestFocus();
                 } else {
                     ((DefaultTableModel) olsResultsTermIdSearchJTable.getModel()).addRow(new Object[]{
-                                getOlsAccessionLink(termIdSearchJTextField.getText().trim()), currentTermName});
-                    
+                        getOlsAccessionLink(termIdSearchJTextField.getText().trim()), currentTermName});
+
                     // set the preferred size of the accession column
                     Integer width = getPreferredColumnWidth(olsResultsTermIdSearchJTable, olsResultsTermIdSearchJTable.getColumn("Accession").getModelIndex(), 6);
 
@@ -3191,9 +3186,9 @@ public class OLSDialog extends javax.swing.JDialog {
     }//GEN-LAST:event_olsResultsMassSearchJTableMouseExited
 
     /**
-     * Open the accesion number link in the web browser.
-     * 
-     * @param evt 
+     * Open the accession number link in the web browser.
+     *
+     * @param evt
      */
     private void olsResultsTermNameSearchJTableMouseReleased(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_olsResultsTermNameSearchJTableMouseReleased
         int row = olsResultsTermNameSearchJTable.rowAtPoint(evt.getPoint());
@@ -3219,8 +3214,8 @@ public class OLSDialog extends javax.swing.JDialog {
 
     /**
      * Open the accesion number link in the web browser.
-     * 
-     * @param evt 
+     *
+     * @param evt
      */
     private void olsResultsTermIdSearchJTableMouseReleased(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_olsResultsTermIdSearchJTableMouseReleased
         int row = olsResultsTermIdSearchJTable.rowAtPoint(evt.getPoint());
@@ -3245,9 +3240,9 @@ public class OLSDialog extends javax.swing.JDialog {
     }//GEN-LAST:event_olsResultsTermIdSearchJTableMouseReleased
 
     /**
-     * Open the accesion number link in the web browser.
-     * 
-     * @param evt 
+     * Open the accession number link in the web browser.
+     *
+     * @param evt
      */
     private void olsResultsMassSearchJTableMouseReleased(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_olsResultsMassSearchJTableMouseReleased
         int row = olsResultsMassSearchJTable.rowAtPoint(evt.getPoint());
@@ -3311,15 +3306,11 @@ public class OLSDialog extends javax.swing.JDialog {
 
     /**
      * Returns true if the preselected ontologies index is selected.
-     * 
-     * @return 
+     *
+     * @return
      */
     private boolean isPreselectedOption() {
-        if (preselectedOntologies.size() > 1 && ontologyJComboBox.getSelectedIndex() == 1) {
-            return true;
-        } else {
-            return false;
-        }
+        return preselectedOntologies.size() > 1 && ontologyJComboBox.getSelectedIndex() == 1;
     }
 
     /**
@@ -3420,7 +3411,7 @@ public class OLSDialog extends javax.swing.JDialog {
                 + modAccession + "</font></a></html>";
         return accessionNumberWithLink;
     }
-    
+
     /**
      * Gets the preferred width of the column specified by colIndex. The column
      * will be just wide enough to show the column head and the widest cell in
@@ -3431,7 +3422,7 @@ public class OLSDialog extends javax.swing.JDialog {
      * @param table the table
      * @param colIndex the colum index
      * @param margin the margin to add
-     * @return the prefereed width of the column
+     * @return the preferred width of the column
      */
     public int getPreferredColumnWidth(JTable table, int colIndex, int margin) {
 

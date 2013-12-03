@@ -10,7 +10,7 @@ package no.uib.olsdialog.util;
 public final class Util {
 
     /**
-     * Makes sure that all writing to the ErrorLog has a uniform appearence.
+     * Makes sure that all writing to the ErrorLog has a uniform appearance.
      * <p/>
      * Writes the given String to the errorLog. Adds date and time of entry.
      *

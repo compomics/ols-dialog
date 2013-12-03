@@ -13,7 +13,7 @@ public interface OLSInputable {
     /**
      * Inserts the selected cv term into the parent frame or dialog. If the
      * frame (or dialog) contains more than one OLS term, the field label can be
-     * used to seperate between the two. Modified row is used if the cv terms
+     * used to separate between the two. Modified row is used if the cv terms
      * are in a table and one of them are altered.
      *
      * @param field the name of the field where the CV term will be inserted

@@ -35,7 +35,7 @@ public class TermHierarchyGraphViewer extends javax.swing.JDialog {
      */
     final int VERTICAL_PADDING = 40;
     /**
-     * The horozontal padding.
+     * The horizontal padding.
      */
     final int HORIZONTAL_PADDING = 40;
     /**
@@ -91,7 +91,7 @@ public class TermHierarchyGraphViewer extends javax.swing.JDialog {
             URL imageUrlAsUrl = new URL("http://www.ebi.ac.uk/ontology-lookup/serveImgFile.do?imgFileName=" + imageFile);
 
             // create the graph image and add it to the scroll pane
-            java.awt.Image image = java.awt.Toolkit.getDefaultToolkit().getDefaultToolkit().createImage(imageUrlAsUrl);
+            java.awt.Image image = Toolkit.getDefaultToolkit().createImage(imageUrlAsUrl);
             ImageIcon ii = new ImageIcon(image);
             JLabel label = new JLabel(ii);
             label.setBackground(Color.WHITE);
