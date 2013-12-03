@@ -307,7 +307,7 @@ public class TreeBrowser extends JPanel implements TreeSelectionListener, TreeMo
         }
 
         /**
-         * Set the term name
+         * Set the term name.
          *
          * @param termName
          */
