@@ -3,6 +3,11 @@
 
 ----
 
+*Changes in OLS Dialog v3.4.1 - (December 4. 2013):*
+ * BUG FIX: Fixed a bug in the use of terms selected via the "Browse Ontology" tab.
+
+----
+
 *Changes in OLS Dialog v3.4.0 - (September 12. 2012):*
  * FEATURE IMPROVEMENT: Improved the way the auto search option in the term name search works. It now waits until the user finishes/pauses typing before starting the search. (Instead of simple starting the search whenever the user inputs a character.)
  * FEATURE IMPROVEMENT: Lots of minor GUI improvements.
@@ -10,6 +15,8 @@
  * LIBRARY UPDATE: Added jsparklines as a dependency, to support html links in the tables.
  * LIBRARY UPDATE: Removed swingx as a dependency.
  * LIBRARY UPDATE: Updated the ols dependency (now renamed to ols-client) to version 1.18.
+
+Download Count: 76
 
 ----
 
