@@ -3213,7 +3213,7 @@ public class OLSDialog extends javax.swing.JDialog {
     }//GEN-LAST:event_olsResultsTermNameSearchJTableMouseReleased
 
     /**
-     * Open the accesion number link in the web browser.
+     * Open the accession number link in the web browser.
      *
      * @param evt
      */
@@ -3285,21 +3285,30 @@ public class OLSDialog extends javax.swing.JDialog {
             accession = "" + olsResultsTermIdSearchJTable.getValueAt(olsResultsTermIdSearchJTable.getSelectedRow(), 0);
         }
 
-        String selectedValue = "";
-        String ontology = getCurrentOntologyLabel();
+        if (accession != null) {
 
-        try {
-            selectedValue = olsConnection.getTermById(accession, ontology);
-        } catch (RemoteException ex) {
-            JOptionPane.showMessageDialog(
-                    this,
-                    defaultOlsConnectionFailureErrorMessage,
-                    "OLS Connection Error", JOptionPane.ERROR_MESSAGE);
-            Util.writeToErrorLog("Error when trying to access OLS: ");
-            ex.printStackTrace();
+            // remove the link details
+            if (searchTypeJTabbedPane.getSelectedIndex() != OLS_DIALOG_BROWSE_ONTOLOGY) {
+                accession = accession.substring(accession.indexOf("termId=") + "termId=".length());
+                accession = accession.substring(0, accession.indexOf("\""));
+            }
+
+            String selectedValue = "";
+            String ontology = getCurrentOntologyLabel();
+
+            try {
+                selectedValue = olsConnection.getTermById(accession, ontology);
+            } catch (RemoteException ex) {
+                JOptionPane.showMessageDialog(
+                        this,
+                        defaultOlsConnectionFailureErrorMessage,
+                        "OLS Connection Error", JOptionPane.ERROR_MESSAGE);
+                Util.writeToErrorLog("Error when trying to access OLS: ");
+                ex.printStackTrace();
+            }
+
+            new TermHierarchyGraphViewer(this, true, accession, selectedValue, ontology);
         }
-
-        new TermHierarchyGraphViewer(this, true, accession, selectedValue, ontology);
 
         this.setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
     }
@@ -3307,7 +3316,7 @@ public class OLSDialog extends javax.swing.JDialog {
     /**
      * Returns true if the preselected ontologies index is selected.
      *
-     * @return
+     * @return true if the preselected ontologies index is selected
      */
     private boolean isPreselectedOption() {
         return preselectedOntologies.size() > 1 && ontologyJComboBox.getSelectedIndex() == 1;
