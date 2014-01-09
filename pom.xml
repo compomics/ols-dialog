@@ -5,7 +5,7 @@
     <groupId>no.uib</groupId>
     <artifactId>ols-dialog</artifactId>
     <packaging>jar</packaging>
-    <version>3.4.1</version>
+    <version>3.4.2</version>
     <!-- version number is set below -->
     <name>ols-dialog</name>
     <url>http://ols-dialog.googlecode.com</url>
