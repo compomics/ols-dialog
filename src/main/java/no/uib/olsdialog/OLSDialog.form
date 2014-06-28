@@ -318,9 +318,9 @@
                             <Property name="opaque" type="boolean" value="false"/>
                           </Properties>
                           <Events>
+                            <EventHandler event="mouseReleased" listener="java.awt.event.MouseListener" parameters="java.awt.event.MouseEvent" handler="olsResultsTermNameSearchJTableMouseReleased"/>
                             <EventHandler event="mouseClicked" listener="java.awt.event.MouseListener" parameters="java.awt.event.MouseEvent" handler="olsResultsTermNameSearchJTableMouseClicked"/>
                             <EventHandler event="mouseExited" listener="java.awt.event.MouseListener" parameters="java.awt.event.MouseEvent" handler="olsResultsTermNameSearchJTableMouseExited"/>
-                            <EventHandler event="mouseReleased" listener="java.awt.event.MouseListener" parameters="java.awt.event.MouseEvent" handler="olsResultsTermNameSearchJTableMouseReleased"/>
                             <EventHandler event="mouseMoved" listener="java.awt.event.MouseMotionListener" parameters="java.awt.event.MouseEvent" handler="olsResultsTermNameSearchJTableMouseMoved"/>
                             <EventHandler event="keyReleased" listener="java.awt.event.KeyListener" parameters="java.awt.event.KeyEvent" handler="olsResultsTermNameSearchJTableKeyReleased"/>
                           </Events>
