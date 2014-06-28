@@ -2406,7 +2406,7 @@ public class OLSDialog extends javax.swing.JDialog {
 
                     try {
                         Map ontologies = olsConnection.getOntologyNames();
-                        ontologyLong = ontologies.get(ontologyShort).toString() + "[" + ontologyShort + "]";
+                        ontologyLong = ontologies.get(ontologyShort).toString() + "[" + ontologyShort + "]"; // @TODO: possible null pointer...
                     } catch (RemoteException ex) {
                         JOptionPane.showMessageDialog(
                                 this,
@@ -2415,6 +2415,16 @@ public class OLSDialog extends javax.swing.JDialog {
                         Util.writeToErrorLog("Error when trying to access OLS: ");
                         ex.printStackTrace();
                         ontologyLong = "unknown";
+                    } catch (Exception e) {
+                        JOptionPane.showMessageDialog(
+                                this,
+                                "There seems to be a technical issue with the given term.\n"
+                                        + "Try choosing a related similar term instead.",
+                                "OLS Error", JOptionPane.WARNING_MESSAGE);
+                        Util.writeToErrorLog("Error when trying to access OLS: ");
+                        e.printStackTrace();
+                        ontologyLong = "unknown";
+                        return;
                     }
                 }
             } else {
