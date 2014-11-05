@@ -43,9 +43,9 @@ public class TreeBrowser extends JPanel implements TreeSelectionListener, TreeMo
 
     /**
      * Creates a new TreeBrowser with an OLSDialog as the parent.
-     * <p/>
+     * <p>
      * The OLSDialog has methods that are required to update the interface by
-     * communicating with the OLS webservice.
+     * communicating with the OLS web service.
      *
      * @param parent a reference to the OLSDialog
      */

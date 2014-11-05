@@ -6,11 +6,9 @@ import java.io.InputStreamReader;
 import java.net.URL;
 
 /**
- * A dialog used to display help text in html format.
+ * A dialog used to display help text in HTML format.
  *
  * @author Harald Barsnes
- * <p/>
- * Created April 2009
  */
 public class HelpDialog extends javax.swing.JDialog {
 
