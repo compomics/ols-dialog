@@ -11,8 +11,6 @@ import java.util.Vector;
  * list.
  *
  * @author Harald Barsnes
- * <p/>
- * Created March 2008
  */
 public class MyComboBoxRenderer extends BasicComboBoxRenderer {
 
@@ -28,7 +26,7 @@ public class MyComboBoxRenderer extends BasicComboBoxRenderer {
     /**
      * Creates a new instance of the MyComboBoxRenderer.
      *
-     * @param tooltips vector containg the tooltips
+     * @param tooltips vector containing the tooltips
      * @param align the horizontal alignment of the text
      */
     public MyComboBoxRenderer(Vector tooltips, int align) {
