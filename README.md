@@ -1,4 +1,4 @@
-# OLS Dialog #
+# OLS Dialog 
 
   * [News](#news)
   * [What is OLS Dialog?](#what-is-ols-dialog)
@@ -35,7 +35,7 @@
   * Minor GUI fixes related to using different look and feels.
   * See [ReleaseNotes](http://code.google.com/p/ols-dialog/wiki/ReleaseNotes) for complete list of changes.
 
-[Go to top of page](#OLS_Dialog.md)
+[Go to top of page](#ols-dialog)
 
 
 ---
