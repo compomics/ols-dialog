@@ -1,13 +1,13 @@
 # OLS Dialog #
 
-  * [News](#News.md)
-  * [What is OLS Dialog?](#What_is_OLS_Dialog?.md)
-  * [Search Options](#Search_Options.md)
-  * [Using OLS Dialog](#Using_OLS_Dialog.md)
-  * [Troubleshooting](#Troubleshooting.md)
-  * [Support](#Support.md)
-  * [Maven Dependency](#Maven_Dependency.md)
-  * [Screenshots](#Screenshots.md)
+  * [News](#news)
+  * [What is OLS Dialog?](#what-is-ols-dialog)
+  * [Search Options](#search-options)
+  * [Using OLS Dialog](#using-ols-dialog)
+  * [Troubleshooting](#troubleshooting)
+  * [Support](#support)
+  * [Maven Dependency](#maven-dependency)
+  * [Screenshots](#screenshots)
 
 **OLS Dialog Publications:**
   * [Barsnes et al: BMC Bioinformatics 2010 Jan 17;11:34](http://www.ncbi.nlm.nih.gov/pubmed/20078892).
@@ -17,7 +17,7 @@
 ---
 
 
-## News ##
+## News
 
 **_December 4. 2013:_ [OLS Dialog v3.4.1](http://code.google.com/p/ols-dialog/downloads/list) is now available:**
   * Fixed a bug in the use of terms selected via the "Browse Ontology" tab.
