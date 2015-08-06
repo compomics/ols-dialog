@@ -1,6 +1,5 @@
 # OLS Dialog 
 
-  * [News](#news)
   * [What is OLS Dialog?](#what-is-ols-dialog)
   * [Search Options](#search-options)
   * [Using OLS Dialog](#using-ols-dialog)
@@ -15,30 +14,6 @@
 
 ---
 
-## News 
-
-**_December 4. 2013:_ [OLS Dialog v3.4.1](http://code.google.com/p/ols-dialog/downloads/list) is now available:**
-  * Fixed a bug in the use of terms selected via the "Browse Ontology" tab.
-  * See [ReleaseNotes](http://code.google.com/p/ols-dialog/wiki/ReleaseNotes) for complete list of changes.
-
-**_September 12. 2012:_ [OLS Dialog v3.4.0](http://code.google.com/p/ols-dialog/downloads/list) is now available:**
-  * Improved the way the auto search option in the term name search works.
-  * Lots of minor GUI improvements.
-  * Made the code compatible with Maven 3.
-  * See [ReleaseNotes](http://code.google.com/p/ols-dialog/wiki/ReleaseNotes) for complete list of changes.
-
-**_March 30. 2012:_ [OLS Dialog v3.3.2](http://code.google.com/p/ols-dialog/downloads/list) is now available:**
-  * New and optional functionality to filter the list of Ontologies from OLS.
-  * The look and feel is no longer set inside the OLS Dialog, but rather the look and feel from the parent is used.
-  * Minor GUI fixes related to using different look and feels.
-  * See [ReleaseNotes](http://code.google.com/p/ols-dialog/wiki/ReleaseNotes) for complete list of changes.
-
-[Go to top of page](#ols-dialog)
-
-
----
-
-
 ## What is OLS Dialog? 
 
 **OLS Dialog** is a Java front end to the [Ontology Lookup Service](http://www.ebi.ac.uk/ontology-lookup) allowing easy access to an extensive list of biomedical ontologies (see [supported ontologies](http://www.ebi.ac.uk/ontology-lookup/ontologyList.do) for a complete list).
@@ -49,11 +24,7 @@ Five ways of searching the **OLS Dialog** is supported. See [Search Options](#se
 
 [Go to top of page](#ols-dialog)
 
-
 ---
-
-
-[Go to top of page](#ols-dialog)
 
 Five ways of searching the **OLS Dialog** is supported:
   * [Term Name Search](#term-name-search)
@@ -109,9 +80,7 @@ For an example see the [Screenshots](#screenshots) section.
 
 [Go to top of page](#ols-dialog)
 
-
 ---
-
 
 ## Using OLS Dialog
 
@@ -123,9 +92,7 @@ To use **OLS Dialog** in your project include **OLS Dialog** and the required li
 
 [Go to top of page](#ols-dialog)
 
-
 ---
-
 
 ## Troubleshooting 
 
@@ -141,9 +108,7 @@ To use **OLS Dialog** in your project include **OLS Dialog** and the required li
 
 [Go to top of page](#ols-dialog)
 
-
 ---
-
 
 ## Support 
 
@@ -151,9 +116,7 @@ For questions or additional help, please contact the authors or, if appropriate,
 
 [Go to top of page](#ols-dialog)
 
-
 ---
-
 
 ## Maven Dependency 
 
