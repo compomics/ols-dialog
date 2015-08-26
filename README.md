@@ -18,7 +18,7 @@
 
 **OLS Dialog** is a Java front end to the [Ontology Lookup Service](http://www.ebi.ac.uk/ontology-lookup) allowing easy access to an extensive list of biomedical ontologies (see [supported ontologies](http://www.ebi.ac.uk/ontology-lookup/ontologyList.do) for a complete list).
 
-**OLS Dialog** is a subproject of the [PRIDE Converter](http://code.google.com/p/pride-converter/) project. Making **OLS Dialog** a standalone project is done to make it more easily available for other projects.
+**OLS Dialog** is a subproject of the [PRIDE Converter](https://github.com/compomics/pride-converter) project. Making **OLS Dialog** a standalone project is done to make it more easily available for other projects.
 
 Five ways of searching the **OLS Dialog** is supported. See [Search Options](#search-options).
 
