@@ -14,6 +14,8 @@ import java.io.InputStream;
 import java.rmi.RemoteException;
 import java.util.*;
 import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javax.swing.table.DefaultTableColumnModel;
 import javax.swing.table.TableCellRenderer;
 import javax.swing.table.TableColumn;
@@ -149,6 +151,8 @@ public class OLSDialog extends javax.swing.JDialog {
      * HTML color code.
      */
     private String notSelectedRowHtmlTagFontColor = "#0101DF";
+
+    private OlsService olsService = new OlsServiceImpl();
 
     /**
      * Opens a dialog that lets you search for terms using the OLS.
@@ -326,7 +330,7 @@ public class OLSDialog extends javax.swing.JDialog {
         this.mappedTerm = term;
 
         if (preselectedOntologies == null) {
-            this.preselectedOntologies = new HashMap<String, List<String>>();
+            this.preselectedOntologies = new HashMap<>();
         } else {
             this.preselectedOntologies = preselectedOntologies;
         }
@@ -864,39 +868,33 @@ public class OLSDialog extends javax.swing.JDialog {
 
                 // set the horizontal scroll bar to the top
                 currentTermDetailsJScrollPane.getVerticalScrollBar().setValue(0);
-            } else {
-                if (searchType == OLS_DIALOG_TERM_NAME_SEARCH) {
-                    viewTermHierarchyTermNameSearchJLabel.setEnabled(false);
-                } else if (searchType == OLS_DIALOG_PSI_MOD_MASS_SEARCH) {
-                    viewTermHierarchyMassSearchJLabel.setEnabled(false);
-                } else if (searchType == OLS_DIALOG_BROWSE_ONTOLOGY) {
-                    viewTermHierarchyBrowseOntologyJLabel.setEnabled(false);
-                } else if (searchType == OLS_DIALOG_TERM_ID_SEARCH) {
-                    viewTermHierarchyTermIdSearchJLabel.setEnabled(false);
-                }
+            } else if (searchType == OLS_DIALOG_TERM_NAME_SEARCH) {
+                viewTermHierarchyTermNameSearchJLabel.setEnabled(false);
+            } else if (searchType == OLS_DIALOG_PSI_MOD_MASS_SEARCH) {
+                viewTermHierarchyMassSearchJLabel.setEnabled(false);
+            } else if (searchType == OLS_DIALOG_BROWSE_ONTOLOGY) {
+                viewTermHierarchyBrowseOntologyJLabel.setEnabled(false);
+            } else if (searchType == OLS_DIALOG_TERM_ID_SEARCH) {
+                viewTermHierarchyTermIdSearchJLabel.setEnabled(false);
             }
-        } else {
-            if (ontology != null && ontology.equalsIgnoreCase("NEWT")) {
-                if (searchType == OLS_DIALOG_TERM_NAME_SEARCH) {
-                    viewTermHierarchyTermNameSearchJLabel.setEnabled(true);
-                } else if (searchType == OLS_DIALOG_PSI_MOD_MASS_SEARCH) {
-                    viewTermHierarchyMassSearchJLabel.setEnabled(true);
-                } else if (searchType == OLS_DIALOG_BROWSE_ONTOLOGY) {
-                    viewTermHierarchyBrowseOntologyJLabel.setEnabled(true);
-                } else if (searchType == OLS_DIALOG_TERM_ID_SEARCH) {
-                    viewTermHierarchyTermIdSearchJLabel.setEnabled(true);
-                }
-            } else {
-                if (searchType == OLS_DIALOG_TERM_NAME_SEARCH) {
-                    viewTermHierarchyTermNameSearchJLabel.setEnabled(false);
-                } else if (searchType == OLS_DIALOG_PSI_MOD_MASS_SEARCH) {
-                    viewTermHierarchyMassSearchJLabel.setEnabled(false);
-                } else if (searchType == OLS_DIALOG_BROWSE_ONTOLOGY) {
-                    viewTermHierarchyBrowseOntologyJLabel.setEnabled(false);
-                } else if (searchType == OLS_DIALOG_TERM_ID_SEARCH) {
-                    viewTermHierarchyTermIdSearchJLabel.setEnabled(false);
-                }
+        } else if (ontology != null && ontology.equalsIgnoreCase("NEWT")) {
+            if (searchType == OLS_DIALOG_TERM_NAME_SEARCH) {
+                viewTermHierarchyTermNameSearchJLabel.setEnabled(true);
+            } else if (searchType == OLS_DIALOG_PSI_MOD_MASS_SEARCH) {
+                viewTermHierarchyMassSearchJLabel.setEnabled(true);
+            } else if (searchType == OLS_DIALOG_BROWSE_ONTOLOGY) {
+                viewTermHierarchyBrowseOntologyJLabel.setEnabled(true);
+            } else if (searchType == OLS_DIALOG_TERM_ID_SEARCH) {
+                viewTermHierarchyTermIdSearchJLabel.setEnabled(true);
             }
+        } else if (searchType == OLS_DIALOG_TERM_NAME_SEARCH) {
+            viewTermHierarchyTermNameSearchJLabel.setEnabled(false);
+        } else if (searchType == OLS_DIALOG_PSI_MOD_MASS_SEARCH) {
+            viewTermHierarchyMassSearchJLabel.setEnabled(false);
+        } else if (searchType == OLS_DIALOG_BROWSE_ONTOLOGY) {
+            viewTermHierarchyBrowseOntologyJLabel.setEnabled(false);
+        } else if (searchType == OLS_DIALOG_TERM_ID_SEARCH) {
+            viewTermHierarchyTermIdSearchJLabel.setEnabled(false);
         }
 
         if (searchType == OLS_DIALOG_TERM_NAME_SEARCH) {
@@ -986,50 +984,46 @@ public class OLSDialog extends javax.swing.JDialog {
      * @return false if an error occurred, true otherwise
      */
     private boolean openOlsConnectionAndInsertOntologyNames() {
-
         boolean error = false;
 
-        Vector ontologyNamesAndKeys = new Vector();
+        List<Ontology> ontologies = new ArrayList();
 
-        preselectedNames2Ids = new HashMap<String, String>();
+        preselectedNames2Ids = new HashMap<>();
 
         try {
-            QueryService locator = new QueryServiceLocator();
-            olsConnection = locator.getOntologyQuery();
-            Map map = olsConnection.getOntologyNames();
+            //retrieve all ontologies
+            Map<String, Ontology> allOntologies = olsService.getAllOntologies();
 
             String ontologyToSelect = "";
 
-            for (Iterator i = map.keySet().iterator(); i.hasNext();) {
-                String key = (String) i.next();
-                String temp = map.get(key) + " [" + key + "]";
+            for (String ontologyLabel : allOntologies.keySet()) {
+                Ontology ontology = allOntologies.get(ontologyLabel);
                 if (preselectedOntologies.isEmpty()) {
-                    ontologyNamesAndKeys.add(temp);
-                } else {
-                    if (preselectedOntologies.keySet().contains(key.toUpperCase())) {
-                        if (preselectedOntologies.get(key.toUpperCase()) == null) {
-                            ontologyNamesAndKeys.add(temp);
-                        } else {
-                            for (String ontologyTermId : preselectedOntologies.get(key.toUpperCase())) {
-                                String ontologyTermName = olsConnection.getTermById(ontologyTermId, key);
-                                String suffix = ontologyTermName;
-                                if (ontologyTermName == null) {
-                                    suffix = ontologyTermId;
-                                } else if (ontologyTermName.length() == 0) {
-                                    suffix = ontologyTermId;
-                                }
-                                String ontologyName = temp + " / " + suffix;
-                                if (selectedOntology.equalsIgnoreCase(ontologyName)) {
-                                    ontologyToSelect = ontologyName;
-                                }
-                                ontologyNamesAndKeys.add(ontologyName);
-                                preselectedNames2Ids.put(suffix, ontologyTermId);
+                    ontologies.add(ontology);
+                } else if (preselectedOntologies.keySet().contains(ontologyLabel.toUpperCase())) {
+                    if (preselectedOntologies.get(ontologyLabel.toUpperCase()) == null) {
+                        ontologies.add(ontology);
+                    } else {
+                        //iterate over the parent terms
+                        for (String ontologyParentTermId : preselectedOntologies.get(ontologyLabel.toUpperCase())) {
+                            String ontologyTermName = olsConnection.getTermById(ontologyParentTermId, ontologyLabel);
+                            String suffix = ontologyTermName;
+                            if (ontologyTermName == null) {
+                                suffix = ontologyParentTermId;
+                            } else if (ontologyTermName.length() == 0) {
+                                suffix = ontologyParentTermId;
                             }
+                            String ontologyName = temp + " / " + suffix;
+                            if (selectedOntology.equalsIgnoreCase(ontologyName)) {
+                                ontologyToSelect = ontologyName;
+                            }
+                            ontologyNamesAndKeys.add(ontologyName);
+                            preselectedNames2Ids.put(suffix, ontologyParentTermId);
                         }
                     }
                 }
 
-                if (selectedOntology.equalsIgnoreCase(temp) || selectedOntology.equalsIgnoreCase(key)) {
+                if (selectedOntology.equalsIgnoreCase(temp) || selectedOntology.equalsIgnoreCase(ontologyLabel)) {
                     ontologyToSelect = temp;
                 }
             }
@@ -1049,7 +1043,7 @@ public class OLSDialog extends javax.swing.JDialog {
                 ontologyNamesAndKeys.add(1, "-- Search in these preselected Ontologies --");
             }
 
-            ontologyJComboBox.setModel(new DefaultComboBoxModel(ontologyNamesAndKeys));
+            ontologyJComboBox.setModel(new DefaultComboBoxModel(ontologyNamesAndKeys.stream().toArray(String[]::new)));
             //default selected ontology. Has to be the same name shown in the menu
             ontologyJComboBox.setSelectedItem(ontologyToSelect);
 
@@ -1064,7 +1058,7 @@ public class OLSDialog extends javax.swing.JDialog {
             Util.writeToErrorLog("Error when trying to access OLS: ");
             ex.printStackTrace();
             error = true;
-        } catch (ServiceException ex) {
+        } catch (IOException ex) {
             JOptionPane.showMessageDialog(
                     this,
                     defaultOlsConnectionFailureErrorMessage,
@@ -2419,7 +2413,7 @@ public class OLSDialog extends javax.swing.JDialog {
                         JOptionPane.showMessageDialog(
                                 this,
                                 "There seems to be a technical issue with the given term.\n"
-                                        + "Try choosing a related similar term instead.",
+                                + "Try choosing a related similar term instead.",
                                 "OLS Error", JOptionPane.WARNING_MESSAGE);
                         Util.writeToErrorLog("Error when trying to access OLS: ");
                         e.printStackTrace();
@@ -2928,25 +2922,22 @@ public class OLSDialog extends javax.swing.JDialog {
             if (currentTermName == null) {
                 JOptionPane.showMessageDialog(this, "No matching terms found.", "No Matching Terms", JOptionPane.INFORMATION_MESSAGE);
                 termIdSearchJTextField.requestFocus();
+            } else if (currentTermName.equalsIgnoreCase(termIdSearchJTextField.getText().trim())) {
+                JOptionPane.showMessageDialog(this, "No matching terms found.", "No Matching Terms", JOptionPane.INFORMATION_MESSAGE);
+                termIdSearchJTextField.requestFocus();
             } else {
+                ((DefaultTableModel) olsResultsTermIdSearchJTable.getModel()).addRow(new Object[]{
+                    getOlsAccessionLink(termIdSearchJTextField.getText().trim()), currentTermName});
 
-                if (currentTermName.equalsIgnoreCase(termIdSearchJTextField.getText().trim())) {
-                    JOptionPane.showMessageDialog(this, "No matching terms found.", "No Matching Terms", JOptionPane.INFORMATION_MESSAGE);
-                    termIdSearchJTextField.requestFocus();
+                // set the preferred size of the accession column
+                Integer width = getPreferredColumnWidth(olsResultsTermIdSearchJTable, olsResultsTermIdSearchJTable.getColumn("Accession").getModelIndex(), 6);
+
+                if (width != null) {
+                    olsResultsTermIdSearchJTable.getColumn("Accession").setMinWidth(width);
+                    olsResultsTermIdSearchJTable.getColumn("Accession").setMaxWidth(width);
                 } else {
-                    ((DefaultTableModel) olsResultsTermIdSearchJTable.getModel()).addRow(new Object[]{
-                        getOlsAccessionLink(termIdSearchJTextField.getText().trim()), currentTermName});
-
-                    // set the preferred size of the accession column
-                    Integer width = getPreferredColumnWidth(olsResultsTermIdSearchJTable, olsResultsTermIdSearchJTable.getColumn("Accession").getModelIndex(), 6);
-
-                    if (width != null) {
-                        olsResultsTermIdSearchJTable.getColumn("Accession").setMinWidth(width);
-                        olsResultsTermIdSearchJTable.getColumn("Accession").setMaxWidth(width);
-                    } else {
-                        olsResultsTermIdSearchJTable.getColumn("Accession").setMinWidth(15);
-                        olsResultsTermIdSearchJTable.getColumn("Accession").setMaxWidth(Integer.MAX_VALUE);
-                    }
+                    olsResultsTermIdSearchJTable.getColumn("Accession").setMinWidth(15);
+                    olsResultsTermIdSearchJTable.getColumn("Accession").setMaxWidth(Integer.MAX_VALUE);
                 }
             }
 
