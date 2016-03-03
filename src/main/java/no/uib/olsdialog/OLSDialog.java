@@ -5,7 +5,7 @@ import javax.swing.*;
 import javax.swing.table.DefaultTableModel;
 import javax.swing.tree.DefaultMutableTreeNode;
 import javax.swing.tree.TreeNode;
-import javax.xml.rpc.ServiceException;
+//import javax.xml.rpc.ServiceException;
 import java.awt.*;
 import java.awt.event.KeyEvent;
 import java.awt.event.MouseEvent;
@@ -17,11 +17,15 @@ import java.util.List;
 import javax.swing.table.DefaultTableColumnModel;
 import javax.swing.table.TableCellRenderer;
 import javax.swing.table.TableColumn;
-import uk.ac.ebi.ols.soap.Query;
-import uk.ac.ebi.ols.soap.QueryService;
-import uk.ac.ebi.ols.soap.QueryServiceLocator;
-import uk.ac.ebi.ols.soap.model.DataHolder;
+//import uk.ac.ebi.ols.soap.Query;
+//import uk.ac.ebi.ols.soap.QueryService;
+//import uk.ac.ebi.ols.soap.QueryServiceLocator;
+//import uk.ac.ebi.ols.soap.model.DataHolder;
 import no.uib.jsparklines.extra.HtmlLinksRenderer;
+import org.springframework.web.client.RestClientException;
+import uk.ac.pride.ols.web.service.client.OLSClient;
+import uk.ac.pride.ols.web.service.config.OLSWsConfigDev;
+import uk.ac.pride.ols.web.service.model.DataHolder;
 
 /**
  * A dialog for interacting with the Ontology Lookup Service OLS
@@ -106,7 +110,7 @@ public class OLSDialog extends javax.swing.JDialog {
     /**
      * The OLS connection.
      */
-    private static Query olsConnection;
+    private static OLSClient olsConnection;
     /**
      * The OLS tree browser.
      */
@@ -581,14 +585,14 @@ public class OLSDialog extends javax.swing.JDialog {
             if (parentTerm == null) {
                 roots = olsConnection.getRootTerms(ontology);
             } else {
-                roots = olsConnection.getTermChildren(parentTerm, ontology, 1, null);
+                roots = olsConnection.getTermChildren(parentTerm, ontology, 1);
             }
 
             if (roots != null) {
                 retrievedValues.putAll(roots);
             }
 
-        } catch (RemoteException e) {
+        } catch (RestClientException e) {
             JOptionPane.showMessageDialog(
                     this,
                     defaultOlsConnectionFailureErrorMessage,
@@ -691,8 +695,9 @@ public class OLSDialog extends javax.swing.JDialog {
         Map<String, String> childTerms = null;
 
         try {
-            childTerms = olsConnection.getTermChildren(termId, ontology, 1, null);
-        } catch (RemoteException ex) {
+            //childTerms = olsConnection.getTermChildren(termId, ontology, 1, null);
+            childTerms = olsConnection.getTermChildren(termId, ontology, 1);
+        } catch (RestClientException ex) {
             JOptionPane.showMessageDialog(
                     this,
                     defaultOlsConnectionFailureErrorMessage,
@@ -813,7 +818,7 @@ public class OLSDialog extends javax.swing.JDialog {
             try {
                 metadata = olsConnection.getTermMetadata(termId, ontology);
                 xRefs = olsConnection.getTermXrefs(termId, ontology);
-            } catch (RemoteException ex) {
+            } catch (RestClientException ex) {
                 JOptionPane.showMessageDialog(
                         this,
                         defaultOlsConnectionFailureErrorMessage,
@@ -994,9 +999,11 @@ public class OLSDialog extends javax.swing.JDialog {
         preselectedNames2Ids = new HashMap<String, String>();
 
         try {
-            QueryService locator = new QueryServiceLocator();
-            olsConnection = locator.getOntologyQuery();
+//            QueryService locator = new QueryServiceLocator();
+//            olsConnection = locator.getOntologyQuery();
+            olsConnection = new OLSClient(new OLSWsConfigDev());
             Map map = olsConnection.getOntologyNames();
+            map = Util.refineOntologyNames(map);
 
             String ontologyToSelect = "";
 
@@ -1011,7 +1018,7 @@ public class OLSDialog extends javax.swing.JDialog {
                             ontologyNamesAndKeys.add(temp);
                         } else {
                             for (String ontologyTermId : preselectedOntologies.get(key.toUpperCase())) {
-                                String ontologyTermName = olsConnection.getTermById(ontologyTermId, key);
+                                String ontologyTermName = olsConnection.getTermByOBOId(ontologyTermId, key);
                                 String suffix = ontologyTermName;
                                 if (ontologyTermName == null) {
                                     suffix = ontologyTermId;
@@ -1056,7 +1063,7 @@ public class OLSDialog extends javax.swing.JDialog {
             hideOrShowNewtLinks();
 
             lastSelectedOntology = (String) ontologyJComboBox.getSelectedItem();
-        } catch (RemoteException ex) {
+        } catch (RestClientException ex) {
             JOptionPane.showMessageDialog(
                     this,
                     defaultOlsConnectionFailureErrorMessage,
@@ -1064,7 +1071,7 @@ public class OLSDialog extends javax.swing.JDialog {
             Util.writeToErrorLog("Error when trying to access OLS: ");
             ex.printStackTrace();
             error = true;
-        } catch (ServiceException ex) {
+        } catch (Exception ex) {
             JOptionPane.showMessageDialog(
                     this,
                     defaultOlsConnectionFailureErrorMessage,
@@ -1161,14 +1168,14 @@ public class OLSDialog extends javax.swing.JDialog {
 
         try {
             // get the next level of nodes
-            Map<String, String> secondLevelChildTerms = olsConnection.getTermChildren(termId, ontology, 1, null);
+            Map<String, String> secondLevelChildTerms = olsConnection.getTermChildren(termId, ontology, 1);
 
             // add the level of non visible nodes
             for (String tId2 : secondLevelChildTerms.keySet()) {
                 treeBrowser.addNode(parentNode, tId2, secondLevelChildTerms.get(tId2), false);
             }
 
-        } catch (RemoteException ex) {
+        } catch (RestClientException ex) {
             JOptionPane.showMessageDialog(
                     this,
                     defaultOlsConnectionFailureErrorMessage,
@@ -2340,7 +2347,7 @@ public class OLSDialog extends javax.swing.JDialog {
                         } else {
                             numberOfTermsTermNameSearchJTextField.setText("-");
                         }
-                    } catch (RemoteException ex) {
+                    } catch (RestClientException ex) {
                         JOptionPane.showMessageDialog(
                                 null,
                                 defaultOlsConnectionFailureErrorMessage,
@@ -2406,8 +2413,9 @@ public class OLSDialog extends javax.swing.JDialog {
 
                     try {
                         Map ontologies = olsConnection.getOntologyNames();
+                        ontologies = Util.refineOntologyNames(ontologies);
                         ontologyLong = ontologies.get(ontologyShort).toString() + "[" + ontologyShort + "]"; // @TODO: possible null pointer...
-                    } catch (RemoteException ex) {
+                    } catch (RestClientException ex) {
                         JOptionPane.showMessageDialog(
                                 this,
                                 defaultOlsConnectionFailureErrorMessage,
@@ -2432,7 +2440,7 @@ public class OLSDialog extends javax.swing.JDialog {
             }
 
             try {
-                String selectedValue = olsConnection.getTermById(termId, ontologyShort);
+                String selectedValue = olsConnection.getTermByOBOId(termId, ontologyShort);
 
                 //insert the value into the correct text field or table
                 if (olsInputable != null) {
@@ -2440,7 +2448,7 @@ public class OLSDialog extends javax.swing.JDialog {
                     this.setVisible(false);
                     this.dispose();
                 }
-            } catch (RemoteException ex) {
+            } catch (RestClientException ex) {
                 JOptionPane.showMessageDialog(
                         this,
                         defaultOlsConnectionFailureErrorMessage,
@@ -2563,24 +2571,25 @@ public class OLSDialog extends javax.swing.JDialog {
      * @param toMass the higher mass limit (inclusive, mandatory)
      * @return
      */
-    public DataHolder[] getModificationsByMassDelta(String massDeltaType, double fromMass, double toMass) {
+    public List<DataHolder> getModificationsByMassDelta(String massDeltaType, double fromMass, double toMass) {
 
-        DataHolder[] retval = null;
+        List<DataHolder> retval = null;
 
         try {
-            QueryService locator = new QueryServiceLocator();
-            Query service = locator.getOntologyQuery();
+//            QueryService locator = new QueryServiceLocator();
+//            Query service = locator.getOntologyQuery();
+            OLSClient service = new OLSClient(new OLSWsConfigDev());
 
-            retval = service.getTermsByAnnotationData("MOD", massDeltaType, null, fromMass, toMass);
+            retval = service.getTermsByAnnotationData("MOD", massDeltaType, fromMass, toMass);
 
-        } catch (ServiceException ex) {
+        } catch (RestClientException ex) {
             JOptionPane.showMessageDialog(
                     this,
                     defaultOlsConnectionFailureErrorMessage,
                     "OLS Connection Error", JOptionPane.ERROR_MESSAGE);
             Util.writeToErrorLog("Error when trying to access OLS: ");
             ex.printStackTrace();
-        } catch (RemoteException ex) {
+        } catch (Exception ex) {
             JOptionPane.showMessageDialog(
                     this,
                     defaultOlsConnectionFailureErrorMessage,
@@ -2643,15 +2652,15 @@ public class OLSDialog extends javax.swing.JDialog {
 
             String massType = massTypeJComboBox.getSelectedItem().toString();
 
-            DataHolder[] results = getModificationsByMassDelta(massType,
+            List<DataHolder> results = getModificationsByMassDelta(massType,
                     currentModificationMass - currentAccuracy,
                     currentModificationMass + currentAccuracy);
 
             if (results != null) {
-                for (int i = 0; i < results.length; i++) {
+                for (int i = 0; i < results.size(); i++) {
                     ((DefaultTableModel) olsResultsMassSearchJTable.getModel()).addRow(
-                            new Object[]{getOlsAccessionLink(results[i].getTermId()),
-                                results[i].getTermName()});
+                            new Object[]{getOlsAccessionLink(results.get(i).getOboId()),
+                                results.get(i).getTermName()});
                 }
 
                 // set the preferred size of the accession column
@@ -2915,14 +2924,14 @@ public class OLSDialog extends javax.swing.JDialog {
                 // Ontology term for preselected Ontologies
                 preselectedOntologiesLoop:
                 for (String preselectedOntology : preselectedOntologies.keySet()) {
-                    currentTermName = olsConnection.getTermById(termIdSearchJTextField.getText().trim(), preselectedOntology.toUpperCase());
+                    currentTermName = olsConnection.getTermByOBOId(termIdSearchJTextField.getText().trim(), preselectedOntology.toUpperCase());
                     if (currentTermName.length() > 0) {
                         break preselectedOntologiesLoop;
                     }
                 }
             } else {
                 // Ontology term for one ontology or for all OLS (ontology = null).
-                currentTermName = olsConnection.getTermById(termIdSearchJTextField.getText().trim(), ontology);
+                currentTermName = olsConnection.getTermByOBOId(termIdSearchJTextField.getText().trim(), ontology);
             }
 
             if (currentTermName == null) {
@@ -2958,7 +2967,7 @@ public class OLSDialog extends javax.swing.JDialog {
                 olsResultsTermIdSearchJTable.scrollRectToVisible(olsResultsTermIdSearchJTable.getCellRect(0, 0, false));
             }
 
-        } catch (RemoteException ex) {
+        } catch (RestClientException ex) {
             JOptionPane.showMessageDialog(
                     this,
                     defaultOlsConnectionFailureErrorMessage,
@@ -3307,8 +3316,8 @@ public class OLSDialog extends javax.swing.JDialog {
             String ontology = getCurrentOntologyLabel();
 
             try {
-                selectedValue = olsConnection.getTermById(accession, ontology);
-            } catch (RemoteException ex) {
+                selectedValue = olsConnection.getTermByOBOId(accession, ontology);
+            } catch (RestClientException ex) {
                 JOptionPane.showMessageDialog(
                         this,
                         defaultOlsConnectionFailureErrorMessage,

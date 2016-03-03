@@ -66,10 +66,7 @@ public class TermHierarchyGraphViewer extends javax.swing.JDialog {
             termName = termName.toLowerCase();
 
             // create the "search url"
-            String url = "http://www.ebi.ac.uk/ontology-lookup/generateSSFiles.do?" + "termId=" + termId
-                    + "&termName=" + termName
-                    + "&ontologyName=" + ontology
-                    + "&graphType=root";
+            String url = "http://www.ebi.ac.uk/ols/beta/ontologies/"+ontology+"/terms?obo_id=" + termId;
 
             // read the contents of the returned xml file
             URL mapPage = new URL(url);
