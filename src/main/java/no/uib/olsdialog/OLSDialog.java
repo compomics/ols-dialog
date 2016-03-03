@@ -589,6 +589,7 @@ public class OLSDialog extends javax.swing.JDialog {
             }
 
             if (roots != null) {
+                roots = Util.refineOntologyNullIds(roots);
                 retrievedValues.putAll(roots);
             }
 

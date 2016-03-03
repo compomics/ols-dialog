@@ -38,4 +38,15 @@ public final class Util {
         }
         return resultOntologies;
     }
+
+    public static Map<String, String> refineOntologyNullIds(Map<String, String> roots) {
+        Map<String, String> resultOntologies = new HashMap<String, String>();
+        if(roots != null && roots.size() > 0){
+            for(String key: roots.keySet())
+                if(key != null)
+                    resultOntologies.put(key, roots.get(key));
+        }
+        return resultOntologies;
+
+    }
 }
