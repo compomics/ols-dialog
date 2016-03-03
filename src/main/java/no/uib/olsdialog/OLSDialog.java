@@ -1169,7 +1169,9 @@ public class OLSDialog extends javax.swing.JDialog {
 
         try {
             // get the next level of nodes
-            Map<String, String> secondLevelChildTerms = olsConnection.getTermChildren(termId, ontology, 1);
+            Map<String, String> secondLevelChildTerms = new HashMap<String, String>();
+            if(termId != null && !termId.equalsIgnoreCase("No Root Terms Defined!"))
+                 secondLevelChildTerms = olsConnection.getTermChildren(termId, ontology, 1);
 
             // add the level of non visible nodes
             for (String tId2 : secondLevelChildTerms.keySet()) {
