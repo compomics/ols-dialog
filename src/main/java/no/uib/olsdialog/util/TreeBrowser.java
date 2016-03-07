@@ -1,6 +1,8 @@
 package no.uib.olsdialog.util;
 
 import no.uib.olsdialog.OLSDialog;
+import uk.ac.pride.ols.web.service.model.Identifier;
+import uk.ac.pride.ols.web.service.model.Term;
 
 import javax.swing.*;
 import javax.swing.event.*;
@@ -53,8 +55,8 @@ public class TreeBrowser extends JPanel implements TreeSelectionListener, TreeMo
         super(new GridLayout(1, 0));
 
         this.olsDialog = parent;
-
-        tree = new JTree(new DefaultTreeModel(new DefaultMutableTreeNode(new TermNode("Load Ontology to Browse", null))));
+        Term term = new Term(null, "Load Ontology to Browse", null, null, null, null);
+        tree = new JTree(new DefaultTreeModel(new DefaultMutableTreeNode(new TermNode(term, null))));
         tree.setEditable(false);
         tree.getSelectionModel().setSelectionMode(TreeSelectionModel.SINGLE_TREE_SELECTION);
         tree.setShowsRootHandles(true);
@@ -80,7 +82,8 @@ public class TreeBrowser extends JPanel implements TreeSelectionListener, TreeMo
      * @param ontologyName the ontology label
      */
     public void initialize(String ontologyName) {
-        rootNode = new DefaultMutableTreeNode(new TermNode(ontologyName, null));
+        Term term = new Term(null, ontologyName, null, null, null, null);
+        rootNode = new DefaultMutableTreeNode(new TermNode(term, null));
         treeModel = new DefaultTreeModel(rootNode);
         treeModel.addTreeModelListener(this);
         tree.addTreeExpansionListener(this);
@@ -109,12 +112,8 @@ public class TreeBrowser extends JPanel implements TreeSelectionListener, TreeMo
     /**
      * Add child to the currently selected node, or the root node if no
      * selection.
-     *
-     * @param termId the accession number of term to add
-     * @param termName the name of the term to add
-     * @return the added node
      */
-    public DefaultMutableTreeNode addNode(Object termId, Object termName) {
+    public DefaultMutableTreeNode addNode(Term term) {
         DefaultMutableTreeNode parentNode;
         TreePath parentPath = tree.getSelectionPath();
 
@@ -124,23 +123,21 @@ public class TreeBrowser extends JPanel implements TreeSelectionListener, TreeMo
             parentNode = (DefaultMutableTreeNode) (parentPath.getLastPathComponent());
         }
 
-        return addNode(parentNode, termId, termName, true);
+        return addNode(parentNode, term, true);
     }
 
     /**
      * Add child to a specified node, or the root node if no node specified.
      *
      * @param parent
-     * @param termId
-     * @param termName
      * @param shouldBeVisible
      * @return the added node
      */
     public DefaultMutableTreeNode addNode(
-            DefaultMutableTreeNode parent, Object termId, Object termName, boolean shouldBeVisible) {
+            DefaultMutableTreeNode parent, Term term, boolean shouldBeVisible) {
 
         DefaultMutableTreeNode childNode =
-                new DefaultMutableTreeNode(new TermNode(termName.toString(), termId.toString()));
+                new DefaultMutableTreeNode(new TermNode(term));
 
         if (parent == null) {
             parent = rootNode;
@@ -198,7 +195,7 @@ public class TreeBrowser extends JPanel implements TreeSelectionListener, TreeMo
         TermNode nodeInfo = (TermNode) node.getUserObject();
 
         // load the children and the meta data, unless the term is the 'no roots defined' dummy term
-        if (nodeInfo.getTermId() != null && !nodeInfo.getTermId().equalsIgnoreCase("No Root Terms Defined!")) {
+        if (nodeInfo.getTerm() != null && !nodeInfo.getTerm().getLabel().equalsIgnoreCase("No Root Terms Defined!")) {
 
             // load children only for leaf nodes and those that have not been marked as processed
             if (node.isLeaf() && node.getAllowsChildren()) {
@@ -208,7 +205,7 @@ public class TreeBrowser extends JPanel implements TreeSelectionListener, TreeMo
                 }
 
                 // load children. if no children, set allowsChildren to false
-                if (!olsDialog.loadChildren(node, nodeInfo.getTermId())) {
+                if (!olsDialog.loadChildren(node, nodeInfo.getTerm())) {
                     node.setAllowsChildren(false);
                 }
             }
@@ -219,10 +216,10 @@ public class TreeBrowser extends JPanel implements TreeSelectionListener, TreeMo
 
             // load metadata
             if (OLSDialog.debug) {
-                System.out.println("will load metadata for: " + nodeInfo.getTermId());
+                System.out.println("will load metadata for: " + nodeInfo.getTerm().getGlobalId());
             }
 
-            olsDialog.loadMetaData(nodeInfo.getTermId(), OLSDialog.OLS_DIALOG_BROWSE_ONTOLOGY);
+            olsDialog.loadMetaData(nodeInfo.getTerm(), OLSDialog.OLS_DIALOG_BROWSE_ONTOLOGY);
         } else {
             olsDialog.clearData(OLSDialog.OLS_DIALOG_BROWSE_ONTOLOGY, true, true);
         }
@@ -261,7 +258,7 @@ public class TreeBrowser extends JPanel implements TreeSelectionListener, TreeMo
                 TermNode nodeInfo = (TermNode) currentNode.getUserObject();
 
                 // add the layer of non visible nodes
-                olsDialog.addSecondLevelOfNodes(nodeInfo.getTermId(), olsDialog.getCurrentOntologyLabel(), currentNode);
+                olsDialog.addSecondLevelOfNodes(nodeInfo.getTerm(), olsDialog.getCurrentOntologyLabel(), currentNode);
             }
         }
 
@@ -283,18 +280,16 @@ public class TreeBrowser extends JPanel implements TreeSelectionListener, TreeMo
      */
     private class TermNode {
 
-        private String termName;
-        private String termId;
+        private Term term;
+        private Term parentTerm;
 
-        /**
-         * Creates a TermNode object with the provided details.
-         *
-         * @param termName the name of the term to represent
-         * @param termId the accession number of the term to represent
-         */
-        public TermNode(String termName, String termId) {
-            this.termName = termName;
-            this.termId = termId;
+
+        public TermNode(Term term) {
+            this.term = term;
+        }
+
+        public TermNode(Term term, Term parentTerm){
+
         }
 
         /**
@@ -303,7 +298,7 @@ public class TreeBrowser extends JPanel implements TreeSelectionListener, TreeMo
          * @return the term name
          */
         public String getTermName() {
-            return termName;
+            return term.getLabel();
         }
 
         /**
@@ -312,7 +307,7 @@ public class TreeBrowser extends JPanel implements TreeSelectionListener, TreeMo
          * @param termName
          */
         public void setTermName(String termName) {
-            this.termName = termName;
+            this.term.setLabel(termName);
         }
 
         /**
@@ -320,22 +315,31 @@ public class TreeBrowser extends JPanel implements TreeSelectionListener, TreeMo
          *
          * @return the term accession number
          */
-        public String getTermId() {
-            return termId;
-        }
-
-        /**
-         * Set the term accession number.
-         *
-         * @param termId the term accession number
-         */
-        public void setTermId(String termId) {
-            this.termId = termId;
+        public Identifier getOBOTermId() {
+            return this.term.getTermOBOId();
         }
 
         @Override
         public String toString() {
-            return ((termId == null) ? "" : "[" + termId + "] ") + termName;
+            String nodeString = "";
+            if(term != null && term.getGlobalId() != null)
+                nodeString += term.getGlobalId().getIdentifier().toUpperCase();
+            else if(term != null && term.getOntologyName() != null)
+                nodeString += term.getOntologyName().toString().toUpperCase();
+
+            return nodeString;
+        }
+
+        public Term getTerm() {
+            return term;
+        }
+
+        public Term getParentTerm() {
+            return parentTerm;
+        }
+
+        public void setParentTerm(Term parentTerm) {
+            this.parentTerm = parentTerm;
         }
     }
 }

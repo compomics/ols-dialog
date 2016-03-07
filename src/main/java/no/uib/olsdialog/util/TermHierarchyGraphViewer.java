@@ -1,6 +1,7 @@
 package no.uib.olsdialog.util;
 
 import no.uib.olsdialog.OLSDialog;
+import uk.ac.pride.ols.web.service.model.Term;
 
 import javax.swing.*;
 import java.awt.*;
@@ -52,7 +53,7 @@ public class TermHierarchyGraphViewer extends javax.swing.JDialog {
      * @param termName the name of the term to search for
      * @param ontology the ontology to search in
      */
-    public TermHierarchyGraphViewer(OLSDialog olsDialog, boolean modal, String termId, String termName, String ontology) {
+    public TermHierarchyGraphViewer(OLSDialog olsDialog, boolean modal, Term termId, Term termName, String ontology) {
         super(olsDialog, modal);
 
         initComponents();
@@ -61,9 +62,9 @@ public class TermHierarchyGraphViewer extends javax.swing.JDialog {
 
         try {
             // prepare the term details
-            termId = termId.replace(":", "%3A");
-            termName = termName.replace(" ", "_");
-            termName = termName.toLowerCase();
+//            termId = termId.replace(":", "%3A");
+//            termName = termName.replace(" ", "_");
+//            termName = termName.toLowerCase();
 
             // create the "search url"
             String url = "http://www.ebi.ac.uk/ols/beta/ontologies/"+ontology+"/terms?obo_id=" + termId;

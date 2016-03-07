@@ -14,8 +14,12 @@ import java.util.Map;
 import javax.swing.JOptionPane;
 import javax.swing.UIManager;
 import javax.swing.table.DefaultTableModel;
+
+import com.sun.xml.internal.xsom.impl.Ref;
 import no.uib.olsdialog.OLSDialog;
 import no.uib.olsdialog.OLSInputable;
+import uk.ac.pride.ols.web.service.model.Identifier;
+import uk.ac.pride.ols.web.service.model.Term;
 
 /**
  * An example of how the OLS Dialog can be used.
@@ -437,12 +441,12 @@ public class OLS_Example extends javax.swing.JFrame implements OLSInputable {
         }
 
 
-        Map<String, List<String>> preselectedOntologies = new HashMap<String, List<String>>();
+        Map<String, List<Identifier>> preselectedOntologies = new HashMap<String, List<Identifier>>();
         List msPreselectedParentTerms = new ArrayList<String>();
         msPreselectedParentTerms.add("MS:1000458");  // Source Description
-        preselectedOntologies.put("PRIDE", null);
-        preselectedOntologies.put("PSI", null);
-        preselectedOntologies.put("MS", msPreselectedParentTerms);
+        preselectedOntologies.put("pride", null);
+        preselectedOntologies.put("ms", null);
+        preselectedOntologies.put("ms", msPreselectedParentTerms);
 
         new OLSDialog(this, this, true, "instrumentSource", ontology, searchTerm, preselectedOntologies);
         this.setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
@@ -656,66 +660,59 @@ public class OLS_Example extends javax.swing.JFrame implements OLSInputable {
 
     /**
      * Insert a new modification.
-     *
-     * @param name
+     *  @param name
      * @param accession
      * @param ontology
      */
-    public void setModification(String name, String accession, String ontology) {
+    public void setModification(Term name, Term accession, String ontology) {
         modificationJTextField.setText(name + " [" + accession + "]");
         modificationJTextField.setCaretPosition(0);
     }
 
     /**
      * Insert a new instrument source.
-     *
-     * @param name
+     *  @param name
      * @param accession
      * @param ontology
      */
-    public void setInstrumentSource(String name, String accession, String ontology) {
+    public void setInstrumentSource(Term name, Term accession, String ontology) {
         instrumentSourceJTextField.setText(name + " [" + accession + "]");
         instrumentSourceJTextField.setCaretPosition(0);
     }
 
     /**
      * Insert a new instrument detector
-     *
-     * @param name
+     *  @param name
      * @param accession
      * @param ontology
      */
-    public void setInstrumentDetector(String name, String accession, String ontology) {
+    public void setInstrumentDetector(Term name, Term accession, String ontology) {
         instrumentDetectorJTextField.setText(name + " [" + accession + "]");
         instrumentDetectorJTextField.setCaretPosition(0);
     }
 
     /**
      * Instert a new processing method.
-     *
-     * @param name
+     *  @param name
      * @param accession
      * @param ontology
      * @param modifiedRow The row to modify, use -1 if adding a new processing
-     * method
      */
-    public void addProcessingMethod(String name, String accession,
-            String ontology, int modifiedRow) {
+    public void addProcessingMethod(Term name, Term accession,
+                                    String ontology, int modifiedRow) {
         addProcessingMethod(name, accession, ontology, null, modifiedRow);
     }
 
     /**
      * Instert a new processing method.
-     *
-     * @param name
+     *  @param name
      * @param accession
      * @param ontology
      * @param value
      * @param modifiedRow The row to modify, use -1 if adding a new processing
-     * method
      */
-    public void addProcessingMethod(String name, String accession,
-            String ontology, String value, int modifiedRow) {
+    public void addProcessingMethod(Term name, Term accession,
+                                    String ontology, String value, int modifiedRow) {
 
         if (value != null) {
             if (value.equalsIgnoreCase("null")) {
@@ -769,11 +766,9 @@ public class OLS_Example extends javax.swing.JFrame implements OLSInputable {
     /**
      * @see OLSInputable
      */
-    public void insertOLSResult(String field, String selectedValue,
-            String accession,
-            String ontologyShort, String ontologyLong, int modifiedRow,
-            String mappedTerm,
-            Map<String, String> metadata) {
+    public void insertOLSResult(String field, Term selectedValue,
+            Term accession, String ontologyShort, String ontologyLong, int modifiedRow, String mappedTerm,
+            List<String> metadata) {
 
         if (field.equalsIgnoreCase("instrumentSource")) {
             setInstrumentSource(selectedValue, accession, ontologyShort);

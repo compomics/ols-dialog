@@ -1,6 +1,12 @@
 package no.uib.olsdialog.util;
 
+import uk.ac.pride.ols.web.service.model.Identifier;
+import uk.ac.pride.ols.web.service.model.Ontology;
+import uk.ac.pride.ols.web.service.model.Term;
+
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 /**
@@ -11,6 +17,8 @@ import java.util.Map;
  * Created April 2005
  */
 public final class Util {
+
+    private static String notSelectedRowHtmlTagFontColor = "#0101DF";
 
     /**
      * Makes sure that all writing to the ErrorLog has a uniform appearance.
@@ -27,26 +35,55 @@ public final class Util {
      * This function refine the ontolgoy name. If they are larget than a certain number of character it reduce they chunck them
      * @param ontologies
      */
-    public static Map<String, String> refineOntologyNames(Map<String, String> ontologies){
-        Map<String, String> resultOntologies = new HashMap<String, String>();
+    public static List<Ontology> refineOntologyNames(List<Ontology> ontologies){
+        List<Ontology> resultOntologies = new ArrayList<Ontology>();
         if(ontologies != null && ontologies.size() > 0){
-            for(String key: ontologies.keySet())
-                if(ontologies.get(key).length() > 80)
-                    resultOntologies.put(key, ontologies.get(key).substring(0, 50) + "..");
-                else
-                    resultOntologies.put(key, ontologies.get(key));
+            for(Ontology key: ontologies)
+                if(key.getName().length() > 80){
+                    key.setName(key.getName().substring(0, 50) + "..");
+                    resultOntologies.add(key);
+                }else
+                    resultOntologies.add(key);
         }
         return resultOntologies;
     }
 
-    public static Map<String, String> refineOntologyNullIds(Map<String, String> roots) {
-        Map<String, String> resultOntologies = new HashMap<String, String>();
+    public static List<Term> refineOntologyNullIds(List<Term> roots) {
+        List<Term> result = new ArrayList<Term>();
         if(roots != null && roots.size() > 0){
-            for(String key: roots.keySet())
-                if(key != null)
-                    resultOntologies.put(key, roots.get(key));
+            for(Term key: roots)
+                if(key.getGlobalId() != null && key.getGlobalId().getIdentifier() != null)
+                    result.add(key);
         }
-        return resultOntologies;
+        return result;
+
+    }
+
+    public static Ontology findOntology(List<Ontology> ontologies, String shortName){
+        if(ontologies != null && shortName != null){
+            for(Ontology ontology: ontologies)
+                if(ontology.getId().equalsIgnoreCase(shortName))
+                    return ontology;
+        }
+        return null;
+    }
+
+    /**
+     * Returns the protein accession number as a web link to the given PSI-MOD
+     * at http://www.ebi.ac.uk/ontology-lookup.
+     *
+     * @return the OLS web link
+     */
+    public static String getOlsAccessionLink(Term term) {
+        String accessionNumberWithLink = "<html><a href=\"http://www.ebi.ac.uk/ols/beta/ontologies/" + term.getOntologyName()+"/terms?iri=" + term.getIri() + "\""
+                + "\"><font color=\"" + notSelectedRowHtmlTagFontColor + "\">"
+                + term.getGlobalId().getIdentifier() + "</font></a></html>";
+        return accessionNumberWithLink;
+    }
+
+    public static String getOlsTermLink(Term term){
+        String accessionNumberWithLink = "http://www.ebi.ac.uk/ols/beta/ontologies/" + term.getOntologyName()+"/terms?iri=" + term.getIri().getIdentifier();
+        return accessionNumberWithLink;
 
     }
 }

@@ -1,6 +1,10 @@
 package no.uib.olsdialog;
 
+import uk.ac.pride.ols.web.service.model.Identifier;
+import uk.ac.pride.ols.web.service.model.Term;
+
 import java.awt.Window;
+import java.util.List;
 import java.util.Map;
 
 /**
@@ -28,8 +32,8 @@ public interface OLSInputable {
      * @param metadata the metadata associated with the current term (can be
      * null or empty)
      */
-    public void insertOLSResult(String field, String selectedValue, String accession,
-            String ontologyShort, String ontologyLong, int modifiedRow, String mappedTerm, Map<String, String> metadata);
+    public void insertOLSResult(String field, Term selectedValue, Term accession,
+            String ontologyShort, String ontologyLong, int modifiedRow, String mappedTerm, List<String> metadata);
 
     /**
      * Returns a reference to the frame or dialog to where the information is
