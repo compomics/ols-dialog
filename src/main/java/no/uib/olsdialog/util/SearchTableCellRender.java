@@ -16,20 +16,43 @@ public class SearchTableCellRender implements TableCellRenderer {
     public static final DefaultTableCellRenderer DEFAULT_RENDERER =
             new DefaultTableCellRenderer();
 
+    private String selectedRowFontColor;
+    private String notSelectedRowFontColor;
+
+
+    public SearchTableCellRender(String selectedRowFontColor, String notSelectedRowFontColor) {
+        this.selectedRowFontColor = selectedRowFontColor;
+        this.notSelectedRowFontColor = notSelectedRowFontColor;
+    }
+
     @Override
     public Component getTableCellRendererComponent(JTable table, Object value, boolean isSelected, boolean hasFocus, int row, int column) {
-        Component component;
+        JLabel label = (JLabel)(new DefaultTableCellRenderer()).getTableCellRendererComponent(table, value, isSelected, hasFocus, row, column);
+        Color bg = label.getBackground();
+        label.setBackground(new Color(bg.getRed(), bg.getGreen(), bg.getBlue()));
         if(column == 0){
-            component = new JLabel(Util.getOlsAccessionLink((Term) value));
+            label.setText(Util.getOlsAccessionLink((Term) value));
         }else if(column == 1){
             Term term = (Term) value;
             String description = (term != null && term.getLabel() != null)? term.getLabel(): term.getGlobalId().getIdentifier();
-            component = new JLabel(description);
-        } else{
-            component =
-                    DEFAULT_RENDERER.getTableCellRendererComponent(table, value,
-                            isSelected, hasFocus, row, column);
+            label.setText(description);
         }
-        return component;
+        return label;
     }
+
+//    public Component getTableCellRendererComponent(JTable table, Object value, boolean isSelected, boolean hasFocus, int row, int column) {
+//
+//        String link = (String)value;
+//        if(link != null) {
+//            if(isSelected) {
+//                link = link.replace(this.notSelectedRowFontColor, this.selectedRowFontColor);
+//            } else {
+//                link = link.replace(this.selectedRowFontColor, this.notSelectedRowFontColor);
+//            }
+//
+//            label.setText(link);
+//        }
+//
+//        return label;
+//    }
 }
