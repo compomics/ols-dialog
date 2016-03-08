@@ -664,7 +664,7 @@ public class OLS_Example extends javax.swing.JFrame implements OLSInputable {
      * @param ontology
      */
     public void setModification(Term name, Term accession, String ontology) {
-        modificationJTextField.setText(name + " [" + accession + "]");
+        modificationJTextField.setText(name.getLabel() + " [" + accession.getGlobalId().getIdentifier() + "]");
         modificationJTextField.setCaretPosition(0);
     }
 

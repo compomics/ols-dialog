@@ -1,6 +1,7 @@
 package no.uib.olsdialog.util;
 
 import no.uib.olsdialog.OLSDialog;
+import org.apache.commons.lang3.StringUtils;
 import uk.ac.pride.utilities.ols.web.service.model.Identifier;
 import uk.ac.pride.utilities.ols.web.service.model.Term;
 
@@ -333,7 +334,7 @@ public class TreeBrowser extends JPanel implements TreeSelectionListener, TreeMo
         public String toString() {
             String nodeString = "";
             if(term != null && term.getGlobalId() != null)
-                nodeString += term.getGlobalId().getIdentifier().toUpperCase();
+                nodeString += StringUtils.capitalize(term.getLabel()) + " [ " + term.getGlobalId().getIdentifier().toUpperCase() + " ]";
             else if(term != null && term.getGlobalId() == null && term.getLabel() != null)
                 nodeString += term.getLabel();
             else if(term != null && term.getOntologyName() != null)
