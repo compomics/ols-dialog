@@ -18,11 +18,11 @@ import javax.swing.table.DefaultTableColumnModel;
 import javax.swing.table.TableCellRenderer;
 import javax.swing.table.TableColumn;
 import org.springframework.web.client.RestClientException;
-import uk.ac.pride.ols.web.service.client.OLSClient;
-import uk.ac.pride.ols.web.service.config.OLSWsConfigDev;
-import uk.ac.pride.ols.web.service.model.Identifier;
-import uk.ac.pride.ols.web.service.model.Ontology;
-import uk.ac.pride.ols.web.service.model.Term;
+import uk.ac.pride.utilities.ols.web.service.client.OLSClient;
+import uk.ac.pride.utilities.ols.web.service.config.OLSWsConfigDev;
+import uk.ac.pride.utilities.ols.web.service.model.Identifier;
+import uk.ac.pride.utilities.ols.web.service.model.Ontology;
+import uk.ac.pride.utilities.ols.web.service.model.Term;
 
 /**
  * A dialog for interacting with the Ontology Lookup Service OLS. This version is based in the original implementation by
@@ -2440,72 +2440,29 @@ public class OLSDialog extends javax.swing.JDialog {
 
         if (termId != null) {
 
-//            // remove the link details
-//            if (searchTypeJTabbedPane.getSelectedIndex() != OLS_DIALOG_BROWSE_ONTOLOGY) {
-//                termId = termId.substring(termId.indexOf("termId=") + "termId=".length());
-//                termId = termId.substring(0, termId.indexOf("\""));
-//            }
+            Term selectedValue = olsConnection.getTermById(termId.getGlobalId(), termId.getOntologyName());
+            Ontology ontologyComplete = olsConnection.getOntology(termId.getOntologyName());
+            String ontologyLong = ontologyComplete.getName() + "[" + ontologyComplete.getId() + "]";
 
-            String ontologyLong = ((String) ontologyJComboBox.getSelectedItem());
-            String ontologyShort;
-
-            if (ontologyJComboBox.getSelectedIndex() == 0 || isPreselectedOption() == true) {
-
-                ontologyShort = getOntologyLabelFromTermId(termId);
-
-                if (ontologyShort == null) {
-                    ontologyShort = "NEWT";
-                    ontologyLong = "NEWT UniProt Taxonomy Database [NEWT]";
-                } else {
-
-                    try {
-                        List<Ontology> ontologies = olsConnection.getOntologies();
-                        ontologies = Util.refineOntologyNames(ontologies);
-                        Ontology ontology = Util.findOntology(ontologies, ontologyShort);
-                        ontologyLong = ontology.getName() + "[" + ontologyShort + "]"; // @TODO: possible null pointer...
-                    } catch (RestClientException ex) {
-                        JOptionPane.showMessageDialog(
-                                this,
-                                defaultOlsConnectionFailureErrorMessage,
-                                "OLS Connection Error", JOptionPane.ERROR_MESSAGE);
-                        Util.writeToErrorLog("Error when trying to access OLS: ");
-                        ex.printStackTrace();
-                        ontologyLong = "unknown";
-                    } catch (Exception e) {
-                        JOptionPane.showMessageDialog(
-                                this,
-                                "There seems to be a technical issue with the given term.\n"
-                                        + "Try choosing a related similar term instead.",
-                                "OLS Error", JOptionPane.WARNING_MESSAGE);
-                        Util.writeToErrorLog("Error when trying to access OLS: ");
-                        e.printStackTrace();
-                        ontologyLong = "unknown";
-                        return;
-                    }
-                }
-            } else {
-                ontologyShort = ontologyLong.substring(ontologyLong.lastIndexOf("[") + 1, ontologyLong.length() - 1);
+            //insert the value into the correct text field or table
+            if (olsInputable != null) {
+                olsInputable.insertOLSResult(field, selectedValue, selectedValue, ontologyComplete.getId() , ontologyLong, modifiedRow, mappedTerm, metadata);
+                this.setVisible(false);
+                this.dispose();
             }
+        }else if(ontologyName != null && ontologyName.getGlobalId() != null){
 
-            try {
-                Term selectedValue = olsConnection.getTermById(termId.getGlobalId(), ontologyShort);
+            Term selectedValue = olsConnection.getTermById(ontologyName.getGlobalId(), ontologyName.getOntologyName());
+            Ontology ontologyComplete = olsConnection.getOntology(ontologyName.getOntologyName());
+            String ontologyLong = ontologyComplete.getName() + "[" + ontologyComplete.getId() + "]";
 
-                //insert the value into the correct text field or table
-                if (olsInputable != null) {
-                    olsInputable.insertOLSResult(field, selectedValue, termId, ontologyShort, ontologyLong, modifiedRow, mappedTerm, metadata);
-                    this.setVisible(false);
-                    this.dispose();
-                }
-            } catch (RestClientException ex) {
-                JOptionPane.showMessageDialog(
-                        this,
-                        defaultOlsConnectionFailureErrorMessage,
-                        "OLS Connection Error", JOptionPane.ERROR_MESSAGE);
-                Util.writeToErrorLog("Error when trying to access OLS: ");
-                ex.printStackTrace();
+            //insert the value into the correct text field or table
+            if (olsInputable != null) {
+                olsInputable.insertOLSResult(field, selectedValue, selectedValue, ontologyComplete.getId() , ontologyLong, modifiedRow, mappedTerm, metadata);
+                this.setVisible(false);
+                this.dispose();
             }
         }
-
         this.setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
     }//GEN-LAST:event_insertSelectedJButtonActionPerformed
 

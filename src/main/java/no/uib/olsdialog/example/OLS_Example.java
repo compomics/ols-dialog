@@ -15,11 +15,10 @@ import javax.swing.JOptionPane;
 import javax.swing.UIManager;
 import javax.swing.table.DefaultTableModel;
 
-import com.sun.xml.internal.xsom.impl.Ref;
 import no.uib.olsdialog.OLSDialog;
 import no.uib.olsdialog.OLSInputable;
-import uk.ac.pride.ols.web.service.model.Identifier;
-import uk.ac.pride.ols.web.service.model.Term;
+import uk.ac.pride.utilities.ols.web.service.model.Identifier;
+import uk.ac.pride.utilities.ols.web.service.model.Term;
 
 /**
  * An example of how the OLS Dialog can be used.
@@ -676,7 +675,7 @@ public class OLS_Example extends javax.swing.JFrame implements OLSInputable {
      * @param ontology
      */
     public void setInstrumentSource(Term name, Term accession, String ontology) {
-        instrumentSourceJTextField.setText(name + " [" + accession + "]");
+        instrumentSourceJTextField.setText(name.getLabel() + " [" + accession.getGlobalId().getIdentifier() + "]");
         instrumentSourceJTextField.setCaretPosition(0);
     }
 
@@ -687,7 +686,7 @@ public class OLS_Example extends javax.swing.JFrame implements OLSInputable {
      * @param ontology
      */
     public void setInstrumentDetector(Term name, Term accession, String ontology) {
-        instrumentDetectorJTextField.setText(name + " [" + accession + "]");
+        instrumentDetectorJTextField.setText(name.getLabel() + " [" + accession.getGlobalId().getIdentifier() + "]");
         instrumentDetectorJTextField.setCaretPosition(0);
     }
 
@@ -725,11 +724,11 @@ public class OLS_Example extends javax.swing.JFrame implements OLSInputable {
             ((DefaultTableModel) this.processingMethodsJTable.getModel()).addRow(
                     new Object[]{
                         new Integer(processingMethodsJTable.getRowCount() + 1),
-                        name + " [" + accession + "]", value
+                        name.getLabel() + " [" + accession.getGlobalId().getIdentifier() + "]", value
                     });
 
         } else {
-            processingMethodsJTable.setValueAt(name + " [" + accession + "]", modifiedRow, 1);
+            processingMethodsJTable.setValueAt(name.getLabel() + " [" + accession.getGlobalId().getIdentifier() + "]", modifiedRow, 1);
             processingMethodsJTable.setValueAt(null, modifiedRow, 2);
         }
     }

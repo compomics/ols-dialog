@@ -1,11 +1,9 @@
 package no.uib.olsdialog;
 
-import uk.ac.pride.ols.web.service.model.Identifier;
-import uk.ac.pride.ols.web.service.model.Term;
+import uk.ac.pride.utilities.ols.web.service.model.Term;
 
 import java.awt.Window;
 import java.util.List;
-import java.util.Map;
 
 /**
  * An interface for easy interaction with the OLSDialog

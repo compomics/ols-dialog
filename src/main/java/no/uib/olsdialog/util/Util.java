@@ -1,13 +1,10 @@
 package no.uib.olsdialog.util;
 
-import uk.ac.pride.ols.web.service.model.Identifier;
-import uk.ac.pride.ols.web.service.model.Ontology;
-import uk.ac.pride.ols.web.service.model.Term;
+import uk.ac.pride.utilities.ols.web.service.model.Ontology;
+import uk.ac.pride.utilities.ols.web.service.model.Term;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 /**
  * Includes help methods that are used by the other classes.

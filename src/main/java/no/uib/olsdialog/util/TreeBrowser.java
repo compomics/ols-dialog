@@ -1,8 +1,8 @@
 package no.uib.olsdialog.util;
 
 import no.uib.olsdialog.OLSDialog;
-import uk.ac.pride.ols.web.service.model.Identifier;
-import uk.ac.pride.ols.web.service.model.Term;
+import uk.ac.pride.utilities.ols.web.service.model.Identifier;
+import uk.ac.pride.utilities.ols.web.service.model.Term;
 
 import javax.swing.*;
 import javax.swing.event.*;
