@@ -843,7 +843,7 @@ public class OLSDialog extends javax.swing.JDialog {
                 // note that "definition" is handled separatly
                 String descriptionText = "";
                 for (Iterator i = metadata.iterator(); i.hasNext();) {
-                    descriptionText += (String) i.next() + "\n";
+                    descriptionText += i.next() + "\n";
                 }
                 currentDefinitionsJTextPane.setText("Definition: " + descriptionText);
                 currentDefinitionsJTextPane.setCaretPosition(0);
@@ -2235,7 +2235,7 @@ public class OLSDialog extends javax.swing.JDialog {
         this.setCursor(new java.awt.Cursor(java.awt.Cursor.WAIT_CURSOR));
 
         // insert the ontology label into the term id search field
-        if (ontologyJComboBox.getSelectedIndex() != 0 && isPreselectedOption() == false) {
+        if (ontologyJComboBox.getSelectedIndex() != 0 && !isPreselectedOption()) {
             if (getCurrentOntologyLabel().equalsIgnoreCase("EFO")) {
                 termIdSearchJTextField.setText(getCurrentOntologyLabel() + "_");
             } else if (getCurrentOntologyLabel().equalsIgnoreCase("NEWT")) {
@@ -2262,7 +2262,7 @@ public class OLSDialog extends javax.swing.JDialog {
                 insertSelectedJButton.setEnabled(false);
 
                 // disable the 'browse ontology' tab when 'search in all ontologies' or 'NEWT' is selected or 'search in preselected ontologies'
-                if (ontologyJComboBox.getSelectedIndex() == 0 || getCurrentOntologyLabel().equalsIgnoreCase("NEWT") || isPreselectedOption() == true) {
+                if (ontologyJComboBox.getSelectedIndex() == 0 || getCurrentOntologyLabel().equalsIgnoreCase("NEWT") || isPreselectedOption()) {
                     searchTypeJTabbedPane.setEnabledAt(OLS_DIALOG_BROWSE_ONTOLOGY, false);
 
                     // move away from the 'browse ontology' tab if it is disabled and selected
@@ -2359,7 +2359,7 @@ public class OLSDialog extends javax.swing.JDialog {
                             }
 
                             List<Term> map = new ArrayList<Term>();
-                            if (isPreselectedOption() == true) {
+                            if (isPreselectedOption()) {
                                 // Ontology terms for preselected Ontologies
                                 for (String preselectedOntology : preselectedOntologies.keySet()) {
                                     map.addAll(olsConnection.getTermsByName(termNameSearchJTextField.getText(), preselectedOntology.toUpperCase(), false));

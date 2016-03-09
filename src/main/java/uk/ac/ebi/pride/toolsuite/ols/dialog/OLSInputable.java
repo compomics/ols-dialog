@@ -30,8 +30,8 @@ public interface OLSInputable {
      * @param metadata the metadata associated with the current term (can be
      * null or empty)
      */
-    public void insertOLSResult(String field, Term selectedValue, Term accession,
-            String ontologyShort, String ontologyLong, int modifiedRow, String mappedTerm, List<String> metadata);
+    void insertOLSResult(String field, Term selectedValue, Term accession,
+                         String ontologyShort, String ontologyLong, int modifiedRow, String mappedTerm, List<String> metadata);
 
     /**
      * Returns a reference to the frame or dialog to where the information is
@@ -40,5 +40,5 @@ public interface OLSInputable {
      *
      * @return a reference to the frame or dialog
      */
-    public Window getWindow();
+    Window getWindow();
 }

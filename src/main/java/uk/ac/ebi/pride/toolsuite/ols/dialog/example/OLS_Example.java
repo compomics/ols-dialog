@@ -652,8 +652,8 @@ public class OLS_Example extends javax.swing.JFrame implements OLSInputable {
      * accending order starting from one
      */
     private void fixProcessingMethodsIndices() {
-        for (int row = 0; row < ((DefaultTableModel) processingMethodsJTable.getModel()).getRowCount(); row++) {
-            ((DefaultTableModel) processingMethodsJTable.getModel()).setValueAt(new Integer(row + 1), row, 0);
+        for (int row = 0; row < processingMethodsJTable.getModel().getRowCount(); row++) {
+            processingMethodsJTable.getModel().setValueAt(new Integer(row + 1), row, 0);
         }
     }
 
@@ -784,7 +784,7 @@ public class OLS_Example extends javax.swing.JFrame implements OLSInputable {
      * @see OLSInputable
      */
     public Window getWindow() {
-        return (Window) this;
+        return this;
     }
 
     /**

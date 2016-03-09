@@ -9,16 +9,19 @@
   * [Screenshots](#screenshots)
 
 **OLS Dialog Publications:**
+
   * [Barsnes et al: BMC Bioinformatics 2010 Jan 17;11:34](http://www.ncbi.nlm.nih.gov/pubmed/20078892).
-  * If you use **OLS Dialog** as part of a paper, please include the reference above.
+  * [Perez-Riverol et al: Molecular & Cellular Proteomics 15.1 (2016): 305-317.](http://www.ncbi.nlm.nih.gov/pubmed/26545397)
+  * If you use **OLS Dialog** as part of a paper, please include the references above.
 
 ---
 
 ## What is OLS Dialog? 
 
-**OLS Dialog** is a Java front end to the [Ontology Lookup Service](http://www.ebi.ac.uk/ontology-lookup) allowing easy access to an extensive list of biomedical ontologies (see [supported ontologies](http://www.ebi.ac.uk/ontology-lookup/ontologyList.do) for a complete list).
+**OLS Dialog** is a Java front end to the [Ontology Lookup Service](http://www.ebi.ac.uk/ols/) allowing easy access to an extensive list of biomedical ontologies (see [supported ontologies](http://www.ebi.ac.uk/ols/) for a complete list).
 
-**OLS Dialog** is a subproject of the [PRIDE Converter](https://github.com/compomics/pride-converter) project. Making **OLS Dialog** a standalone project is done to make it more easily available for other projects.
+**OLS Dialog** is a tolo part of the PRIDE Toolsuite including major projects like [PRIDE Converter 2](https://github.com/PRIDE-Toolsuite/pride-converter-2), [PRIDE Inspector] (https://github.com/PRIDE-Toolsuite/pride-inspector).
+ and [PX Submission Tool] (https://github.com/proteomexchange/px-submission-tool) Making **OLS Dialog** a standalone project is done to make it more easily available for other projects.
 
 Five ways of searching the **OLS Dialog** is supported. See [Search Options](#search-options).
 
@@ -34,6 +37,7 @@ Five ways of searching the **OLS Dialog** is supported:
   * [Term Hierarchy Graph](#term-hierarchy-graph)
 
 ### Term Name Search 
+
 Term Name Search simply finds all terms having term names that (partially) match the insert search term. Insert the first letters of the name of the term to locate in the search field. Note that the search is in "real time". Meaning that a new search is started (and the result list updated) for every character typed. The number behind the search field is the number of currently matching terms.
 
 Note that in some cases a complete search is not performed until at least four characters have been inserted. If the wanted term is not found, make sure that at least four characters have been inserted.
@@ -47,6 +51,7 @@ For an example see the [Screenshots](#screenshots) section.
 [Go to top of page](#ols-dialog)
 
 ### Term ID Search 
+
 Term ID Search allows you the locate a given term and its details by inserting the term id, e.g., MOD:00425 or GO:0000269.
 
 The results are displayed and selected in the same way as for results from a [Term Name Search](#term-name-search).
@@ -56,6 +61,7 @@ For an example see the [Screenshots](#screenshots) section.
 [Go to top of page](#ols-dialog)
 
 ### PSI MOD Mass Search 
+
 PSI MOD Mass Search allows you to search the PSI-MOD ontology for specific modifications using the mass of the modification. There are four different mass types: DiffAvg and DiffMono corresponding to the average and mono mass of the mass change the modifications results in, and MassAvg and MassMono corresponding to the mass of the modified residue.
 
 Insert the mass, the mass accuracy and the mass type and click on "Search" to perform the search. The results are displayed and selected in the same way as for results from a [Term Name Search](#term-name-search).
@@ -65,6 +71,7 @@ For an example see the [Screenshots](#screenshots) section.
 [Go to top of page](#ols-dialog)
 
 ### Browse Ontology
+
 Browse Ontology makes it possible to find the wanted term by browsing the selected ontology. The ontology is displayed using a tree structure where the relationships between the terms are highlighted. When selecting a term in the tree, details about the selected term is displayed in the "Term Details" section.
 
 The results are selected and used in the same way as for results from a [Term Name Search](#term-name-search).
@@ -73,12 +80,6 @@ For an example see the [Screenshots](#screenshots) section.
 
 [Go to top of page](#old-dialog)
 
-### Term Hierarchy Graph 
-In addition to the four general search options, it is also possible to view the term hierarchy of a selected term. When a term is selected simply click the `View Term Hierarchy` link on top and to the right of the selected terms definition text area. This will display the selected terms term hierarchy as a directed acyclic graph.
-
-For an example see the [Screenshots](#screenshots) section.
-
-[Go to top of page](#ols-dialog)
 
 ---
 
@@ -124,7 +125,7 @@ For questions or additional help, please contact the authors or, if appropriate,
 
 ```
 <dependency>
-    <groupId>no.uib</groupId>
+    <groupId>uk.ac.ebi.pride.toolsuite</groupId>
     <artifactId>ols-dialog</artifactId>
     <version>X.Y.Z</version>
 </dependency>
@@ -151,6 +152,5 @@ Update the version number to latest released version.
 [![](https://github.com/compomics/ols-dialog/wiki/images/screenshots/olsDialog\_termIdSearch\_small.PNG)](https://github.com/compomics/ols-dialog/wiki/images/screenshots/olsDialog_termIdSearch.PNG)
 [![](https://github.com/compomics/ols-dialog/wiki/images/screenshots/olsDialog\_massSearch\_small.PNG)](https://github.com/compomics/ols-dialog/wiki/images/screenshots/olsDialog_massSearch.PNG)
 [![](https://github.com/compomics/ols-dialog/wiki/images/screenshots/olsDialog\_browseOntology\_small.PNG)](https://github.com/compomics/ols-dialog/wiki/images/screenshots/olsDialog_browseOntology.PNG)
-[![](https://github.com/compomics/ols-dialog/wiki/images/screenshots/olsDialog\_termHierarcy\_small.PNG)](https://github.com/compomics/ols-dialog/wiki/images/screenshots/olsDialog_termHierarcy.PNG)
 
 [Go to top of page](#ols-dialog)

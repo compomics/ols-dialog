@@ -15,8 +15,6 @@ import java.util.List;
  */
 public final class Util {
 
-    private static String notSelectedRowHtmlTagFontColor = "#0101DF";
-
     /**
      * Makes sure that all writing to the ErrorLog has a uniform appearance.
      * <p>
@@ -72,15 +70,14 @@ public final class Util {
      * @return the OLS web link
      */
     public static String getOlsAccessionLink(Term term) {
-        String accessionNumberWithLink = "<html><a href=\"http://www.ebi.ac.uk/ols/beta/ontologies/" + term.getOntologyName()+"/terms?iri=" + term.getIri() + "\""
+        String notSelectedRowHtmlTagFontColor = "#0101DF";
+        return "<html><a href=\"http://www.ebi.ac.uk/ols/beta/ontologies/" + term.getOntologyName()+"/terms?iri=" + term.getIri() + "\""
                 + "\"><font color=\"" + notSelectedRowHtmlTagFontColor + "\">"
                 + term.getGlobalId().getIdentifier() + "</font></a></html>";
-        return accessionNumberWithLink;
     }
 
     public static String getOlsTermLink(Term term){
-        String accessionNumberWithLink = "http://www.ebi.ac.uk/ols/beta/ontologies/" + term.getOntologyName()+"/terms?iri=" + term.getIri().getIdentifier();
-        return accessionNumberWithLink;
+        return "http://www.ebi.ac.uk/ols/beta/ontologies/" + term.getOntologyName()+"/terms?iri=" + term.getIri().getIdentifier();
 
     }
 }
