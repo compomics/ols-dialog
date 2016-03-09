@@ -17,7 +17,7 @@
   * [Maven Dependency](#maven-dependency)
   * [Screenshots](#screenshots)
 
-**OLS Dialog Publications:**
+## OLS Dialog Publication:
   * [Barsnes et al: BMC Bioinformatics 2010 Jan 17;11:34](http://www.ncbi.nlm.nih.gov/pubmed/20078892).
   * If you use **OLS Dialog** as part of a paper, please include the reference above.
 
