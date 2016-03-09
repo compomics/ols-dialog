@@ -807,6 +807,7 @@ public class OLSDialog extends javax.swing.JDialog {
             Map<String, String> xRefs = null;
             Map<String, String> oboSynonyms = null;
             String label = null;
+            Map<String, List<String>> annotations = null;
 
             //query OLS
             try {
@@ -814,6 +815,7 @@ public class OLSDialog extends javax.swing.JDialog {
                 label = term.getLabel();
                 xRefs = olsConnection.getTermXrefs(term.getGlobalId(), ontology);
                 oboSynonyms =  olsConnection.getOBOSynonyms(term.getGlobalId(), ontology);
+                annotations = olsConnection.getAnnotations(term.getTermOBOId(), ontology);
             } catch (RestClientException ex) {
                 JOptionPane.showMessageDialog(
                         this,
@@ -880,6 +882,15 @@ public class OLSDialog extends javax.swing.JDialog {
 
                     ((DefaultTableModel) currentTermDetailsJTable.getModel()).addRow(
                             new Object[]{"synonym:", key});
+                }
+            }
+            if(annotations != null && (searchType == OLS_DIALOG_TERM_NAME_SEARCH || searchType == OLS_DIALOG_TERM_ID_SEARCH)){
+                for (Iterator i = annotations.keySet().iterator(); i.hasNext();) {
+                    String key = (String) i.next();
+                    for(String value: annotations.get(key))
+                         if(value != null && !value.isEmpty())
+                             ((DefaultTableModel) currentTermDetailsJTable.getModel()).addRow(
+                            new Object[]{key, value});
                 }
             }
                 // set the horizontal scroll bar to the top
