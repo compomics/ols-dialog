@@ -185,7 +185,7 @@
                 <configuration>
                     <archive>
                         <manifest>
-                            <mainClass>no.uib.olsdialog.example.OLS_Example</mainClass>
+                            <mainClass>OLS_Example</mainClass>
                             <addClasspath>true</addClasspath>
                             <classpathPrefix>lib</classpathPrefix>
                         </manifest>
