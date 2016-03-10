@@ -273,8 +273,6 @@
     </distributionManagement>
 
 
-
-
     <scm>
         <connection>scm:git:github.com/PRIDE-Toolsuite/ols-dialog.git</connection>
         <developerConnection>scm:git:git@github.com/PRIDE-Toolsuite/ols-dialog.git</developerConnection>

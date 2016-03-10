@@ -132,9 +132,14 @@ For questions or additional help, please contact the authors or, if appropriate,
 ```
 ```
 <repository>
-    <id>ebi-repo</id>
-    <name>The EBI Maven2 repository</name>
-    <url>http://www.ebi.ac.uk/~maven/m2repo</url>
+        <id>nexus-ebi-repo</id>
+        <name>The EBI internal repository</name>
+        <url>http://www.ebi.ac.uk/intact/maven/nexus/content/repositories/ebi-repo/</url>
+        <releases>
+        </releases>
+        <snapshots>
+            <enabled>false</enabled>
+        </snapshots>
 </repository>
 ```
 
