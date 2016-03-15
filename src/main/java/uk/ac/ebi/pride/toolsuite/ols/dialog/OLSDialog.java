@@ -3229,24 +3229,17 @@ public class OLSDialog extends javax.swing.JDialog {
     private void olsResultsTermNameSearchJTableMouseReleased(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_olsResultsTermNameSearchJTableMouseReleased
         int row = olsResultsTermNameSearchJTable.rowAtPoint(evt.getPoint());
         int column = olsResultsTermNameSearchJTable.columnAtPoint(evt.getPoint());
-
         if (row != -1) {
             if (column == olsResultsTermNameSearchJTable.getColumn("Accession").getModelIndex()) {
                 // open protein link in web browser
                 if (column == olsResultsTermNameSearchJTable.getColumn("Accession").getModelIndex() && evt != null && evt.getButton() == MouseEvent.BUTTON1) {
-                    if (((String) olsResultsTermNameSearchJTable.getValueAt(row, column)).lastIndexOf("<html>") != -1) {
-                        String link = (String) olsResultsTermNameSearchJTable.getValueAt(row, column);
-                        link = link.substring(link.indexOf("\"") + 1);
-                        link = link.substring(0, link.indexOf("\""));
-
-                        this.setCursor(new java.awt.Cursor(java.awt.Cursor.WAIT_CURSOR));
-                        BareBonesBrowserLaunch.openURL(link);
-                        this.setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
-                    }
+                    this.setCursor(new java.awt.Cursor(java.awt.Cursor.WAIT_CURSOR));
+                    BareBonesBrowserLaunch.openURL(((Term) olsResultsTermNameSearchJTable.getValueAt(row, column)).getIri().getIdentifier());
+                    this.setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
                 }
             }
         }
-    }//GEN-LAST:event_olsResultsTermNameSearchJTableMouseReleased
+    }
 
     /**
      * Open the accession number link in the web browser.
