@@ -41,6 +41,7 @@ public class OLSDialog extends javax.swing.JDialog {
      * Set to true of debug output is wanted.
      */
     public static final boolean debug = false;
+    public static final String SEARCH_IN_ALL_ONTOLOGIES_AVAILABLE_IN_THE_OLS_REGISTRY = "-- Search in All Ontologies available in the OLS registry --";
     /**
      * The name of the field to insert the results into.
      */
@@ -1008,24 +1009,15 @@ public class OLSDialog extends javax.swing.JDialog {
      * @return false if an error occurred, true otherwise
      */
     private boolean openOlsConnectionAndInsertOntologyNames() {
-
         boolean error = false;
-
         Vector ontologyNamesAndKeys = new Vector();
-
-        preselectedNames2Ids = new HashMap<String, Identifier>();
-
+        preselectedNames2Ids = new HashMap();
         try {
-//            QueryService locator = new QueryServiceLocator();
-//            olsConnection = locator.getOntologyQuery();
             olsConnection = new OLSClient(new OLSWsConfigDev());
             List<Ontology> ontologies = olsConnection.getOntologies();
             ontologies = Util.refineOntologyNames(ontologies);
-
             String ontologyToSelect = "";
-
-            for (Iterator i = ontologies.iterator(); i.hasNext();) {
-                Ontology ontology = (Ontology) i.next();
+            for (Ontology ontology : Util.refineOntologyNames(ontologies)) {
                 String key = ontology.getId();
                 String temp = ontology.getName() + " [" + key + "]";
                 if (preselectedOntologies.isEmpty()) {
@@ -1034,71 +1026,39 @@ public class OLSDialog extends javax.swing.JDialog {
                     if (preselectedOntologies.keySet().contains(key.toLowerCase())) {
                         if (preselectedOntologies.get(key.toUpperCase()) == null) {
                             ontologyNamesAndKeys.add(temp);
-                        } else {
-                            for (Identifier ontologyTermId : preselectedOntologies.get(key.toLowerCase())) {
-                                Term term = olsConnection.getTermById(ontologyTermId, key);
-//                                String suffix = ontologyTermName;
-//                                if (ontologyTermName == null) {
-//                                    suffix = ontologyTermId;
-//                                } else if (ontologyTermName.length() == 0) {
-//                                    suffix = ontologyTermId;
-//                                }
-//                                String ontologyName = temp + " / " + suffix;
-//                                if (selectedOntology.equalsIgnoreCase(ontologyName)) {
-//                                    ontologyToSelect = ontologyName;
-//                                }
-//                                ontologyNamesAndKeys.add(ontologyName);
-//                                preselectedNames2Ids.put(suffix, ontologyTermId);
-                            }
                         }
                     }
                 }
-
                 if (selectedOntology.equalsIgnoreCase(temp) || selectedOntology.equalsIgnoreCase(key)) {
                     ontologyToSelect = temp;
                 }
             }
-            //check all preselected ontologies have been found in OLS
             if (!preselectedOntologies.isEmpty()) {
                 if (preselectedOntologies.size() != ontologyNamesAndKeys.size()) {
-                    String msg = "Warning: One or more of your preselected ontologies have not been found in OLS";
-                    Util.writeToErrorLog(msg);
+                    Util.writeToErrorLog("Warning: One or more of your preselected ontologies have not been found in OLS");
                 }
             }
-
-            // sort the ontologies into alphabetic ascending order
-            java.util.Collections.sort(ontologyNamesAndKeys);
-
-            ontologyNamesAndKeys.add(0, "-- Search in All Ontologies available in the OLS registry --");
+            Collections.sort(ontologyNamesAndKeys);
+            ontologyNamesAndKeys.add(0, SEARCH_IN_ALL_ONTOLOGIES_AVAILABLE_IN_THE_OLS_REGISTRY);
             if (preselectedOntologies.size() > 1) {
                 ontologyNamesAndKeys.add(1, "-- Search in these preselected Ontologies --");
             }
-
             ontologyJComboBox.setModel(new DefaultComboBoxModel(ontologyNamesAndKeys));
             //default selected ontology. Has to be the same name shown in the menu
             ontologyJComboBox.setSelectedItem(ontologyToSelect);
-
             hideOrShowNewtLinks();
-
             lastSelectedOntology = (String) ontologyJComboBox.getSelectedItem();
         } catch (RestClientException ex) {
-            JOptionPane.showMessageDialog(
-                    this,
-                    defaultOlsConnectionFailureErrorMessage,
-                    "Failed to Contact the OLS", JOptionPane.ERROR_MESSAGE);
+            JOptionPane.showMessageDialog(this, defaultOlsConnectionFailureErrorMessage, "Failed to Contact the OLS", JOptionPane.ERROR_MESSAGE);
             Util.writeToErrorLog("Error when trying to access OLS: ");
             ex.printStackTrace();
             error = true;
         } catch (Exception ex) {
-            JOptionPane.showMessageDialog(
-                    this,
-                    defaultOlsConnectionFailureErrorMessage,
-                    "Failed to Contact the OLS", JOptionPane.ERROR_MESSAGE);
+            JOptionPane.showMessageDialog(this, defaultOlsConnectionFailureErrorMessage, "Failed to Contact the OLS", JOptionPane.ERROR_MESSAGE);
             Util.writeToErrorLog("Error when trying to access OLS: ");
             ex.printStackTrace();
             error = true;
         }
-
         return error;
     }
 
@@ -2284,6 +2244,9 @@ public class OLSDialog extends javax.swing.JDialog {
 
                 } else {
                     searchTypeJTabbedPane.setEnabledAt(OLS_DIALOG_BROWSE_ONTOLOGY, true);
+                    if (searchTypeJTabbedPane.getSelectedIndex() == OLS_DIALOG_BROWSE_ONTOLOGY) {
+                        updateBrowseOntologyView();
+                    }
                 }
 
                 // set the focus
@@ -2298,7 +2261,6 @@ public class OLSDialog extends javax.swing.JDialog {
 
                 // update the searches
                 termNameSearchJTextFieldKeyReleased(null);
-                updateBrowseOntologyView();
                 clearData(OLS_DIALOG_TERM_ID_SEARCH, true, true);
 
                 viewTermHierarchyTermNameSearchJLabel.setEnabled(false);
@@ -2735,6 +2697,7 @@ public class OLSDialog extends javax.swing.JDialog {
             insertSelectedJButton.setEnabled(currentlySelectedBrowseOntologyAccessionNumber != null);
             ontologyJComboBox.setSelectedItem(lastSelectedOntology);
             ontologyJComboBox.setEnabled(true);
+            updateBrowseOntologyView();
         } else if (searchTypeJTabbedPane.getSelectedIndex() == OLS_DIALOG_TERM_NAME_SEARCH) {
             insertSelectedJButton.setEnabled(currentlySelectedTermNameSearchAccessionNumber != null);
             ontologyJComboBox.setSelectedItem(lastSelectedOntology);
@@ -3232,9 +3195,9 @@ public class OLSDialog extends javax.swing.JDialog {
         if (row != -1) {
             if (column == olsResultsTermNameSearchJTable.getColumn("Accession").getModelIndex()) {
                 // open protein link in web browser
-                if (column == olsResultsTermNameSearchJTable.getColumn("Accession").getModelIndex() && evt != null && evt.getButton() == MouseEvent.BUTTON1) {
+                if (column == olsResultsTermNameSearchJTable.getColumn("Accession").getModelIndex() && evt.getButton() == MouseEvent.BUTTON1) {
                     this.setCursor(new java.awt.Cursor(java.awt.Cursor.WAIT_CURSOR));
-                    BareBonesBrowserLaunch.openURL(((Term) olsResultsTermNameSearchJTable.getValueAt(row, column)).getIri().getIdentifier());
+                    BareBonesBrowserLaunch.openURL(Util.getOlsTermLink((Term) olsResultsTermNameSearchJTable.getValueAt(row, column)));
                     this.setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
                 }
             }
@@ -3249,15 +3212,12 @@ public class OLSDialog extends javax.swing.JDialog {
     private void olsResultsTermIdSearchJTableMouseReleased(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_olsResultsTermIdSearchJTableMouseReleased
         int row = olsResultsTermIdSearchJTable.rowAtPoint(evt.getPoint());
         int column = olsResultsTermIdSearchJTable.columnAtPoint(evt.getPoint());
-
         if (row != -1) {
             if (column == olsResultsTermIdSearchJTable.getColumn("Accession").getModelIndex()) {
-                // open protein link in web browser
-                if (column == olsResultsTermIdSearchJTable.getColumn("Accession").getModelIndex() && evt != null && evt.getButton() == MouseEvent.BUTTON1) {
+                if (column == olsResultsTermIdSearchJTable.getColumn("Accession").getModelIndex() && evt.getButton() == MouseEvent.BUTTON1) {
                     if (((Term) olsResultsTermIdSearchJTable.getValueAt(row, column)).getIri() != null) {
-                        Term term = ((Term) olsResultsTermIdSearchJTable.getValueAt(row, column));
                         this.setCursor(new java.awt.Cursor(java.awt.Cursor.WAIT_CURSOR));
-                        BareBonesBrowserLaunch.openURL(Util.getOlsTermLink(term));
+                        BareBonesBrowserLaunch.openURL(Util.getOlsTermLink(((Term) olsResultsTermIdSearchJTable.getValueAt(row, column))));
                         this.setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
                     }
                 }
@@ -3296,12 +3256,8 @@ public class OLSDialog extends javax.swing.JDialog {
      * Opens a new dialog showing the term hierarchy as a graph.
      */
     private void viewTermHierarchy() {
-
         this.setCursor(new java.awt.Cursor(java.awt.Cursor.WAIT_CURSOR));
-
         Term accession = null;
-        String ontologyName = null;
-
         if (searchTypeJTabbedPane.getSelectedIndex() == OLS_DIALOG_TERM_NAME_SEARCH) {
             accession = (Term) olsResultsTermNameSearchJTable.getValueAt(olsResultsTermNameSearchJTable.getSelectedRow(), 0);
         } else if (searchTypeJTabbedPane.getSelectedIndex() == OLS_DIALOG_BROWSE_ONTOLOGY) {
@@ -3311,13 +3267,11 @@ public class OLSDialog extends javax.swing.JDialog {
         } else if (searchTypeJTabbedPane.getSelectedIndex() == OLS_DIALOG_TERM_ID_SEARCH) {
             accession =(Term) olsResultsTermIdSearchJTable.getValueAt(olsResultsTermIdSearchJTable.getSelectedRow(), 0);
         }
-
         if (accession != null) {
             BareBonesBrowserLaunch.openURL(Util.getOlsTermLink(accession));
             //Todo here we need to create a link to the ols
             // new TermHierarchyGraphViewer(this, true, accession, selectedValue, ontology);
         }
-
         this.setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
     }
 
@@ -3458,42 +3412,40 @@ public class OLSDialog extends javax.swing.JDialog {
     }
 
     public void loadMetaOntologyData(String ontologyName, Integer olsDialogBrowseOntology) {
-
-        Ontology ontology = olsConnection.getOntology(ontologyName);
-        JTextPane currentDefinitionsJTextPane = null;
-        JTable currentTermDetailsJTable = null;
-        JScrollPane currentTermDetailsJScrollPane = null;
-
-        if (olsDialogBrowseOntology == OLS_DIALOG_BROWSE_ONTOLOGY) {
-            currentDefinitionsJTextPane = definitionBrowseOntologyJTextPane;
-            currentTermDetailsJTable = termDetailsBrowseOntologyJTable;
-            currentTermDetailsJScrollPane = termDetailsBrowseOntologyJScrollPane;
-        }
-
-        try{
-            if(ontology != null && ontology.getDescription() != null){
-                currentDefinitionsJTextPane.setText("Definition: " + ontology.getDescription());
-                currentDefinitionsJTextPane.setCaretPosition(0);
+        if (!SEARCH_IN_ALL_ONTOLOGIES_AVAILABLE_IN_THE_OLS_REGISTRY.equals(ontologyName)) {
+            Ontology ontology = olsConnection.getOntology(ontologyName);
+            JTextPane currentDefinitionsJTextPane = null;
+            JTable currentTermDetailsJTable = null;
+            if (olsDialogBrowseOntology == OLS_DIALOG_BROWSE_ONTOLOGY) {
+                currentDefinitionsJTextPane = definitionBrowseOntologyJTextPane;
+                currentTermDetailsJTable = termDetailsBrowseOntologyJTable;
             }
-            // iterate the xrefs and insert them into the table
-            if(ontology.getAnnotations() != null){
-                for (Iterator i = ontology.getAnnotations().keySet().iterator(); i.hasNext();) {
-                    String key = (String) i.next();
-
-                    ((DefaultTableModel) currentTermDetailsJTable.getModel()).addRow(
-                            new Object[]{key, ontology.getAnnotations().get(key)});
+            try {
+                if(ontology != null && ontology.getDescription() != null) {
+                    currentDefinitionsJTextPane.setText("Definition: " + ontology.getDescription());
+                    currentDefinitionsJTextPane.setCaretPosition(0);
                 }
+                // iterate the xrefs and insert them into the table
+                if(ontology.getAnnotations() != null){
+                    JTable finalCurrentTermDetailsJTable = currentTermDetailsJTable;
+                    if (finalCurrentTermDetailsJTable != null ){
+                        ontology.getAnnotations().keySet().stream().forEach(key -> ((DefaultTableModel) finalCurrentTermDetailsJTable.getModel()).addRow(new Object[]{key, ontology.getAnnotations().get(key)}));
+                    } else {
+                        JOptionPane.showMessageDialog(
+                                this,
+                                defaultOlsConnectionFailureErrorMessage,
+                                "OLS Connection Error", JOptionPane.ERROR_MESSAGE);
+                        Util.writeToErrorLog("Error when trying to access OLS: ");
+                    }
+                }
+            } catch (RestClientException ex) {
+                JOptionPane.showMessageDialog(
+                        this,
+                        defaultOlsConnectionFailureErrorMessage,
+                        "OLS Connection Error", JOptionPane.ERROR_MESSAGE);
+                Util.writeToErrorLog("Error when trying to access OLS: ");
+                ex.printStackTrace();
             }
-
-        } catch (RestClientException ex) {
-            JOptionPane.showMessageDialog(
-                    this,
-                    defaultOlsConnectionFailureErrorMessage,
-                    "OLS Connection Error", JOptionPane.ERROR_MESSAGE);
-            Util.writeToErrorLog("Error when trying to access OLS: ");
-            ex.printStackTrace();
         }
-
-
     }
 }
