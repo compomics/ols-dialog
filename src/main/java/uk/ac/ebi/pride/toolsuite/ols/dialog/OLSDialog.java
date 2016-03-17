@@ -325,23 +325,14 @@ public class OLSDialog extends javax.swing.JDialog {
             Double modificationMass, Double modificationAccuracy, Integer searchType,
             Map<String, List<Identifier>> preselectedOntologies) {
         super(parent, modal);
-
         this.olsInputable = olsInputable;
         this.field = field;
         this.selectedOntology = selectedOntology;
         this.modifiedRow = modifiedRow;
         this.mappedTerm = term;
-
-        if (preselectedOntologies == null) {
-            this.preselectedOntologies = new HashMap<String, List<Identifier>>();
-        } else {
-            this.preselectedOntologies = preselectedOntologies;
-        }
-
+        this.preselectedOntologies = (preselectedOntologies==null ? new HashMap() : preselectedOntologies);
         setUpFrame(searchType);
-
         boolean error = openOlsConnectionAndInsertOntologyNames();
-
         if (error) {
             this.dispose();
         } else {
@@ -1084,51 +1075,32 @@ public class OLSDialog extends javax.swing.JDialog {
      * Update the ontology tree browser with the roots of the selected ontology.
      */
     private void updateBrowseOntologyView() {
-
-        this.setCursor(new java.awt.Cursor(java.awt.Cursor.WAIT_CURSOR));
-
-        // get selected ontology
-        String ontology = getCurrentOntologyLabel();
-
-        // get selected predefined ontology term for selected ontology
-        String parentTermName = getCurrentOntologyTermLabel();
-        Identifier parentTermId = preselectedNames2Ids.get(parentTermName);
-
-        // set the root to the ontology label
-        if (parentTermName != null && parentTermId != null) {
-            treeBrowser.initialize("[" + parentTermId + "] " + parentTermName);
-        } else {
-            treeBrowser.initialize(ontology);
+        if (searchTypeJTabbedPane.getSelectedIndex() == OLS_DIALOG_BROWSE_ONTOLOGY) {
+            this.setCursor(new java.awt.Cursor(java.awt.Cursor.WAIT_CURSOR));
+            String ontology = getCurrentOntologyLabel();
+            String parentTermName = getCurrentOntologyTermLabel();
+            Identifier parentTermId = preselectedNames2Ids.get(parentTermName);
+            if (parentTermName != null && parentTermId != null) {
+                treeBrowser.initialize("[" + parentTermId + "] " + parentTermName);
+            } else {
+                treeBrowser.initialize(ontology);
+            }
+            List<Term> rootTerms = getOntologyRoots(ontology, parentTermId);
+            for (Term termId : rootTerms) {
+                treeBrowser.addNode(termId);
+            }
+            if (rootTerms.isEmpty()) {
+                treeBrowser.addNode(notDefinedNode);
+            }
+            treeBrowser.updateTree();
+            treeBrowser.scrollToTop();
+            currentlySelectedBrowseOntologyAccessionNumber = null;
+            clearData(OLS_DIALOG_BROWSE_ONTOLOGY, true, true);
+            if (debug) {
+                System.out.println("updated roots");
+            }
+            this.setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
         }
-
-        // load root terms
-        List<Term> rootTerms = getOntologyRoots(ontology, parentTermId);
-
-        // update the tree
-        for (Term termId : rootTerms) {
-            treeBrowser.addNode(termId);
-        }
-
-        // not root terms found
-        if (rootTerms.isEmpty()) {
-            treeBrowser.addNode(notDefinedNode);
-        }
-
-        // makes sure that all second level non visible nodes are added
-        treeBrowser.updateTree();
-
-        // move the horizontal scroll bar value to the top
-        treeBrowser.scrollToTop();
-
-        currentlySelectedBrowseOntologyAccessionNumber = null;
-
-        clearData(OLS_DIALOG_BROWSE_ONTOLOGY, true, true);
-
-        if (debug) {
-            System.out.println("updated roots");
-        }
-
-        this.setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
     }
 
     /**
