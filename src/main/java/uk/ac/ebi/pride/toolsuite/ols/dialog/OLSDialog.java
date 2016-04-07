@@ -42,6 +42,7 @@ public class OLSDialog extends javax.swing.JDialog {
      */
     public static final boolean debug = false;
     public static final String SEARCH_IN_ALL_ONTOLOGIES_AVAILABLE_IN_THE_OLS_REGISTRY = "-- Search in All Ontologies available in the OLS registry --";
+    public static final String NCBITAXON = "ncbitaxon";
     /**
      * The name of the field to insert the results into.
      */
@@ -1086,19 +1087,15 @@ public class OLSDialog extends javax.swing.JDialog {
                 treeBrowser.initialize(ontology);
             }
             List<Term> rootTerms = getOntologyRoots(ontology, parentTermId);
-            for (Term termId : rootTerms) {
-                treeBrowser.addNode(termId);
-            }
             if (rootTerms.isEmpty()) {
                 treeBrowser.addNode(notDefinedNode);
+            } else {
+                rootTerms.forEach(term -> treeBrowser.addNode(term));
             }
             treeBrowser.updateTree();
             treeBrowser.scrollToTop();
             currentlySelectedBrowseOntologyAccessionNumber = null;
             clearData(OLS_DIALOG_BROWSE_ONTOLOGY, true, true);
-            if (debug) {
-                System.out.println("updated roots");
-            }
             this.setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
         }
     }
@@ -2163,14 +2160,11 @@ public class OLSDialog extends javax.swing.JDialog {
      * @param evt
      */
     private void ontologyJComboBoxItemStateChanged(java.awt.event.ItemEvent evt) {//GEN-FIRST:event_ontologyJComboBoxItemStateChanged
-
         this.setCursor(new java.awt.Cursor(java.awt.Cursor.WAIT_CURSOR));
-
-        // insert the ontology label into the term id search field
         if (ontologyJComboBox.getSelectedIndex() != 0 && !isPreselectedOption()) {
             if (getCurrentOntologyLabel().equalsIgnoreCase("EFO")) {
                 termIdSearchJTextField.setText(getCurrentOntologyLabel() + "_");
-            } else if (getCurrentOntologyLabel().equalsIgnoreCase("NEWT")) {
+            } else if (getCurrentOntologyLabel().equalsIgnoreCase(NCBITAXON)) {
                 termIdSearchJTextField.setText("");
             } else {
                 termIdSearchJTextField.setText(getCurrentOntologyLabel() + ":");
@@ -2178,71 +2172,53 @@ public class OLSDialog extends javax.swing.JDialog {
         } else {
             termIdSearchJTextField.setText("");
         }
-
         if (searchTypeJTabbedPane.getSelectedIndex() != OLS_DIALOG_PSI_MOD_MASS_SEARCH) {
-
             String currentOntology = (String) ontologyJComboBox.getSelectedItem();
-
             if (!currentOntology.equalsIgnoreCase(lastSelectedOntology)) {
-
                 lastSelectedOntology = (String) ontologyJComboBox.getSelectedItem();
-
                 currentlySelectedBrowseOntologyAccessionNumber = null;
                 currentlySelectedTermNameSearchAccessionNumber = null;
                 currentlySelectedTermIdSearchAccessionNumber = null;
-
                 insertSelectedJButton.setEnabled(false);
-
-                // disable the 'browse ontology' tab when 'search in all ontologies' or 'NEWT' is selected or 'search in preselected ontologies'
-                if (ontologyJComboBox.getSelectedIndex() == 0 || getCurrentOntologyLabel().equalsIgnoreCase("NEWT") || isPreselectedOption()) {
+                // disable the 'browse ontology' tab when 'search in all ontologies' or 'ncbitaxon' is selected or 'search in preselected ontologies'
+                if (ontologyJComboBox.getSelectedIndex() == 0 || getCurrentOntologyLabel().equalsIgnoreCase(NCBITAXON) || isPreselectedOption()) {
                     searchTypeJTabbedPane.setEnabledAt(OLS_DIALOG_BROWSE_ONTOLOGY, false);
-
                     // move away from the 'browse ontology' tab if it is disabled and selected
                     if (searchTypeJTabbedPane.getSelectedIndex() == OLS_DIALOG_BROWSE_ONTOLOGY) {
                         searchTypeJTabbedPane.setSelectedIndex(OLS_DIALOG_TERM_NAME_SEARCH);
-
                         this.setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
-
-                        if (getCurrentOntologyLabel().equalsIgnoreCase("NEWT")) {
-                            JOptionPane.showMessageDialog(this, "Browse Ontology is not available for NEWT.",
+                        if (getCurrentOntologyLabel().equalsIgnoreCase(NCBITAXON)) {
+                            JOptionPane.showMessageDialog(this, "Browse Ontology is not available for NCBItaxon.",
                                     "Browse Ontology Disabled", JOptionPane.INFORMATION_MESSAGE);
                         } else if (ontologyJComboBox.getSelectedIndex() == 0) {
                             JOptionPane.showMessageDialog(this, "Browse Ontology is not available when searching several ontologies.",
                                     "Browse Ontology Disabled", JOptionPane.INFORMATION_MESSAGE);
                         }
-
                         this.setCursor(new java.awt.Cursor(java.awt.Cursor.WAIT_CURSOR));
                     }
-
                 } else {
                     searchTypeJTabbedPane.setEnabledAt(OLS_DIALOG_BROWSE_ONTOLOGY, true);
                     if (searchTypeJTabbedPane.getSelectedIndex() == OLS_DIALOG_BROWSE_ONTOLOGY) {
                         updateBrowseOntologyView();
                     }
                 }
-
                 // set the focus
                 if (searchTypeJTabbedPane.getSelectedIndex() == OLS_DIALOG_TERM_NAME_SEARCH) {
                     termNameSearchJTextField.requestFocus();
                 } else if (searchTypeJTabbedPane.getSelectedIndex() == OLS_DIALOG_TERM_ID_SEARCH) {
                     termIdSearchJTextField.requestFocus();
                 }
-
                 // make the 'newt species tip' link visible or not visible
                 hideOrShowNewtLinks();
-
                 // update the searches
                 termNameSearchJTextFieldKeyReleased(null);
                 clearData(OLS_DIALOG_TERM_ID_SEARCH, true, true);
-
                 viewTermHierarchyTermNameSearchJLabel.setEnabled(false);
                 viewTermHierarchyTermIdSearchJLabel.setEnabled(false);
                 viewTermHierarchyBrowseOntologyJLabel.setEnabled(false);
             }
         }
-
         this.setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
-
     }//GEN-LAST:event_ontologyJComboBoxItemStateChanged
 
     /**
