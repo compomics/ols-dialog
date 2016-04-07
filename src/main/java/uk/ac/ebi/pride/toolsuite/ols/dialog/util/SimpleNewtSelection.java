@@ -5,7 +5,7 @@ import uk.ac.ebi.pride.toolsuite.ols.dialog.OLSDialog;
 import javax.swing.*;
 
 /**
- * A simple dialog displaying a list of the most common NEWT species.
+ * A simple dialog displaying a list of the most common ncbitaxon species.
  *
  * @author Harald Barsnes
  */
