@@ -20,6 +20,7 @@ import org.springframework.web.client.RestClientException;
 import uk.ac.ebi.pride.toolsuite.ols.dialog.util.*;
 import uk.ac.ebi.pride.utilities.ols.web.service.client.OLSClient;
 import uk.ac.ebi.pride.utilities.ols.web.service.config.OLSWsConfigDev;
+import uk.ac.ebi.pride.utilities.ols.web.service.config.OLSWsConfigProd;
 import uk.ac.ebi.pride.utilities.ols.web.service.model.Identifier;
 import uk.ac.ebi.pride.utilities.ols.web.service.model.Ontology;
 import uk.ac.ebi.pride.utilities.ols.web.service.model.Term;
@@ -1005,7 +1006,7 @@ public class OLSDialog extends javax.swing.JDialog {
         Vector ontologyNamesAndKeys = new Vector();
         preselectedNames2Ids = new HashMap();
         try {
-            olsConnection = new OLSClient(new OLSWsConfigDev());
+            olsConnection = new OLSClient(new OLSWsConfigProd());
             List<Ontology> ontologies = olsConnection.getOntologies();
             ontologies = Util.refineOntologyNames(ontologies);
             String ontologyToSelect = "";
@@ -1090,7 +1091,8 @@ public class OLSDialog extends javax.swing.JDialog {
             if (rootTerms.isEmpty()) {
                 treeBrowser.addNode(notDefinedNode);
             } else {
-                rootTerms.forEach(term -> treeBrowser.addNode(term));
+                for(Term term: rootTerms)
+                    treeBrowser.addNode(term);
             }
             treeBrowser.updateTree();
             treeBrowser.scrollToTop();
@@ -3377,7 +3379,8 @@ public class OLSDialog extends javax.swing.JDialog {
                 if(ontology.getAnnotations() != null){
                     JTable finalCurrentTermDetailsJTable = currentTermDetailsJTable;
                     if (finalCurrentTermDetailsJTable != null ){
-                        ontology.getAnnotations().keySet().stream().forEach(key -> ((DefaultTableModel) finalCurrentTermDetailsJTable.getModel()).addRow(new Object[]{key, ontology.getAnnotations().get(key)}));
+                        for(String ontologyStr: ontology.getAnnotations().keySet())
+                            ((DefaultTableModel) finalCurrentTermDetailsJTable.getModel()).addRow(new Object[]{ontologyStr, ontology.getAnnotations().get(ontologyStr)});
                     } else {
                         JOptionPane.showMessageDialog(
                                 this,

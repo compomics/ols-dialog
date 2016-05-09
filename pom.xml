@@ -8,7 +8,7 @@
     <packaging>jar</packaging>
 
     <name>ols-dialog</name>
-    <url>https://github.com/compomics/ols-dialog/</url>
+    <url>https://github.com/PRIDE-Toolsuite/ols-dialog</url>
     <description>OLS Dialog is a Java front end to the Ontology Lookup Service (OLS)
         (http://www.ebi.ac.uk/ols).
     </description>
@@ -28,6 +28,28 @@
             <organization>Department of Informatics, University of Bergen, Norway</organization>
         </developer>
         <developer>
+            <id>Yasset Perez-Riverol</id>
+            <name>Yasset Perez-Riverol</name>
+            <url>http://computationalproteomic.blogspot.co.uk/</url>
+            <organization>Proteomics, EMBL-European Bioinformatics Institute</organization>
+            <organizationUrl>http://www.ebi.ac.uk/pride</organizationUrl>
+            <roles>
+                <role>developer</role>
+            </roles>
+            <timezone>0</timezone>
+        </developer>
+        <developer>
+            <id>tobias</id>
+            <name>Tobias Ternent</name>
+            <organization>Proteomics, EMBL-European Bioinformatics Institute</organization>
+            <organizationUrl>http://www.ebi.ac.uk/pride</organizationUrl>
+            <roles>
+                <role>developer</role>
+                <role>tester</role>
+            </roles>
+            <timezone>0</timezone>
+        </developer>
+        <developer>
             <name>Lennart Martens</name>
             <id>lennart</id>
             <email>lennart.martens@ebi.ac.uk</email>
@@ -45,32 +67,11 @@
             <email>rafael@ebi.ac.uk</email>
             <organization>Proteomics Services Team, PANDA Group, EMBL-European Bioinformatics Institute</organization>
         </developer>
-        <developer>
-            <id>tobias</id>
-            <name>Tobias Ternent</name>
-            <organization>Proteomics, EMBL-European Bioinformatics Institute</organization>
-            <organizationUrl>http://www.ebi.ac.uk/pride</organizationUrl>
-            <roles>
-                <role>developer</role>
-                <role>tester</role>
-            </roles>
-            <timezone>0</timezone>
-        </developer>
-        <developer>
-            <id>Yasset Perez-Riverol</id>
-            <name>Yasset Perez-Riverol</name>
-            <url>http://computationalproteomic.blogspot.co.uk/</url>
-            <organization>Proteomics, EMBL-European Bioinformatics Institute</organization>
-            <organizationUrl>http://www.ebi.ac.uk/pride</organizationUrl>
-            <roles>
-                <role>developer</role>
-            </roles>
-            <timezone>0</timezone>
-        </developer>
+
     </developers>
 
     <properties>
-        <olsclient.version>2.1-SNAPSHOT</olsclient.version>
+        <olsclient.version>2.1</olsclient.version>
     </properties>
 
     <!-- Dependencies -->
@@ -135,8 +136,8 @@
                 <artifactId>maven-compiler-plugin</artifactId>
                 <version>3.5.1</version>
                 <configuration>
-                    <source>1.8</source>
-                    <target>1.8</target>
+                    <source>1.7</source>
+                    <target>1.7</target>
                 </configuration>
             </plugin>
             <plugin>
