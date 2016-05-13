@@ -43,7 +43,7 @@ public class OLSDialog extends javax.swing.JDialog {
      */
     public static final boolean debug = false;
     public static final String SEARCH_IN_ALL_ONTOLOGIES_AVAILABLE_IN_THE_OLS_REGISTRY = "-- Search in All Ontologies available in the OLS registry --";
-    public static final String NCBITAXON = "ncbitaxon";
+
     /**
      * The name of the field to insert the results into.
      */
@@ -2166,8 +2166,6 @@ public class OLSDialog extends javax.swing.JDialog {
         if (ontologyJComboBox.getSelectedIndex() != 0 && !isPreselectedOption()) {
             if (getCurrentOntologyLabel().equalsIgnoreCase("EFO")) {
                 termIdSearchJTextField.setText(getCurrentOntologyLabel() + "_");
-            } else if (getCurrentOntologyLabel().equalsIgnoreCase(NCBITAXON)) {
-                termIdSearchJTextField.setText("");
             } else {
                 termIdSearchJTextField.setText(getCurrentOntologyLabel() + ":");
             }
@@ -2183,16 +2181,13 @@ public class OLSDialog extends javax.swing.JDialog {
                 currentlySelectedTermIdSearchAccessionNumber = null;
                 insertSelectedJButton.setEnabled(false);
                 // disable the 'browse ontology' tab when 'search in all ontologies' or 'ncbitaxon' is selected or 'search in preselected ontologies'
-                if (ontologyJComboBox.getSelectedIndex() == 0 || getCurrentOntologyLabel().equalsIgnoreCase(NCBITAXON) || isPreselectedOption()) {
+                if (ontologyJComboBox.getSelectedIndex() == 0 || isPreselectedOption()) {
                     searchTypeJTabbedPane.setEnabledAt(OLS_DIALOG_BROWSE_ONTOLOGY, false);
                     // move away from the 'browse ontology' tab if it is disabled and selected
                     if (searchTypeJTabbedPane.getSelectedIndex() == OLS_DIALOG_BROWSE_ONTOLOGY) {
                         searchTypeJTabbedPane.setSelectedIndex(OLS_DIALOG_TERM_NAME_SEARCH);
                         this.setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
-                        if (getCurrentOntologyLabel().equalsIgnoreCase(NCBITAXON)) {
-                            JOptionPane.showMessageDialog(this, "Browse Ontology is not available for NCBItaxon.",
-                                    "Browse Ontology Disabled", JOptionPane.INFORMATION_MESSAGE);
-                        } else if (ontologyJComboBox.getSelectedIndex() == 0) {
+                        if (ontologyJComboBox.getSelectedIndex() == 0) {
                             JOptionPane.showMessageDialog(this, "Browse Ontology is not available when searching several ontologies.",
                                     "Browse Ontology Disabled", JOptionPane.INFORMATION_MESSAGE);
                         }
