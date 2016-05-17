@@ -1,21 +1,5 @@
 package uk.ac.ebi.pride.toolsuite.ols.dialog;
 
-import javax.swing.*;
-import javax.swing.table.DefaultTableModel;
-import javax.swing.tree.DefaultMutableTreeNode;
-import javax.swing.tree.TreeNode;
-
-import java.awt.*;
-import java.awt.event.KeyEvent;
-import java.awt.event.MouseEvent;
-import java.io.IOException;
-import java.io.InputStream;
-
-import java.util.*;
-import java.util.List;
-import javax.swing.table.DefaultTableColumnModel;
-import javax.swing.table.TableCellRenderer;
-import javax.swing.table.TableColumn;
 import org.springframework.web.client.RestClientException;
 import uk.ac.ebi.pride.toolsuite.ols.dialog.util.*;
 import uk.ac.ebi.pride.utilities.ols.web.service.client.OLSClient;
@@ -24,6 +8,21 @@ import uk.ac.ebi.pride.utilities.ols.web.service.config.OLSWsConfigProd;
 import uk.ac.ebi.pride.utilities.ols.web.service.model.Identifier;
 import uk.ac.ebi.pride.utilities.ols.web.service.model.Ontology;
 import uk.ac.ebi.pride.utilities.ols.web.service.model.Term;
+
+import javax.swing.*;
+import javax.swing.table.DefaultTableColumnModel;
+import javax.swing.table.DefaultTableModel;
+import javax.swing.table.TableCellRenderer;
+import javax.swing.table.TableColumn;
+import javax.swing.tree.DefaultMutableTreeNode;
+import javax.swing.tree.TreeNode;
+import java.awt.*;
+import java.awt.event.KeyEvent;
+import java.awt.event.MouseEvent;
+import java.io.IOException;
+import java.io.InputStream;
+import java.util.*;
+import java.util.List;
 
 /**
  * A dialog for interacting with the Ontology Lookup Service OLS. This version is based in the original implementation by
@@ -2867,7 +2866,7 @@ public class OLSDialog extends javax.swing.JDialog {
 
             List<Term> currentTermName = null;
             if (ontology != null) {
-                currentTermName = olsConnection.searchTermById(termIdSearchJTextField.getText().trim(), ontology);
+              currentTermName = olsConnection.searchTermById(termIdSearchJTextField.getText().trim(), ontology);
             }else{
                 //Todo search globally for the search term without contrain
             }
