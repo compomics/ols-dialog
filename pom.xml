@@ -71,7 +71,7 @@
     </developers>
 
     <properties>
-        <olsclient.version>2.2</olsclient.version>
+        <olsclient.version>2.3-SNAPSHOT</olsclient.version>
     </properties>
 
     <!-- Dependencies -->

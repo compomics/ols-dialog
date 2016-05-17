@@ -1193,13 +1193,16 @@ public class OLSDialog extends javax.swing.JDialog {
         termDetailsTermNameSearchJScrollPane = new javax.swing.JScrollPane();
 
         termDetailsTermNameSearchJTable = new javax.swing.JTable();
-        //termDetailsTermNameSearchJTable.setDefaultRenderer(Object.class, new SearchTableCellRender());
+        termDetailsTermNameSearchJTable.setAutoCreateRowSorter(true);
+        termDetailsTermNameSearchJTable.setDefaultRenderer(Object.class, new SearchTableCellRender());
 
         searchResultsTermNameJLabel = new javax.swing.JLabel();
         selectedTermTermNameJLabel = new javax.swing.JLabel();
         olsResultsTermNameSearchJScrollPane = new javax.swing.JScrollPane();
 
         olsResultsTermNameSearchJTable = new javax.swing.JTable();
+        olsResultsTermNameSearchJTable.setAutoCreateRowSorter(true);
+
         olsResultsTermNameSearchJTable.setDefaultRenderer(Object.class, new SearchTableCellRender());
 
         viewTermHierarchyTermNameSearchJLabel = new javax.swing.JLabel();
@@ -1214,14 +1217,16 @@ public class OLSDialog extends javax.swing.JDialog {
         termDetailsTermIdSearchJScrollPane = new javax.swing.JScrollPane();
 
         termDetailsTermIdSearchJTable = new javax.swing.JTable();
-//        termDetailsTermIdSearchJTable.setDefaultRenderer(Object.class, new SearchTableCellRender());
+        termDetailsTermIdSearchJTable.setAutoCreateRowSorter(true);
+        termDetailsTermIdSearchJTable.setDefaultRenderer(Object.class, new SearchTableCellRender());
 
         searchResultsTermIdLabel = new javax.swing.JLabel();
         searchTermTermIdLabel = new javax.swing.JLabel();
         olsResultsTermIdSearchJScrollPane = new javax.swing.JScrollPane();
-        identifierTypeComboBox = new javax.swing.JComboBox();
+//        identifierTypeComboBox = new javax.swing.JComboBox();
 
         olsResultsTermIdSearchJTable = new javax.swing.JTable();
+        olsResultsTermIdSearchJTable.setAutoCreateRowSorter(true);
         olsResultsTermIdSearchJTable.setDefaultRenderer(Object.class, new SearchTableCellRender());
 
         viewTermHierarchyTermIdSearchJLabel = new javax.swing.JLabel();
@@ -1239,11 +1244,14 @@ public class OLSDialog extends javax.swing.JDialog {
         termDetailsMassSearchJScrollPane.getViewport().setBackground(Color.WHITE);
 
         termDetailsMassSearchJTable = new javax.swing.JTable();
-        //termDetailsMassSearchJTable.setDefaultRenderer(Object.class, new SearchTableCellRender());
+        termDetailsMassSearchJTable.setAutoCreateRowSorter(true);
+        termDetailsMassSearchJTable.setDefaultRenderer(Object.class, new SearchTableCellRender());
 
 
         olsResultsMassSearchJScrollPane = new javax.swing.JScrollPane();
         olsResultsMassSearchJTable = new javax.swing.JTable();
+        olsResultsMassSearchJTable.setAutoCreateRowSorter(true);
+
         viewTermHierarchyMassSearchJLabel = new javax.swing.JLabel();
         massPanel = new javax.swing.JPanel();
         massLabel = new javax.swing.JLabel();
@@ -1662,13 +1670,13 @@ public class OLSDialog extends javax.swing.JDialog {
             }
         });
 
-        identifierTypeComboBox.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "- Select -", "OBO Identifier", "OWL Identifier"}));
-        identifierTypeComboBox.setSelectedIndex(2);
-        identifierTypeComboBox.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                identifierTypeJComboBoxActionPerformed(evt);
-            }
-        });
+//        identifierTypeComboBox.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "- Select -", "OBO Identifier", "OWL Identifier"}));
+//        identifierTypeComboBox.setSelectedIndex(2);
+//        identifierTypeComboBox.addActionListener(new java.awt.event.ActionListener() {
+//            public void actionPerformed(java.awt.event.ActionEvent evt) {
+//                identifierTypeJComboBoxActionPerformed(evt);
+//            }
+//        });
 
         termIdSearchJButton.setText("Search");
         termIdSearchJButton.addActionListener(new java.awt.event.ActionListener() {
@@ -1694,7 +1702,7 @@ public class OLSDialog extends javax.swing.JDialog {
                                                 .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED)
                                                 .add(typeLabel)
                                                 .add(18, 18, 18)
-                                                .add(identifierTypeComboBox, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
+                                                //.add(identifierTypeComboBox, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
                                                 .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED)))
                                 .add(termIdSearchJButton, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, 80, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
                                 .addContainerGap())
@@ -1705,7 +1713,7 @@ public class OLSDialog extends javax.swing.JDialog {
                                 .addContainerGap(org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                                 .add(termIdPanelLayout.createParallelGroup(org.jdesktop.layout.GroupLayout.BASELINE)
                                         .add(termIdSearchJButton)
-                                        .add(identifierTypeComboBox, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
+                                        //.add(identifierTypeComboBox, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
                                         .add(typeLabel)
                                         .add(termIdLabel)
                                         .add(termIdSearchJTextField, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE))
@@ -2237,7 +2245,7 @@ public class OLSDialog extends javax.swing.JDialog {
 
                 try {
                     wait(waitingTime);
-                } catch (InterruptedException e) {
+                } catch (InterruptedException ignored) {
 
                 }
 
@@ -2617,21 +2625,21 @@ public class OLSDialog extends javax.swing.JDialog {
         modificationMassSearchJButton.setEnabled(massTypeJComboBox.getSelectedIndex() != 0);
     }//GEN-LAST:event_massTypeJComboBoxActionPerformed
 
-    /**
-     * Enables or disables the search button based on the selection in the combo
-     * box.
-     *
-     * @param evt
-     */
-    private void identifierTypeJComboBoxActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_massTypeJComboBoxActionPerformed
-        termIdSearchJButton.setEnabled(identifierTypeComboBox.getSelectedIndex() != 0);
-    }//GEN-LAST:event_massTypeJComboBoxActionPerformed
-    /**
-     * Makes sure that the PSI-MOD ontology is selected when the modification
-     * mass search tab is selected.
-     *
-     * @param evt
-     */
+//    /**
+//     * Enables or disables the search button based on the selection in the combo
+//     * box.
+//     *
+//     * @param evt
+//     */
+//    private void identifierTypeJComboBoxActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_massTypeJComboBoxActionPerformed
+//        termIdSearchJButton.setEnabled(identifierTypeComboBox.getSelectedIndex() != 0);
+//    }//GEN-LAST:event_massTypeJComboBoxActionPerformed
+//    /**
+//     * Makes sure that the PSI-MOD ontology is selected when the modification
+//     * mass search tab is selected.
+//     *
+//     * @param evt
+//     */
     private void searchTypeJTabbedPaneStateChanged(javax.swing.event.ChangeEvent evt) {//GEN-FIRST:event_searchTypeJTabbedPaneStateChanged
         if (searchTypeJTabbedPane.getSelectedIndex() == OLS_DIALOG_PSI_MOD_MASS_SEARCH) {
             insertSelectedJButton.setEnabled(currentlySelectedMassSearchAccessionNumber != null);
@@ -2843,12 +2851,12 @@ public class OLSDialog extends javax.swing.JDialog {
             // clear the old data
             clearData(OLS_DIALOG_TERM_ID_SEARCH, true, true);
 
-            String typeIdentifier = (String) identifierTypeComboBox.getSelectedItem();
-            Identifier.IdentifierType identifierType = null;
-            if(typeIdentifier.equalsIgnoreCase("OBO Identifier"))
-                identifierType = Identifier.IdentifierType.OBO;
-            else
-                identifierType = Identifier.IdentifierType.OWL;
+//            String typeIdentifier = (String) identifierTypeComboBox.getSelectedItem();
+//            Identifier.IdentifierType identifierType = null;
+//            if(typeIdentifier.equalsIgnoreCase("OBO Identifier"))
+//                identifierType = Identifier.IdentifierType.OBO;
+//            else
+//                identifierType = Identifier.IdentifierType.OWL;
 
             // search the selected ontology and find all matching terms
             String ontology = null;
@@ -2859,7 +2867,7 @@ public class OLSDialog extends javax.swing.JDialog {
 
             List<Term> currentTermName = null;
             if (ontology != null) {
-                currentTermName = olsConnection.searchTermById(termIdSearchJTextField.getText().trim(), identifierType, ontology);
+                currentTermName = olsConnection.searchTermById(termIdSearchJTextField.getText().trim(), ontology);
             }else{
                 //Todo search globally for the search term without contrain
             }
@@ -3265,7 +3273,7 @@ public class OLSDialog extends javax.swing.JDialog {
     private javax.swing.JPanel massPanel;
     private javax.swing.JPanel massSearchJPanel;
     private javax.swing.JComboBox massTypeJComboBox;
-    private javax.swing.JComboBox identifierTypeComboBox;
+  //  private javax.swing.JComboBox identifierTypeComboBox;
     private javax.swing.JTextField modificationMassJTextField;
     private javax.swing.JButton modificationMassSearchJButton;
     private javax.swing.JLabel newtSpeciesTipsTermIdSearchJLabel;

@@ -21,12 +21,15 @@ public class SearchTableCellRender implements TableCellRenderer {
         JLabel label = (JLabel)(new DefaultTableCellRenderer()).getTableCellRendererComponent(table, value, isSelected, hasFocus, row, column);
         Color bg = label.getBackground();
         label.setBackground(new Color(bg.getRed(), bg.getGreen(), bg.getBlue()));
-        if(column == 0){
+        if(column == 0 && value instanceof Term){
             label.setText(Util.getOlsAccessionLink((Term) value));
-        }else if(column == 1){
+        }else if(column == 1 && value instanceof Term){
             Term term = (Term) value;
             String description = (term != null && term.getLabel() != null)? term.getLabel(): term.getGlobalId().getIdentifier();
             label.setText(description);
+        }else if(value instanceof String){
+            String term = (String) value;
+            label.setText(term);
         }
         return label;
     }
