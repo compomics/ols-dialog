@@ -80,7 +80,7 @@
     </developers>
 
     <properties>
-        <olsclient.version>2.3</olsclient.version>
+        <olsclient.version>2.4</olsclient.version>
     </properties>
 
     <!-- Dependencies -->

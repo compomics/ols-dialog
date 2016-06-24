@@ -3,7 +3,6 @@ package uk.ac.ebi.pride.toolsuite.ols.dialog;
 import org.springframework.web.client.RestClientException;
 import uk.ac.ebi.pride.toolsuite.ols.dialog.util.*;
 import uk.ac.ebi.pride.utilities.ols.web.service.client.OLSClient;
-import uk.ac.ebi.pride.utilities.ols.web.service.config.OLSWsConfigDev;
 import uk.ac.ebi.pride.utilities.ols.web.service.config.OLSWsConfigProd;
 import uk.ac.ebi.pride.utilities.ols.web.service.model.Identifier;
 import uk.ac.ebi.pride.utilities.ols.web.service.model.Ontology;
@@ -156,8 +155,7 @@ public class OLSDialog extends javax.swing.JDialog {
      */
     private String notSelectedRowHtmlTagFontColor = "#0101DF";
 
-    private Term notDefinedNode = new Term(null, "No Root Terms Defined!", null,null,null, null);
-
+    private Term notDefinedNode = new Term(null, "No Root Terms Defined!", null, null, null, null, null);
     /**
      * Opens a dialog that lets you search for terms using the OLS.
      *
@@ -2504,12 +2502,8 @@ public class OLSDialog extends javax.swing.JDialog {
         List<Term> retval = null;
 
         try {
-//            QueryService locator = new QueryServiceLocator();
-//            Query service = locator.getOntologyQuery();
-            OLSClient service = new OLSClient(new OLSWsConfigDev());
-
+            OLSClient service = new OLSClient(new OLSWsConfigProd());
             retval = service.getTermsByAnnotationData("MOD", massDeltaType, fromMass, toMass);
-
         } catch (RestClientException ex) {
             JOptionPane.showMessageDialog(
                     this,
