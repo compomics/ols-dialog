@@ -56,7 +56,7 @@ public class TreeBrowser extends JPanel implements TreeSelectionListener, TreeMo
         super(new GridLayout(1, 0));
 
         this.olsDialog = parent;
-        Term term = new Term(null, null, null, null, null, "Load Ontology to Browse", null);
+        Term term = new Term(null, null, null, null, null, "Load Ontology to Browse", null, null, true, null);
         tree = new JTree(new DefaultTreeModel(new DefaultMutableTreeNode(new TermNode(term, null))));
         tree.setEditable(false);
         tree.getSelectionModel().setSelectionMode(TreeSelectionModel.SINGLE_TREE_SELECTION);
@@ -83,7 +83,7 @@ public class TreeBrowser extends JPanel implements TreeSelectionListener, TreeMo
      * @param ontologyName the ontology label
      */
     public void initialize(String ontologyName) {
-        Term term = new Term(null, null, null, null, null, ontologyName, null);
+        Term term = new Term(null, null, null, null, null, ontologyName, null, null, false, null);
         rootNode = new DefaultMutableTreeNode(new TermNode(term, null));
         treeModel = new DefaultTreeModel(rootNode);
         treeModel.addTreeModelListener(this);

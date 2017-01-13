@@ -417,17 +417,12 @@ public class OLS_Example extends javax.swing.JFrame implements OLSInputable {
      */
     private void instrumentSourceJButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_instrumentSourceJButtonActionPerformed
         this.setCursor(new java.awt.Cursor(java.awt.Cursor.WAIT_CURSOR));
-
         String searchTerm = null;
         String ontology = "PSI Mass Spectrometry Ontology [MS] / source";
-
         if (instrumentSourceJTextField.getText().length() > 0) {
-
             searchTerm = instrumentSourceJTextField.getText();
-
             ontology = searchTerm.substring(searchTerm.lastIndexOf("[") + 1, searchTerm.lastIndexOf("]") - 1);
             ontology = getOntologyFromCvTerm(ontology);
-
             searchTerm = instrumentSourceJTextField.getText().substring(0, instrumentSourceJTextField.getText().indexOf("[") - 1);
             searchTerm = searchTerm.replaceAll("-", " ");
             searchTerm = searchTerm.replaceAll(":", " ");
@@ -438,16 +433,15 @@ public class OLS_Example extends javax.swing.JFrame implements OLSInputable {
             searchTerm = searchTerm.replaceAll("\\[", " ");
             searchTerm = searchTerm.replaceAll("\\]", " ");
         }
-
-
-        Map<String, List<Identifier>> preselectedOntologies = new HashMap<String, List<Identifier>>();
+        Map<String, List<Identifier>> preselectedOntologies = new HashMap<>();
         List msPreselectedParentTerms = new ArrayList<String>();
         msPreselectedParentTerms.add("MS:1000458");  // Source Description
         preselectedOntologies.put("pride", null);
+        preselectedOntologies.put("mod", null);
+        preselectedOntologies.put("efo", null);
         preselectedOntologies.put("ms", null);
         preselectedOntologies.put("ms", msPreselectedParentTerms);
-
-        new OLSDialog(this, this, true, "instrumentSource", ontology, searchTerm, preselectedOntologies);
+        new OLSDialog(this, this, true, "instrumentSource", ontology, searchTerm, preselectedOntologies, false);
         this.setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
 }//GEN-LAST:event_instrumentSourceJButtonActionPerformed
 

@@ -1,5 +1,6 @@
 package uk.ac.ebi.pride.toolsuite.ols.dialog;
 
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.web.client.RestClientException;
 import uk.ac.ebi.pride.toolsuite.ols.dialog.util.*;
 import uk.ac.ebi.pride.utilities.ols.web.service.client.OLSClient;
@@ -41,6 +42,7 @@ public class OLSDialog extends javax.swing.JDialog {
      */
     public static final boolean debug = false;
     public static final String SEARCH_IN_ALL_ONTOLOGIES_AVAILABLE_IN_THE_OLS_REGISTRY = "-- Search in All Ontologies available in the OLS registry --";
+    public static final String SEARCH_IN_THESE_PRESELECTED_ONTOLOGIES = "-- Search in these preselected Ontologies --";
 
     /**
      * The name of the field to insert the results into.
@@ -66,6 +68,10 @@ public class OLSDialog extends javax.swing.JDialog {
      * List of preselected ontologies.
      */
     private Map<String, List<Identifier>> preselectedOntologies;
+    /**
+     * Only list preselected ontologies or not.
+     */
+    private boolean onlyListPreselectedOntologies = false;
     /**
      * List of preselected names to ids.
      */
@@ -155,7 +161,7 @@ public class OLSDialog extends javax.swing.JDialog {
      */
     private String notSelectedRowHtmlTagFontColor = "#0101DF";
 
-    private Term notDefinedNode = new Term(null, "No Root Terms Defined!", null, null, null, null, null);
+    private Term notDefinedNode = new Term(null, "No Root Terms Defined!", null, null, null, null, null, null, true, null);
     /**
      * Opens a dialog that lets you search for terms using the OLS.
      *
@@ -190,6 +196,25 @@ public class OLSDialog extends javax.swing.JDialog {
     public OLSDialog(JFrame parent, OLSInputable olsInputable, boolean modal, String field,
             String selectedOntology, String term, Map<String, List<Identifier>> preselectedOntologies) {
         this(parent, olsInputable, modal, field, selectedOntology, -1, term, null, null, OLS_DIALOG_TERM_NAME_SEARCH, preselectedOntologies);
+    }
+
+    /**
+     * Opens a dialog that lets you search for terms using the OLS.
+     *
+     * @param parent the parent JFrame
+     * @param olsInputable a reference to the frame using the OLS Dialog
+     * @param modal
+     * @param field the name of the field to insert the results into
+     * @param selectedOntology the name of the ontology to search in, e.g., "GO"
+     * or "MOD". It also accepts the ontology title, e.g. "PSI Mass Spectrometry
+     * Ontology [MS]" or ""PSI Mass Spectrometry Ontology [MS] / source"
+     * @param term the term to search for
+     * @param preselectedOntologies Default ontologies to display. Key: ontology name, e.g. "MS" or "GO". Value: parent ontologies, e.g. "MS:1000458", "null" (no parent ontology preselected)
+     * @param onlyListPreselectedOntologies only list the preselected ontologies or not
+     */
+    public OLSDialog(JFrame parent, OLSInputable olsInputable, boolean modal, String field,
+                     String selectedOntology, String term, Map<String, List<Identifier>> preselectedOntologies, boolean onlyListPreselectedOntologies) {
+        this(parent, olsInputable, modal, field, selectedOntology, -1, term, null, null, OLS_DIALOG_TERM_NAME_SEARCH, preselectedOntologies, onlyListPreselectedOntologies);
     }
 
     /**
@@ -357,6 +382,60 @@ public class OLSDialog extends javax.swing.JDialog {
      * @param searchType one of the following: OLS_DIALOG_TERM_NAME_SEARCH,
      * OLS_DIALOG_TERM_ID_SEARCH, OLS_DIALOG_BROWSE_ONTOLOGY or
      * OLS_DIALOG_PSI_MOD_MASS_SEARCH
+     * @param preselectedOntologies
+     * @param onlyListPreselectedOntologies
+     */
+    public OLSDialog(JFrame parent, OLSInputable olsInputable, boolean modal, String field,
+                     String selectedOntology, int modifiedRow, String term,
+                     Double modificationMass, Double modificationAccuracy, Integer searchType,
+                     Map<String, List<Identifier>> preselectedOntologies, boolean onlyListPreselectedOntologies) {
+        super(parent, modal);
+        this.onlyListPreselectedOntologies = onlyListPreselectedOntologies;
+        this.olsInputable = olsInputable;
+        this.field = field;
+        this.selectedOntology = selectedOntology;
+        this.modifiedRow = modifiedRow;
+        this.mappedTerm = term;
+        this.preselectedOntologies = (preselectedOntologies==null ? new HashMap() : preselectedOntologies);
+        setUpFrame(searchType);
+        boolean error = openOlsConnectionAndInsertOntologyNames();
+        if (error) {
+            this.dispose();
+        } else {
+            insertValues(modificationMass, modificationAccuracy, searchType);
+            this.setLocationRelativeTo(parent);
+            if (getCurrentOntologyLabel().equalsIgnoreCase(SEARCH_IN_ALL_ONTOLOGIES_AVAILABLE_IN_THE_OLS_REGISTRY) || getCurrentOntologyLabel().equalsIgnoreCase(SEARCH_IN_THESE_PRESELECTED_ONTOLOGIES)) {
+                searchTypeJTabbedPane.setEnabledAt(OLS_DIALOG_BROWSE_ONTOLOGY, false);
+                searchTypeJTabbedPane.setEnabledAt(OLS_DIALOG_TERM_ID_SEARCH, false);
+            } else {
+                termIdSearchJTextField.setText(getCurrentOntologyLabel() + ":");
+            }
+            if (!getCurrentOntologyLabel().equalsIgnoreCase("MOD")) {
+                searchTypeJTabbedPane.setEnabledAt(OLS_DIALOG_PSI_MOD_MASS_SEARCH, false);
+            } else {
+                searchTypeJTabbedPane.setEnabledAt(OLS_DIALOG_PSI_MOD_MASS_SEARCH, true);
+            }
+
+            this.setVisible(true);
+        }
+    }
+
+    /**
+     * Opens a dialog that lets you search for terms using the OLS.
+     *
+     * @param parent the parent JFrame
+     * @param olsInputable a reference to the frame using the OLS Dialog
+     * @param modal
+     * @param field the name of the field to insert the results into
+     * @param selectedOntology the name of the ontology to search in, e.g., "GO"
+     * or "MOD".
+     * @param modifiedRow the row to modify, use -1 if adding a new row
+     * @param term the term to search for
+     * @param modificationMass the mass of the modification
+     * @param modificationAccuracy the mass accuracy
+     * @param searchType one of the following: OLS_DIALOG_TERM_NAME_SEARCH,
+     * OLS_DIALOG_TERM_ID_SEARCH, OLS_DIALOG_BROWSE_ONTOLOGY or
+     * OLS_DIALOG_PSI_MOD_MASS_SEARCH
      */
     public OLSDialog(JFrame parent, OLSInputable olsInputable, boolean modal, String field,
             String selectedOntology, int modifiedRow, String term,
@@ -389,23 +468,18 @@ public class OLSDialog extends javax.swing.JDialog {
             Double modificationMass, Double modificationAccuracy, Integer searchType,
             Map<String, List<Identifier>> preselectedOntologies) {
         super(parent, modal);
-
         this.olsInputable = olsInputable;
         this.field = field;
         this.selectedOntology = selectedOntology;
         this.modifiedRow = modifiedRow;
         this.mappedTerm = term;
-
         if (preselectedOntologies == null) {
-            this.preselectedOntologies = new HashMap<String, List<Identifier>>();
+            this.preselectedOntologies = new HashMap<>();
         } else {
             this.preselectedOntologies = preselectedOntologies;
         }
-
         setUpFrame(searchType);
-
         boolean error = openOlsConnectionAndInsertOntologyNames();
-
         if (error) {
             this.dispose();
         } else {
@@ -505,7 +579,7 @@ public class OLSDialog extends javax.swing.JDialog {
         ontologyJComboBox.setRenderer(new MyComboBoxRenderer(null, SwingConstants.CENTER));
         massTypeJComboBox.setRenderer(new MyComboBoxRenderer(null, SwingConstants.CENTER));
 
-        // disable reordring of the columns
+        // disable reordering of the columns
         olsResultsTermNameSearchJTable.getTableHeader().setReorderingAllowed(false);
         olsResultsMassSearchJTable.getTableHeader().setReorderingAllowed(false);
         olsResultsTermIdSearchJTable.getTableHeader().setReorderingAllowed(false);
@@ -1008,7 +1082,7 @@ public class OLSDialog extends javax.swing.JDialog {
             ontologies = Util.refineOntologyNames(ontologies);
             String ontologyToSelect = "";
             for (Ontology ontology : Util.refineOntologyNames(ontologies)) {
-                String key = ontology.getId();
+                String key = ontology.getConfig().getPreferredPrefix();
                 String temp = ontology.getName() + " [" + key + "]";
                 if (preselectedOntologies.isEmpty()) {
                     ontologyNamesAndKeys.add(temp);
@@ -1029,9 +1103,11 @@ public class OLSDialog extends javax.swing.JDialog {
                 }
             }
             Collections.sort(ontologyNamesAndKeys);
-            ontologyNamesAndKeys.add(0, SEARCH_IN_ALL_ONTOLOGIES_AVAILABLE_IN_THE_OLS_REGISTRY);
-            if (preselectedOntologies.size() > 1) {
-                ontologyNamesAndKeys.add(1, "-- Search in these preselected Ontologies --");
+            if (!onlyListPreselectedOntologies) {
+                ontologyNamesAndKeys.add(0, SEARCH_IN_ALL_ONTOLOGIES_AVAILABLE_IN_THE_OLS_REGISTRY);
+                if (preselectedOntologies.size() > 1) {
+                    ontologyNamesAndKeys.add(1, SEARCH_IN_THESE_PRESELECTED_ONTOLOGIES);
+                }
             }
             ontologyJComboBox.setModel(new DefaultComboBoxModel(ontologyNamesAndKeys));
             //default selected ontology. Has to be the same name shown in the menu
@@ -1084,12 +1160,18 @@ public class OLSDialog extends javax.swing.JDialog {
             } else {
                 treeBrowser.initialize(ontology);
             }
-            List<Term> rootTerms = getOntologyRoots(ontology, parentTermId);
-            if (rootTerms.isEmpty()) {
+            List<Term> rootTerms = null;
+            if (!ontology.equalsIgnoreCase(SEARCH_IN_ALL_ONTOLOGIES_AVAILABLE_IN_THE_OLS_REGISTRY) && !ontology.equalsIgnoreCase(SEARCH_IN_THESE_PRESELECTED_ONTOLOGIES)) {
+                rootTerms = getOntologyRoots(ontology, parentTermId);
+            }
+            if (rootTerms!=null) {
+                if (rootTerms.isEmpty()) {
                 treeBrowser.addNode(notDefinedNode);
-            } else {
-                for(Term term: rootTerms)
-                    treeBrowser.addNode(term);
+                } else {
+                    for (Term term : rootTerms) {
+                        treeBrowser.addNode(term);
+                    }
+                }
             }
             treeBrowser.updateTree();
             treeBrowser.scrollToTop();
@@ -2168,12 +2250,8 @@ public class OLSDialog extends javax.swing.JDialog {
      */
     private void ontologyJComboBoxItemStateChanged(java.awt.event.ItemEvent evt) {//GEN-FIRST:event_ontologyJComboBoxItemStateChanged
         this.setCursor(new java.awt.Cursor(java.awt.Cursor.WAIT_CURSOR));
-        if (ontologyJComboBox.getSelectedIndex() != 0 && !isPreselectedOption()) {
-            if (getCurrentOntologyLabel().equalsIgnoreCase("EFO")) {
-                termIdSearchJTextField.setText(getCurrentOntologyLabel() + "_");
-            } else {
-                termIdSearchJTextField.setText(getCurrentOntologyLabel() + ":");
-            }
+        if (!getCurrentOntologyLabel().equalsIgnoreCase(SEARCH_IN_ALL_ONTOLOGIES_AVAILABLE_IN_THE_OLS_REGISTRY) && !getCurrentOntologyLabel().equalsIgnoreCase(SEARCH_IN_THESE_PRESELECTED_ONTOLOGIES)) {
+            termIdSearchJTextField.setText(getCurrentOntologyLabel() + ":");
         } else {
             termIdSearchJTextField.setText("");
         }
@@ -2185,17 +2263,23 @@ public class OLSDialog extends javax.swing.JDialog {
                 currentlySelectedTermNameSearchAccessionNumber = null;
                 currentlySelectedTermIdSearchAccessionNumber = null;
                 insertSelectedJButton.setEnabled(false);
-                // disable the 'browse ontology' tab when 'search in all ontologies' or 'ncbitaxon' is selected or 'search in preselected ontologies'
-                if (ontologyJComboBox.getSelectedIndex() == 0 || isPreselectedOption()) {
+                // disable the 'browse ontology' tab when 'search in all ontologies' or 'search in preselected ontologies' are selected
+                if (getCurrentOntologyLabel().equalsIgnoreCase(SEARCH_IN_ALL_ONTOLOGIES_AVAILABLE_IN_THE_OLS_REGISTRY) || getCurrentOntologyLabel().equalsIgnoreCase(SEARCH_IN_THESE_PRESELECTED_ONTOLOGIES)) {
                     searchTypeJTabbedPane.setEnabledAt(OLS_DIALOG_BROWSE_ONTOLOGY, false);
                     // move away from the 'browse ontology' tab if it is disabled and selected
                     if (searchTypeJTabbedPane.getSelectedIndex() == OLS_DIALOG_BROWSE_ONTOLOGY) {
                         searchTypeJTabbedPane.setSelectedIndex(OLS_DIALOG_TERM_NAME_SEARCH);
                         this.setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
-                        if (ontologyJComboBox.getSelectedIndex() == 0) {
-                            JOptionPane.showMessageDialog(this, "Browse Ontology is not available when searching several ontologies.",
+                        JOptionPane.showMessageDialog(this, "Browse Ontology is not available when searching several ontologies.",
                                     "Browse Ontology Disabled", JOptionPane.INFORMATION_MESSAGE);
-                        }
+                        this.setCursor(new java.awt.Cursor(java.awt.Cursor.WAIT_CURSOR));
+                    }
+                    searchTypeJTabbedPane.setEnabledAt(OLS_DIALOG_TERM_ID_SEARCH, false);
+                    if (searchTypeJTabbedPane.getSelectedIndex() == OLS_DIALOG_TERM_ID_SEARCH) {
+                        searchTypeJTabbedPane.setSelectedIndex(OLS_DIALOG_TERM_NAME_SEARCH);
+                        this.setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
+                        JOptionPane.showMessageDialog(this, "Term ID Search is not available when searching several ontologies.",
+                            "Term ID Search Disabled", JOptionPane.INFORMATION_MESSAGE);
                         this.setCursor(new java.awt.Cursor(java.awt.Cursor.WAIT_CURSOR));
                     }
                 } else {
@@ -2203,6 +2287,7 @@ public class OLSDialog extends javax.swing.JDialog {
                     if (searchTypeJTabbedPane.getSelectedIndex() == OLS_DIALOG_BROWSE_ONTOLOGY) {
                         updateBrowseOntologyView();
                     }
+                    searchTypeJTabbedPane.setEnabledAt(OLS_DIALOG_TERM_ID_SEARCH, true);
                 }
                 // set the focus
                 if (searchTypeJTabbedPane.getSelectedIndex() == OLS_DIALOG_TERM_NAME_SEARCH) {
@@ -2220,6 +2305,19 @@ public class OLSDialog extends javax.swing.JDialog {
                 viewTermHierarchyBrowseOntologyJLabel.setEnabled(false);
             }
         }
+        if (!getCurrentOntologyLabel().equalsIgnoreCase("MOD")) {
+            searchTypeJTabbedPane.setEnabledAt(OLS_DIALOG_PSI_MOD_MASS_SEARCH, false);
+            if (searchTypeJTabbedPane.getSelectedIndex() == OLS_DIALOG_PSI_MOD_MASS_SEARCH) {
+                searchTypeJTabbedPane.setSelectedIndex(OLS_DIALOG_TERM_NAME_SEARCH);
+                this.setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
+                JOptionPane.showMessageDialog(this, "Modification mass search is not available when the MOD ontology has not been selected.",
+                    "Modification Mass Search Disabled", JOptionPane.INFORMATION_MESSAGE);
+                this.setCursor(new java.awt.Cursor(java.awt.Cursor.WAIT_CURSOR));
+            }
+        } else {
+            searchTypeJTabbedPane.setEnabledAt(OLS_DIALOG_PSI_MOD_MASS_SEARCH, true);
+        }
+
         this.setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
     }//GEN-LAST:event_ontologyJComboBoxItemStateChanged
 
@@ -2232,62 +2330,41 @@ public class OLSDialog extends javax.swing.JDialog {
      * @param evt
      */
     private void termNameSearchJTextFieldKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_termNameSearchJTextFieldKeyReleased
-
         keyPressedCounter++;
-
         new Thread("SearchThread") {
-
             @Override
             public synchronized void run() {
-
                 try {
                     wait(waitingTime);
                 } catch (InterruptedException ignored) {
-
                 }
-
-                // see if the gui is to be updated or not
                 if (keyPressedCounter == 1) {
-
                     setCursor(new java.awt.Cursor(java.awt.Cursor.WAIT_CURSOR));
                     termNameSearchJTextField.setCursor(new java.awt.Cursor(java.awt.Cursor.WAIT_CURSOR));
-
                     insertSelectedJButton.setEnabled(false);
                     currentlySelectedTermNameSearchAccessionNumber = null;
-
                     try {
-                        // clear the old meta data
                         clearData(OLS_DIALOG_TERM_NAME_SEARCH, true, true);
-
-                        // the search is only performed if a certain amount of characters are inserted
                         if (termNameSearchJTextField.getText().length() >= MINIMUM_WORD_LENGTH) {
-
-                            // search the selected ontology and find all matching terms
-                            String ontology = getCurrentOntologyLabel();
-
-                            // if 'search in all ontologies' is selected, set the ontology to null
-                            if (ontologyJComboBox.getSelectedIndex() == 0) {
-                                ontology = null;
-                            }
-
-                            List<Term> map = new ArrayList<Term>();
+                            String ontology = getCurrentOntologyLabel().equalsIgnoreCase(SEARCH_IN_ALL_ONTOLOGIES_AVAILABLE_IN_THE_OLS_REGISTRY) || getCurrentOntologyLabel().equalsIgnoreCase(SEARCH_IN_THESE_PRESELECTED_ONTOLOGIES)
+                            ? null : getCurrentOntologyLabel();
+                            List<Term> map = new ArrayList<>();
                             if (isPreselectedOption()) {
-                                // Ontology terms for preselected Ontologies
                                 for (String preselectedOntology : preselectedOntologies.keySet()) {
-                                    map.addAll(olsConnection.getTermsByName(termNameSearchJTextField.getText(), preselectedOntology.toUpperCase(), false));
+                                    map.addAll(olsConnection.getTermsByName("*" + termNameSearchJTextField.getText() + "*", preselectedOntology.toLowerCase(), false));
+                                }
+                            } else if (getCurrentOntologyLabel().equalsIgnoreCase(SEARCH_IN_ALL_ONTOLOGIES_AVAILABLE_IN_THE_OLS_REGISTRY)) {
+                                for (Ontology ontology1 :  olsConnection.getOntologies()) {
+                                    map.addAll(olsConnection.getTermsByName("*" + termNameSearchJTextField.getText() + "*", ontology1.getConfig().getPreferredPrefix().toLowerCase(), false));
                                 }
                             } else {
-                                map = olsConnection.getTermsByName(termNameSearchJTextField.getText(), ontology, false);
+                                map = olsConnection.getTermsByName("*" + termNameSearchJTextField.getText() + "*", ontology.toLowerCase(), false);
                             }
-
                             for (Iterator i = map.iterator(); i.hasNext();) {
                                 Term key = (Term) i.next();
                                 ((DefaultTableModel) olsResultsTermNameSearchJTable.getModel()).addRow(new Object[]{key, key});
                             }
-
-                            // set the preferred size of the accession column
                             Integer width = getPreferredColumnWidth(olsResultsTermNameSearchJTable, olsResultsTermNameSearchJTable.getColumn("Accession").getModelIndex(), 6);
-
                             if (width != null) {
                                 olsResultsTermNameSearchJTable.getColumn("Accession").setMinWidth(width);
                                 olsResultsTermNameSearchJTable.getColumn("Accession").setMaxWidth(width);
@@ -2295,21 +2372,15 @@ public class OLSDialog extends javax.swing.JDialog {
                                 olsResultsTermNameSearchJTable.getColumn("Accession").setMinWidth(15);
                                 olsResultsTermNameSearchJTable.getColumn("Accession").setMaxWidth(Integer.MAX_VALUE);
                             }
-
                             termNameSearchJTextField.requestFocus();
-
                             setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
                             termNameSearchJTextField.setCursor(new java.awt.Cursor(java.awt.Cursor.TEXT_CURSOR));
                             numberOfTermsTermNameSearchJTextField.setText("" + map.size());
-
-                            // make the first row visible
                             if (olsResultsTermNameSearchJTable.getRowCount() > 0) {
                                 olsResultsTermNameSearchJTable.scrollRectToVisible(olsResultsTermNameSearchJTable.getCellRect(0, 0, false));
                             }
-
-                            //No matching terms found
                             if (map.isEmpty()) {
-                                //JOptionPane.showMessageDialog(this, "No mathcing terms found.");
+                                //JOptionPane.showMessageDialog(this, "No matching terms found.");
                             }
                         } else {
                             numberOfTermsTermNameSearchJTextField.setText("-");
@@ -2322,14 +2393,10 @@ public class OLSDialog extends javax.swing.JDialog {
                         Util.writeToErrorLog("Error when trying to access OLS: ");
                         ex.printStackTrace();
                     }
-
                     setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
                     termNameSearchJTextField.setCursor(new java.awt.Cursor(java.awt.Cursor.TEXT_CURSOR));
-
-                    // gui updated, reset the counter
                     keyPressedCounter = 0;
                 } else {
-                    // gui not updated, decrease the counter
                     keyPressedCounter--;
                 }
             }
@@ -2498,12 +2565,10 @@ public class OLSDialog extends javax.swing.JDialog {
      * @return
      */
     public List<Term> getModificationsByMassDelta(String massDeltaType, double fromMass, double toMass) {
-
-        List<Term> retval = null;
-
+        List<Term> result = new ArrayList<>();
         try {
             OLSClient service = new OLSClient(new OLSWsConfigProd());
-            retval = service.getTermsByAnnotationData("MOD", massDeltaType, fromMass, toMass);
+            result = service.getTermsByAnnotationData("mod", massDeltaType, fromMass, toMass);
         } catch (RestClientException ex) {
             JOptionPane.showMessageDialog(
                     this,
@@ -2519,8 +2584,7 @@ public class OLSDialog extends javax.swing.JDialog {
             Util.writeToErrorLog("Error when trying to access OLS: ");
             ex.printStackTrace();
         }
-
-        return retval;
+        return result;
     }
 
     /**
@@ -2531,37 +2595,29 @@ public class OLSDialog extends javax.swing.JDialog {
      */
     private void modificationMassSearchJButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_modificationMassSearchJButtonActionPerformed
         this.setCursor(new java.awt.Cursor(java.awt.Cursor.WAIT_CURSOR));
-
         insertSelectedJButton.setEnabled(false);
         viewTermHierarchyMassSearchJLabel.setEnabled(false);
-
-        // clear the old data
         clearData(OLS_DIALOG_PSI_MOD_MASS_SEARCH, true, true);
-
         boolean error = false;
         double currentModificationMass = 0.0;
         double currentAccuracy = 0.1;
-
         try {
-            currentModificationMass = new Double(modificationMassJTextField.getText()).doubleValue();
+            currentModificationMass = new Double(modificationMassJTextField.getText());
         } catch (NumberFormatException e) {
             JOptionPane.showMessageDialog(null,
                     "The mass is not a number!", "Modification Mass", JOptionPane.INFORMATION_MESSAGE);
             modificationMassJTextField.requestFocus();
             error = true;
         }
-
         if (!error) {
             try {
-                currentAccuracy = new Double(precisionJTextField.getText()).doubleValue();
-
+                currentAccuracy = new Double(precisionJTextField.getText());
                 if (currentAccuracy < 0) {
                     JOptionPane.showMessageDialog(null,
                             "The precision has to be a positive value.", "Mass Accuracy", JOptionPane.INFORMATION_MESSAGE);
                     precisionJTextField.requestFocus();
                     error = true;
                 }
-
             } catch (NumberFormatException e) {
                 JOptionPane.showMessageDialog(null,
                         "The precision is not a number!", "Mass Accuracy", JOptionPane.INFORMATION_MESSAGE);
@@ -2569,25 +2625,18 @@ public class OLSDialog extends javax.swing.JDialog {
                 error = true;
             }
         }
-
         if (!error) {
-
             String massType = massTypeJComboBox.getSelectedItem().toString();
-
             List<Term> results = getModificationsByMassDelta(massType,
                     currentModificationMass - currentAccuracy,
                     currentModificationMass + currentAccuracy);
-
             if (results != null) {
                 for (int i = 0; i < results.size(); i++) {
                     ((DefaultTableModel) olsResultsMassSearchJTable.getModel()).addRow(
                             new Object[]{(results.get(i)),
                                 results.get(i), results.get(i).getXRefValue(massType)});
                 }
-
-                // set the preferred size of the accession column
                 Integer width = getPreferredColumnWidth(olsResultsMassSearchJTable, olsResultsMassSearchJTable.getColumn("Accession").getModelIndex(), 6);
-
                 if (width != null) {
                     olsResultsMassSearchJTable.getColumn("Accession").setMinWidth(width);
                     olsResultsMassSearchJTable.getColumn("Accession").setMaxWidth(width);
@@ -2596,15 +2645,11 @@ public class OLSDialog extends javax.swing.JDialog {
                     olsResultsMassSearchJTable.getColumn("Accession").setMaxWidth(Integer.MAX_VALUE);
                 }
             }
-
             this.setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
-
-            // make the first row visible
             if (olsResultsMassSearchJTable.getRowCount() > 0) {
                 olsResultsMassSearchJTable.scrollRectToVisible(olsResultsTermNameSearchJTable.getCellRect(0, 0, false));
             }
         }
-
         this.setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
     }//GEN-LAST:event_modificationMassSearchJButtonActionPerformed
 
@@ -2832,67 +2877,36 @@ public class OLSDialog extends javax.swing.JDialog {
      * @param evt
      */
     private void termIdSearchJButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_termIdSearchJButtonActionPerformed
-
         this.setCursor(new java.awt.Cursor(java.awt.Cursor.WAIT_CURSOR));
         termIdSearchJTextField.setCursor(new java.awt.Cursor(java.awt.Cursor.WAIT_CURSOR));
-
         insertSelectedJButton.setEnabled(false);
         currentlySelectedTermIdSearchAccessionNumber = null;
-
         try {
-
-            // clear the old data
             clearData(OLS_DIALOG_TERM_ID_SEARCH, true, true);
-
-//            String typeIdentifier = (String) identifierTypeComboBox.getSelectedItem();
-//            Identifier.IdentifierType identifierType = null;
-//            if(typeIdentifier.equalsIgnoreCase("OBO Identifier"))
-//                identifierType = Identifier.IdentifierType.OBO;
-//            else
-//                identifierType = Identifier.IdentifierType.OWL;
-
-            // search the selected ontology and find all matching terms
-            String ontology = null;
-
-            if (!(ontologyJComboBox.getSelectedIndex() <=1 )) {
-                ontology = getCurrentOntologyLabel();
-            }
-
-            List<Term> currentTermName = null;
-            if (ontology != null) {
-              currentTermName = olsConnection.searchTermById(termIdSearchJTextField.getText().trim(), ontology);
-            }else{
-                //Todo search globally for the search term without contrain
-            }
-
-            if (currentTermName == null || currentTermName.size() == 0) {
+            String ontology =  ((String) ontologyJComboBox.getSelectedItem()).contains("[") ? getCurrentOntologyLabel() : "";
+            Term currentTermName = !StringUtils.isEmpty(ontology) ?
+                olsConnection.getTermById(new Identifier(termIdSearchJTextField.getText().trim(), Identifier.IdentifierType.OBO), ontology) :
+                null;
+            //Todo search globally for the search term without contraints
+            if (currentTermName == null || currentTermName==null) {
                 JOptionPane.showMessageDialog(this, "No matching terms found.", "No Matching Terms", JOptionPane.INFORMATION_MESSAGE);
                 termIdSearchJTextField.requestFocus();
             } else {
-                for(Term term: currentTermName){
-                    ((DefaultTableModel) olsResultsTermIdSearchJTable.getModel()).addRow(new Object[]{term, term});
-
-                    // set the preferred size of the accession column
-                    Integer width = getPreferredColumnWidth(olsResultsTermIdSearchJTable, olsResultsTermIdSearchJTable.getColumn("Accession").getModelIndex(), 6);
-
-                    if (width != null) {
-                        olsResultsTermIdSearchJTable.getColumn("Accession").setMinWidth(width);
-                        olsResultsTermIdSearchJTable.getColumn("Accession").setMaxWidth(width);
-                    } else {
-                        olsResultsTermIdSearchJTable.getColumn("Accession").setMinWidth(15);
-                        olsResultsTermIdSearchJTable.getColumn("Accession").setMaxWidth(Integer.MAX_VALUE);
+                ((DefaultTableModel) olsResultsTermIdSearchJTable.getModel()).addRow(new Object[]{currentTermName, currentTermName});
+                Integer width = getPreferredColumnWidth(olsResultsTermIdSearchJTable, olsResultsTermIdSearchJTable.getColumn("Accession").getModelIndex(), 6);
+                if (width != null) {
+                    olsResultsTermIdSearchJTable.getColumn("Accession").setMinWidth(width);
+                    olsResultsTermIdSearchJTable.getColumn("Accession").setMaxWidth(width);
+                } else {
+                    olsResultsTermIdSearchJTable.getColumn("Accession").setMinWidth(15);
+                    olsResultsTermIdSearchJTable.getColumn("Accession").setMaxWidth(Integer.MAX_VALUE);
                     }
-                }
             }
-
             this.setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
             termIdSearchJTextField.setCursor(new java.awt.Cursor(java.awt.Cursor.TEXT_CURSOR));
-
-            // make the first row visible
             if (olsResultsTermIdSearchJTable.getRowCount() > 0) {
                 olsResultsTermIdSearchJTable.scrollRectToVisible(olsResultsTermIdSearchJTable.getCellRect(0, 0, false));
             }
-
         } catch (RestClientException ex) {
             JOptionPane.showMessageDialog(
                     this,
@@ -2901,10 +2915,8 @@ public class OLSDialog extends javax.swing.JDialog {
             Util.writeToErrorLog("Error when trying to access OLS: ");
             ex.printStackTrace();
         }
-
         this.setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
         termIdSearchJTextField.setCursor(new java.awt.Cursor(java.awt.Cursor.TEXT_CURSOR));
-
     }//GEN-LAST:event_termIdSearchJButtonActionPerformed
 
     /**
@@ -3227,7 +3239,7 @@ public class OLSDialog extends javax.swing.JDialog {
      * @return true if the preselected ontologies index is selected
      */
     private boolean isPreselectedOption() {
-        return preselectedOntologies.size() > 1 && ontologyJComboBox.getSelectedIndex() == 1;
+        return preselectedOntologies.size() > 1 && getCurrentOntologyLabel().equalsIgnoreCase(SEARCH_IN_THESE_PRESELECTED_ONTOLOGIES) ;
     }
 
     /**
@@ -3237,7 +3249,6 @@ public class OLSDialog extends javax.swing.JDialog {
      * @param termId the terms id
      */
     public void insertNewtSelection(String termName, String termId) {
-
         if (searchTypeJTabbedPane.getSelectedIndex() == OLS_DIALOG_TERM_NAME_SEARCH) {
             termNameSearchJTextField.setText(termName);
             termNameSearchJTextFieldKeyReleased(null);
@@ -3394,5 +3405,9 @@ public class OLSDialog extends javax.swing.JDialog {
                 ex.printStackTrace();
             }
         }
+    }
+
+    public void setOnlyListPreselectedOntologies(boolean onlyListPreselectedOntologies) {
+        this.onlyListPreselectedOntologies = onlyListPreselectedOntologies;
     }
 }
