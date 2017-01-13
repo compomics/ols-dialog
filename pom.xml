@@ -78,7 +78,7 @@
     </contributors>
 
     <properties>
-        <uk.ac.ebi.pride.utilities-ols-client.version>2.4</uk.ac.ebi.pride.utilities-ols-client.version>
+            <uk.ac.ebi.pride.utilities-ols-client.version>2.5</uk.ac.ebi.pride.utilities-ols-client.version>
     </properties>
 
     <!-- Dependencies -->
