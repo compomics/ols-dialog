@@ -158,10 +158,10 @@ Update the version number to latest released version.
 
 (Click on a screenshot to see the full size version)
 
-[![](https://github.com/compomics/ols-dialog/wiki/images/screenshots/olsDialog\_termNameSearch\_small.PNG)](https://github.com/compomics/ols-dialog/wiki/images/screenshots/olsDialog_termNameSearch.PNG)
-[![](https://github.com/compomics/ols-dialog/wiki/images/screenshots/olsDialog\_termIdSearch\_small.PNG)](https://github.com/compomics/ols-dialog/wiki/images/screenshots/olsDialog_termIdSearch.PNG)
-[![](https://github.com/compomics/ols-dialog/wiki/images/screenshots/olsDialog\_massSearch\_small.PNG)](https://github.com/compomics/ols-dialog/wiki/images/screenshots/olsDialog_massSearch.PNG)
-[![](https://github.com/compomics/ols-dialog/wiki/images/screenshots/olsDialog\_browseOntology\_small.PNG)](https://github.com/compomics/ols-dialog/wiki/images/screenshots/olsDialog_browseOntology.PNG)
-[![](https://github.com/compomics/ols-dialog/wiki/images/screenshots/olsDialog\_termHierarcy\_small.PNG)](https://github.com/compomics/ols-dialog/wiki/images/screenshots/olsDialog_termHierarcy.PNG)
+[![](https://github.com/compomics/ols-dialog/wiki/images/screenshots/olsDialog_termNameSearch_small.PNG)](https://github.com/compomics/ols-dialog/wiki/images/screenshots/olsDialog_termNameSearch.PNG)
+[![](https://github.com/compomics/ols-dialog/wiki/images/screenshots/olsDialog_termIdSearch_small.PNG)](https://github.com/compomics/ols-dialog/wiki/images/screenshots/olsDialog_termIdSearch.PNG)
+[![](https://github.com/compomics/ols-dialog/wiki/images/screenshots/olsDialog_massSearch_small.PNG)](https://github.com/compomics/ols-dialog/wiki/images/screenshots/olsDialog_massSearch.PNG)
+[![](https://github.com/compomics/ols-dialog/wiki/images/screenshots/olsDialog_browseOntology_small.PNG)](https://github.com/compomics/ols-dialog/wiki/images/screenshots/olsDialog_browseOntology.PNG)
+[![](https://github.com/compomics/ols-dialog/wiki/images/screenshots/olsDialog_termHierarcy_small.PNG)](https://github.com/compomics/ols-dialog/wiki/images/screenshots/olsDialog_termHierarcy.PNG)
 
 [Go to top of page](#ols-dialog)
