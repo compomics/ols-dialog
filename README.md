@@ -162,6 +162,6 @@ Update the version number to latest released version.
 [![](https://github.com/compomics/ols-dialog/wiki/images/screenshots/olsDialog_browseOntology_small.PNG)](https://github.com/compomics/ols-dialog/wiki/images/screenshots/olsDialog_browseOntology.PNG)
 [![](https://github.com/compomics/ols-dialog/wiki/images/screenshots/olsDialog_termHierarcy_small.PNG)](https://github.com/compomics/ols-dialog/wiki/images/screenshots/olsDialog_termHierarcy.PNG)
 
-(Click on the imanges to see the full size versions)
+(Click on the images to see the full size versions)
 
 [Go to top of page](#ols-dialog)
