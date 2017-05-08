@@ -121,6 +121,7 @@ To use **OLS Dialog** in your project include **OLS Dialog** and the required li
 
 ---
 
+
 ## Support 
 
 For questions or additional help, please contact the authors or, if appropriate, e-mail a support request to the PRIDE team at the EBI: `pride-support at ebi.ac.uk` (replace `at` with `@`).
@@ -156,12 +157,10 @@ Update the version number to latest released version.
 
 ## Screenshots
 
-[![](https://github.com/compomics/ols-dialog/wiki/images/screenshots/olsDialog_termNameSearch_small.PNG)](https://github.com/compomics/ols-dialog/wiki/images/screenshots/olsDialog_termNameSearch.PNG)
-[![](https://github.com/compomics/ols-dialog/wiki/images/screenshots/olsDialog_termIdSearch_small.PNG)](https://github.com/compomics/ols-dialog/wiki/images/screenshots/olsDialog_termIdSearch.PNG)
-[![](https://github.com/compomics/ols-dialog/wiki/images/screenshots/olsDialog_massSearch_small.PNG)](https://github.com/compomics/ols-dialog/wiki/images/screenshots/olsDialog_massSearch.PNG)
-[![](https://github.com/compomics/ols-dialog/wiki/images/screenshots/olsDialog_browseOntology_small.PNG)](https://github.com/compomics/ols-dialog/wiki/images/screenshots/olsDialog_browseOntology.PNG)
-[![](https://github.com/compomics/ols-dialog/wiki/images/screenshots/olsDialog_termHierarcy_small.PNG)](https://github.com/compomics/ols-dialog/wiki/images/screenshots/olsDialog_termHierarcy.PNG)
+|  |  |  |  |  |
+|:--:|:--:|:--:|:--:|:--:|
+| [![](https://github.com/compomics/ols-dialog/wiki/images/screenshots/olsDialog_termNameSearch_small.PNG)](https://github.com/compomics/ols-dialog/wiki/images/screenshots/olsDialog_termNameSearch.PNG) | [![](https://github.com/compomics/ols-dialog/wiki/images/screenshots/olsDialog_termIdSearch_small.PNG)](https://github.com/compomics/ols-dialog/wiki/images/screenshots/olsDialog_termIdSearch.PNG) | [![](https://github.com/compomics/ols-dialog/wiki/images/screenshots/olsDialog_massSearch_small.PNG)](https://github.com/compomics/ols-dialog/wiki/images/screenshots/olsDialog_massSearch.PNG) | [![](https://github.com/compomics/ols-dialog/wiki/images/screenshots/olsDialog_browseOntology_small.PNG)](https://github.com/compomics/ols-dialog/wiki/images/screenshots/olsDialog_browseOntology.PNG) | [![](https://github.com/compomics/ols-dialog/wiki/images/screenshots/olsDialog_termHierarcy_small.PNG)](https://github.com/compomics/ols-dialog/wiki/images/screenshots/olsDialog_termHierarcy.PNG) |
 
-(Click on the images to see the full size versions)
+(Click on an imagee to see the full size versions)
 
 [Go to top of page](#ols-dialog)
