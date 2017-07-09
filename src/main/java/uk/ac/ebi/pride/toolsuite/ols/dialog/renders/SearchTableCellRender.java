@@ -1,5 +1,6 @@
-package uk.ac.ebi.pride.toolsuite.ols.dialog.util;
+package uk.ac.ebi.pride.toolsuite.ols.dialog.renders;
 
+import uk.ac.ebi.pride.toolsuite.ols.dialog.util.Util;
 import uk.ac.ebi.pride.utilities.ols.web.service.model.Term;
 
 import javax.swing.*;

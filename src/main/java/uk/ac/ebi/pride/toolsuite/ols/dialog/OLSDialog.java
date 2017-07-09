@@ -2,6 +2,8 @@ package uk.ac.ebi.pride.toolsuite.ols.dialog;
 
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.web.client.RestClientException;
+import uk.ac.ebi.pride.toolsuite.ols.dialog.model.MassSearchModel;
+import uk.ac.ebi.pride.toolsuite.ols.dialog.renders.SearchTableCellRender;
 import uk.ac.ebi.pride.toolsuite.ols.dialog.util.*;
 import uk.ac.ebi.pride.utilities.ols.web.service.client.OLSClient;
 import uk.ac.ebi.pride.utilities.ols.web.service.config.OLSWsConfigProd;
@@ -162,6 +164,12 @@ public class OLSDialog extends javax.swing.JDialog {
     private String notSelectedRowHtmlTagFontColor = "#0101DF";
 
     private Term notDefinedNode = new Term(null, "No Root Terms Defined!", null, null, null, null, null, null, true, null);
+
+    /**
+     * Helper Components for the UI
+     */
+    private MassSearchModel massSearchModel;
+
     /**
      * Opens a dialog that lets you search for terms using the OLS.
      *
@@ -754,7 +762,6 @@ public class OLSDialog extends javax.swing.JDialog {
         List<Term> childTerms = null;
 
         try {
-            //childTerms = olsConnection.getTermChildren(termId, ontology, 1, null);
             childTerms = olsConnection.getTermChildren(termId.getTermOBOId(), ontology, 1);
         } catch (RestClientException ex) {
             JOptionPane.showMessageDialog(
@@ -1878,29 +1885,9 @@ public class OLSDialog extends javax.swing.JDialog {
         termDetailsMassSearchJTable.setOpaque(false);
         termDetailsMassSearchJScrollPane.setViewportView(termDetailsMassSearchJTable);
 
-        olsResultsMassSearchJTable.setModel(new javax.swing.table.DefaultTableModel(
-            new Object [][] {
+        massSearchModel = new MassSearchModel();
 
-            },
-            new String [] {
-                "Accession", "CV Term", "Mass Type Value"
-            }
-        ) {
-            Class[] types = new Class [] {
-                Term.class, Term.class, String.class
-            };
-            boolean[] canEdit = new boolean [] {
-                false, false
-            };
-
-            public Class getColumnClass(int columnIndex) {
-                return types [columnIndex];
-            }
-
-//            public boolean isCellEditable(int rowIndex, int columnIndex) {
-//                return canEdit [columnIndex];
-//            }
-        });
+        olsResultsMassSearchJTable.setModel(massSearchModel);
         olsResultsMassSearchJTable.setOpaque(false);
         olsResultsMassSearchJTable.addMouseListener(new java.awt.event.MouseAdapter() {
             public void mouseClicked(java.awt.event.MouseEvent evt) {
@@ -1913,6 +1900,7 @@ public class OLSDialog extends javax.swing.JDialog {
                 olsResultsMassSearchJTableMouseReleased(evt);
             }
         });
+
         olsResultsMassSearchJTable.addMouseMotionListener(new java.awt.event.MouseMotionAdapter() {
             public void mouseMoved(java.awt.event.MouseEvent evt) {
                 olsResultsMassSearchJTableMouseMoved(evt);
@@ -2627,14 +2615,11 @@ public class OLSDialog extends javax.swing.JDialog {
         }
         if (!error) {
             String massType = massTypeJComboBox.getSelectedItem().toString();
-            List<Term> results = getModificationsByMassDelta(massType,
-                    currentModificationMass - currentAccuracy,
+            List<Term> results = getModificationsByMassDelta(massType, currentModificationMass - currentAccuracy,
                     currentModificationMass + currentAccuracy);
             if (results != null) {
                 for (int i = 0; i < results.size(); i++) {
-                    ((DefaultTableModel) olsResultsMassSearchJTable.getModel()).addRow(
-                            new Object[]{(results.get(i)),
-                                results.get(i), results.get(i).getXRefValue(massType)});
+                    massSearchModel.addRow(results.get(i), massType);
                 }
                 Integer width = getPreferredColumnWidth(olsResultsMassSearchJTable, olsResultsMassSearchJTable.getColumn("Accession").getModelIndex(), 6);
                 if (width != null) {
@@ -3277,7 +3262,6 @@ public class OLSDialog extends javax.swing.JDialog {
     private javax.swing.JPanel massPanel;
     private javax.swing.JPanel massSearchJPanel;
     private javax.swing.JComboBox massTypeJComboBox;
-  //  private javax.swing.JComboBox identifierTypeComboBox;
     private javax.swing.JTextField modificationMassJTextField;
     private javax.swing.JButton modificationMassSearchJButton;
     private javax.swing.JLabel newtSpeciesTipsTermIdSearchJLabel;
@@ -3326,8 +3310,6 @@ public class OLSDialog extends javax.swing.JDialog {
     private javax.swing.JLabel viewTermHierarchyTermIdSearchJLabel;
     private javax.swing.JLabel viewTermHierarchyTermNameSearchJLabel;
     // End of variables declaration//GEN-END:variables
-
-
 
     /**
      * Gets the preferred width of the column specified by colIndex. The column
