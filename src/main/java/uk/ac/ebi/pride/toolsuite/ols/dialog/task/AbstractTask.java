@@ -1,5 +1,6 @@
 package uk.ac.ebi.pride.toolsuite.ols.dialog.task;
 
+import uk.ac.ebi.pride.toolsuite.ols.dialog.OLSDialog;
 import uk.ac.ebi.pride.utilities.ols.web.service.client.OLSClient;
 
 import javax.swing.*;
@@ -19,12 +20,12 @@ import javax.swing.*;
  */
 public abstract class AbstractTask<T, R>  extends SwingWorker<T, R> {
 
-    JProgressBar progressBar;
+    protected OLSDialog olsDialog;
 
     protected OLSClient olsClient;
 
-    public AbstractTask(JProgressBar progressBar, OLSClient olsClient) {
-        this.progressBar = progressBar;
+    public AbstractTask(OLSDialog olsDialog, OLSClient olsClient) {
+        this.olsDialog = olsDialog;
         this.olsClient = olsClient;
     }
 }

@@ -27,32 +27,23 @@ import java.util.*;
 public class GetOntologiesTask extends AbstractTask{
 
 
-    public OLSDialog olsDialog;
-
     public static org.slf4j.Logger logger = LoggerFactory.getLogger(GetOntologiesTask.class);
 
     String ontologyToSelect = "";
 
 
     /**
-     * Detaul Constructor
-     * @param progressBar
+     * Default Constructor
+     * @param olsDialog
      * @param olsClient
      */
-    private GetOntologiesTask(JProgressBar progressBar, OLSClient olsClient) {
-        super(progressBar, olsClient);
-    }
-
-
-    public GetOntologiesTask(OLSDialog olsDialog, JProgressBar progressBar, OLSClient olsClient){
-        super(progressBar, olsClient);
-        this.olsDialog = olsDialog;
+    public GetOntologiesTask(OLSDialog olsDialog,  OLSClient olsClient){
+        super(olsDialog, olsClient);
     }
 
     @Override
     protected Object doInBackground() throws Exception {
 
-        boolean error = false;
         Vector ontologyNamesAndKeys = new Vector();
         olsDialog.setPreselectedNames2Ids(new HashMap());
         List<Ontology> ontologies = olsClient.getOntologies();

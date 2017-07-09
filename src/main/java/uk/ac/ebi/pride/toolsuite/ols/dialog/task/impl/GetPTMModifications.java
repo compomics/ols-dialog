@@ -1,5 +1,6 @@
 package uk.ac.ebi.pride.toolsuite.ols.dialog.task.impl;
 
+import uk.ac.ebi.pride.toolsuite.ols.dialog.OLSDialog;
 import uk.ac.ebi.pride.toolsuite.ols.dialog.model.MassSearchModel;
 import uk.ac.ebi.pride.toolsuite.ols.dialog.task.AbstractTask;
 import uk.ac.ebi.pride.utilities.ols.web.service.client.OLSClient;
@@ -35,16 +36,16 @@ public class GetPTMModifications extends AbstractTask {
 
     /**
      * Default Constructor
-     * @param progressBar progress bar
+     * @param olsDialog olsDialog
      * @param olsClient OLS client
      */
-    private GetPTMModifications(JProgressBar progressBar, OLSClient olsClient) {
-        super(progressBar, olsClient);
+    private GetPTMModifications(OLSDialog olsDialog, OLSClient olsClient) {
+        super(olsDialog, olsClient);
     }
 
-    public GetPTMModifications(JProgressBar progressBar, OLSClient olsclient,
+    public GetPTMModifications(OLSDialog olsDialog, OLSClient olsclient,
                                MassSearchModel model, String massType, double fromMass, double toMass){
-        this(progressBar, olsclient);
+        this(olsDialog, olsclient);
         this.model = model;
         this.massDeltaType = massType;
         this.fromMass = fromMass;
