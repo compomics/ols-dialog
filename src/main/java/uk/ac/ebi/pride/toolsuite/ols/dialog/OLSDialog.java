@@ -1,9 +1,12 @@
 package uk.ac.ebi.pride.toolsuite.ols.dialog;
 
 import org.apache.commons.lang3.StringUtils;
+import org.slf4j.LoggerFactory;
 import org.springframework.web.client.RestClientException;
 import uk.ac.ebi.pride.toolsuite.ols.dialog.model.MassSearchModel;
 import uk.ac.ebi.pride.toolsuite.ols.dialog.renders.SearchTableCellRender;
+import uk.ac.ebi.pride.toolsuite.ols.dialog.task.impl.GetOntologiesTask;
+import uk.ac.ebi.pride.toolsuite.ols.dialog.task.impl.GetPTMModifications;
 import uk.ac.ebi.pride.toolsuite.ols.dialog.util.*;
 import uk.ac.ebi.pride.utilities.ols.web.service.client.OLSClient;
 import uk.ac.ebi.pride.utilities.ols.web.service.config.OLSWsConfigProd;
@@ -45,6 +48,8 @@ public class OLSDialog extends javax.swing.JDialog {
     public static final boolean debug = false;
     public static final String SEARCH_IN_ALL_ONTOLOGIES_AVAILABLE_IN_THE_OLS_REGISTRY = "-- Search in All Ontologies available in the OLS registry --";
     public static final String SEARCH_IN_THESE_PRESELECTED_ONTOLOGIES = "-- Search in these preselected Ontologies --";
+
+    public static org.slf4j.Logger logger = LoggerFactory.getLogger(OLSDialog.class);
 
     /**
      * The name of the field to insert the results into.
@@ -95,7 +100,7 @@ public class OLSDialog extends javax.swing.JDialog {
     /**
      * The default error message used when connecting to OLS fails.
      */
-    private String defaultOlsConnectionFailureErrorMessage
+    public static String DEFAULT_OLS_CONNECTION_ERROR
             = "An error occured when trying to contact the OLS. Make sure that\n"
             + "you are online. Also check your firewall (and proxy) settings.\n\n"
             + "See the Troubleshooting section at the OLS Dialog home page\n"
@@ -119,7 +124,7 @@ public class OLSDialog extends javax.swing.JDialog {
     /**
      * The OLS connection.
      */
-    private static OLSClient olsConnection;
+    private static OLSClient olsConnection = new OLSClient(new OLSWsConfigProd());
     /**
      * The OLS tree browser.
      */
@@ -169,6 +174,7 @@ public class OLSDialog extends javax.swing.JDialog {
      * Helper Components for the UI
      */
     private MassSearchModel massSearchModel;
+    private JProgressBar progressBar;
 
     /**
      * Opens a dialog that lets you search for terms using the OLS.
@@ -357,6 +363,7 @@ public class OLSDialog extends javax.swing.JDialog {
             Double modificationMass, Double modificationAccuracy, Integer searchType,
             Map<String, List<Identifier>> preselectedOntologies) {
         super(parent, modal);
+
         this.olsInputable = olsInputable;
         this.field = field;
         this.selectedOntology = selectedOntology;
@@ -364,14 +371,18 @@ public class OLSDialog extends javax.swing.JDialog {
         this.mappedTerm = term;
         this.preselectedOntologies = (preselectedOntologies==null ? new HashMap() : preselectedOntologies);
         setUpFrame(searchType);
-        boolean error = openOlsConnectionAndInsertOntologyNames();
-        if (error) {
-            this.dispose();
-        } else {
+
+        GetOntologiesTask ontologyTask = new GetOntologiesTask(this, null, olsConnection);
+        ontologyTask.execute();
+
+        //boolean error = openOlsConnectionAndInsertOntologyNames();
+//        if (error) {
+//            this.dispose();
+//        } else {
             insertValues(modificationMass, modificationAccuracy, searchType);
             this.setLocationRelativeTo(parent);
             this.setVisible(true);
-        }
+//        }
     }
 
     /**
@@ -406,10 +417,13 @@ public class OLSDialog extends javax.swing.JDialog {
         this.mappedTerm = term;
         this.preselectedOntologies = (preselectedOntologies==null ? new HashMap() : preselectedOntologies);
         setUpFrame(searchType);
-        boolean error = openOlsConnectionAndInsertOntologyNames();
-        if (error) {
-            this.dispose();
-        } else {
+        // boolean error = openOlsConnectionAndInsertOntologyNames();
+        GetOntologiesTask ontologyTask = new GetOntologiesTask(this, null, olsConnection);
+        ontologyTask.execute();
+
+//        if (error) {
+//            this.dispose();
+//        } else {
             insertValues(modificationMass, modificationAccuracy, searchType);
             this.setLocationRelativeTo(parent);
             if (getCurrentOntologyLabel().equalsIgnoreCase(SEARCH_IN_ALL_ONTOLOGIES_AVAILABLE_IN_THE_OLS_REGISTRY) || getCurrentOntologyLabel().equalsIgnoreCase(SEARCH_IN_THESE_PRESELECTED_ONTOLOGIES)) {
@@ -425,7 +439,7 @@ public class OLSDialog extends javax.swing.JDialog {
             }
 
             this.setVisible(true);
-        }
+//        }
     }
 
     /**
@@ -487,14 +501,17 @@ public class OLSDialog extends javax.swing.JDialog {
             this.preselectedOntologies = preselectedOntologies;
         }
         setUpFrame(searchType);
-        boolean error = openOlsConnectionAndInsertOntologyNames();
-        if (error) {
-            this.dispose();
-        } else {
+       // boolean error = openOlsConnectionAndInsertOntologyNames();
+        GetOntologiesTask ontologyTask = new GetOntologiesTask(this, null, olsConnection);
+        ontologyTask.execute();
+//
+//        if (error) {
+//            this.dispose();
+//        } else {
             insertValues(modificationMass, modificationAccuracy, searchType);
             this.setLocationRelativeTo(parent);
             this.setVisible(true);
-        }
+      //  }
     }
 
     /**
@@ -555,6 +572,20 @@ public class OLSDialog extends javax.swing.JDialog {
      * handling column tooltips etc.
      */
     private void setUpFrame(Integer searchType) {
+
+        try {
+            for (UIManager.LookAndFeelInfo info : UIManager.getInstalledLookAndFeels()) {
+                if ("Nimbus".equals(info.getName())) {
+                    UIManager.setLookAndFeel(info.getClassName());
+                    LookAndFeel lookAndFeel = UIManager.getLookAndFeel();
+                    UIDefaults defaults = lookAndFeel.getDefaults();
+                    defaults.put("ScrollBar.minimumThumbSize", new Dimension(30, 30));
+                    break;
+                }
+            }
+        } catch (Exception e) {
+            logger.error("Failed to load nimbus look and feel for the application", e);
+        }
 
         initComponents();
 
@@ -660,7 +691,7 @@ public class OLSDialog extends javax.swing.JDialog {
         } catch (RestClientException e) {
             JOptionPane.showMessageDialog(
                     this,
-                    defaultOlsConnectionFailureErrorMessage,
+                    DEFAULT_OLS_CONNECTION_ERROR,
                     "OLS Connection Error", JOptionPane.ERROR_MESSAGE);
             Util.writeToErrorLog("Error when trying to access OLS: ");
             e.printStackTrace();
@@ -766,7 +797,7 @@ public class OLSDialog extends javax.swing.JDialog {
         } catch (RestClientException ex) {
             JOptionPane.showMessageDialog(
                     this,
-                    defaultOlsConnectionFailureErrorMessage,
+                    DEFAULT_OLS_CONNECTION_ERROR,
                     "OLS Connection Error", JOptionPane.ERROR_MESSAGE);
             Util.writeToErrorLog("Error when trying to access OLS: ");
             ex.printStackTrace();
@@ -891,7 +922,7 @@ public class OLSDialog extends javax.swing.JDialog {
             } catch (RestClientException ex) {
                 JOptionPane.showMessageDialog(
                         this,
-                        defaultOlsConnectionFailureErrorMessage,
+                        DEFAULT_OLS_CONNECTION_ERROR,
                         "OLS Connection Error", JOptionPane.ERROR_MESSAGE);
                 Util.writeToErrorLog("Error when trying to access OLS: ");
                 ex.printStackTrace();
@@ -1079,66 +1110,67 @@ public class OLSDialog extends javax.swing.JDialog {
      *
      * @return false if an error occurred, true otherwise
      */
-    private boolean openOlsConnectionAndInsertOntologyNames() {
-        boolean error = false;
-        Vector ontologyNamesAndKeys = new Vector();
-        preselectedNames2Ids = new HashMap();
-        try {
-            olsConnection = new OLSClient(new OLSWsConfigProd());
-            List<Ontology> ontologies = olsConnection.getOntologies();
-            ontologies = Util.refineOntologyNames(ontologies);
-            String ontologyToSelect = "";
-            for (Ontology ontology : Util.refineOntologyNames(ontologies)) {
-                String key = ontology.getConfig().getPreferredPrefix();
-                String temp = ontology.getName() + " [" + key + "]";
-                if (preselectedOntologies.isEmpty()) {
-                    ontologyNamesAndKeys.add(temp);
-                } else {
-                    if (preselectedOntologies.keySet().contains(key.toLowerCase())) {
-                        if (preselectedOntologies.get(key.toUpperCase()) == null) {
-                            ontologyNamesAndKeys.add(temp);
-                        }
-                    }
-                }
-                if (selectedOntology.equalsIgnoreCase(temp) || selectedOntology.equalsIgnoreCase(key)) {
-                    ontologyToSelect = temp;
-                }
-            }
-            if (!preselectedOntologies.isEmpty()) {
-                if (preselectedOntologies.size() != ontologyNamesAndKeys.size()) {
-                    Util.writeToErrorLog("Warning: One or more of your preselected ontologies have not been found in OLS");
-                }
-            }
-            Collections.sort(ontologyNamesAndKeys);
-            if (!onlyListPreselectedOntologies) {
-                ontologyNamesAndKeys.add(0, SEARCH_IN_ALL_ONTOLOGIES_AVAILABLE_IN_THE_OLS_REGISTRY);
-                if (preselectedOntologies.size() > 1) {
-                    ontologyNamesAndKeys.add(1, SEARCH_IN_THESE_PRESELECTED_ONTOLOGIES);
-                }
-            }
-            ontologyJComboBox.setModel(new DefaultComboBoxModel(ontologyNamesAndKeys));
-            //default selected ontology. Has to be the same name shown in the menu
-            ontologyJComboBox.setSelectedItem(ontologyToSelect);
-            hideOrShowNewtLinks();
-            lastSelectedOntology = (String) ontologyJComboBox.getSelectedItem();
-        } catch (RestClientException ex) {
-            JOptionPane.showMessageDialog(this, defaultOlsConnectionFailureErrorMessage, "Failed to Contact the OLS", JOptionPane.ERROR_MESSAGE);
-            Util.writeToErrorLog("Error when trying to access OLS: ");
-            ex.printStackTrace();
-            error = true;
-        } catch (Exception ex) {
-            JOptionPane.showMessageDialog(this, defaultOlsConnectionFailureErrorMessage, "Failed to Contact the OLS", JOptionPane.ERROR_MESSAGE);
-            Util.writeToErrorLog("Error when trying to access OLS: ");
-            ex.printStackTrace();
-            error = true;
-        }
-        return error;
-    }
+//    private boolean openOlsConnectionAndInsertOntologyNames() {
+
+//        boolean error = false;
+//        Vector ontologyNamesAndKeys = new Vector();
+//        preselectedNames2Ids = new HashMap();
+//        try {
+//            List<Ontology> ontologies = olsConnection.getOntologies();
+//            ontologies = Util.refineOntologyNames(ontologies);
+//            String ontologyToSelect = "";
+//            for (Ontology ontology : ontologies) {
+//                String key = ontology.getConfig().getPreferredPrefix();
+//                String temp = ontology.getName() + " [" + key + "]";
+//                if (preselectedOntologies.isEmpty()) {
+//                    ontologyNamesAndKeys.add(temp);
+//                } else {
+//                    if (preselectedOntologies.keySet().contains(key.toLowerCase())) {
+//                        if (preselectedOntologies.get(key.toUpperCase()) == null) {
+//                            ontologyNamesAndKeys.add(temp);
+//                        }
+//                    }
+//                }
+//                if (selectedOntology.equalsIgnoreCase(temp) || selectedOntology.equalsIgnoreCase(key)) {
+//                    ontologyToSelect = temp;
+//                }
+//            }
+//            if (!preselectedOntologies.isEmpty()) {
+//                if (preselectedOntologies.size() != ontologyNamesAndKeys.size()) {
+//                    Util.writeToErrorLog("Warning: One or more of your preselected ontologies have not been found in OLS");
+//                }
+//            }
+//            Collections.sort(ontologyNamesAndKeys);
+//            if (!onlyListPreselectedOntologies) {
+//                ontologyNamesAndKeys.add(0, SEARCH_IN_ALL_ONTOLOGIES_AVAILABLE_IN_THE_OLS_REGISTRY);
+//                if (preselectedOntologies.size() > 1) {
+//                    ontologyNamesAndKeys.add(1, SEARCH_IN_THESE_PRESELECTED_ONTOLOGIES);
+//                }
+//            }
+//            ontologyJComboBox.setModel(new DefaultComboBoxModel(ontologyNamesAndKeys));
+//            //default selected ontology. Has to be the same name shown in the menu
+//            ontologyJComboBox.setSelectedItem(ontologyToSelect);
+//            hideOrShowNewtLinks();
+//            lastSelectedOntology = (String) ontologyJComboBox.getSelectedItem();
+//        } catch (RestClientException ex) {
+//            JOptionPane.showMessageDialog(this, DEFAULT_OLS_CONNECTION_ERROR, "Failed to Contact the OLS", JOptionPane.ERROR_MESSAGE);
+//            Util.writeToErrorLog("Error when trying to access OLS: ");
+//            ex.printStackTrace();
+//            error = true;
+//        } catch (Exception ex) {
+//            JOptionPane.showMessageDialog(this, DEFAULT_OLS_CONNECTION_ERROR, "Failed to Contact the OLS", JOptionPane.ERROR_MESSAGE);
+//            Util.writeToErrorLog("Error when trying to access OLS: ");
+//            ex.printStackTrace();
+//            error = true;
+//        }
+
+        //return error;
+//    }
 
     /**
      * Makes the 'newt species tip' links visible or not visible.
      */
-    private void hideOrShowNewtLinks() {
+    public void hideOrShowNewtLinks() {
 
         // note: has to be done like this and not simply by disabling or
         // making invisible, as both of those options have unwanted side effects
@@ -1216,7 +1248,7 @@ public class OLSDialog extends javax.swing.JDialog {
         } catch (RestClientException ex) {
             JOptionPane.showMessageDialog(
                     this,
-                    defaultOlsConnectionFailureErrorMessage,
+                    DEFAULT_OLS_CONNECTION_ERROR,
                     "OLS Connection Error", JOptionPane.ERROR_MESSAGE);
             Util.writeToErrorLog("Error when trying to access OLS: ");
             ex.printStackTrace();
@@ -1235,12 +1267,14 @@ public class OLSDialog extends javax.swing.JDialog {
 
         String ontology = ((String) ontologyJComboBox.getSelectedItem());
         //ontology = ontology.substring(ontology.lastIndexOf("[") + 1, ontology.length() - 1);
-        if (ontology.lastIndexOf("[") != -1) {
+        if (ontology != null && ontology.lastIndexOf("[") != -1) {
             ontology = ontology.substring(ontology.lastIndexOf("[") + 1, ontology.length());
         }
-        if (ontology.lastIndexOf("]") != -1) {
+        if (ontology != null && ontology.lastIndexOf("]") != -1) {
             ontology = ontology.substring(0, ontology.lastIndexOf("]"));
         }
+        if(ontology == null)
+            ontology = SEARCH_IN_ALL_ONTOLOGIES_AVAILABLE_IN_THE_OLS_REGISTRY;
 
         return ontology;
     }
@@ -1358,6 +1392,7 @@ public class OLSDialog extends javax.swing.JDialog {
         viewTermHierarchyBrowseOntologyJLabel = new javax.swing.JLabel();
         ontologyJLabel = new javax.swing.JLabel();
         ontologyJComboBox = new javax.swing.JComboBox();
+        progressBar = new JProgressBar();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         setTitle(" Ontology Lookup Service - (ols-dialog v3.0)");
@@ -2376,7 +2411,7 @@ public class OLSDialog extends javax.swing.JDialog {
                     } catch (RestClientException ex) {
                         JOptionPane.showMessageDialog(
                                 null,
-                                defaultOlsConnectionFailureErrorMessage,
+                                DEFAULT_OLS_CONNECTION_ERROR,
                                 "OLS Connection Error", JOptionPane.ERROR_MESSAGE);
                         Util.writeToErrorLog("Error when trying to access OLS: ");
                         ex.printStackTrace();
@@ -2560,14 +2595,14 @@ public class OLSDialog extends javax.swing.JDialog {
         } catch (RestClientException ex) {
             JOptionPane.showMessageDialog(
                     this,
-                    defaultOlsConnectionFailureErrorMessage,
+                    DEFAULT_OLS_CONNECTION_ERROR,
                     "OLS Connection Error", JOptionPane.ERROR_MESSAGE);
             Util.writeToErrorLog("Error when trying to access OLS: ");
             ex.printStackTrace();
         } catch (Exception ex) {
             JOptionPane.showMessageDialog(
                     this,
-                    defaultOlsConnectionFailureErrorMessage,
+                    DEFAULT_OLS_CONNECTION_ERROR,
                     "OLS Connection Error", JOptionPane.ERROR_MESSAGE);
             Util.writeToErrorLog("Error when trying to access OLS: ");
             ex.printStackTrace();
@@ -2582,13 +2617,17 @@ public class OLSDialog extends javax.swing.JDialog {
      * @param evt
      */
     private void modificationMassSearchJButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_modificationMassSearchJButtonActionPerformed
+
         this.setCursor(new java.awt.Cursor(java.awt.Cursor.WAIT_CURSOR));
         insertSelectedJButton.setEnabled(false);
         viewTermHierarchyMassSearchJLabel.setEnabled(false);
+
         clearData(OLS_DIALOG_PSI_MOD_MASS_SEARCH, true, true);
+
         boolean error = false;
         double currentModificationMass = 0.0;
         double currentAccuracy = 0.1;
+
         try {
             currentModificationMass = new Double(modificationMassJTextField.getText());
         } catch (NumberFormatException e) {
@@ -2597,6 +2636,7 @@ public class OLSDialog extends javax.swing.JDialog {
             modificationMassJTextField.requestFocus();
             error = true;
         }
+
         if (!error) {
             try {
                 currentAccuracy = new Double(precisionJTextField.getText());
@@ -2613,23 +2653,27 @@ public class OLSDialog extends javax.swing.JDialog {
                 error = true;
             }
         }
+
         if (!error) {
             String massType = massTypeJComboBox.getSelectedItem().toString();
-            List<Term> results = getModificationsByMassDelta(massType, currentModificationMass - currentAccuracy,
-                    currentModificationMass + currentAccuracy);
-            if (results != null) {
-                for (int i = 0; i < results.size(); i++) {
-                    massSearchModel.addRow(results.get(i), massType);
-                }
-                Integer width = getPreferredColumnWidth(olsResultsMassSearchJTable, olsResultsMassSearchJTable.getColumn("Accession").getModelIndex(), 6);
-                if (width != null) {
-                    olsResultsMassSearchJTable.getColumn("Accession").setMinWidth(width);
-                    olsResultsMassSearchJTable.getColumn("Accession").setMaxWidth(width);
-                } else {
-                    olsResultsMassSearchJTable.getColumn("Accession").setMinWidth(15);
-                    olsResultsMassSearchJTable.getColumn("Accession").setMaxWidth(Integer.MAX_VALUE);
-                }
-            }
+            GetPTMModifications ptmSearchTask = new GetPTMModifications(null,olsConnection, massSearchModel,
+                    massType, currentModificationMass - currentAccuracy, currentModificationMass + currentAccuracy);
+            //List<Term> results = getModificationsByMassDelta(massType, currentModificationMass - currentAccuracy,
+            //        currentModificationMass + currentAccuracy);
+//            if (results != null) {
+//                for (int i = 0; i < results.size(); i++) {
+//                    massSearchModel.addRow(results.get(i), massType);
+//                }
+//                Integer width = getPreferredColumnWidth(olsResultsMassSearchJTable, olsResultsMassSearchJTable.getColumn("Accession").getModelIndex(), 6);
+//                if (width != null) {
+//                    olsResultsMassSearchJTable.getColumn("Accession").setMinWidth(width);
+//                    olsResultsMassSearchJTable.getColumn("Accession").setMaxWidth(width);
+//                } else {
+//                    olsResultsMassSearchJTable.getColumn("Accession").setMinWidth(15);
+//                    olsResultsMassSearchJTable.getColumn("Accession").setMaxWidth(Integer.MAX_VALUE);
+//                }
+//            }
+            ptmSearchTask.execute();
             this.setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
             if (olsResultsMassSearchJTable.getRowCount() > 0) {
                 olsResultsMassSearchJTable.scrollRectToVisible(olsResultsTermNameSearchJTable.getCellRect(0, 0, false));
@@ -2895,7 +2939,7 @@ public class OLSDialog extends javax.swing.JDialog {
         } catch (RestClientException ex) {
             JOptionPane.showMessageDialog(
                     this,
-                    defaultOlsConnectionFailureErrorMessage,
+                    DEFAULT_OLS_CONNECTION_ERROR,
                     "OLS Connection Error", JOptionPane.ERROR_MESSAGE);
             Util.writeToErrorLog("Error when trying to access OLS: ");
             ex.printStackTrace();
@@ -3373,7 +3417,7 @@ public class OLSDialog extends javax.swing.JDialog {
                     } else {
                         JOptionPane.showMessageDialog(
                                 this,
-                                defaultOlsConnectionFailureErrorMessage,
+                                DEFAULT_OLS_CONNECTION_ERROR,
                                 "OLS Connection Error", JOptionPane.ERROR_MESSAGE);
                         Util.writeToErrorLog("Error when trying to access OLS: ");
                     }
@@ -3381,7 +3425,7 @@ public class OLSDialog extends javax.swing.JDialog {
             } catch (RestClientException ex) {
                 JOptionPane.showMessageDialog(
                         this,
-                        defaultOlsConnectionFailureErrorMessage,
+                        DEFAULT_OLS_CONNECTION_ERROR,
                         "OLS Connection Error", JOptionPane.ERROR_MESSAGE);
                 Util.writeToErrorLog("Error when trying to access OLS: ");
                 ex.printStackTrace();
@@ -3389,7 +3433,31 @@ public class OLSDialog extends javax.swing.JDialog {
         }
     }
 
-    public void setOnlyListPreselectedOntologies(boolean onlyListPreselectedOntologies) {
-        this.onlyListPreselectedOntologies = onlyListPreselectedOntologies;
+    public JComboBox getOntologyJComboBox() {
+        return ontologyJComboBox;
+    }
+
+    public void setOntologyJComboBox(JComboBox ontologyJComboBox) {
+        this.ontologyJComboBox = ontologyJComboBox;
+    }
+
+    public Map<String, List<Identifier>> getPreselectedOntologies() {
+        return preselectedOntologies;
+    }
+
+    public void setPreselectedNames2Ids(Map<String, Identifier> preselectedNames2Ids) {
+        this.preselectedNames2Ids = preselectedNames2Ids;
+    }
+
+    public String getSelectedOntology() {
+        return selectedOntology;
+    }
+
+    public boolean isOnlyListPreselectedOntologies() {
+        return onlyListPreselectedOntologies;
+    }
+
+    public void setLastSelectedOntology(String lastSelectedOntology) {
+        this.lastSelectedOntology = lastSelectedOntology;
     }
 }
