@@ -2,6 +2,7 @@ package uk.ac.ebi.pride.toolsuite.ols.dialog.util;
 
 import uk.ac.ebi.pride.toolsuite.ols.dialog.OLSDialog;
 import org.apache.commons.lang3.StringUtils;
+import uk.ac.ebi.pride.utilities.ols.web.service.model.ITerm;
 import uk.ac.ebi.pride.utilities.ols.web.service.model.Identifier;
 import uk.ac.ebi.pride.utilities.ols.web.service.model.Term;
 
@@ -56,7 +57,7 @@ public class TreeBrowser extends JPanel implements TreeSelectionListener, TreeMo
         super(new GridLayout(1, 0));
 
         this.olsDialog = parent;
-        Term term = new Term(null, null, null, null, null, "Load Ontology to Browse", null, null, true, null);
+        ITerm term = new Term(null, null, null, null, null, "Load Ontology to Browse", null, null, true, null);
         tree = new JTree(new DefaultTreeModel(new DefaultMutableTreeNode(new TermNode(term, null))));
         tree.setEditable(false);
         tree.getSelectionModel().setSelectionMode(TreeSelectionModel.SINGLE_TREE_SELECTION);
@@ -196,7 +197,7 @@ public class TreeBrowser extends JPanel implements TreeSelectionListener, TreeMo
         TermNode nodeInfo = (TermNode) node.getUserObject();
 
         // load the children and the meta data, unless the term is the 'no roots defined' dummy term
-        if (nodeInfo.getTerm() != null && nodeInfo.getTerm().getLabel() != null && !nodeInfo.getTerm().getLabel().equalsIgnoreCase("No Root Terms Defined!")) {
+        if (nodeInfo.getTerm() != null && nodeInfo.getTerm().getName()!= null && !nodeInfo.getTerm().getName().equalsIgnoreCase("No Root Terms Defined!")) {
 
             // load children only for leaf nodes and those that have not been marked as processed
             if (node.isLeaf() && node.getAllowsChildren()) {
@@ -221,7 +222,7 @@ public class TreeBrowser extends JPanel implements TreeSelectionListener, TreeMo
             }
 
             olsDialog.loadMetaData(nodeInfo.getTerm(), OLSDialog.OLS_DIALOG_BROWSE_ONTOLOGY);
-        } else if(nodeInfo.getTerm() != null && nodeInfo.getTerm().getLabel() == null && !nodeInfo.getTerm().getOntologyName().equalsIgnoreCase("No Root Terms Defined!")){
+        } else if(nodeInfo.getTerm() != null && nodeInfo.getTerm().getName() == null && !nodeInfo.getTerm().getOntologyName().equalsIgnoreCase("No Root Terms Defined!")){
 
             olsDialog.loadMetaOntologyData(nodeInfo.getTerm().getOntologyName(), OLSDialog.OLS_DIALOG_BROWSE_ONTOLOGY);
 
@@ -285,19 +286,19 @@ public class TreeBrowser extends JPanel implements TreeSelectionListener, TreeMo
      */
     private class TermNode {
 
-        private Term term;
-        private Term parentTerm;
+        private ITerm term;
+        private ITerm parentTerm;
         private String type;
 
-        public void setTerm(Term term) {
+        public void setTerm(ITerm term) {
             this.term = term;
         }
 
-        public TermNode(Term term) {
+        public TermNode(ITerm term) {
             this.term = term;
         }
 
-        public TermNode(Term term, Term parentTerm){
+        public TermNode(ITerm term, ITerm parentTerm){
             this.term = term;
             this.parentTerm = parentTerm;
 
@@ -309,17 +310,9 @@ public class TreeBrowser extends JPanel implements TreeSelectionListener, TreeMo
          * @return the term name
          */
         public String getTermName() {
-            return term.getLabel();
+            return term.getName();
         }
 
-        /**
-         * Set the term name.
-         *
-         * @param termName
-         */
-        public void setTermName(String termName) {
-            this.term.setLabel(termName);
-        }
 
         /**
          * Returns the term accession number.
@@ -327,27 +320,27 @@ public class TreeBrowser extends JPanel implements TreeSelectionListener, TreeMo
          * @return the term accession number
          */
         public Identifier getOBOTermId() {
-            return this.term.getTermOBOId();
+            return this.term.getOboId();
         }
 
         @Override
         public String toString() {
             String nodeString = "";
             if(term != null && term.getGlobalId() != null)
-                nodeString += StringUtils.capitalize(term.getLabel()) + " [ " + term.getGlobalId().getIdentifier().toUpperCase() + " ]";
-            else if(term != null && term.getGlobalId() == null && term.getLabel() != null)
-                nodeString += term.getLabel();
+                nodeString += StringUtils.capitalize(term.getName()) + " [ " + term.getGlobalId().getIdentifier().toUpperCase() + " ]";
+            else if(term != null && term.getGlobalId() == null && term.getName() != null)
+                nodeString += term.getName();
             else if(term != null && term.getOntologyName() != null)
                 nodeString += term.getOntologyName().toString().toUpperCase();
 
             return nodeString;
         }
 
-        public Term getTerm() {
+        public ITerm getTerm() {
             return term;
         }
 
-        public Term getParentTerm() {
+        public ITerm getParentTerm() {
             return parentTerm;
         }
 

@@ -18,7 +18,7 @@ import java.util.Map;
  * <p>
  * ==Overview==
  * <p>
- * This class
+ * TermSearchTask Search for all terms that contains an specific keyword.
  * <p>
  * Created by ypriverol (ypriverol@gmail.com) on 09/07/2017.
  */
