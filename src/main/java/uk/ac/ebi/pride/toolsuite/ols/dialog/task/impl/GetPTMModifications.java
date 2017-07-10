@@ -34,13 +34,15 @@ public class GetPTMModifications extends AbstractTask {
 
     private double toMass;
 
+    private static String NAME_TASK = "Get PTMs by Mass Values";
+
     /**
      * Default Constructor
      * @param olsDialog olsDialog
      * @param olsClient OLS client
      */
-    private GetPTMModifications(OLSDialog olsDialog, OLSClient olsClient) {
-        super(olsDialog, olsClient);
+    public GetPTMModifications(OLSDialog olsDialog, OLSClient olsClient) {
+        super(NAME_TASK, olsDialog, olsClient);
     }
 
     public GetPTMModifications(OLSDialog olsDialog, OLSClient olsclient,

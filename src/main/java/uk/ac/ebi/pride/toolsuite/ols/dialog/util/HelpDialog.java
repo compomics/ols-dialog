@@ -46,7 +46,7 @@ public class HelpDialog extends javax.swing.JDialog {
         } catch (Exception e) {
             try {
                 textJEditorPane.setPage(getClass().getResource(
-                        "/uk/ac/ebi/pride/toolsuite/ols/dialog/helpfiles/DefaultHelpFile.html"));
+                        "/helpfiles/DefaultHelpFile.html"));
             } catch (Exception ex) {
                 textJEditorPane.setText("The selected help file is not yet available.");
             }
@@ -103,7 +103,7 @@ public class HelpDialog extends javax.swing.JDialog {
         } catch (Exception e) {
             try {
                 textJEditorPane.setPage(getClass().getResource(
-                        "/uk/ac/ebi/pride/toolsuite/ols/dialog/helpfiles/DefaultHelpFile.html"));
+                        "/helpfiles/DefaultHelpFile.html"));
             } catch (Exception ex) {
                 textJEditorPane.setText("The selected help file is not yet available.");
             }

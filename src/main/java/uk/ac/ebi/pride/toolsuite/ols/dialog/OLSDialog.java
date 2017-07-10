@@ -5,9 +5,11 @@ import org.slf4j.LoggerFactory;
 import org.springframework.web.client.RestClientException;
 import uk.ac.ebi.pride.toolsuite.ols.dialog.model.MassSearchModel;
 import uk.ac.ebi.pride.toolsuite.ols.dialog.renders.SearchTableCellRender;
+import uk.ac.ebi.pride.toolsuite.ols.dialog.task.AbstractTask;
 import uk.ac.ebi.pride.toolsuite.ols.dialog.task.impl.GetOntologiesTask;
 import uk.ac.ebi.pride.toolsuite.ols.dialog.task.impl.GetPTMModifications;
 import uk.ac.ebi.pride.toolsuite.ols.dialog.task.impl.TermSearchTask;
+import uk.ac.ebi.pride.toolsuite.ols.dialog.taskmanager.TaskManager;
 import uk.ac.ebi.pride.toolsuite.ols.dialog.util.*;
 import uk.ac.ebi.pride.utilities.ols.web.service.client.OLSClient;
 import uk.ac.ebi.pride.utilities.ols.web.service.config.OLSWsConfigProd;
@@ -176,7 +178,7 @@ public class OLSDialog extends javax.swing.JDialog {
      */
     private MassSearchModel massSearchModel;
 
-    private JProgressBar progressBar;
+    private TaskManager taskManager = new TaskManager();
 
     /**
      * Opens a dialog that lets you search for terms using the OLS.
@@ -375,7 +377,8 @@ public class OLSDialog extends javax.swing.JDialog {
         setUpFrame(searchType);
 
         GetOntologiesTask ontologyTask = new GetOntologiesTask(this, olsConnection);
-        ontologyTask.execute();
+        taskManager.addTask(ontologyTask);
+
         insertValues(modificationMass, modificationAccuracy, searchType);
         this.setLocationRelativeTo(parent);
         this.setVisible(true);
@@ -415,7 +418,8 @@ public class OLSDialog extends javax.swing.JDialog {
         setUpFrame(searchType);
 
         GetOntologiesTask ontologyTask = new GetOntologiesTask(this,  olsConnection);
-        ontologyTask.execute();
+        taskManager.addTask(ontologyTask);
+
         insertValues(modificationMass, modificationAccuracy, searchType);
         this.setLocationRelativeTo(parent);
         if (getCurrentOntologyLabel().equalsIgnoreCase(SEARCH_IN_ALL_ONTOLOGIES_AVAILABLE_IN_THE_OLS_REGISTRY) || getCurrentOntologyLabel().equalsIgnoreCase(SEARCH_IN_THESE_PRESELECTED_ONTOLOGIES)) {
@@ -495,7 +499,7 @@ public class OLSDialog extends javax.swing.JDialog {
         setUpFrame(searchType);
 
         GetOntologiesTask ontologyTask = new GetOntologiesTask(this,  olsConnection);
-        ontologyTask.execute();
+        taskManager.addTask(ontologyTask);
 
         insertValues(modificationMass, modificationAccuracy, searchType);
         this.setLocationRelativeTo(parent);
@@ -1318,7 +1322,6 @@ public class OLSDialog extends javax.swing.JDialog {
         viewTermHierarchyBrowseOntologyJLabel = new javax.swing.JLabel();
         ontologyJLabel = new javax.swing.JLabel();
         ontologyJComboBox = new javax.swing.JComboBox();
-        progressBar = new JProgressBar();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         setTitle(" Ontology Lookup Service - (ols-dialog v3.0)");
@@ -1348,7 +1351,7 @@ public class OLSDialog extends javax.swing.JDialog {
             }
         });
 
-        helpJButton.setIcon(new javax.swing.ImageIcon(getClass().getResource("/uk/ac/ebi/pride/toolsuite/ols/dialog/icons/help.GIF"))); // NOI18N
+        helpJButton.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icons/help.GIF"))); // NOI18N
         helpJButton.setToolTipText("Help");
         helpJButton.setBorderPainted(false);
         helpJButton.setContentAreaFilled(false);
@@ -1366,7 +1369,7 @@ public class OLSDialog extends javax.swing.JDialog {
             }
         });
 
-        aboutJButton.setIcon(new javax.swing.ImageIcon(getClass().getResource("/uk/ac/ebi/pride/toolsuite/ols/dialog/icons/ols_transparent_small.GIF"))); // NOI18N
+        aboutJButton.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icons/ols_transparent_small.GIF"))); // NOI18N
         aboutJButton.setToolTipText("About");
         aboutJButton.setBorderPainted(false);
         aboutJButton.setContentAreaFilled(false);
@@ -2291,13 +2294,13 @@ public class OLSDialog extends javax.swing.JDialog {
                     String ontology = getCurrentOntologyLabel().equalsIgnoreCase(SEARCH_IN_ALL_ONTOLOGIES_AVAILABLE_IN_THE_OLS_REGISTRY) || getCurrentOntologyLabel().equalsIgnoreCase(SEARCH_IN_THESE_PRESELECTED_ONTOLOGIES) ? null : getCurrentOntologyLabel();
                     if (isPreselectedOption()) {
                         TermSearchTask termSearch = new TermSearchTask(this, olsConnection, "*" + termNameSearchJTextField.getText() + "*", false, preselectedOntologies);
-                        termSearch.execute();
+                        taskManager.addTask(termSearch);
                     } else if (getCurrentOntologyLabel().equalsIgnoreCase(SEARCH_IN_ALL_ONTOLOGIES_AVAILABLE_IN_THE_OLS_REGISTRY)) {
                         TermSearchTask termSearch = new TermSearchTask(this, olsConnection, "*" + termNameSearchJTextField.getText() + "*", false);
-                        termSearch.execute();
+                        taskManager.addTask(termSearch);
                     } else {
                         TermSearchTask termSearch = new TermSearchTask(this, olsConnection, "*" + termNameSearchJTextField.getText() + "*", false, ontology);
-                        termSearch.execute();
+                        taskManager.addTask(termSearch);
                     }
                 } else {
                     numberOfTermsTermNameSearchJTextField.setText("-");
@@ -2447,7 +2450,7 @@ public class OLSDialog extends javax.swing.JDialog {
      */
     private void helpJButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_helpJButtonActionPerformed
         setCursor(new java.awt.Cursor(java.awt.Cursor.WAIT_CURSOR));
-        new HelpDialog(this, true, getClass().getResource("/uk/ac/ebi/pride/toolsuite/ols/dialog/helpfiles/OLSDialog.html"));
+        new HelpDialog(this, true, getClass().getResource("/helpfiles/OLSDialog.html"));
         setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
     }//GEN-LAST:event_helpJButtonActionPerformed
 
@@ -2458,7 +2461,7 @@ public class OLSDialog extends javax.swing.JDialog {
      */
     private void aboutJButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_aboutJButtonActionPerformed
         setCursor(new java.awt.Cursor(java.awt.Cursor.WAIT_CURSOR));
-        new HelpDialog(this, true, getClass().getResource("/uk/ac/ebi/pride/toolsuite/ols/dialog/helpfiles/AboutOLS.html"));
+        new HelpDialog(this, true, getClass().getResource("/helpfiles/AboutOLS.html"));
         setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
     }//GEN-LAST:event_aboutJButtonActionPerformed
 
@@ -2549,7 +2552,7 @@ public class OLSDialog extends javax.swing.JDialog {
         if (!error) {
             String massType = massTypeJComboBox.getSelectedItem().toString();
             GetPTMModifications ptmSearchTask = new GetPTMModifications(null,olsConnection, massSearchModel, massType, currentModificationMass - currentAccuracy, currentModificationMass + currentAccuracy);
-            ptmSearchTask.execute();
+            taskManager.addTask(ptmSearchTask);
             this.setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
             if (olsResultsMassSearchJTable.getRowCount() > 0) {
                 olsResultsMassSearchJTable.scrollRectToVisible(olsResultsTermNameSearchJTable.getCellRect(0, 0, false));
@@ -3335,5 +3338,12 @@ public class OLSDialog extends javax.swing.JDialog {
 
     public void setLastSelectedOntology(String lastSelectedOntology) {
         this.lastSelectedOntology = lastSelectedOntology;
+    }
+
+    public void cancelTask(AbstractTask task, boolean b) {
+    }
+
+    public TaskManager getTaskManager() {
+        return taskManager;
     }
 }

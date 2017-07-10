@@ -131,7 +131,7 @@ public class OLS_Example extends javax.swing.JFrame implements OLSInputable {
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
         setTitle("OLS Dialog - Usage Example");
         setIconImage(Toolkit.getDefaultToolkit().getImage(getClass().
-            getResource("/uk/ac/ebi/pride/toolsuite/ols/dialog/icons/ols_transparent_small.GIF")));
+            getResource("/icons/ols_transparent_small.GIF")));
 
     backgroundPanel.setBackground(new java.awt.Color(230, 230, 230));
 
@@ -148,7 +148,7 @@ public class OLS_Example extends javax.swing.JFrame implements OLSInputable {
     instrumentSourceJTextField.setEditable(false);
     instrumentSourceJTextField.setHorizontalAlignment(javax.swing.JTextField.CENTER);
 
-    instrumentSourceJButton.setIcon(new javax.swing.ImageIcon(getClass().getResource("/uk/ac/ebi/pride/toolsuite/ols/dialog/icons/ols_transparent.GIF"))); // NOI18N
+    instrumentSourceJButton.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icons/ols_transparent.GIF"))); // NOI18N
     instrumentSourceJButton.setToolTipText("Ontology Lookup Service");
     instrumentSourceJButton.setBorderPainted(false);
     instrumentSourceJButton.setPreferredSize(new java.awt.Dimension(61, 23));
@@ -158,7 +158,7 @@ public class OLS_Example extends javax.swing.JFrame implements OLSInputable {
         }
     });
 
-    instrumentDetectorJButton.setIcon(new javax.swing.ImageIcon(getClass().getResource("/uk/ac/ebi/pride/toolsuite/ols/dialog/icons/ols_transparent.GIF"))); // NOI18N
+    instrumentDetectorJButton.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icons/ols_transparent.GIF"))); // NOI18N
     instrumentDetectorJButton.setToolTipText("Ontology Lookup Service");
     instrumentDetectorJButton.setBorderPainted(false);
     instrumentDetectorJButton.setPreferredSize(new java.awt.Dimension(61, 23));
@@ -243,7 +243,7 @@ public class OLS_Example extends javax.swing.JFrame implements OLSInputable {
     });
     processingMethodsJScrollPane.setViewportView(processingMethodsJTable);
 
-    processingMethodsJButton.setIcon(new javax.swing.ImageIcon(getClass().getResource("/uk/ac/ebi/pride/toolsuite/ols/dialog/icons/ols_transparent.GIF"))); // NOI18N
+    processingMethodsJButton.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icons/ols_transparent.GIF"))); // NOI18N
     processingMethodsJButton.setText("Add Processing Method");
     processingMethodsJButton.setHorizontalTextPosition(javax.swing.SwingConstants.LEADING);
     processingMethodsJButton.setPreferredSize(new java.awt.Dimension(177, 23));
@@ -289,7 +289,7 @@ public class OLS_Example extends javax.swing.JFrame implements OLSInputable {
     modificationMassJTextField.setHorizontalAlignment(javax.swing.JTextField.CENTER);
     modificationMassJTextField.setText("15.994915");
 
-    modificationMassJButton.setIcon(new javax.swing.ImageIcon(getClass().getResource("/uk/ac/ebi/pride/toolsuite/ols/dialog/icons/ols_transparent.GIF"))); // NOI18N
+    modificationMassJButton.setIcon(new javax.swing.ImageIcon(getClass().getResource("/icons/ols_transparent.GIF"))); // NOI18N
     modificationMassJButton.setToolTipText("Ontology Lookup Service");
     modificationMassJButton.setBorderPainted(false);
     modificationMassJButton.setPreferredSize(new java.awt.Dimension(61, 23));

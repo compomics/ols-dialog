@@ -31,6 +31,8 @@ public class GetOntologiesTask extends AbstractTask{
 
     String ontologyToSelect = "";
 
+    private static String NAME_TASK = "Get All Ontologies in OLS";
+
 
     /**
      * Default Constructor
@@ -38,7 +40,7 @@ public class GetOntologiesTask extends AbstractTask{
      * @param olsClient
      */
     public GetOntologiesTask(OLSDialog olsDialog,  OLSClient olsClient){
-        super(olsDialog, olsClient);
+        super(NAME_TASK, olsDialog, olsClient);
     }
 
     @Override

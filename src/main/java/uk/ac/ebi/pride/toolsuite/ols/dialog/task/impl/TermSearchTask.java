@@ -37,8 +37,10 @@ public class TermSearchTask extends AbstractTask{
 
     private Integer numTerms = 0;
 
+    private static String TASK_NAME = "Search Terms by Name";
+
     public TermSearchTask(OLSDialog olsDialog, OLSClient olsClient) {
-        super(olsDialog, olsClient);
+        super(TASK_NAME, olsDialog, olsClient);
     }
 
     /**
@@ -50,7 +52,7 @@ public class TermSearchTask extends AbstractTask{
      * @param preselectedOntologies
      */
     public TermSearchTask(OLSDialog olsDialog, OLSClient olsClient, String term, boolean keyReverse, Map<String, List<Identifier>> preselectedOntologies) {
-        super(olsDialog, olsClient);
+        super(TASK_NAME, olsDialog, olsClient);
         this.preselectedOntologies = preselectedOntologies;
         this.term = term;
         this.keyReverse = keyReverse;
@@ -64,7 +66,7 @@ public class TermSearchTask extends AbstractTask{
      * @param keyReverse
      */
     public TermSearchTask(OLSDialog olsDialog, OLSClient olsClient, String term, boolean keyReverse) {
-        super(olsDialog, olsClient);
+        super(TASK_NAME, olsDialog, olsClient);
         this.term = term;
         this.keyReverse = keyReverse;
     }
@@ -78,7 +80,7 @@ public class TermSearchTask extends AbstractTask{
      * @param ontology
      */
     public TermSearchTask(OLSDialog olsDialog, OLSClient olsClient, String term, boolean keyReverse, String ontology) {
-        super(olsDialog, olsClient);
+        super(TASK_NAME, olsDialog, olsClient);
         this.term = term;
         this.keyReverse = keyReverse;
         this.ontologyName = ontology;
