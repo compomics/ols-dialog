@@ -7,13 +7,15 @@ import uk.ac.ebi.pride.toolsuite.ols.dialog.message.ThrowableHandler;
 import uk.ac.ebi.pride.toolsuite.ols.dialog.model.MassSearchModel;
 import uk.ac.ebi.pride.toolsuite.ols.dialog.renders.SearchTableCellRender;
 import uk.ac.ebi.pride.toolsuite.ols.dialog.task.AbstractTask;
+import uk.ac.ebi.pride.toolsuite.ols.dialog.task.impl.GetMetadataTask;
 import uk.ac.ebi.pride.toolsuite.ols.dialog.task.impl.GetOntologiesTask;
-import uk.ac.ebi.pride.toolsuite.ols.dialog.task.impl.GetPTMModifications;
+import uk.ac.ebi.pride.toolsuite.ols.dialog.task.impl.GetPTMModificationsTask;
 import uk.ac.ebi.pride.toolsuite.ols.dialog.task.impl.TermSearchTask;
 import uk.ac.ebi.pride.toolsuite.ols.dialog.taskmanager.*;
 import uk.ac.ebi.pride.toolsuite.ols.dialog.util.*;
 import uk.ac.ebi.pride.utilities.ols.web.service.client.OLSClient;
 import uk.ac.ebi.pride.utilities.ols.web.service.config.OLSWsConfigProd;
+import uk.ac.ebi.pride.utilities.ols.web.service.model.ITerm;
 import uk.ac.ebi.pride.utilities.ols.web.service.model.Identifier;
 import uk.ac.ebi.pride.utilities.ols.web.service.model.Ontology;
 import uk.ac.ebi.pride.utilities.ols.web.service.model.Term;
@@ -136,19 +138,19 @@ public class OLSDialog extends javax.swing.JDialog {
     /**
      * The currently selected ontology accession number in the browse tab.
      */
-    private Term currentlySelectedBrowseOntologyAccessionNumber = null;
+    public ITerm currentlySelectedBrowseOntologyAccessionNumber = null;
     /**
      * The currently selected term name inthe accession number tab.
      */
-    private Term currentlySelectedTermNameSearchAccessionNumber = null;
+    public ITerm currentlySelectedTermNameSearchAccessionNumber = null;
     /**
      * The currently selected accession number in the term id tab.
      */
-    private Term currentlySelectedTermIdSearchAccessionNumber = null;
+    public ITerm currentlySelectedTermIdSearchAccessionNumber = null;
     /**
      * The currently selected accession number in the mass search tab.
      */
-    private Term currentlySelectedMassSearchAccessionNumber = null;
+    public ITerm currentlySelectedMassSearchAccessionNumber = null;
     /**
      * The last selected ontololgy.
      */
@@ -584,7 +586,7 @@ public class OLSDialog extends javax.swing.JDialog {
 
         initComponents();
 
-        olsResultsTermNameSearchJTable.setDefaultRenderer(Term.class, new SearchTableCellRender());
+        olsResultsTermNameSearchJTable.setDefaultRenderer(ITerm.class, new SearchTableCellRender());
 
         olsResultsTermIdSearchJTable.setDefaultRenderer(Term.class, new SearchTableCellRender());
         olsResultsMassSearchJTable.setDefaultRenderer(Term.class, new SearchTableCellRender());
@@ -820,7 +822,7 @@ public class OLSDialog extends javax.swing.JDialog {
      * @return the ontology label extracted from the term id, or null if no
      * ontology is found
      */
-    private String getOntologyLabelFromTermId(Term term) {
+    private String getOntologyLabelFromTermId(ITerm term) {
 
         String ontologyLabel;
 
@@ -841,11 +843,7 @@ public class OLSDialog extends javax.swing.JDialog {
      * @param term the term to load meta data for
      * @param searchType the search type where the meta data will be inserted
      */
-    public void loadMetaData(Term term, Integer searchType) {
-
-        JTextPane currentDefinitionsJTextPane = null;
-        JTable currentTermDetailsJTable = null;
-        JScrollPane currentTermDetailsJScrollPane = null;
+    public void loadMetaData(ITerm term, Integer searchType) {
 
         if (searchType == OLS_DIALOG_TERM_NAME_SEARCH) {
             currentDefinitionsJTextPane = definitionTermNameSearchJTextPane;
@@ -901,133 +899,64 @@ public class OLSDialog extends javax.swing.JDialog {
 
         if (!error) {
 
-            metadata = null;
-            Map<String, String> xRefs = null;
-            Map<String, String> oboSynonyms = null;
-            String label = null;
-            Map<String, List<String>> annotations = null;
-
-            //query OLS
-            try {
-                metadata = olsConnection.getTermDescription(term.getGlobalId(), ontology);
-                label = term.getLabel();
-                xRefs = olsConnection.getTermXrefs(term.getGlobalId(), ontology);
-                oboSynonyms =  olsConnection.getOBOSynonyms(term.getGlobalId(), ontology);
-                annotations = olsConnection.getAnnotations(term.getTermOBOId(), ontology);
-            } catch (RestClientException ex) {
-                JOptionPane.showMessageDialog(
-                        this,
-                        DEFAULT_OLS_CONNECTION_ERROR,
-                        "OLS Connection Error", JOptionPane.ERROR_MESSAGE);
-                Util.writeToErrorLog("Error when trying to access OLS: ");
-                ex.printStackTrace();
-
-                if (searchType == OLS_DIALOG_TERM_NAME_SEARCH) {
-                    currentlySelectedTermNameSearchAccessionNumber = null;
-                } else if (searchType == OLS_DIALOG_PSI_MOD_MASS_SEARCH) {
-                    currentlySelectedMassSearchAccessionNumber = null;
-                } else if (searchType == OLS_DIALOG_BROWSE_ONTOLOGY) {
-                    currentlySelectedBrowseOntologyAccessionNumber = null;
-                } else if (searchType == OLS_DIALOG_TERM_ID_SEARCH) {
-                    currentlySelectedTermIdSearchAccessionNumber = term;
-                }
-
-                error = true;
-            }
-
-            if (!error && !metadata.isEmpty()) {
-
-                // retrieve the terms meta data and insert into the table
-                // note that "definition" is handled separatly
-                String descriptionText = "";
-                for (Iterator i = metadata.iterator(); i.hasNext();) {
-                    descriptionText += i.next() + "\n";
-                }
-                currentDefinitionsJTextPane.setText("Definition: " + descriptionText);
-                currentDefinitionsJTextPane.setCaretPosition(0);
-
-                if (currentDefinitionsJTextPane.getText().equalsIgnoreCase("null")) {
-                    currentDefinitionsJTextPane.setText("(no definition provided in CV term)");
-                }
-            }else if(!error && label != null){
-                String descriptionText = "";
-                currentDefinitionsJTextPane.setText("Definition: " + label);
-                currentDefinitionsJTextPane.setCaretPosition(0);
-
-            }else{
-                if (searchType == OLS_DIALOG_TERM_NAME_SEARCH) {
-                    viewTermHierarchyTermNameSearchJLabel.setEnabled(false);
-                } else if (searchType == OLS_DIALOG_PSI_MOD_MASS_SEARCH) {
-                    viewTermHierarchyMassSearchJLabel.setEnabled(false);
-                } else if (searchType == OLS_DIALOG_BROWSE_ONTOLOGY) {
-                    viewTermHierarchyBrowseOntologyJLabel.setEnabled(false);
-                } else if (searchType == OLS_DIALOG_TERM_ID_SEARCH) {
-                    viewTermHierarchyTermIdSearchJLabel.setEnabled(false);
-                }
-            }
-            // iterate the xrefs and insert them into the table
-            if(xRefs != null){
-                for (Iterator i = xRefs.keySet().iterator(); i.hasNext();) {
-                    String key = (String) i.next();
-
-                    ((DefaultTableModel) currentTermDetailsJTable.getModel()).addRow(
-                            new Object[]{key, xRefs.get(key)});
-                }
-            }
-            if(oboSynonyms != null){
-                for (Iterator i = oboSynonyms.keySet().iterator(); i.hasNext();) {
-                    String key = (String) i.next();
-
-                    ((DefaultTableModel) currentTermDetailsJTable.getModel()).addRow(
-                            new Object[]{"synonym:", key});
-                }
-            }
-            if(annotations != null && (searchType == OLS_DIALOG_TERM_NAME_SEARCH || searchType == OLS_DIALOG_TERM_ID_SEARCH)){
-                for (Iterator i = annotations.keySet().iterator(); i.hasNext();) {
-                    String key = (String) i.next();
-                    for(String value: annotations.get(key))
-                         if(value != null && !value.isEmpty())
-                             ((DefaultTableModel) currentTermDetailsJTable.getModel()).addRow(
-                            new Object[]{key, value});
-                }
-            }
-                // set the horizontal scroll bar to the top
-            currentTermDetailsJScrollPane.getVerticalScrollBar().setValue(0);
+            //metadata = olsConnection.getTermDescription(term.getGlobalId(), ontology);
+            GetMetadataTask metadataTask = new GetMetadataTask(this, olsConnection, term, ontology, searchType);
+            taskManager.addTask(metadataTask);
 
 
-        } else {
-            if (ontology != null && ontology.equalsIgnoreCase("NEWT")) {
-                if (searchType == OLS_DIALOG_TERM_NAME_SEARCH) {
-                    viewTermHierarchyTermNameSearchJLabel.setEnabled(true);
-                } else if (searchType == OLS_DIALOG_PSI_MOD_MASS_SEARCH) {
-                    viewTermHierarchyMassSearchJLabel.setEnabled(true);
-                } else if (searchType == OLS_DIALOG_BROWSE_ONTOLOGY) {
-                    viewTermHierarchyBrowseOntologyJLabel.setEnabled(true);
-                } else if (searchType == OLS_DIALOG_TERM_ID_SEARCH) {
-                    viewTermHierarchyTermIdSearchJLabel.setEnabled(true);
-                }
-            } else {
-                if (searchType == OLS_DIALOG_TERM_NAME_SEARCH) {
-                    viewTermHierarchyTermNameSearchJLabel.setEnabled(false);
-                } else if (searchType == OLS_DIALOG_PSI_MOD_MASS_SEARCH) {
-                    viewTermHierarchyMassSearchJLabel.setEnabled(false);
-                } else if (searchType == OLS_DIALOG_BROWSE_ONTOLOGY) {
-                    viewTermHierarchyBrowseOntologyJLabel.setEnabled(false);
-                } else if (searchType == OLS_DIALOG_TERM_ID_SEARCH) {
-                    viewTermHierarchyTermIdSearchJLabel.setEnabled(false);
-                }
+        }else if(!error && term.getName() != null){
+            String descriptionText = "";
+            currentDefinitionsJTextPane.setText("Definition: " + term.getName());
+            currentDefinitionsJTextPane.setCaretPosition(0);
+
+        }else{
+            if (searchType == OLS_DIALOG_TERM_NAME_SEARCH) {
+                viewTermHierarchyTermNameSearchJLabel.setEnabled(false);
+            } else if (searchType == OLS_DIALOG_PSI_MOD_MASS_SEARCH) {
+                viewTermHierarchyMassSearchJLabel.setEnabled(false);
+            } else if (searchType == OLS_DIALOG_BROWSE_ONTOLOGY) {
+                viewTermHierarchyBrowseOntologyJLabel.setEnabled(false);
+            } else if (searchType == OLS_DIALOG_TERM_ID_SEARCH) {
+                viewTermHierarchyTermIdSearchJLabel.setEnabled(false);
             }
         }
+                            // set the horizontal scroll bar to the top
+        currentTermDetailsJScrollPane.getVerticalScrollBar().setValue(0);
 
-        if (searchType == OLS_DIALOG_TERM_NAME_SEARCH) {
-            insertSelectedJButton.setEnabled(currentlySelectedTermNameSearchAccessionNumber != null);
-        } else if (searchType == OLS_DIALOG_PSI_MOD_MASS_SEARCH) {
-            insertSelectedJButton.setEnabled(currentlySelectedMassSearchAccessionNumber != null);
-        } else if (searchType == OLS_DIALOG_BROWSE_ONTOLOGY) {
-            insertSelectedJButton.setEnabled(currentlySelectedBrowseOntologyAccessionNumber != null);
-        } else if (searchType == OLS_DIALOG_TERM_ID_SEARCH) {
-            insertSelectedJButton.setEnabled(currentlySelectedTermIdSearchAccessionNumber != null);
-        }
+
+//        } else {
+//            if (ontology != null && ontology.equalsIgnoreCase("NEWT")) {
+//                if (searchType == OLS_DIALOG_TERM_NAME_SEARCH) {
+//                    viewTermHierarchyTermNameSearchJLabel.setEnabled(true);
+//                } else if (searchType == OLS_DIALOG_PSI_MOD_MASS_SEARCH) {
+//                    viewTermHierarchyMassSearchJLabel.setEnabled(true);
+//                } else if (searchType == OLS_DIALOG_BROWSE_ONTOLOGY) {
+//                    viewTermHierarchyBrowseOntologyJLabel.setEnabled(true);
+//                } else if (searchType == OLS_DIALOG_TERM_ID_SEARCH) {
+//                    viewTermHierarchyTermIdSearchJLabel.setEnabled(true);
+//                }
+//            } else {
+//                if (searchType == OLS_DIALOG_TERM_NAME_SEARCH) {
+//                    viewTermHierarchyTermNameSearchJLabel.setEnabled(false);
+//                } else if (searchType == OLS_DIALOG_PSI_MOD_MASS_SEARCH) {
+//                    viewTermHierarchyMassSearchJLabel.setEnabled(false);
+//                } else if (searchType == OLS_DIALOG_BROWSE_ONTOLOGY) {
+//                    viewTermHierarchyBrowseOntologyJLabel.setEnabled(false);
+//                } else if (searchType == OLS_DIALOG_TERM_ID_SEARCH) {
+//                    viewTermHierarchyTermIdSearchJLabel.setEnabled(false);
+//                }
+//            }
+//        }
+//
+//        if (searchType == OLS_DIALOG_TERM_NAME_SEARCH) {
+//            insertSelectedJButton.setEnabled(currentlySelectedTermNameSearchAccessionNumber != null);
+//        } else if (searchType == OLS_DIALOG_PSI_MOD_MASS_SEARCH) {
+//            insertSelectedJButton.setEnabled(currentlySelectedMassSearchAccessionNumber != null);
+//        } else if (searchType == OLS_DIALOG_BROWSE_ONTOLOGY) {
+//            insertSelectedJButton.setEnabled(currentlySelectedBrowseOntologyAccessionNumber != null);
+//        } else if (searchType == OLS_DIALOG_TERM_ID_SEARCH) {
+//            insertSelectedJButton.setEnabled(currentlySelectedTermIdSearchAccessionNumber != null);
+//        }
     }
 
     /**
@@ -1444,7 +1373,7 @@ public class OLSDialog extends javax.swing.JDialog {
             }
         ) {
             Class[] types = new Class [] {
-                Term.class, Term.class
+                ITerm.class, ITerm.class
             };
             boolean[] canEdit = new boolean [] {
                 false, false
@@ -2337,12 +2266,12 @@ public class OLSDialog extends javax.swing.JDialog {
 
         this.setCursor(new java.awt.Cursor(java.awt.Cursor.WAIT_CURSOR));
 
-        Term termId = null;
+        ITerm termId = null;
 
-        Term ontologyName = null;
+        ITerm ontologyName = null;
 
         if (searchTypeJTabbedPane.getSelectedIndex() == OLS_DIALOG_TERM_NAME_SEARCH) {
-            termId = (Term) olsResultsTermNameSearchJTable.getValueAt(olsResultsTermNameSearchJTable.getSelectedRow(), 0);
+            termId = (ITerm) olsResultsTermNameSearchJTable.getValueAt(olsResultsTermNameSearchJTable.getSelectedRow(), 0);
         } else if (searchTypeJTabbedPane.getSelectedIndex() == OLS_DIALOG_BROWSE_ONTOLOGY) {
             ontologyName = currentlySelectedBrowseOntologyAccessionNumber;
         } else if (searchTypeJTabbedPane.getSelectedIndex() == OLS_DIALOG_PSI_MOD_MASS_SEARCH) {
@@ -2417,17 +2346,17 @@ public class OLSDialog extends javax.swing.JDialog {
                 Integer searchType = null;
 
                 if (searchTypeJTabbedPane.getSelectedIndex() == OLS_DIALOG_TERM_NAME_SEARCH) {
-                    currentlySelectedTermNameSearchAccessionNumber = (Term) searchResultTable.getValueAt(row, 0);
+                    currentlySelectedTermNameSearchAccessionNumber = (ITerm) searchResultTable.getValueAt(row, 0);
                     searchType = OLS_DIALOG_TERM_NAME_SEARCH;
                 } else if (searchTypeJTabbedPane.getSelectedIndex() == OLS_DIALOG_PSI_MOD_MASS_SEARCH) {
-                    currentlySelectedMassSearchAccessionNumber = (Term) searchResultTable.getValueAt(row, 0);
+                    currentlySelectedMassSearchAccessionNumber = (ITerm) searchResultTable.getValueAt(row, 0);
                     searchType = OLS_DIALOG_PSI_MOD_MASS_SEARCH;
                 } else if (searchTypeJTabbedPane.getSelectedIndex() == OLS_DIALOG_TERM_ID_SEARCH) {
-                    currentlySelectedTermIdSearchAccessionNumber = (Term) searchResultTable.getValueAt(row, 0);
+                    currentlySelectedTermIdSearchAccessionNumber = (ITerm) searchResultTable.getValueAt(row, 0);
                     searchType = OLS_DIALOG_TERM_ID_SEARCH;
                 }
 
-                Term termID = (Term) searchResultTable.getValueAt(row, 0);
+                ITerm termID = (ITerm) searchResultTable.getValueAt(row, 0);
                 loadMetaData(termID, searchType);
             }
         }
@@ -2556,9 +2485,11 @@ public class OLSDialog extends javax.swing.JDialog {
         }
 
         if (!error) {
+
             String massType = massTypeJComboBox.getSelectedItem().toString();
-            GetPTMModifications ptmSearchTask = new GetPTMModifications(null,olsConnection, massSearchModel, massType, currentModificationMass - currentAccuracy, currentModificationMass + currentAccuracy);
+            GetPTMModificationsTask ptmSearchTask = new GetPTMModificationsTask(null,olsConnection, massSearchModel, massType, currentModificationMass - currentAccuracy, currentModificationMass + currentAccuracy);
             taskManager.addTask(ptmSearchTask);
+
             this.setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
             if (olsResultsMassSearchJTable.getRowCount() > 0) {
                 olsResultsMassSearchJTable.scrollRectToVisible(olsResultsTermNameSearchJTable.getCellRect(0, 0, false));
@@ -3129,15 +3060,15 @@ public class OLSDialog extends javax.swing.JDialog {
      */
     private void viewTermHierarchy() {
         this.setCursor(new java.awt.Cursor(java.awt.Cursor.WAIT_CURSOR));
-        Term accession = null;
+        ITerm accession = null;
         if (searchTypeJTabbedPane.getSelectedIndex() == OLS_DIALOG_TERM_NAME_SEARCH) {
-            accession = (Term) olsResultsTermNameSearchJTable.getValueAt(olsResultsTermNameSearchJTable.getSelectedRow(), 0);
+            accession = (ITerm) olsResultsTermNameSearchJTable.getValueAt(olsResultsTermNameSearchJTable.getSelectedRow(), 0);
         } else if (searchTypeJTabbedPane.getSelectedIndex() == OLS_DIALOG_BROWSE_ONTOLOGY) {
             accession = currentlySelectedBrowseOntologyAccessionNumber;
         } else if (searchTypeJTabbedPane.getSelectedIndex() == OLS_DIALOG_PSI_MOD_MASS_SEARCH) {
-            accession =(Term) olsResultsMassSearchJTable.getValueAt(olsResultsMassSearchJTable.getSelectedRow(), 0);
+            accession =(ITerm) olsResultsMassSearchJTable.getValueAt(olsResultsMassSearchJTable.getSelectedRow(), 0);
         } else if (searchTypeJTabbedPane.getSelectedIndex() == OLS_DIALOG_TERM_ID_SEARCH) {
-            accession =(Term) olsResultsTermIdSearchJTable.getValueAt(olsResultsTermIdSearchJTable.getSelectedRow(), 0);
+            accession =(ITerm) olsResultsTermIdSearchJTable.getValueAt(olsResultsTermIdSearchJTable.getSelectedRow(), 0);
         }
         if (accession != null) {
             BareBonesBrowserLaunch.openURL(Util.getOlsTermLink(accession));
@@ -3239,6 +3170,9 @@ public class OLSDialog extends javax.swing.JDialog {
     private javax.swing.JLabel viewTermHierarchyTermIdSearchJLabel;
     private javax.swing.JLabel viewTermHierarchyTermNameSearchJLabel;
     private StatusBar statusBar;
+    public JTextPane currentDefinitionsJTextPane;
+    public JTable currentTermDetailsJTable;
+    public JScrollPane currentTermDetailsJScrollPane;
     // End of variables declaration//GEN-END:variables
 
     /**

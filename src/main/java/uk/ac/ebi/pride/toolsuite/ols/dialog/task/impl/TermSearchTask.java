@@ -3,9 +3,7 @@ package uk.ac.ebi.pride.toolsuite.ols.dialog.task.impl;
 import uk.ac.ebi.pride.toolsuite.ols.dialog.OLSDialog;
 import uk.ac.ebi.pride.toolsuite.ols.dialog.task.AbstractTask;
 import uk.ac.ebi.pride.utilities.ols.web.service.client.OLSClient;
-import uk.ac.ebi.pride.utilities.ols.web.service.model.Identifier;
-import uk.ac.ebi.pride.utilities.ols.web.service.model.Ontology;
-import uk.ac.ebi.pride.utilities.ols.web.service.model.Term;
+import uk.ac.ebi.pride.utilities.ols.web.service.model.*;
 
 import javax.swing.table.DefaultTableModel;
 import java.util.List;
@@ -26,7 +24,6 @@ import java.util.Map;
  */
 public class TermSearchTask extends AbstractTask{
 
-
     private String ontologyName;
 
     private Map<String, List<Identifier>> preselectedOntologies;
@@ -38,6 +35,8 @@ public class TermSearchTask extends AbstractTask{
     private Integer numTerms = 0;
 
     private static String TASK_NAME = "Search Terms by Name";
+
+    private static int SEARCH_PAGE_SIZE = 100;
 
     public TermSearchTask(OLSDialog olsDialog, OLSClient olsClient) {
         super(TASK_NAME, olsDialog, olsClient);
@@ -108,36 +107,42 @@ public class TermSearchTask extends AbstractTask{
 
     @Override
     protected Object doInBackground() throws Exception {
+        numTerms = 0;
         if(preselectedOntologies != null && !preselectedOntologies.isEmpty()){
             for (String preselectedOntology : preselectedOntologies.keySet()) {
-                List<Term> results = olsClient.getTermsByName(term, preselectedOntology.toLowerCase(), keyReverse);
-                if(results != null && !results.isEmpty()){
-                    for(Term key: results)
-                        ((DefaultTableModel) olsDialog.olsResultsTermNameSearchJTable.getModel()).addRow(new Object[]{key, key});
-                }
-                numTerms = results.size();
+                searchOnOntology(preselectedOntology);
             }
         }else if(ontologyName != null){
-            List<Term> results = olsClient.getTermsByName(term, ontologyName.toLowerCase(), keyReverse);
-            if(results != null && !results.isEmpty()){
-                for(Term key: results)
-                    ((DefaultTableModel) olsDialog.olsResultsTermNameSearchJTable.getModel()).addRow(new Object[]{key, key});
-            }
-            numTerms = results.size();
+            searchOnOntology(ontologyName);
         }else{
             List<Ontology> ontologies = olsClient.getOntologies();
-            numTerms = 0;
             for (Ontology preselectedOntology : ontologies) {
-                List<Term> results = olsClient.getTermsByName(term, preselectedOntology.getConfig().getPreferredPrefix().toLowerCase(), keyReverse);
-                if(results != null && !results.isEmpty()){
-                    for(Term key: results)
-                        ((DefaultTableModel) olsDialog.olsResultsTermNameSearchJTable.getModel()).addRow(new Object[]{key, key});
-                }
-                numTerms += results.size();
+                searchOnOntology(preselectedOntology.getConfig().getPreferredPrefix());
             }
-
         }
         return null;
+    }
+
+    private void searchOnOntology(String preselectedOntology) {
+        SearchQuery resultSearch = olsClient.getSearchQuery(0, term, preselectedOntology.toLowerCase(), false, null, false, SEARCH_PAGE_SIZE);
+        int numberPages = resultSearch.getResponse().getNumFound()/SEARCH_PAGE_SIZE;
+        if(resultSearch != null && resultSearch.getResponse() != null && resultSearch.getResponse().getSearchResults() != null){
+            addResultToTable(resultSearch.getResponse().getSearchResults());
+        }
+        for(int i = 1; i < numberPages; i++){
+            resultSearch = olsClient.getSearchQuery(i, term, preselectedOntology.toLowerCase(), false, null, false, SEARCH_PAGE_SIZE);
+            if(resultSearch != null && resultSearch.getResponse() != null && resultSearch.getResponse().getSearchResults() != null){
+                addResultToTable(resultSearch.getResponse().getSearchResults());
+            }
+        }
+    }
+
+    private void addResultToTable(SearchResult[] searchResults) {
+        if(searchResults != null && searchResults.length > 0){
+            for(ITerm key: searchResults)
+                ((DefaultTableModel) olsDialog.olsResultsTermNameSearchJTable.getModel()).addRow(new Object[]{key, key});
+            numTerms += searchResults.length;
+        }
     }
 
     @Override

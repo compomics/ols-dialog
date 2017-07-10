@@ -23,7 +23,7 @@ import java.util.List;
  * <p>
  * Created by ypriverol (ypriverol@gmail.com) on 09/07/2017.
  */
-public class GetPTMModifications extends AbstractTask {
+public class GetPTMModificationsTask extends AbstractTask {
 
     private MassSearchModel model;
 
@@ -40,12 +40,12 @@ public class GetPTMModifications extends AbstractTask {
      * @param olsDialog olsDialog
      * @param olsClient OLS client
      */
-    public GetPTMModifications(OLSDialog olsDialog, OLSClient olsClient) {
+    public GetPTMModificationsTask(OLSDialog olsDialog, OLSClient olsClient) {
         super(NAME_TASK, olsDialog, olsClient);
     }
 
-    public GetPTMModifications(OLSDialog olsDialog, OLSClient olsclient,
-                               MassSearchModel model, String massType, double fromMass, double toMass){
+    public GetPTMModificationsTask(OLSDialog olsDialog, OLSClient olsclient,
+                                   MassSearchModel model, String massType, double fromMass, double toMass){
         this(olsDialog, olsclient);
         this.model = model;
         this.massDeltaType = massType;

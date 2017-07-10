@@ -1,5 +1,6 @@
 package uk.ac.ebi.pride.toolsuite.ols.dialog.util;
 
+import uk.ac.ebi.pride.utilities.ols.web.service.model.ITerm;
 import uk.ac.ebi.pride.utilities.ols.web.service.model.Ontology;
 import uk.ac.ebi.pride.utilities.ols.web.service.model.Term;
 
@@ -69,14 +70,14 @@ public final class Util {
      *
      * @return the OLS web link
      */
-    public static String getOlsAccessionLink(Term term) {
+    public static String getOlsAccessionLink(ITerm term) {
         String notSelectedRowHtmlTagFontColor = "#0101DF";
         return "<html><a href=\"http://www.ebi.ac.uk/ols/beta/ontologies/" + term.getOntologyName()+"/terms?iri=" + term.getIri() + "\""
                 + "\"><font color=\"" + notSelectedRowHtmlTagFontColor + "\">"
                 + term.getGlobalId().getIdentifier() + "</font></a></html>";
     }
 
-    public static String getOlsTermLink(Term term){
+    public static String getOlsTermLink(ITerm term){
         return "http://www.ebi.ac.uk/ols/beta/ontologies/" + term.getOntologyName()+"/terms?iri=" + term.getIri().getIdentifier();
 
     }
