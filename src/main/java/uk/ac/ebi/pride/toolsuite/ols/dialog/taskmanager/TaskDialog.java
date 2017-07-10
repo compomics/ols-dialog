@@ -2,6 +2,7 @@ package uk.ac.ebi.pride.toolsuite.ols.dialog.taskmanager;
 
 import uk.ac.ebi.pride.toolsuite.ols.dialog.OLSDialog;
 import uk.ac.ebi.pride.toolsuite.ols.dialog.task.AbstractTask;
+import uk.ac.ebi.pride.toolsuite.ols.dialog.util.GUIUtils;
 
 import javax.swing.*;
 import java.awt.*;
@@ -106,7 +107,7 @@ public class TaskDialog extends JDialog implements PropertyChangeListener {
         progBarPanel.add(progBar);
 
         // add close button
-        Icon icon = new ImageIcon(TaskDialog.class.getClassLoader().getResource("icons/cancel.png"));
+        Icon icon = GUIUtils.loadIcon("icons/cancel.png");
         JButton closeButton = new JButton(icon);
         closeButton.addActionListener(new CloseTaskListener(task, olsDialog));
         progBarPanel.add(closeButton);

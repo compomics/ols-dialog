@@ -3,13 +3,14 @@ package uk.ac.ebi.pride.toolsuite.ols.dialog;
 import org.apache.commons.lang3.StringUtils;
 import org.slf4j.LoggerFactory;
 import org.springframework.web.client.RestClientException;
+import uk.ac.ebi.pride.toolsuite.ols.dialog.message.ThrowableHandler;
 import uk.ac.ebi.pride.toolsuite.ols.dialog.model.MassSearchModel;
 import uk.ac.ebi.pride.toolsuite.ols.dialog.renders.SearchTableCellRender;
 import uk.ac.ebi.pride.toolsuite.ols.dialog.task.AbstractTask;
 import uk.ac.ebi.pride.toolsuite.ols.dialog.task.impl.GetOntologiesTask;
 import uk.ac.ebi.pride.toolsuite.ols.dialog.task.impl.GetPTMModifications;
 import uk.ac.ebi.pride.toolsuite.ols.dialog.task.impl.TermSearchTask;
-import uk.ac.ebi.pride.toolsuite.ols.dialog.taskmanager.TaskManager;
+import uk.ac.ebi.pride.toolsuite.ols.dialog.taskmanager.*;
 import uk.ac.ebi.pride.toolsuite.ols.dialog.util.*;
 import uk.ac.ebi.pride.utilities.ols.web.service.client.OLSClient;
 import uk.ac.ebi.pride.utilities.ols.web.service.config.OLSWsConfigProd;
@@ -179,6 +180,8 @@ public class OLSDialog extends javax.swing.JDialog {
     private MassSearchModel massSearchModel;
 
     private TaskManager taskManager = new TaskManager();
+
+    private final ThrowableHandler throwableHandler = new ThrowableHandler();
 
     /**
      * Opens a dialog that lets you search for terms using the OLS.
@@ -1524,6 +1527,13 @@ public class OLSDialog extends javax.swing.JDialog {
         numberOfTermsTermNameSearchJTextField.setHorizontalAlignment(javax.swing.JTextField.CENTER);
         numberOfTermsTermNameSearchJTextField.setToolTipText("Number of Matching Terms");
 
+        // create task monitor panel
+        StatusBarPanel taskMonitorPane = new TaskMonitorPanel(this);
+
+        // create notification handler
+        StatusBarPanel notificationPane = new NotificationPanel(this);
+        statusBar = new StatusBar(taskMonitorPane/**, notificationPane**/);
+
         org.jdesktop.layout.GroupLayout termNameJPanelLayout = new org.jdesktop.layout.GroupLayout(termNameJPanel);
         termNameJPanel.setLayout(termNameJPanelLayout);
         termNameJPanelLayout.setHorizontalGroup(
@@ -1720,13 +1730,6 @@ public class OLSDialog extends javax.swing.JDialog {
             }
         });
 
-//        identifierTypeComboBox.setModel(new javax.swing.DefaultComboBoxModel(new String[] { "- Select -", "OBO Identifier", "OWL Identifier"}));
-//        identifierTypeComboBox.setSelectedIndex(2);
-//        identifierTypeComboBox.addActionListener(new java.awt.event.ActionListener() {
-//            public void actionPerformed(java.awt.event.ActionEvent evt) {
-//                identifierTypeJComboBoxActionPerformed(evt);
-//            }
-//        });
 
         termIdSearchJButton.setText("Search");
         termIdSearchJButton.addActionListener(new java.awt.event.ActionListener() {
@@ -2149,12 +2152,14 @@ public class OLSDialog extends javax.swing.JDialog {
                 .add(backgroundPanelLayout.createParallelGroup(org.jdesktop.layout.GroupLayout.TRAILING)
                     .add(searchParametersJPanel, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                     .add(backgroundPanelLayout.createSequentialGroup()
-                        .add(10, 10, 10)
-                        .add(helpJButton, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, 23, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED)
-                        .add(aboutJButton, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, 25, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .add(insertSelectedJButton)
+                            .add(10, 10, 10)
+                            .add(helpJButton, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, 23, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
+                            .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED)
+                            .add(aboutJButton, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, 25, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
+                            .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .add(statusBar, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, 360, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
+                            .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .add(insertSelectedJButton)
                         .addPreferredGap(org.jdesktop.layout.LayoutStyle.RELATED)
                         .add(cancelJButton, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)))
                 .addContainerGap())
@@ -2175,7 +2180,8 @@ public class OLSDialog extends javax.swing.JDialog {
                             .add(cancelJButton, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, org.jdesktop.layout.GroupLayout.DEFAULT_SIZE, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
                             .add(insertSelectedJButton)))
                     .add(aboutJButton, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, 24, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
-                    .add(helpJButton, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, 24, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE))
+                    .add(helpJButton, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, 24, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE)
+                    .add(statusBar, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE, 20, org.jdesktop.layout.GroupLayout.PREFERRED_SIZE))
                 .addContainerGap())
         );
 
@@ -3232,6 +3238,7 @@ public class OLSDialog extends javax.swing.JDialog {
     private javax.swing.JLabel viewTermHierarchyMassSearchJLabel;
     private javax.swing.JLabel viewTermHierarchyTermIdSearchJLabel;
     private javax.swing.JLabel viewTermHierarchyTermNameSearchJLabel;
+    private StatusBar statusBar;
     // End of variables declaration//GEN-END:variables
 
     /**
@@ -3345,5 +3352,13 @@ public class OLSDialog extends javax.swing.JDialog {
 
     public TaskManager getTaskManager() {
         return taskManager;
+    }
+
+    public void removeAllThrowableEntries() {
+
+    }
+
+    public ThrowableHandler getThrowableHandler() {
+        return throwableHandler;
     }
 }

@@ -26,7 +26,6 @@ import java.util.*;
  */
 public class GetOntologiesTask extends AbstractTask{
 
-
     public static org.slf4j.Logger logger = LoggerFactory.getLogger(GetOntologiesTask.class);
 
     String ontologyToSelect = "";
@@ -98,5 +97,26 @@ public class GetOntologiesTask extends AbstractTask{
             JOptionPane.showMessageDialog(olsDialog, olsDialog.DEFAULT_OLS_CONNECTION_ERROR, "Failed to Contact the OLS", JOptionPane.ERROR_MESSAGE);
             logger.error("Error when trying to access OLS: ");
         }
+    }
+
+
+    @Override
+    protected void cancelled() {
+
+    }
+
+    @Override
+    protected void succeed(Object results) {
+
+    }
+
+    @Override
+    protected void finished() {
+
+    }
+
+    @Override
+    protected void interrupted(InterruptedException iex) {
+
     }
 }

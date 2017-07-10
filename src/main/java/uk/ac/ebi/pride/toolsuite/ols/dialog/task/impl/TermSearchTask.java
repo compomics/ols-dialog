@@ -139,4 +139,24 @@ public class TermSearchTask extends AbstractTask{
         }
         return null;
     }
+
+    @Override
+    protected void cancelled() {
+
+    }
+
+    @Override
+    protected void succeed(Object results) {
+
+    }
+
+    @Override
+    protected void finished() {
+
+    }
+
+    @Override
+    protected void interrupted(InterruptedException iex) {
+
+    }
 }

@@ -1,13 +1,17 @@
 package uk.ac.ebi.pride.toolsuite.ols.dialog.task;
 
+import org.slf4j.LoggerFactory;
 import uk.ac.ebi.pride.toolsuite.ols.dialog.OLSDialog;
+import uk.ac.ebi.pride.toolsuite.ols.dialog.task.impl.GetOntologiesTask;
 import uk.ac.ebi.pride.utilities.ols.web.service.client.OLSClient;
 
 import javax.swing.*;
+import java.awt.*;
+import java.awt.List;
+import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.Collections;
+import java.util.*;
+import java.util.concurrent.ExecutionException;
 
 /**
  * This code is licensed under the Apache License, Version 2.0 (the
@@ -35,6 +39,9 @@ public abstract class AbstractTask<T, R>  extends SwingWorker<T, R> {
     private final Collection<TaskListener<T, R>> taskListeners;
 
     public static final String COMPLETED_PROP = "completed";
+
+    public static org.slf4j.Logger logger = LoggerFactory.getLogger(AbstractTask.class);
+
 
     public AbstractTask(String nameTask, OLSDialog olsDialog, OLSClient olsClient) {
         this.olsDialog = olsDialog;
@@ -96,5 +103,187 @@ public abstract class AbstractTask<T, R>  extends SwingWorker<T, R> {
             }
         }
         return false;
+    }
+
+    /**
+     * Return true if the state of the task is pending.
+     *
+     * @return boolean  true means pending
+     */
+    public final boolean isPending() {
+        return getState() == StateValue.PENDING;
+    }
+
+    /**
+     * Return true if the state of the task is started
+     *
+     * @return boolean  true means pending
+     */
+    public final boolean isStarted() {
+        return getState() == StateValue.STARTED;
+    }
+
+    private class TaskStateMonitor implements PropertyChangeListener {
+
+        @Override
+        public void propertyChange(PropertyChangeEvent evt) {
+            String propName = evt.getPropertyName();
+
+            if ("state".equals(propName)) {
+                StateValue state = (StateValue) (evt.getNewValue());
+                switch (state) {
+                    case STARTED:
+                        taskStarted();
+                        break;
+                    case DONE:
+                        taskDone();
+                        break;
+                }
+            } else if ("progress".equals(propName)) {
+                fireProgressListeners(getProgress());
+            }
+        }
+
+        /**
+         * Called when task started
+         */
+        private void taskStarted() {
+            fireStartedListeners();
+        }
+
+        /**
+         * Called when task is done
+         */
+        private void taskDone() {
+            EventQueue.invokeLater(new Runnable() {
+                @Override
+                public void run() {
+                    try {
+                        if (isCancelled())
+                            cancelled();
+                        else
+                            succeed(get());
+                    } catch (InterruptedException iex) {
+                        interrupted(iex);
+                    } catch (ExecutionException eex) {
+                        failed(eex.getCause());
+                    } finally {
+                        finished();
+                        try {
+                            fireCompletionListeners();
+                        } finally {
+                            firePropertyChange(COMPLETED_PROP, false, true);
+                        }
+                    }
+                }
+            });
+        }
+    }
+
+    private void fireStartedListeners() {
+        TaskEvent<Void> event = new TaskEvent<>(this, null);
+        synchronized (taskListenersLock) {
+            for (TaskListener listener : taskListeners) {
+                listener.started(event);
+            }
+        }
+    }
+
+    private void fireProcessListeners(java.util.List<R> values) {
+        TaskEvent<java.util.List<R>> event = new TaskEvent<>(this, values);
+        synchronized (taskListenersLock) {
+            for (TaskListener<T, R> listener : taskListeners) {
+                listener.process(event);
+            }
+        }
+    }
+    protected abstract void cancelled();
+    protected abstract void succeed(T results);
+    /**
+     * finished method is called by SwingWorker's done method
+     */
+    protected abstract void finished();
+
+    protected abstract void interrupted(InterruptedException iex);
+
+    private void fireCompletionListeners() {
+        try {
+            if (isCancelled())
+                fireCancelledListeners();
+            else
+                fireSucceedListeners(get());
+        } catch (InterruptedException iex) {
+            fireInterruptedListeners(iex);
+        } catch (ExecutionException eex) {
+            fireFailedListeners(eex.getCause());
+        } finally {
+            fireFinishedListeners();
+        }
+    }
+
+    private void fireCancelledListeners() {
+        TaskEvent<Void> event = new TaskEvent<>(this, null);
+        synchronized (taskListenersLock) {
+            for (TaskListener listener : taskListeners) {
+                listener.cancelled(event);
+            }
+        }
+    }
+
+    private void fireInterruptedListeners(InterruptedException iex) {
+        TaskEvent<InterruptedException> event = new TaskEvent<>(this, iex);
+        synchronized (taskListenersLock) {
+            for (TaskListener listener : taskListeners) {
+                listener.interrupted(event);
+            }
+        }
+    }
+
+    private void fireSucceedListeners(T result) {
+        TaskEvent<T> event = new TaskEvent<>(this, result);
+        synchronized (taskListenersLock) {
+            for (TaskListener<T, R> listener : taskListeners) {
+                listener.succeed(event);
+            }
+        }
+    }
+
+    private void fireFailedListeners(Throwable error) {
+        TaskEvent<Throwable> event = new TaskEvent<>(this, error);
+        synchronized (taskListenersLock) {
+            for (TaskListener listener : taskListeners) {
+                listener.failed(event);
+            }
+        }
+    }
+
+    private void fireFinishedListeners() {
+        TaskEvent<Void> event = new TaskEvent<>(this, null);
+        synchronized (taskListenersLock) {
+            for (TaskListener listener : taskListeners) {
+                listener.finished(event);
+            }
+        }
+    }
+
+    private void fireProgressListeners(int progress) {
+        TaskEvent<Integer> event = new TaskEvent<>(this, progress);
+        synchronized (taskListenersLock) {
+            for (TaskListener listener : taskListeners) {
+                listener.progress(event);
+            }
+        }
+    }
+
+
+
+    /**
+     * failed method is called by done method from SwingWorker when the task has failed.
+     *
+     * @param error Throwable generated by failed task
+     */
+    protected void failed(Throwable error) {
+        String msg = String.format("%s failed on : %s", this, error);
+        logger.error(msg, error);
     }
 }

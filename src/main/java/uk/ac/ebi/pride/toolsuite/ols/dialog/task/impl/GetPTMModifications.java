@@ -63,4 +63,24 @@ public class GetPTMModifications extends AbstractTask {
         }
         return result;
     }
+
+    @Override
+    protected void cancelled() {
+
+    }
+
+    @Override
+    protected void succeed(Object results) {
+
+    }
+
+    @Override
+    protected void finished() {
+
+    }
+
+    @Override
+    protected void interrupted(InterruptedException iex) {
+
+    }
 }

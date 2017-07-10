@@ -1,5 +1,7 @@
 package uk.ac.ebi.pride.toolsuite.ols.dialog.taskmanager;
 
+import uk.ac.ebi.pride.toolsuite.ols.dialog.util.GUIUtils;
+
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.MouseAdapter;
@@ -51,8 +53,8 @@ public class CollapsiblePane extends JPanel {
         label.setFont(new Font(font.getFamily(), Font.PLAIN, font.getSize() + 2));
         panel.add(label, BorderLayout.WEST);
         // icons
-        expandIcon = new ImageIcon(CollapsiblePane.class.getClassLoader().getResource("icons/navigation_expand.gif"));
-        collapseIcon = new ImageIcon(CollapsiblePane.class.getClassLoader().getResource("icons/navigation_collapse.gif"));
+        expandIcon   = new GUIUtils().loadIcon("icons/navigation_expand.gif");
+        collapseIcon = GUIUtils.loadIcon("icons/navigation_collapse.gif");
         iconLabel = new JLabel(expandIcon);
         panel.add(iconLabel, BorderLayout.EAST);
         panel.addMouseListener(new CollapseListener());

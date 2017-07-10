@@ -25,11 +25,11 @@ public class StatusBar extends JToolBar {
     public StatusBar(StatusBarPanel... panels) {
 
         this.setFloatable(false);
-        this.setLayout(new FlowLayout(FlowLayout.RIGHT, 5, 1));
-        this.setBorder(BorderFactory.createEtchedBorder());
+        this.setLayout(new FlowLayout(FlowLayout.LEFT, 0, 0));
+        this.setBorder(BorderFactory.createEmptyBorder());
         this.panels = panels;
         for (StatusBarPanel panel : panels) {
-            this.add(new Separator(new Dimension(1, 20)));
+            this.add(new Separator(new Dimension(1, 5)));
             this.add(panel);
         }
     }
