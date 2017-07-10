@@ -67,7 +67,6 @@ public class TaskDialog extends JDialog implements PropertyChangeListener {
         JScrollPane scrollPane = new JScrollPane(mainPane, JScrollPane.VERTICAL_SCROLLBAR_AS_NEEDED, JScrollPane.HORIZONTAL_SCROLLBAR_AS_NEEDED);
         this.add(scrollPane, BorderLayout.CENTER);
 
-        // todo: add icon
         this.taskPanelMap = new HashMap<>();
 
         // set display location
@@ -87,6 +86,7 @@ public class TaskDialog extends JDialog implements PropertyChangeListener {
      * @return JPanel a panel which cotains a JLabel and a progress bar
      */
     private JPanel createTaskPanel(AbstractTask task) {
+
         JPanel displayPane = new JPanel();
         displayPane.setOpaque(false);
         displayPane.setLayout(new BorderLayout());

@@ -2,11 +2,7 @@ package uk.ac.ebi.pride.toolsuite.ols.dialog.task;
 
 import java.util.List;
 
-/**
- * User: rwang
- * Date: 22-Jan-2010
- * Time: 13:38:59
- */
+
 public interface TaskListener<T, V> {
     /**
      * Called before the Task's <code> doInBackground </code>

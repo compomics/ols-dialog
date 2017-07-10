@@ -26,6 +26,7 @@ public class TaskMonitorPanel extends StatusBarPanel {
 
 
     public TaskMonitorPanel(OLSDialog olsDialog) {
+
         super(0, true);
 
         this.setLayout(new BorderLayout());

@@ -1,5 +1,6 @@
 package uk.ac.ebi.pride.toolsuite.ols.dialog.task;
 
+import net.jcip.annotations.GuardedBy;
 import org.slf4j.LoggerFactory;
 import uk.ac.ebi.pride.toolsuite.ols.dialog.OLSDialog;
 import uk.ac.ebi.pride.toolsuite.ols.dialog.task.impl.GetOntologiesTask;
@@ -34,13 +35,19 @@ public abstract class AbstractTask<T, R>  extends SwingWorker<T, R> {
 
     protected String nameTask;
 
-    private final Object taskListenersLock = new Object();
-
-    private final Collection<TaskListener<T, R>> taskListeners;
-
     public static final String COMPLETED_PROP = "completed";
 
     public static org.slf4j.Logger logger = LoggerFactory.getLogger(AbstractTask.class);
+
+
+    @GuardedBy("ownersLock")
+    private final Collection<Object> owners;
+
+    // lock for task listeners collection
+    private final Object taskListenersLock = new Object();
+    @GuardedBy("taskListenersLock")
+    private final Collection<TaskListener<T, R>> taskListeners;
+
 
 
     public AbstractTask(String nameTask, OLSDialog olsDialog, OLSClient olsClient) {
@@ -48,6 +55,8 @@ public abstract class AbstractTask<T, R>  extends SwingWorker<T, R> {
         this.olsClient = olsClient;
         this.nameTask  = nameTask;
         taskListeners = Collections.synchronizedList(new ArrayList<TaskListener<T, R>>());
+        addPropertyChangeListener(new TaskStateMonitor());
+        owners = Collections.synchronizedList(new ArrayList<>());
     }
 
     public String getNameTask() {

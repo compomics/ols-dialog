@@ -32,7 +32,6 @@ public class GetOntologiesTask extends AbstractTask{
 
     private static String NAME_TASK = "Get All Ontologies in OLS";
 
-
     /**
      * Default Constructor
      * @param olsDialog

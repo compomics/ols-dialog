@@ -3347,7 +3347,8 @@ public class OLSDialog extends javax.swing.JDialog {
         this.lastSelectedOntology = lastSelectedOntology;
     }
 
-    public void cancelTask(AbstractTask task, boolean b) {
+    public final synchronized boolean cancelTask(AbstractTask task, boolean interrupt) {
+        return taskManager.cancelTask(task, interrupt);
     }
 
     public TaskManager getTaskManager() {

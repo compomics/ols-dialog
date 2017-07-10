@@ -6,8 +6,7 @@ import uk.ac.ebi.pride.toolsuite.ols.dialog.task.AbstractTask;
 import uk.ac.ebi.pride.utilities.ols.web.service.client.OLSClient;
 import uk.ac.ebi.pride.utilities.ols.web.service.model.Term;
 
-import javax.swing.*;
-import java.util.ArrayList;
+
 import java.util.List;
 
 /**

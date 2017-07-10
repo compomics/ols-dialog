@@ -2,11 +2,6 @@ package uk.ac.ebi.pride.toolsuite.ols.dialog.task;
 
 import java.util.EventObject;
 
-/**
- * User: rwang
- * Date: 22-Jan-2010
- * Time: 13:39:19
- */
 public class TaskEvent<V> extends EventObject {
 
     private final V value;
