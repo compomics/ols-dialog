@@ -29,14 +29,14 @@ public class HelpDialog extends javax.swing.JDialog {
             InputStreamReader streamReader = new InputStreamReader(stream);
             BufferedReader b = new BufferedReader(streamReader);
             String s = b.readLine();
-            String helpText = "";
+            StringBuilder helpText = new StringBuilder();
 
             while (s != null) {
-                helpText += s;
+                helpText.append(s);
                 s = b.readLine();
             }
 
-            textJEditorPane.setText(helpText);
+            textJEditorPane.setText(helpText.toString());
 
             if (fileName.getPath().endsWith("AboutOLS.html")) {
                 // only works in Java 1.6 and newer
@@ -86,14 +86,14 @@ public class HelpDialog extends javax.swing.JDialog {
             InputStreamReader streamReader = new InputStreamReader(stream);
             BufferedReader b = new BufferedReader(streamReader);
             String s = b.readLine();
-            String helpText = "";
+            StringBuilder helpText = new StringBuilder();
 
             while (s != null) {
-                helpText += s;
+                helpText.append(s);
                 s = b.readLine();
             }
 
-            textJEditorPane.setText(helpText);
+            textJEditorPane.setText(helpText.toString());
 
             if (fileName.getPath().endsWith("AboutOLS.html")) {
                 // only works in Java 1.6 and newer

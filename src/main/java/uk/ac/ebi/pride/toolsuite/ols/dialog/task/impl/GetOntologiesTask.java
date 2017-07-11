@@ -1,7 +1,6 @@
 package uk.ac.ebi.pride.toolsuite.ols.dialog.task.impl;
 
 import org.slf4j.LoggerFactory;
-import org.springframework.web.client.RestClientException;
 import uk.ac.ebi.pride.toolsuite.ols.dialog.OLSDialog;
 import uk.ac.ebi.pride.toolsuite.ols.dialog.task.AbstractTask;
 import uk.ac.ebi.pride.toolsuite.ols.dialog.util.Util;

@@ -63,19 +63,19 @@ public class MyComboBoxRenderer extends BasicComboBoxRenderer {
 
                         String toolTip = (String) tooltips.get(index);
                         StringTokenizer tok = new StringTokenizer(toolTip);
-                        String temp = "", temp2 = "";
+                        StringBuilder temp = new StringBuilder();StringBuilder temp2 = new StringBuilder();
 
                         while (tok.hasMoreTokens()) {
-                            temp += tok.nextToken() + " ";
+                            temp.append(tok.nextToken()).append(" ");
 
                             if (temp.length() > 40) {
-                                temp2 += temp + "<br>";
-                                temp = "";
+                                temp2.append(temp).append("<br>");
+                                temp = new StringBuilder();
                             }
                         }
 
                         if (temp.length() > 0) {
-                            temp2 += temp;
+                            temp2.append(temp);
                         }
 
                         list.setToolTipText("<html>" + temp2 + "</html>");

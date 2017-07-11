@@ -3,12 +3,10 @@ package uk.ac.ebi.pride.toolsuite.ols.dialog.task;
 import net.jcip.annotations.GuardedBy;
 import org.slf4j.LoggerFactory;
 import uk.ac.ebi.pride.toolsuite.ols.dialog.OLSDialog;
-import uk.ac.ebi.pride.toolsuite.ols.dialog.task.impl.GetOntologiesTask;
 import uk.ac.ebi.pride.utilities.ols.web.service.client.OLSClient;
 
 import javax.swing.*;
 import java.awt.*;
-import java.awt.List;
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
 import java.util.*;

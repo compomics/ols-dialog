@@ -3,7 +3,6 @@ package uk.ac.ebi.pride.toolsuite.ols.dialog.util;
 import uk.ac.ebi.pride.toolsuite.ols.dialog.OLSDialog;
 import org.apache.commons.lang3.StringUtils;
 import uk.ac.ebi.pride.utilities.ols.web.service.model.ITerm;
-import uk.ac.ebi.pride.utilities.ols.web.service.model.Identifier;
 import uk.ac.ebi.pride.utilities.ols.web.service.model.Term;
 
 import javax.swing.*;
@@ -115,7 +114,7 @@ public class TreeBrowser extends JPanel implements TreeSelectionListener, TreeMo
      * Add child to the currently selected node, or the root node if no
      * selection.
      */
-    public DefaultMutableTreeNode addNode(Term term) {
+    public DefaultMutableTreeNode addNode(ITerm term) {
         DefaultMutableTreeNode parentNode;
         TreePath parentPath = tree.getSelectionPath();
 
@@ -136,7 +135,7 @@ public class TreeBrowser extends JPanel implements TreeSelectionListener, TreeMo
      * @return the added node
      */
     public DefaultMutableTreeNode addNode(
-            DefaultMutableTreeNode parent, Term term, boolean shouldBeVisible) {
+            DefaultMutableTreeNode parent, ITerm term, boolean shouldBeVisible) {
 
         DefaultMutableTreeNode childNode =
                 new DefaultMutableTreeNode(new TermNode(term));
@@ -220,7 +219,6 @@ public class TreeBrowser extends JPanel implements TreeSelectionListener, TreeMo
             if (OLSDialog.debug) {
                 System.out.println("will load metadata for: " + nodeInfo.getTerm().getGlobalId());
             }
-
             olsDialog.loadMetaData(nodeInfo.getTerm(), OLSDialog.OLS_DIALOG_BROWSE_ONTOLOGY);
         } else if(nodeInfo.getTerm() != null && nodeInfo.getTerm().getName() == null && !nodeInfo.getTerm().getOntologyName().equalsIgnoreCase("No Root Terms Defined!")){
 
@@ -313,15 +311,6 @@ public class TreeBrowser extends JPanel implements TreeSelectionListener, TreeMo
             return term.getName();
         }
 
-
-        /**
-         * Returns the term accession number.
-         *
-         * @return the term accession number
-         */
-        public Identifier getOBOTermId() {
-            return this.term.getOboId();
-        }
 
         @Override
         public String toString() {

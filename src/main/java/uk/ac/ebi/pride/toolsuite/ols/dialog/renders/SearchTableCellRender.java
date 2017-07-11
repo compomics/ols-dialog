@@ -2,7 +2,6 @@ package uk.ac.ebi.pride.toolsuite.ols.dialog.renders;
 
 import uk.ac.ebi.pride.toolsuite.ols.dialog.util.Util;
 import uk.ac.ebi.pride.utilities.ols.web.service.model.ITerm;
-import uk.ac.ebi.pride.utilities.ols.web.service.model.Term;
 
 import javax.swing.*;
 import javax.swing.table.DefaultTableCellRenderer;

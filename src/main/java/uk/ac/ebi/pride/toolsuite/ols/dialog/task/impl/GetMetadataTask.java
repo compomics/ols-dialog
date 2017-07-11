@@ -4,8 +4,6 @@ import uk.ac.ebi.pride.toolsuite.ols.dialog.OLSDialog;
 import uk.ac.ebi.pride.toolsuite.ols.dialog.task.AbstractTask;
 import uk.ac.ebi.pride.utilities.ols.web.service.client.OLSClient;
 import uk.ac.ebi.pride.utilities.ols.web.service.model.ITerm;
-import uk.ac.ebi.pride.utilities.ols.web.service.model.Identifier;
-import uk.ac.ebi.pride.utilities.ols.web.service.model.Term;
 
 import javax.swing.table.DefaultTableModel;
 import java.util.Iterator;
@@ -56,6 +54,16 @@ public class GetMetadataTask extends AbstractTask{
     @Override
     protected void done() {
 
+        if (searchType == olsDialog.OLS_DIALOG_TERM_NAME_SEARCH) {
+            olsDialog.insertSelectedJButton.setEnabled(olsDialog.currentlySelectedTermNameSearchAccessionNumber != null);
+        } else if (searchType == olsDialog.OLS_DIALOG_PSI_MOD_MASS_SEARCH) {
+            olsDialog.insertSelectedJButton.setEnabled(olsDialog.currentlySelectedMassSearchAccessionNumber != null);
+        } else if (searchType == olsDialog.OLS_DIALOG_BROWSE_ONTOLOGY) {
+            olsDialog.insertSelectedJButton.setEnabled(olsDialog.currentlySelectedBrowseOntologyAccessionNumber != null);
+        } else if (searchType == olsDialog.OLS_DIALOG_TERM_ID_SEARCH) {
+            olsDialog.insertSelectedJButton.setEnabled(olsDialog.currentlySelectedTermIdSearchAccessionNumber != null);
+        }
+
     }
 
     @Override
@@ -68,8 +76,8 @@ public class GetMetadataTask extends AbstractTask{
         Map<String, List<String>> annotations = olsClient.getAnnotations(term.getOboId(), ontologyName);
 
         String descriptionText = "";
-        for (Iterator i = metadata.iterator(); i.hasNext();) {
-            descriptionText += i.next() + "\n";
+        for (String aMetadata : metadata) {
+            descriptionText += aMetadata + "\n";
         }
         olsDialog.currentDefinitionsJTextPane.setText("Definition: " + descriptionText);
         olsDialog.currentDefinitionsJTextPane.setCaretPosition(0);
@@ -80,26 +88,21 @@ public class GetMetadataTask extends AbstractTask{
 
         // iterate the xrefs and insert them into the table
         if(xRefs != null){
-            for (Iterator i = xRefs.keySet().iterator(); i.hasNext();) {
-                String key = (String) i.next();
-
+            for (String key : xRefs.keySet()) {
                 ((DefaultTableModel) olsDialog.currentTermDetailsJTable.getModel()).addRow(
                         new Object[]{key, xRefs.get(key)});
             }
         }
         if(oboSynonyms != null){
-            for (Iterator i = oboSynonyms.keySet().iterator(); i.hasNext();) {
-                String key = (String) i.next();
-
+            for (String key : oboSynonyms.keySet()) {
                 ((DefaultTableModel) olsDialog.currentTermDetailsJTable.getModel()).addRow(
                         new Object[]{"synonym:", key});
             }
         }
         if(annotations != null && (searchType == olsDialog.OLS_DIALOG_TERM_NAME_SEARCH || searchType == olsDialog.OLS_DIALOG_TERM_ID_SEARCH)){
-            for (Iterator i = annotations.keySet().iterator(); i.hasNext();) {
-                String key = (String) i.next();
-                for(String value: annotations.get(key))
-                    if(value != null && !value.isEmpty())
+            for (String key : annotations.keySet()) {
+                for (String value : annotations.get(key))
+                    if (value != null && !value.isEmpty())
                         ((DefaultTableModel) olsDialog.currentTermDetailsJTable.getModel()).addRow(
                                 new Object[]{key, value});
             }

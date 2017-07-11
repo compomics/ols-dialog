@@ -67,9 +67,7 @@ public class OLS_Example extends javax.swing.JFrame implements OLSInputable {
             try {
                 PlasticLookAndFeel.setPlasticTheme(new SkyKrupp());
                 UIManager.setLookAndFeel(new PlasticXPLookAndFeel());
-            } catch (Exception ex) {
-                // this should not be possible...
-                // use default look and feel
+            } catch (Exception ignored) {
             }
         }
     }

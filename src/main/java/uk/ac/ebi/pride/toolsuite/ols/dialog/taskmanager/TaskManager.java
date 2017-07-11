@@ -64,7 +64,7 @@ public class TaskManager extends PropertyChangeHelper {
         // thread pool
         this.executor = new ThreadPoolExecutor(5, numberOfThreads,
                                                0L, TimeUnit.MILLISECONDS,
-                                               new LinkedBlockingQueue<Runnable>());
+                new LinkedBlockingQueue<>());
 
         // a list of tasks
         this.tasks = new CopyOnWriteArrayList<>();

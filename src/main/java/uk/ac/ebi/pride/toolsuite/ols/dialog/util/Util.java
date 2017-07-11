@@ -32,7 +32,7 @@ public final class Util {
      * @param ontologies
      */
     public static List<Ontology> refineOntologyNames(List<Ontology> ontologies){
-        List<Ontology> resultOntologies = new ArrayList<Ontology>();
+        List<Ontology> resultOntologies = new ArrayList<>();
         if(ontologies != null && ontologies.size() > 0){
             for(Ontology key: ontologies)
                 if(key.getName().length() > 80){
@@ -45,7 +45,7 @@ public final class Util {
     }
 
     public static List<Term> refineOntologyNullIds(List<Term> roots) {
-        List<Term> result = new ArrayList<Term>();
+        List<Term> result = new ArrayList<>();
         if(roots != null && roots.size() > 0){
             for(Term key: roots)
                 if(key.getGlobalId() != null && key.getGlobalId().getIdentifier() != null)
