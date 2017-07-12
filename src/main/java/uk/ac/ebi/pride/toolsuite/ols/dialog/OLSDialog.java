@@ -1420,6 +1420,11 @@ public class OLSDialog extends javax.swing.JDialog {
         termNameJLabel.setText("Term Name");
 
         termNameSearchJTextField.setHorizontalAlignment(javax.swing.JTextField.CENTER);
+        termNameSearchJTextField.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyReleased(java.awt.event.KeyEvent evt) {
+                termSearchJTextFieldKeyReleased(evt);
+            }
+        });
 
         newtSpeciesTipsTermNameSearchJLabel.setFont(newtSpeciesTipsTermNameSearchJLabel.getFont().deriveFont(newtSpeciesTipsTermNameSearchJLabel.getFont().getSize()-1f));
         newtSpeciesTipsTermNameSearchJLabel.setForeground(new java.awt.Color(0, 0, 255));
@@ -1873,6 +1878,7 @@ public class OLSDialog extends javax.swing.JDialog {
                 termNameSearchJTextFieldKeyReleased(evt);
             }}
         );
+        termSearchJButoon.setEnabled(false);
 
         org.jdesktop.layout.GroupLayout massPanelLayout = new org.jdesktop.layout.GroupLayout(massPanel);
         massPanel.setLayout(massPanelLayout);
@@ -2806,6 +2812,23 @@ public class OLSDialog extends javax.swing.JDialog {
             termIdSearchJButton.setEnabled(termIdSearchJTextField.getText().length() > 0);
         }
     }//GEN-LAST:event_termIdSearchJTextFieldKeyPressed
+
+    /**
+     * If 'Enter' is pressed and the 'Search' button is enabled the search is
+     * performed. Also enables or disables the search button when the field
+     * contains text or not.
+     *
+     * @param evt
+     */
+    private void termSearchJTextFieldKeyReleased(java.awt.event.KeyEvent evt) {
+        if (evt.getKeyCode() == KeyEvent.VK_ENTER) {
+            if (termSearchJButoon.isEnabled()) {
+                termNameSearchJTextFieldKeyReleased(null);
+            }
+        } else {
+            termSearchJButoon.setEnabled(termNameSearchJTextField.getText().length() > 0);
+        }
+    }
 
     /**
      * Opens a dialog displaying the most common species for easy selection.
