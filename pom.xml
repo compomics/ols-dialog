@@ -78,7 +78,7 @@
     </contributors>
 
     <properties>
-            <uk.ac.ebi.pride.utilities-ols-client.version>2.9</uk.ac.ebi.pride.utilities-ols-client.version>
+            <uk.ac.ebi.pride.utilities-ols-client.version>2.10</uk.ac.ebi.pride.utilities-ols-client.version>
             <jcip-annotations.version>1.0</jcip-annotations.version>
     </properties>
 
