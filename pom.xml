@@ -4,7 +4,7 @@
 
     <groupId>uk.ac.ebi.pride.toolsuite</groupId>
     <artifactId>ols-dialog</artifactId>
-    <version>3.4.14-SNAPSHOT</version>
+    <version>3.4.14</version>
     <packaging>jar</packaging>
 
     <name>ols-dialog</name>
@@ -219,7 +219,7 @@
         <connection>scm:git:https://github.com/PRIDE-Toolsuite/ols-dialog.git</connection>
         <developerConnection>scm:git:https://github.com/PRIDE-Toolsuite/ols-dialog.git</developerConnection>
         <url>https://github.com/PRIDE-Toolsuite/ols-dialog.git</url>
-        <tag>HEAD</tag>
+        <tag>ols-dialog-3.4.14</tag>
     </scm>
 
 </project>
