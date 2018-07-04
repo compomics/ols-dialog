@@ -315,13 +315,19 @@ public class TreeBrowser extends JPanel implements TreeSelectionListener, TreeMo
         @Override
         public String toString() {
             String nodeString = "";
-            if(term != null && term.getGlobalId() != null)
-                nodeString += StringUtils.capitalize(term.getName()) + " [ " + term.getGlobalId().getIdentifier().toUpperCase() + " ]";
-            else if(term != null && term.getGlobalId() == null && term.getName() != null)
-                nodeString += term.getName();
-            else if(term != null && term.getOntologyName() != null)
-                nodeString += term.getOntologyName().toString().toUpperCase();
-
+            if (term != null) {
+                if (term.getGlobalId() != null) {
+                  if (term.getGlobalId().getIdentifier() != null) {
+                    nodeString += StringUtils.capitalize(term.getName()) + " [ " + term.getGlobalId().getIdentifier().toUpperCase() + " ]";
+                  }else{
+                    nodeString += StringUtils.capitalize(term.getName());
+                  }
+                } else if (term.getName() != null) {
+                  nodeString += term.getName();
+                } else if (term.getOntologyName() != null) {
+                  nodeString += term.getOntologyName().toUpperCase();
+                }
+            }
             return nodeString;
         }
 
