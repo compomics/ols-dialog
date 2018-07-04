@@ -1082,13 +1082,24 @@ public class OLSDialog extends javax.swing.JDialog {
     public boolean addSecondLevelOfNodes(ITerm termId, String ontology, DefaultMutableTreeNode parentNode) {
 
         boolean error = false;
+        boolean isRootTermDefined = true;
+        Identifier termIdIdentifier;
 
         try {
             // get the next level of nodes
             List<Term> secondLevelChildTerms = new ArrayList<>();
-            if(termId != null && termId.getGlobalId() != null && !termId.getGlobalId().getIdentifier().equalsIgnoreCase("No Root Terms Defined!"))
-                 if(((Term)termId).isHasChildren())
-                     secondLevelChildTerms = olsConnection.getTermChildren(termId.getGlobalId(), ontology, 1);
+              if (termId != null && termId.getGlobalId() != null) {
+                  if(termId.getGlobalId().getIdentifier() == null) {
+                      termIdIdentifier = termId.getIri();
+                  } else {
+                      termIdIdentifier = termId.getGlobalId() ;
+                      isRootTermDefined = !termId.getGlobalId().getIdentifier().equalsIgnoreCase("No Root Terms Defined!");
+                  }
+                if (((Term) termId).isHasChildren() && isRootTermDefined) {
+                  secondLevelChildTerms = olsConnection.getTermChildren(termIdIdentifier, ontology, 1);
+                }
+              }
+
 
             // add the level of non visible nodes
             for (Term tId2 : secondLevelChildTerms) {
