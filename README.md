@@ -1,3 +1,12 @@
+
+---
+
+**The OLS Dialog project is now maintained at [https://github.com/PRIDE-Toolsuite/ols-dialog](https://github.com/PRIDE-Toolsuite/ols-dialog).**
+
+**The version at this page is deprecated and will not work with the updated version of the OLS.**
+
+---
+
 # OLS Dialog 
 
   * [What is OLS Dialog?](#what-is-ols-dialog)
@@ -9,7 +18,6 @@
   * [Screenshots](#screenshots)
 
 **OLS Dialog Publications:**
-
   * [Barsnes et al: BMC Bioinformatics 2010 Jan 17;11:34](http://www.ncbi.nlm.nih.gov/pubmed/20078892).
   * [Perez-Riverol et al: Molecular & Cellular Proteomics 15.1 (2016): 305-317.](http://www.ncbi.nlm.nih.gov/pubmed/26545397)
   * If you use **OLS Dialog** as part of a paper, please include the references above.
@@ -28,6 +36,8 @@ Five ways of searching the **OLS Dialog** is supported. See [Search Options](#se
 [Go to top of page](#ols-dialog)
 
 ---
+
+### Search Options
 
 Five ways of searching the **OLS Dialog** is supported:
   * [Term Name Search](#term-name-search)
@@ -111,6 +121,7 @@ To use **OLS Dialog** in your project include **OLS Dialog** and the required li
 
 ---
 
+
 ## Support 
 
 For questions or additional help, please contact the authors or, if appropriate, e-mail a support request to the PRIDE team at the EBI: `pride-support at ebi.ac.uk` (replace `at` with `@`).
@@ -151,11 +162,8 @@ Update the version number to latest released version.
 
 ## Screenshots
 
-(Click on a screenshot to see the full size version)
-
-[![](https://github.com/compomics/ols-dialog/wiki/images/screenshots/olsDialog\_termNameSearch\_small.PNG)](https://github.com/compomics/ols-dialog/wiki/images/screenshots/olsDialog_termNameSearch.PNG)
-[![](https://github.com/compomics/ols-dialog/wiki/images/screenshots/olsDialog\_termIdSearch\_small.PNG)](https://github.com/compomics/ols-dialog/wiki/images/screenshots/olsDialog_termIdSearch.PNG)
-[![](https://github.com/compomics/ols-dialog/wiki/images/screenshots/olsDialog\_massSearch\_small.PNG)](https://github.com/compomics/ols-dialog/wiki/images/screenshots/olsDialog_massSearch.PNG)
-[![](https://github.com/compomics/ols-dialog/wiki/images/screenshots/olsDialog\_browseOntology\_small.PNG)](https://github.com/compomics/ols-dialog/wiki/images/screenshots/olsDialog_browseOntology.PNG)
+|  |  |  |  |  |
+|:--:|:--:|:--:|:--:|:--:|
+| [![](https://github.com/compomics/ols-dialog/wiki/images/screenshots/olsDialog_termNameSearch_small.PNG)](https://github.com/compomics/ols-dialog/wiki/images/screenshots/olsDialog_termNameSearch.PNG) | [![](https://github.com/compomics/ols-dialog/wiki/images/screenshots/olsDialog_termIdSearch_small.PNG)](https://github.com/compomics/ols-dialog/wiki/images/screenshots/olsDialog_termIdSearch.PNG) | [![](https://github.com/compomics/ols-dialog/wiki/images/screenshots/olsDialog_massSearch_small.PNG)](https://github.com/compomics/ols-dialog/wiki/images/screenshots/olsDialog_massSearch.PNG) | [![](https://github.com/compomics/ols-dialog/wiki/images/screenshots/olsDialog_browseOntology_small.PNG)](https://github.com/compomics/ols-dialog/wiki/images/screenshots/olsDialog_browseOntology.PNG) | [![](https://github.com/compomics/ols-dialog/wiki/images/screenshots/olsDialog_termHierarcy_small.PNG)](https://github.com/compomics/ols-dialog/wiki/images/screenshots/olsDialog_termHierarcy.PNG) |
 
 [Go to top of page](#ols-dialog)
