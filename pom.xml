@@ -1,59 +1,120 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<project xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
-    <groupId>no.uib</groupId>
+
+    <groupId>uk.ac.ebi.pride.toolsuite</groupId>
     <artifactId>ols-dialog</artifactId>
+    <version>3.4.15-SNAPSHOT</version>
     <packaging>jar</packaging>
-    <version>3.4.3</version>
-    <!-- version number is set below -->
+
     <name>ols-dialog</name>
-    <url>http://ols-dialog.googlecode.com</url>
+    <url>https://github.com/PRIDE-Toolsuite/ols-dialog</url>
     <description>OLS Dialog is a Java front end to the Ontology Lookup Service (OLS)
-        (http://www.ebi.ac.uk/ontology-lookup).
+        (http://www.ebi.ac.uk/ols).
     </description>
 
-    <!-- License -->
-    <licenses>
-        <license>
-            <name>The Apache Software License, Version 2.0</name>
-            <url>LICENSE-2.0.txt</url>
-        </license>
-    </licenses>
+    <parent>
+        <groupId>uk.ac.ebi.pride.architectural</groupId>
+        <artifactId>pride-core</artifactId>
+        <version>1.0.1</version>
+    </parent>
 
-
-    <!-- Developers -->
     <developers>
         <developer>
-            <name>Harald Barsnes</name>
-            <id>harald</id>
-            <email>harald.barsnes@ii.uib.no</email>
-            <organization>Department of Informatics, University of Bergen, Norway</organization>
+            <id>mbernal</id>
+            <name>Manuel Bernal-Llinares</name>
+            <organization>Proteomics Team, EMBL-European Bioinformatics Institute</organization>
+            <organizationUrl>http://www.ebi.ac.uk/pride</organizationUrl>
+            <roles>
+                <role>developer</role>
+            </roles>
+            <timezone>Europe/London</timezone>
         </developer>
         <developer>
-            <name>Lennart Martens</name>
-            <id>lennart</id>
-            <email>lennart.martens@ebi.ac.uk</email>
-            <organization>Proteomics Services Team, PANDA Group, EMBL-European Bioinformatics Institute</organization>
+            <id>Yasset Perez-Riverol</id>
+            <name>Yasset Perez-Riverol</name>
+            <url>http://computationalproteomic.blogspot.co.uk/</url>
+            <organization>Proteomics, EMBL-European Bioinformatics Institute</organization>
+            <organizationUrl>http://www.ebi.ac.uk/pride</organizationUrl>
+            <roles>
+                <role>developer</role>
+            </roles>
+            <timezone>0</timezone>
         </developer>
         <developer>
-            <name>Richard Cote</name>
-            <id>RichardCote</id>
-            <email>rcote@ebi.ac.uk</email>
-            <organization>Proteomics Services Team, PANDA Group, EMBL-European Bioinformatics Institute</organization>
-        </developer>
-        <developer>
-            <name>Rafael C. Jimenez</name>
-            <id>rajido</id>
-            <email>rafael@ebi.ac.uk</email>
-            <organization>Proteomics Services Team, PANDA Group, EMBL-European Bioinformatics Institute</organization>
+            <id>tobias</id>
+            <name>Tobias Ternent</name>
+            <organization>Proteomics, EMBL-European Bioinformatics Institute</organization>
+            <organizationUrl>http://www.ebi.ac.uk/pride</organizationUrl>
+            <roles>
+                <role>developer</role>
+                <role>tester</role>
+            </roles>
+            <timezone>0</timezone>
         </developer>
     </developers>
 
-     <!-- Build -->
-    <build>
+    <contributors>
+        <contributor>
+            <name>Harald Barsnes</name>
+            <email>harald.barsnes@ii.uib.no</email>
+            <organization>Department of Informatics, University of Bergen, Norway</organization>
+        </contributor>
+        <contributor>
+            <name>Lennart Martens</name>
+            <email>lennart.martens@ebi.ac.uk</email>
+            <organization>Proteomics Services Team, PANDA Group, EMBL-European Bioinformatics Institute</organization>
+        </contributor>
+        <contributor>
+            <name>Richard Cote</name>
+            <email>rcote@ebi.ac.uk</email>
+            <organization>Proteomics Services Team, PANDA Group, EMBL-European Bioinformatics Institute</organization>
+        </contributor>
+        <contributor>
+            <name>Rafael C. Jimenez</name>
+            <email>rafael@ebi.ac.uk</email>
+            <organization>Proteomics Services Team, PANDA Group, EMBL-European Bioinformatics Institute</organization>
+        </contributor>
+    </contributors>
 
-        <!-- Resources -->
+    <properties>
+            <uk.ac.ebi.pride.utilities-ols-client.version>2.11</uk.ac.ebi.pride.utilities-ols-client.version>
+            <jcip-annotations.version>1.0</jcip-annotations.version>
+    </properties>
+
+    <!-- Dependencies -->
+    <dependencies>
+        <dependency>
+            <groupId>com.jgoodies</groupId>
+            <artifactId>looks</artifactId>
+            <version>2.2.0</version>
+        </dependency>
+        <!-- java concurrency annotations-->
+        <dependency>
+            <groupId>net.jcip</groupId>
+            <artifactId>jcip-annotations</artifactId>
+            <version>${jcip-annotations.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>org.swinglabs</groupId>
+            <artifactId>swing-layout</artifactId>
+            <version>1.0.3</version>
+            <scope>compile</scope>
+        </dependency>
+        <dependency>
+            <groupId>uk.ac.ebi.pride.utilities</groupId>
+            <artifactId>ols-client</artifactId>
+            <version>${uk.ac.ebi.pride.utilities-ols-client.version}</version>
+        </dependency>
+        <!-- Has to be included to work on Java 1.5 -->
+        <dependency>
+            <groupId>org.apache.axis</groupId>
+            <artifactId>axis-saaj</artifactId>
+            <version>1.4</version>
+        </dependency>
+    </dependencies>
+
+    <build>
         <resources>
             <resource>
                 <directory>src/main/resources</directory>
@@ -74,47 +135,16 @@
                 </excludes>
             </resource>
         </resources>
-        
 
-    	<!-- Extensions -->
         <extensions>
             <extension>
                 <groupId>org.apache.maven.wagon</groupId>
-            <artifactId>wagon-ssh</artifactId>
+                <artifactId>wagon-ssh</artifactId>
                 <version>1.0-beta-2</version>
             </extension>
         </extensions>
 
-
-        <!-- Plugins -->
         <plugins>
-
-            <!-- Compiler plugin -->
-            <plugin>
-                <groupId>org.apache.maven.plugins</groupId>
-                <artifactId>maven-compiler-plugin</artifactId>
-                <version>2.5</version>
-                <configuration>
-                    <source>1.5</source>
-                    <target>1.5</target>
-                </configuration>
-            </plugin>
-
-            <!-- Javadoc plugin -->
-            <!--<plugin>
-                <groupId>org.apache.maven.plugins</groupId>
-                <artifactId>maven-javadoc-plugin</artifactId>
-                <executions>
-                    <execution>
-                        <phase>process-resources</phase>
-                        <goals>
-                            <goal>jar</goal>
-                        </goals>
-                    </execution>
-                </executions>
-            </plugin>-->
-
-            <!-- Dependency plugin -->
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-dependency-plugin</artifactId>
@@ -126,7 +156,8 @@
                             <goal>copy-dependencies</goal>
                         </goals>
                         <configuration>
-                            <outputDirectory>${project.build.directory}/${project.name}-${project.version}/lib</outputDirectory>
+                            <outputDirectory>${project.build.directory}/${project.name}-${project.version}/lib
+                            </outputDirectory>
                             <overWriteReleases>true</overWriteReleases>
                             <overWriteSnapshots>true</overWriteSnapshots>
                             <overWriteIfNewer>true</overWriteIfNewer>
@@ -134,16 +165,13 @@
                     </execution>
                 </executions>
             </plugin>
-
-            <!-- Jar plugin -->
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-jar-plugin</artifactId>
-                <version>2.4</version>
                 <configuration>
                     <archive>
                         <manifest>
-                            <mainClass>no.uib.olsdialog.example.OLS_Example</mainClass>
+                            <mainClass>OLS_Example</mainClass>
                             <addClasspath>true</addClasspath>
                             <classpathPrefix>lib</classpathPrefix>
                         </manifest>
@@ -151,11 +179,8 @@
                     <outputDirectory>${project.build.directory}/${project.name}-${project.version}/</outputDirectory>
                 </configuration>
             </plugin>
-
-            <!-- Resources plugin -->
             <plugin>
                 <artifactId>maven-resources-plugin</artifactId>
-                <version>2.3</version>
                 <executions>
                     <execution>
                         <id>copy-resources</id>
@@ -164,7 +189,8 @@
                             <goal>copy-resources</goal>
                         </goals>
                         <configuration>
-                            <outputDirectory>${project.build.directory}/${project.name}-${project.version}</outputDirectory>
+                            <outputDirectory>${project.build.directory}/${project.name}-${project.version}
+                            </outputDirectory>
                             <resources>
                                 <resource>
                                     <directory>./</directory>
@@ -178,81 +204,22 @@
                     </execution>
                 </executions>
             </plugin>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-release-plugin</artifactId>
+                <version>2.5.3</version>
+                <configuration>
+                    <remoteTagging>true</remoteTagging>
+                    <goals>deploy</goals>
+                </configuration>
+            </plugin>
         </plugins>
     </build>
+    <scm>
+        <connection>scm:git:https://github.com/PRIDE-Toolsuite/ols-dialog.git</connection>
+        <developerConnection>scm:git:https://github.com/PRIDE-Toolsuite/ols-dialog.git</developerConnection>
+        <url>https://github.com/PRIDE-Toolsuite/ols-dialog.git</url>
+        <tag>HEAD</tag>
+    </scm>
 
-
-    <!-- Repositores -->
-    <repositories>
-
-        <!-- EBI repository -->
-        <repository>
-            <id>ebi-repo</id>
-            <name>The EBI Maven2 repository</name>
-            <url>http://www.ebi.ac.uk/~maven/m2repo</url>
-            <releases>
-            </releases>
-            <snapshots>
-                <enabled>false</enabled>
-            </snapshots>
-        </repository>
-        
-        <!-- UGent Genesis Maven 2 repository -->
-        <repository>
-            <id>genesis-maven2-repository</id>
-            <name>Genesis maven2 repository</name>
-            <url>http://genesis.UGent.be/maven2</url>
-            <layout>default</layout>
-        </repository>
-    </repositories>
-
-
-    <!-- Distribution Management -->
-    <distributionManagement>
-        <repository>
-            <id>ebi-repo</id>
-            <name>EBI Repository</name>
-            <url>scp://ebi-001.ebi.ac.uk/homes/maven/public_html/m2repo</url>
-        </repository>
-        <snapshotRepository>
-            <uniqueVersion>false</uniqueVersion>
-            <id>ebi-repo-snapshots</id>
-            <name>EBI Snapshots Repository</name>
-            <url>scp://ebi-001.ebi.ac.uk/homes/maven/public_html/m2repo_snapshots</url>
-        </snapshotRepository>
-    </distributionManagement>
-
-
-    <!-- Dependencies -->
-    <dependencies>
-        <dependency>
-            <groupId>com.jgoodies</groupId>
-            <artifactId>looks</artifactId>
-            <version>2.2.0</version>
-        </dependency>
-        <dependency>
-            <groupId>org.swinglabs</groupId>
-            <artifactId>swing-layout</artifactId>
-            <version>1.0.3</version>
-            <scope>compile</scope>
-        </dependency>
-        <dependency>
-            <groupId>uk.ac.ebi.ols</groupId>
-            <artifactId>ols-client</artifactId>
-            <version>1.18</version>
-        </dependency>
-        <dependency>
-            <groupId>no.uib</groupId>
-            <artifactId>jsparklines</artifactId>
-            <version>0.5.40</version>
-        </dependency>
-
-        <!-- Has to be included to work on Java 1.5 -->
-        <dependency>
-            <groupId>org.apache.axis</groupId>
-            <artifactId>axis-saaj</artifactId>
-            <version>1.4</version>
-        </dependency>
-    </dependencies>
- 
 </project>
