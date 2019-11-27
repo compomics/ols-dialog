@@ -425,7 +425,6 @@ public class OLSDialog extends javax.swing.JDialog {
         this.setLocationRelativeTo(parent);
         if (getCurrentOntologyLabel().equalsIgnoreCase(SEARCH_IN_ALL_ONTOLOGIES_AVAILABLE_IN_THE_OLS_REGISTRY) || getCurrentOntologyLabel().equalsIgnoreCase(SEARCH_IN_THESE_PRESELECTED_ONTOLOGIES)) {
             searchTypeJTabbedPane.setEnabledAt(OLS_DIALOG_BROWSE_ONTOLOGY, false);
-            searchTypeJTabbedPane.setEnabledAt(OLS_DIALOG_TERM_ID_SEARCH, false);
         } else {
             termIdSearchJTextField.setText(getCurrentOntologyLabel() + ":");
         }
